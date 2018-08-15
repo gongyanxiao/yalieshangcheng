@@ -1,0 +1,9 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<ul class="single_item">
+    <li class="Funds_li" >
+    	<span class="icon"></span>
+        <span><em>{$affiliate_reward_detail_item.pay_points}</em></span>
+        <span>{$affiliate_reward_detail_item.change_time}</span>
+        <span>{$affiliate_reward_detail_item.change_desc}</span>
+    </li>
+</ul>

@@ -1,0 +1,15 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<div class="detail_m">
+<dl>
+<dt><em>申请时间：</em><span>{$offline_orders.add_time}</span></dt>
+<dd>
+<p>养老金：{$offline_orders.pension_name}</p>
+<p>真实姓名：{$offline_orders.real_name}</p>
+<p>身份证号：{$offline_orders.idcard}</p>
+<p>手机号：{$offline_orders.phone}</p>
+<p>状态：{if $offline_orders.status eq '1'}审核通过{elseif $offline_orders.status eq '2'}审核不通过{else}审核中{/if}</p>
+</dd>
+<dd>
+</dd>
+</dl>
+</div>

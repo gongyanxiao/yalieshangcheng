@@ -1,0 +1,66 @@
+﻿html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, font, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td
+{margin: 0;padding: 0;border: 0;outline: 0;font-size: 100%;}
+ul{margin: 0;padding: 0;list-style-type: none}
+a{text-decoration: none}
+body{font-family: '微软雅黑';font-size: 12px}
+@media (min-width:641px){body{width:640px;margin:auto;}}
+input[type=button], input[type=submit], input[type=file], button { cursor: pointer; -webkit-appearance: none; }
+input{-moz-box-sizing: border-box;box-sizing: border-box;}
+img{display: block;width: 100%}
+.warp{width: 100%;overflow: hidden}
+.warp_p{width: 100%;height: 50px;background: url(../img/im11.jpg) no-repeat center;background-size: 100% 100%}
+.warp_p_logo{width: 112px;height: 44px;display: block;overflow: hidden;float: left;margin: 2px 0 0 4%}
+.warp_o_home{width: 92%;overflow: hidden;margin: auto}
+.warp_o_div{width: 100%;overflow: hidden;background: url(../img/im2.png) no-repeat bottom center;background-size: 128px 2px;margin-top: 3%}
+.warp_o_div span{display: block;font-size: 20px;text-align: center;padding: 8px 0}
+.warp_o{width: 100%;overflow: hidden;margin: auto;margin-top: 8%}
+.warp_o li{width: 25%;overflow: hidden;float: left}
+.warp_o li a{display: block;overflow: hidden}
+.warp_i{width: 100%;overflow: hidden;padding-top: 8%}
+.warp_i span{display: block;text-indent: 2em;font-size: 14px;color: #666666;padding-top: 4%;line-height: 22px}
+.warp_i a{display: block;width: 140px;height:50px;background: #0049A2;font-size: 16px;color: #FFF;line-height: 50px;text-align: center;margin: auto;margin-top: 6%}
+#map{width: 100%;overflow: hidden;margin-top: 6%}
+.warp_u{width: 94%;overflow: hidden;margin: 5% auto}
+.warp_u span{display: block;text-align: center;font-size: 14px;color: #666666;line-height: 22px}
+.warp_u span a{color: #666666}
+.warp_y{width: 100%;overflow: hidden}
+.warp_y_mor{width: 100%;height: 70px;background: url(../img/im13.jpg) no-repeat center;background-size: 100% 100%;padding-top: 10px}
+.warp_y_mor_iv{width: 100%;overflow: hidden;background: url(../img/im2.png) no-repeat bottom center;background-size: 128px 2px;}
+.warp_y_mor_iv span{display: block;font-size: 20px;text-align: center;padding: 8px 0;color: #FFF}
+.warp_t{width: 100%;overflow: hidden}
+.warp_t li{width: 44%;overflow: hidden;margin: 4% 0 0 4%;float: left}
+.warp_r{overflow: hidden;padding: 5% 4% 0 4%;color: #004290}
+.warp_r b{display: block;font-size: 16px;line-height: 28px;font-weight: normal;padding-bottom: 10px}
+.warp_r span{display: block;line-height: 28px;font-family: '宋体'}
+.warp_e{width: 100%;overflow: hidden;padding-top: 6%}
+.warp_e img{width: 50%;margin: auto}
+.warp_w{width: 94%;overflow: hidden;margin: auto;padding-top: 5%}
+.warp_q{width: 100%;overflow: hidden}
+.warp_q li{width: 43.6%;overflow: hidden;margin: 4% 0 0 4%;float: left;border: 1px solid #000000}
+.warp_l{overflow: hidden;margin: 5% auto;background: #004290}
+.warp_l_a{width: 60%;overflow: hidden;display: block;float: left}
+.warp_l_sp{display: block;width: 34%;overflow: hidden;color: #FFFFFF;padding: 3%}
+.warp_l_sp b{display: block;font-size: 14px;font-weight: normal}
+.warp_l_sp span{display: block}
+
+table .epages{ 
+text-align: center;
+} 
+table .epages b{ 
+padding:0 5px 0; 
+color:#d04e00; 
+display:inline-table; 
+border:1px solid #ccc; 
+} 
+table .epages a b{ border: none;margin-top:0px;}
+table .epages a{ 
+padding:0 5px 0; 
+color:#1F3A87; 
+display:inline-table; 
+border:1px solid #ccc; 
+} 
+table .epages a:hover{ 
+color:#fff; 
+background:#1f3a87; 
+border:1px solid #1f3a87; 
+} 

@@ -1,0 +1,14 @@
+  
+ <?php
+            if(htmlspecialchars($_GET['log'])=='1'){
+            include "config/zt_class.php";
+zt_cookie("dl",'',time(),"/"); 
+		zt_cookie("xbmall_users1",'',time(),"/");  		
+		zt_cookie("is_cj",'',time(),"/");  	
+		header("location:/wap/mall/wap-shop.html");
+
+            }
+			
+			
+
+                        ?>

@@ -1,0 +1,45 @@
+﻿<!--全局导航-Start-->
+<style>
+.vf_nav ul li{ width:33.3333%}
+</style>
+<div style="height:50px; line-height:50px; clear:both;"></div>
+<div class="v_nav">
+<div class="vf_nav">
+<ul>
+<li> <a href="./shop.php">
+    <i class="vf_1"></i>
+    <span>商城</span></a></li>
+ 
+<li class="btn"><a href="xb_user.php?act=my">
+    <i class="vf_2"></i>
+    <span>钱包</span></a>
+ </li>
+ 
+ <li class="btn"><a href="xb_user.php?act=my_invest">
+    <i class="vf_3"></i>
+    <span>邀请</span></a>
+ </li>
+ 
+  
+</ul>
+</div>
+</div>
+<style>
+    .btn{ position:relative}
+    .btn dl{ position: absolute; width:100%; background: #fff; bottom:55px; display:none; box-shadow:0 0 6px #ccc}
+    .btn dl dd{ width:80%; text-align: center; line-height:45px;margin:0 auto}
+	.btn dl dd+dd{ border-top:1px #eee solid}
+    .btn dl dd a{ color: #505050;display:block;width:100%}
+</style>
+<script>
+    $(".btn").click(function () {
+	  $(this).find("dl").fadeToggle();
+	    $(this).siblings().find("dl").hide();
+       
+    })
+</script>
+
+
+
+
+    

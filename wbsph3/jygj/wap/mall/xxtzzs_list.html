@@ -1,0 +1,193 @@
+<?php
+  include "config.php" ;
+  include "page.class.php" ;
+
+ 
+?>
+<!DOCTYPE html>
+<html>
+<head lang="en">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>投资记录</title>
+<meta name="keyword" content="<?=_KEYWORD_?>" />
+<meta name="description" content="<?=_DESCRIPTION_?>" />
+<link href="/Public/ico.ico" type="image/x-icon" rel="shortcut icon" />
+<link rel="stylesheet" type="text/css" href="/jygj/Public/wap/css/index.css">
+<script type="text/javascript" src="/jygj/Public/home/js/jquery-1.7.2.js"></script>
+<style>
+.flt_r_div b i {
+	font-style: normal;
+	margin-left: 5px;
+}
+
+td {
+	border-bottom: 1px solid #CCC;
+}
+</style>
+</head>
+
+
+<body >
+	<div class="warp">
+		<!------最顶部开始------>
+		<!------logo结束------>
+		<script>
+			$(function() {
+
+			});
+			function   f1(url){
+				window.location.href=url;
+			}
+			function filterType($type){
+				window.location.href="/jygj/wap/mall/xxtzzs_list.html?type="+$type;
+			}
+		</script>
+		<?php
+include "myphplib/db.php";
+include "myphplib/message.php";
+
+include "config/check.php";
+date_default_timezone_set("Asia/Shanghai");
+$user=$_COOKIE['ECS']['username'];
+ 
+$type=$_REQUEST['type']; 
+if(isset($type)){
+	$type=intval($type);
+}else{
+   $type=-1;
+}
+
+ 
+ ?>
+		<div class="warp_q">
+			<a href="javascript:history.go(-1)"></a> <span>赠送记录</span>
+		</div>
+				<select name="type" id="type" onchange="filterType(this.value)">
+					<option value="-1"<?php if($type===-1) echo "selected='selected'";?>>全部</option>
+					<option value="1" <?php if($type==1) echo "selected='selected'";?> >推荐收益</option>
+					<option value="3" <?php if($type==3) echo "selected='selected'";?>>静态收益</option>
+					<option value="0" <?php if($type===0) echo "selected='selected'";?>>充值做单</option>
+				</select>
+		<!----内容开始---->
+		<div class="warp_moer">
+			<div class="warp_h">
+				<!----right内容开始---->
+				<div class="warp_h_right">
+					<div class="warp_f">
+
+						<?php
+                        $where ="user='$user'";
+						if($type!=-1){
+							$where  =$where." and type=".$type;
+						}
+						$num  = getCount("zt_xxtzzs", $where);
+				     	$per = 12;
+						$page_obj=new Page($num,$per,"&type=".$type);
+ 						$q="select id,cz_id,user, zsrq , jf,  comment,sum(xxtzzfwf) as xxtzzfwf,sum(xxtzzcbjz)as xxtzzcbjz,sum(xxtzzsyjz)as xxtzzsyjz
+				,sum(xxtzzxfjz)as xxtzzxfjz,sum(dai_xfyb)as dai_xfyb,sum(xxtzztxjf)as xxtzztxjf, sum(xxtzztxjf_b)as xxtzztxjf_b, sum(dian_pu_zi_jin)as dian_pu_zi_jin
+					,sum(tui_jian_shou_yi)as tui_jian_shou_yi    from zt_xxtzzs  where  "
+				.$where." group by zsrq, type ORDER BY   zsrq desc limit ".($page_obj->page-1)*$per.",".$per;
+ 						$r=mysql_query($q);
+						$pagelist=$page_obj->fpage();
+					while($data2=mysql_fetch_array($r)){
+				?>
+			
+						<table border="1" style="width:100%" cellspacing="0" cellpadding="0"
+							class="warp_f_th">
+							<tr>
+								<td>充值ID</td>
+								<td align="center"
+									style="font-family: Arial, Helvetica, sans-serif; color: #F00; border-bottom: 1px solid #CCC;">
+									<?=$data2["cz_id"];?>
+								</td>
+							</tr>
+							<tr>
+								<td>日期</td>
+								<td align="center"
+									style="font-family: Arial, Helvetica, sans-serif; color: #F00; border-bottom: 1px solid #CCC;">
+									<?=$data2["zsrq"];?>
+								</td>
+							</tr>
+							<tr>
+								<td>订单资金</td>
+								<td align="center">
+									<?=$data2["dian_pu_zi_jin"];?>
+								</td>
+							</tr>
+							<tr>
+								<td>订单收益A</td>
+								<td align="center">
+									<?=$data2["xxtzztxjf"];?>
+								</td>
+							</tr>
+							<tr>
+								<td>订单收益B</td>
+								<td align="center">
+									<?=$data2["xxtzztxjf_b"];?>
+								</td>
+							</tr>
+							<tr>
+								<td>推荐收益</td>
+								<td align="center">
+									<?=$data2["tui_jian_shou_yi"];?>
+								</td>
+							</tr>
+							<tr>
+								<td>消费收益</td>
+								<td align="center">
+									<?=$data2["xxtzzxfjz"];?>
+								</td>
+							</tr>
+							<tr>
+								<td>待消费云贝</td>
+								<td align="center">
+									<?=$data2["dai_xfyb"];?>
+								</td>
+							</tr>
+							
+							
+							<tr>
+								<td>描述</td>
+								<td align="center">
+									<?=$data2["comment"];?>
+								</td>
+							</tr>
+
+						</table>
+						</br> <?php } ?>
+
+
+						<center>
+							<table width="100%" border="0" align="center" cellpadding="0"
+								cellspacing="0" style="text-align: center;padding-bottom: 25%">
+								<tr>
+									<td height="21" colspan="6"><div class="epages"
+											style="margin-top: 0">
+											<?php  echo $pagelist;?>
+										</div></td>
+								</tr>
+							</table>
+						</center>
+					</div>
+
+				</div>
+				<!----right内容结束---->
+				<!----left内容开始---->
+				<div class="warp_h_left">
+					<?
+					 mysql_close($db);
+  					?>
+				</div>
+			</div>
+
+		</div>
+		<!----内容结束---->
+		<!------底部开始------>
+		<?include("footer_li_cai.html");?>
+		<!------底部结束------>
+	</div>
+</body>
+</html>

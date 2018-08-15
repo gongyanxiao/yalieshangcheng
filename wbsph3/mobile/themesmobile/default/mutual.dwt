@@ -1,0 +1,616 @@
+<!DOCTYPE html >
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<title>{$page_title}</title>
+<meta name="Keywords" content="{$keywords}" />
+<meta name="Description" content="{$description}" />
+<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+<link rel="stylesheet" type="text/css" href="themesmobile/default/css/public.css" />
+<link rel="stylesheet" href="themesmobile/default/css/stores.css">
+<link rel="stylesheet" href="themesmobile/default/css/flow.css">
+<script type="text/javascript" src="themesmobile/default/js/jquery.js"></script>
+{insert_scripts files='index.js'}
+</head>
+<body class="bodybj">
+    {if $action eq 'index'}
+    <header>
+        <div class="tab_nav">
+            <div class="header">
+                <div class="h-left">
+                    <a class="sb-back" href="javascript:history.back(-1)" title="返回"></a>
+                </div>
+                <div class="h-mid">爱心互助</div>
+                <div class="h-right">
+                    <aside class="top_bar">
+                        <div onClick="show_menu();$('#close_btn').addClass('hid');" id="show_more">
+                            <a href="javascript:;"></a>
+                        </div>
+                    </aside>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- #BeginLibraryItem "/library/up_menu.lbi" -->
+    <!-- #EndLibraryItem -->
+    <!--弹出菜单-->
+    <!---店铺列表--->
+    {foreach from=$mutual_list item=mutual}
+    <section class="rzs_info">
+        <dl>
+            <a > <span> &nbsp;&nbsp;&nbsp;&nbsp; </span>
+            </a>
+            <dt>
+                <a href="supplier.php?suppId=3"><strong></strong></a><strong><a href="supplier.php?suppId=3">{$mutual.title}</a></strong>
+                <p>联系人:{$mutual.real_name}</p>
+                <p>联系方式:{$mutual.mobile_phone}</p>
+                <p>目标金额:{$mutual.target_money}</p>
+            </dt>
+            <dd></dd>
+        </dl>
+        <div class="s_dianpu" style="text-align: center;">
+            <span style="padding-left: 25%;">
+                <a href="mutual.php?act=mutual_redone&id={$mutual.mutual_id}" style="margin-left: 3%"><em class="bg2"></em>我要互助</a>
+            </span>
+        </div>
+    </section>
+    {/foreach}
+    <!--翻页-->
+    <!-- #BeginLibraryItem "/library/pages.lbi" -->
+    <!-- #EndLibraryItem -->
+    {/if} {if $action eq 'insure'}
+    <header>
+        <div class="tab_nav">
+            <div class="header">
+                <div class="h-left">
+                    <a class="sb-back" href="javascript:history.back(-1)" title="返回"></a>
+                </div>
+                <div class="h-mid">保险</div>
+                <div class="h-right">
+                    <aside class="top_bar">
+                        <div onClick="show_menu();$('#close_btn').addClass('hid');" id="show_more">
+                            <a href="javascript:;"></a>
+                        </div>
+                    </aside>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- #BeginLibraryItem "/library/up_menu.lbi" -->
+    <!-- #EndLibraryItem -->
+    <!--弹出菜单-->
+    <!---店铺列表--->
+    {foreach from=$insure_list item=mutual}
+    <section class="rzs_info">
+        <dl>
+            <a href="supplier.php?suppId=3"> <span> &nbsp;&nbsp;&nbsp;&nbsp; </span>
+            </a>
+            <dt>
+                <a><strong></strong></a><strong><a >{$mutual.insure_title}</a></strong>
+                <p>投保额:{$mutual.insure_baoe}</p>
+                <p>支付金额:{$mutual.insure_money}</p>
+            </dt>
+            <dd></dd>
+        </dl>
+        <div class="s_dianpu" style="text-align: center;">
+            <span style="padding-left: 25%;">
+                <a href="mutual.php?act=inaure_redone&id={$mutual.id}" style="margin-left: 3%"><em class="bg2"></em>我要投保</a>
+            </span>
+        </div>
+    </section>
+    {/foreach} {/if} {if $action eq 'inaure_redone'}
+    <header>
+        <div class="tab_nav">
+            <div class="header">
+                <div class="h-left">
+                    <a class="sb-back" href="javascript:history.back(-1)" title="返回"></a>
+                </div>
+                <div class="h-mid">投保信息</div>
+                <div class="h-right">
+                    <aside class="top_bar">
+                        <div onClick="show_menu();$('#close_btn').addClass('hid');" id="show_more">
+                            <a href="javascript:;"></a>
+                        </div>
+                    </aside>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- #BeginLibraryItem "/library/up_menu.lbi" -->
+    <!-- #EndLibraryItem -->
+    <!--弹出菜单-->
+    <form action="mutual.php" method="post" name="theForm" id="theForm">
+        <div class="order-buy">
+            <section class="address">
+                <a href="flow.php?step=consignee">
+                    <dl style='background: none'>
+                        <dt style='background: none'>
+                            <h2>
+                                <span>投 保 人 : {$user_info.real_name}</span>
+                            </h2>
+                            <h2>
+                                <span>联系方式: {$user_info.mobile_phone}</span>
+                            </h2>
+                        </dt>
+                    </dl>
+                </a>
+            </section>
+            <section class="order_info">
+                <div class="order_list">
+                    <a href="supplier.php?suppId=0">
+                        <h2>保险信息</h2>
+                    </a>
+                </div>
+                <div class="item">
+                    <a href="goods.php?id=3">
+                        <dl>
+                            <dt>
+                                <img src="{$insure.img_url}">
+                            </dt>
+                            <dd>
+                                <span> {$insure.insure_name}</span>
+                                <p class="godds-specification"></p>
+                            </dd>
+                        </dl>
+                        <ul>
+                            <li style='text-align: left'>实付款</li>
+                            <li style='text-align: left'>{$insure.insure_money}</li>
+                        </ul>
+                    </a>
+                </div>
+            </section>
+            <section class="main" style="margin-top: 8px;">
+                <div class="con_ct">
+                    <ul class=" order_total_ul" id="ECS_ORDERTOTAL">
+                        <ul class=" order_total_ul" id="ECS_ORDERTOTAL">
+                            <li class="order_total_li"></li>
+                            <li>
+                                <div class="subtotal">
+                                    <span class="total-text">商品总价：</span>
+                                    <em>{$insure.insure_money}</em>
+                                    <br>
+                                    <span class="total-text">应付款金额：</span>
+                                    <strong class="price_total">{$insure.insure_money}</strong>
+                                    <span class="total-text" style=""></span>
+                                </div>
+                            </li>
+                        </ul>
+                    </ul>
+                </div>
+            </section>
+            <!--使用账户余额支付-->
+            {if $allow_use_surplus}
+            <section class="main">
+                <div class="allow_user_surplus">
+                    <p class="ye">
+                        <input type="checkbox" class="b_checkbox" id="issurplus" onclick="checkboxOnclick(this)" style="vertical-align: middle; cursor: pointer" />
+                        <span class="is_user_surplus">使用账户余额支付</span>
+                    </p>
+                    <dl class="yueonlin" id="allow_user_surplus">
+                        <dt>
+                            <i>
+                                输入余额：
+                                <input name="surplus" type="text" class="surplus" id="ECS_SURPLUS" value="0" onblur="changeSurplus(this.value);" />
+                                &nbsp;&nbsp;元
+                            </i>
+                            <span>您当前的可用余额为:￥{$your_surplus|default:0}</span>
+                            <span id="ECS_SURPLUS_NOTICE_{$key}" class="notice"></span>
+                        </dt>
+                        <dd>
+                            {if $is_surplus_open eq 0}
+                            <span class="open_surplus">未开通余额安全支付,请在电脑端登录开通</span>
+                            {/if}
+                        </dd>
+                    </dl>
+                </div>
+            </section>
+            <script type="text/javascript">
+    $('#issurplus').attr('checked',false);
+    function checkboxOnclick(checkbox){ 
+    
+
+        
+            var surplus = {$your_surplus|default:0};
+            if ( checkbox.checked == true){
+                    document.getElementById("allow_user_surplus").style.display = "block";
+                    changeSurplus(surplus);
+            }else{
+                    document.getElementById("allow_user_surplus").style.display = "none";
+                    changeSurplus(0);
+            }
+    }
+    </script>
+            {/if}
+            <!--支付方式-->
+            <input type="hidden" value="{if $total['amount'] gt 0}0{else}1{/if}" name="hidPayDiv" id="hidPayDiv" />
+            <section class="main" style="margin-top: 8px;">
+                {if $is_exchange_goods neq 1 || $total.real_goods_count neq 0}
+                <div class="panel-body" id="pay_div">
+                    <div class="title" id="zhifutitle">
+                        <span class="text">支付方式&nbsp;:&nbsp;</span>
+                        <em class="qxz" id="emzhifu">请选择支付方式</em>
+                        <a href="javascript:void(0)" title="{$lang.modify}{$lang.goods_list}">必选</a>
+                    </div>
+                    <ul class="nav nav-list-sidenav" id="zhifu68" style="display: block; border-bottom: none;">
+                        {foreach from=$payment_list item=payment name=pay} 
+                        <li onclick="selectPayment({$payment.pay_id})" class="clearfix" name="payment_name" {if $payment.pay_code eq 'balance'}style="display: none"{/if}>
+                            <input type="radio" id="payment_method_{$payment.pay_id}" name="payment" value="{$payment.pay_id}" {if $order.pay_id eq $payment.pay_id} checked="checked" {/if} isCod="{$payment.is_cod}" onclick="selectPayment(this)" class="f_checkbox_t" {if $cod_disabled and $payment.is_cod eq "1"}disabled="true" {/if}  {if $payment.pay_code eq "balance"}display:none{/if} />
+                            <label for="payment_method_{$payment.pay_id}">
+                                <div class="fl shipping_title">{$payment.pay_name}{$payment.format_pay_fee }</div>
+                            </label>
+                        </li>
+                        {/foreach}
+                    </ul>
+                </div>
+                {else}
+                <input type="radio" name="payment" value="-1" checked="checked" style="display: none" />
+                {/if}
+            </section>
+            <!--提交订单按钮-->
+            <div class="pay-btn">
+                <input type="submit" class="tijiao_butn" value="提交订单" />
+                <input type="hidden" name="act" value="insure_done">
+                <input type="hidden" name="id" value="{$insure.id}">
+            </div>
+    </form>
+    {/if} {if $action eq 'mutual_redone'}
+    <header>
+        <div class="tab_nav">
+            <div class="header">
+                <div class="h-left">
+                    <a class="sb-back" href="javascript:history.back(-1)" title="返回"></a>
+                </div>
+                <div class="h-mid">互助信息</div>
+                <div class="h-right">
+                    <aside class="top_bar">
+                        <div onClick="show_menu();$('#close_btn').addClass('hid');" id="show_more">
+                            <a href="javascript:;"></a>
+                        </div>
+                    </aside>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- #BeginLibraryItem "/library/up_menu.lbi" -->
+    <!-- #EndLibraryItem -->
+    <!--弹出菜单-->
+    <form action="mutual.php" method="post" name="theForm" id="theForm">
+        <div class="order-buy">
+            <section class="address">
+                <a href="flow.php?step=consignee">
+                    <dl style='background: none'>
+                        <dt style='background: none'>
+                            <h2>
+                                <span>互助项目 : {$mutual_info.title}</span>
+                            </h2>
+                            <h2>
+                                <span>互助人员: {$mutual_info.real_name}</span>
+                            </h2>
+                            <h2>
+                                <span>联系方式: {$mutual_info.mobile_phone}</span>
+                            </h2>
+                        </dt>
+                    </dl>
+                </a>
+            </section>
+            <section class="order_info">
+                <div class="address_add_content">
+                    <h2>互助人员信息</h2>
+                    <ul>
+                        <li>
+                            <label style="margin: 0 10px 0 5px;">
+                                <input id="rbtlShowName_0" name='is_user_name' onclick="GetShowNameValue(this.value);" value="1" type="radio">
+                                实名
+                            </label>
+                            <label style="margin: 0 10px 0 5px;">
+                                <input id="rbtlShowName_1" name="is_user_name" onclick="GetShowNameValue(this.value);" value="0" checked="checked" type="radio">
+                                匿名
+                            </label>
+                        </li>
+                        <li class='is_user_name' >
+                            <input placeholder="姓名" name="tbDonateName" value="{$user_info.real_name}" id="consignee_0" maxlength="20" type="text">
+                        </li>
+                        <li class='is_user_name'>
+                            <input placeholder="电子邮件" name="tbDonateEmail" value="{$user_info.email}" id="consignee_0" maxlength="60" type="email">
+                        </li>
+                        <li class='is_user_name'>
+                            <input name="tbDonateMobile" value="{$user_info.mobile_phone}" required="" id="mobile_0" placeholder="手机（必填）" type="tel">
+                        </li>
+                        <li>
+                            <input name="jz_money" id='hdRtblMoney' value="" required="" placeholder="互助金额（必填）" type="text">
+                        </li>
+                    </ul>
+                </div>
+            </section>
+            <script language="javascript" type="text/javascript">
+function GetShowNameValue(ShowNameValue) {
+    if (ShowNameValue > 0)
+    {
+        $('.is_user_name').show();
+    }
+    else
+    {
+        $('.is_user_name').hide();
+    }
+}
+$(function(){
+    $('#hdRtblMoney').change(function(){
+        $rs = $(this).val();
+        $('.insure_money').html($rs);
+    });
+})
+</script>
+            <section class="main" style="margin-top: 8px;">
+                <div class="con_ct">
+                    <ul class=" order_total_ul" id="ECS_ORDERTOTAL">
+                        <ul class=" order_total_ul" id="ECS_ORDERTOTAL">
+                            <li class="order_total_li"></li>
+                            <li>
+                                <div class="subtotal">
+                                    <span class="total-text">商品总价：</span>
+                                    <em class='insure_money'> </em>
+                                    <br>
+                                    <span class="total-text">应付款金额：</span>
+                                    <strong class="price_total insure_money"> </strong>
+                                    <span class="total-text" style=""></span>
+                                </div>
+                            </li>
+                        </ul>
+                    </ul>
+                </div>
+            </section>
+            <!--使用账户余额支付-->
+            {if $allow_use_surplus}
+            <section class="main">
+                <div class="allow_user_surplus">
+                    <p class="ye">
+                        <input type="checkbox" class="b_checkbox" id="issurplus" onclick="checkboxOnclick(this)" style="vertical-align: middle; cursor: pointer" />
+                        <span class="is_user_surplus">使用账户余额支付</span>
+                    </p>
+                    <dl class="yueonlin" id="allow_user_surplus">
+                        <dt>
+                            <i>
+                                输入余额：
+                                <input name="surplus" type="text" class="surplus" id="ECS_SURPLUS" value="0" onblur="changeSurplus(this.value);" />
+                                &nbsp;&nbsp;元
+                            </i>
+                            <span>您当前的可用余额为:￥{$your_surplus|default:0}</span>
+                            <span id="ECS_SURPLUS_NOTICE_{$key}" class="notice"></span>
+                        </dt>
+                        <dd>
+                            {if $is_surplus_open eq 0}
+                            <span class="open_surplus">未开通余额安全支付,请在电脑端登录开通</span>
+                            {/if}
+                        </dd>
+                    </dl>
+                </div>
+            </section>
+            <script type="text/javascript">
+    $('#issurplus').attr('checked',false);
+    function checkboxOnclick(checkbox){ 
+    
+
+        
+            var surplus = {$your_surplus|default:0};
+            if ( checkbox.checked == true){
+                    document.getElementById("allow_user_surplus").style.display = "block";
+                    changeSurplus(surplus);
+            }else{
+                    document.getElementById("allow_user_surplus").style.display = "none";
+                    changeSurplus(0);
+            }
+    }
+    </script>
+            {/if}
+            <!--支付方式-->
+            <input type="hidden" value="{if $total['amount'] gt 0}0{else}1{/if}" name="hidPayDiv" id="hidPayDiv" />
+            <section class="main" style="margin-top: 8px;">
+                {if $is_exchange_goods neq 1 || $total.real_goods_count neq 0}
+                <div class="panel-body" id="pay_div">
+                    <div class="title" id="zhifutitle">
+                        <span class="text">支付方式&nbsp;:&nbsp;</span>
+                        <em class="qxz" id="emzhifu">请选择支付方式</em>
+                        <a href="javascript:void(0)" title="{$lang.modify}{$lang.goods_list}">必选</a>
+                    </div>
+                    <ul class="nav nav-list-sidenav" id="zhifu68" style="display: block; border-bottom: none;">
+                        {foreach from=$payment_list item=payment name=pay} 
+                        
+                        <li onclick="selectPayment({$payment.pay_id})" class="clearfix" name="payment_name" {if $payment.pay_code eq 'balance'}style="display: none"{/if}>
+                            <input type="radio" id="payment_method_{$payment.pay_id}" name="payment" value="{$payment.pay_id}" {if $order.pay_id eq $payment.pay_id} checked="checked" {/if} isCod="{$payment.is_cod}" onclick="selectPayment(this)" class="f_checkbox_t" {if $cod_disabled and $payment.is_cod eq "1"}disabled="true" {/if}  {if $payment.pay_code eq "balance"}display:none{/if} />
+                            <label for="payment_method_{$payment.pay_id}">
+                                <div class="fl shipping_title">{$payment.pay_name}{$payment.format_pay_fee }</div>
+                            </label>
+                        </li>
+                        {/foreach}
+                    </ul>
+                </div>
+                {else}
+                <input type="radio" name="payment" value="-1" checked="checked" style="display: none" />
+                {/if}
+            </section>
+            <!--提交订单按钮-->
+            <div class="pay-btn">
+                <input type="submit" class="tijiao_butn" value="提交订单" />
+                <input type="hidden" name="act" value="mutual_done">
+                <input type="hidden" name="mutual_id" value="{$mutual_info.mutual_id}">
+            </div>
+    </form>
+    {/if} 
+    {if $action eq 'insure_done_info'}
+    <header>
+        <div class="tab_nav">
+            <div class="header">
+                <div class="h-left">
+                    <a class="sb-back" href="javascript:history.back(-1)" title="返回"></a>
+                </div>
+                <div class="h-mid">投保信息</div>
+                <div class="h-right">
+                    <aside class="top_bar">
+                        <div onClick="show_menu();$('#close_btn').addClass('hid');" id="show_more">
+                            <a href="javascript:;"></a>
+                        </div>
+                    </aside>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- #BeginLibraryItem "/library/up_menu.lbi" -->
+    <!-- #EndLibraryItem -->
+    <div class="screen-wrap fullscreen login" style="background: #FFF">
+        <div class="sys_message">
+            <p class="title">订单提交成功！</p>
+            <p class="desc">点击下面的按钮,支付您的订单！</p>
+        </div>
+        <ul class="content_success">
+            <li></li>
+            <li style="border-top: 1px solid #eeeeee">
+                <span>
+                    订单号：
+                    <em>{$order_info.order_sn}</em>
+                </span>
+                <span>
+                    {$order_info.pay_name}：
+                    <em>{$order_info.insure_money}</em>
+                </span>
+            </li>
+        </ul>
+        <div  style='padding:0 5%'>
+
+            {if $wx_button }
+  <div class="pay-btn"><a id='wxpayloca' href="{$wx_button}"><i style="    display: block;
+    font-size: 14px;
+    line-height: 30px;
+    color: #fff;
+    background: #DF3224;
+    padding-left: 10px;
+    padding-right: 10px;
+    text-align: center;
+    width: 80px;
+    margin-top: 10px;">去微信支付</i></a>
+    <script>window.location.href="{$wx_button}" </script></div>
+{else}
+  {$pay_online}
+<script>
+/*    function run(){
+
+     $.get("/user.php?act=check_djt",function(data){
+           if(data==1){
+              window.location="user.php?act=bigfamily";
+           }
+       }); 
+     
+   }
+  // window.setInterval("run()",5000) ; */
+</script>
+{/if}
+        </div>
+        <div style='clear:both'></div>
+        <div class="welcome_dom">
+            <span>
+                <a href="index.php">返回首页</a>
+            </span>
+            <span>
+                <a href="user.php?act=insure">查看订单</a>
+            </span>
+        </div>
+    </div>
+    {/if}
+    {if $action eq 'mutual_done_info'}
+    <header>
+        <div class="tab_nav">
+            <div class="header">
+                <div class="h-left">
+                    <a class="sb-back" href="javascript:history.back(-1)" title="返回"></a>
+                </div>
+                <div class="h-mid">互助信息</div>
+                <div class="h-right">
+                    <aside class="top_bar">
+                        <div onClick="show_menu();$('#close_btn').addClass('hid');" id="show_more">
+                            <a href="javascript:;"></a>
+                        </div>
+                    </aside>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- #BeginLibraryItem "/library/up_menu.lbi" -->
+    <!-- #EndLibraryItem -->
+    <div class="screen-wrap fullscreen login" style="background: #FFF">
+        <div class="sys_message">
+            <p class="title">订单提交成功！</p>
+            <p class="desc">点击下面的按钮,支付您的订单！</p>
+        </div>
+        <ul class="content_success">
+            <li></li>
+            <li style="border-top: 1px solid #eeeeee">
+                <span>
+                    订单号：
+                    <em>{$order_info.order_sn}</em>
+                </span>
+                <span>
+                    {$order_info.pay_name}：
+                    <em>{$order_info.mutual_money}</em>
+                </span>
+                <span>
+                    互助项目：
+                    <em>{$order_info.title}</em>
+                </span>
+            </li>
+        </ul>
+                <div  style='padding:0 5%'>
+
+            {if $wx_button }
+  <div class="pay-btn"><a id='wxpayloca' href="{$wx_button}"><i style="    display: block;
+    font-size: 14px;
+    line-height: 30px;
+    color: #fff;
+    background: #DF3224;
+    padding-left: 10px;
+    padding-right: 10px;
+    text-align: center;
+    width: 80px;
+    margin-top: 10px;">去微信支付</i></a>
+    <script>window.location.href="{$wx_button}" </script></div>
+{else}
+  {$pay_online}
+<script>
+/*    function run(){
+
+     $.get("/user.php?act=check_djt",function(data){
+           if(data==1){
+              window.location="user.php?act=bigfamily";
+           }
+       }); 
+     
+   }
+  // window.setInterval("run()",5000) ; */
+</script>
+{/if}
+        </div>
+        <div class="welcome_dom">
+            <span>
+                <a href="index.php">返回首页</a>
+            </span>
+            <span>
+                <a href="user.php?act=mutual">查看订单</a>
+            </span>
+        </div>
+    </div>
+    {/if}
+    <!---footer--->
+    <!-- #BeginLibraryItem "/library/page_footer.lbi" -->
+    <!-- #EndLibraryItem -->
+    <!-- #BeginLibraryItem "/library/footer_nav.lbi" -->
+    <!-- #EndLibraryItem -->
+    <!---返回顶部-->
+    <script>
+                    function goTop() {
+                        $('html,body').animate({
+                            'scrollTop' : 0
+                        }, 600);
+                    }
+                </script>
+    <a href="javascript:goTop();" class="gotop"><img src="themesmobile/default/images/topup.png"></a>
+</body>
+</html>

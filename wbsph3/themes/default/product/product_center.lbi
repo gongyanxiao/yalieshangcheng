@@ -1,0 +1,50 @@
+ <style>
+  li{
+    margin-left:50px;
+    font-size:18px;
+  }
+  
+  dl{
+    margin-bottom:20px;
+  }
+ </style>
+ 
+            <header id="header" class="header">
+				<div class="topnav">
+				    <ul>
+				    <li  ><a><span>{$buy_points}</span>报单购买积分总额</a></li>
+				    <li  ><a><span>{$draw_points}</span>发放总额</a></li>
+				    <li  ><a ><span>{$ke_ti_xian_jin_e}</span>可提现金额</a></li> 
+				    </ul>
+				</div>
+			</header> 
+			
+			<!--我的订单-->
+			  <div class="Assets">
+					<dl><dt><strong><b>操作记录</b></strong></dt> </dl>
+						 <dl>
+							 <dt>
+								 <a style="margin-left:50px;" href="product_center_recharge.php?act=list">
+								 	<strong style='margin-left:30px'>充值记录 </strong>
+								 </a>
+								 <a style="margin-left:50px;" href="product_center_recharge.php?act=add">
+								 	<span style='background:none;padding-right:50px'>充值</span>
+								 </a>
+							 </dt>
+						 </dl>
+					
+						  <dl>
+							 <dt>
+								 <a  style="margin-left:50px;" href="product_center_recharge.php?act=chan_pin_ji_fen_ti_xian_log"><strong style='margin-left:30px'>提现记录 </strong></a>
+								 <a  style="margin-left:50px;" href="product_center_recharge.php?act=chan_pin_ji_fen_ti_xian">
+								 <span style='background:none;padding-right:50px'>提现	</span>
+								 </a>
+							 </dt>
+						 </dl> 
+						 <dl>
+						 <dt><a  style="margin-left:50px;" href="product_center_recharge.php?act=fa_fang_ji_lu"><dt><strong style='margin-left:30px'>发放记录 </strong></a>
+						 </dt>
+					</dl>
+			 </div>
+		 	 
+		 

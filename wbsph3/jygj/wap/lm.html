@@ -1,0 +1,219 @@
+﻿<?
+include("conn.php");
+$lmid = htmlspecialchars(trim($_GET['lmid']));
+$a=array(1,5,8,7);
+if(in_array($lmid,$a)){
+    //重定向浏览器 
+    header("Location:tplist.html?lmid=".$lmid); 
+    exit;
+}
+?>
+<!DOCTYPE html>
+<html>
+<head lang="en">
+     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <title><?=$connarr['pagetitle']?></title>
+    <meta name="keyword" content="<?=$connarr['pagekey']?>"/>
+    <meta name="description" content="<?=$connarr['pagedes']?>"/>
+    <link href="/Public/ico.ico" type="image/x-icon" rel="shortcut icon" /> 
+    <link rel="stylesheet" type="text/css" href="/css/index.css">
+    <link rel="stylesheet" type="text/css" href="/css/swiper.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/component.css">
+    <script type="text/javascript" src="/js/jquery-1.7.2.js"></script>
+    <script type="text/javascript" src="/js/swiper.min.js"></script>
+    <script type="text/javascript" src="/js/modernizr.custom.js"></script>
+    <script type="text/javascript" src="/js/jquery.dlmenu.js"></script>
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=67jMQ5DmYTe1TLMBKFUTcZAR"></script>
+    <style type="text/css">
+        .warp_w{width: 100%}
+    </style>
+</head>
+<body>
+<div class="warp">
+<?include("wheader.html");?>
+<?
+include("conn.php");
+$lmid = htmlspecialchars(trim($_GET['lmid']));
+$d=array();
+$sqld=mysql_query("select * from `phome_enewsclass`");  
+while ($rd = mysql_fetch_array( $sqld )) {
+     $d[]=$rd[classid];
+}
+if(!in_array($lmid,$d)){
+    //重定向浏览器 
+    header("Location:error.html"); 
+    //确保重定向后，后续代码不会被执行 
+    exit;
+}
+?>
+
+<?
+	if($lmid==6) {$sqla="select * from `phome_ecms_news_data_1` where id=223";
+    $querya=mysql_query($sqla);
+    $rowa=mysql_fetch_array($querya);
+?>
+		 <div class="warp_y">
+
+        <div class="warp_y_mor">
+            <div class="warp_y_mor_iv">
+                <span>关于我们</span>
+            </div>
+        </div>
+
+        <div class="warp_w">
+          <?=stripslashes($rowa[newstext]);?>       </div>
+
+
+
+    </div>
+<?
+	} elseif ($lmid==11) {
+        $sqla="select * from `phome_ecms_news_data_1` where id=219";
+    $querya=mysql_query($sqla);
+    $rowa=mysql_fetch_array($querya);
+?>
+     <div class="warp_y">
+
+        <div class="warp_y_mor">
+            <div class="warp_y_mor_iv">
+                <span>联系我们</span>
+            </div>
+        </div>
+
+       <div class="warp_w" style="overflow: hidden;padding: 5% 4% 0 4%;color: #004290;">  <?=stripslashes($rowa[newstext]);?>  
+       </div>
+<script type="text/javascript">
+    $(function() {
+        $(".warp_w img").css("display","none");
+    })
+</script>
+<iframe src="/map.html" height="250" width="100%" scrolling="no" frameborder="0" marginheight="0" marginwidth="0"></iframe>
+    </div>
+    <!-- <div id="map">
+        <div style="width: 100%; height: 200px;" id="allmap"></div>
+    </div>
+    <script type="text/javascript">
+    $(function () {
+        ShowMap('126.520041,45.800283', '诺斯贝尔企业集团', '', '0451-55518892', '', '16');
+    })
+    function getInfo(id) {
+        $.ajax({
+            type: "POST",
+            url: "WebUserControl/Contact/GetInfo.ashx",
+            cache: false,
+            async: false,
+            data: { ID: id },
+            success: function (data) {
+                data = eval(data);
+                var length = data.length;
+                if (length > 0) {
+                    ShowMap(data[0]["Image"], data[0]["NewsTitle"], data[0]["Address"], data[0]["Phone"], data[0]["NewsTags"], data[0]["NewsNum"]);
+                }
+            }
+        });
+    }
+    function ShowMap(zuobiao, name, addrsee, phone, chuanzhen, zoom) {
+        var arrzuobiao = zuobiao.split(',');
+        var map = new BMap.Map("allmap");
+        map.centerAndZoom(new BMap.Point(arrzuobiao[0], arrzuobiao[1]), zoom);
+        map.addControl(new BMap.NavigationControl());
+        var marker = new BMap.Marker(new BMap.Point(arrzuobiao[0], arrzuobiao[1]));
+        map.addOverlay(marker);
+        var infoWindow = new BMap.InfoWindow('<p style="color: #bf0008;font-size:14px;">' + name + '</p><p>地址：' + addrsee + '</p><p>电话：' + phone + '</p><p>' + chuanzhen + '</p>');
+        marker.addEventListener("click", function () {
+            this.openInfoWindow(infoWindow);
+        });
+        marker.openInfoWindow(infoWindow);
+    }
+</script> -->
+<?
+    } elseif ($lmid==4) {  $sqla="select * from `phome_ecms_news_data_1` where id=222";
+    $querya=mysql_query($sqla);
+    $rowa=mysql_fetch_array($querya);
+?>
+         <div class="warp_y">
+
+        <div class="warp_y_mor">
+            <div class="warp_y_mor_iv">
+                <span>运作模式</span>
+            </div>
+        </div>
+
+        <div class="warp_w">
+         
+          <?=stripslashes($rowa[newstext]);?>        </div>
+
+
+
+    </div>
+<?
+    } elseif ($lmid==3) {$sqla="select * from `phome_ecms_news_data_1` where id=221";
+    $querya=mysql_query($sqla);
+    $rowa=mysql_fetch_array($querya);
+?>
+        <div class="warp_y">
+
+        <div class="warp_y_mor">
+            <div class="warp_y_mor_iv">
+                <span>组织架构</span>
+            </div>
+        </div>
+
+        <div class="warp_w">
+          <?=stripslashes($rowa[newstext]);?>    </div>
+
+
+
+    </div>
+<?
+    } elseif ($lmid==2) {$sqla="select * from `phome_ecms_news_data_1` where id=220";
+    $querya=mysql_query($sqla);
+    $rowa=mysql_fetch_array($querya);
+?>
+        <div class="warp_y">
+
+        <div class="warp_y_mor">
+            <div class="warp_y_mor_iv">
+                <span>企业简介</span>
+            </div>
+        </div>
+
+        <div class="warp_w">
+     
+        <?=stripslashes($rowa[newstext]);?>          </div>
+
+
+
+    </div>
+<?
+    }
+?>
+
+
+
+<?include("wfooter.html");?>
+    <!--------底部结束-------->
+</div>
+
+
+<script type="text/javascript">
+    $(function(){
+        $( '#dl-menu' ).dlmenu();
+    });
+</script>
+<?
+           @mysql_close($conn);
+        ?>
+</body>
+</html>
+<script type="text/javascript">
+    var w=$('.warp_w img').css('width');
+    var sw=screen.availWidth;
+    w=w.substr(0,w.length-2);
+    if(w>sw){
+        $('.warp_w img').css('width',sw+'px');
+        $('.warp_w img').css('height','auto');
+    }
+</script>

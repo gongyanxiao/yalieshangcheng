@@ -1,0 +1,44 @@
+<?php
+error_reporting(0);
+date_default_timezone_set("Asia/Shanghai");
+include "../config/check.php";
+include "../config/zt_config.php";
+$db=mysql_connect($db_host,$db_user,$db_pwd);
+mysql_query("SET NAMES $coding"); 
+mysql_select_db($db_database);
+$xm=htmlspecialchars(trim($_POST["xm"]));
+$code=htmlspecialchars(trim($_POST["code"]));
+$khdz=htmlspecialchars(trim($_POST["bankaddress"]));
+$zh=htmlspecialchars(trim($_POST["zhihang"]));
+$kh=htmlspecialchars(trim($_POST["number"]));
+$bank=strip_tags(trim($_POST['bank']));
+$user=$_COOKIE['ECS']['username'];
+//查询真实性
+$sql2="select * from xbmall_users where user_name='$user' order by id desc";
+$qs2=mysql_query($sql2);
+$out=mysql_fetch_assoc($qs2);
+if($xm<>$out['xm']){
+echo '<script>alert("您输入的姓名与注册时信息不一致,请核实!")</script>';
+	exit();
+}
+$k=$out['sfzh'];
+if($code<>$k){
+echo '<script>alert("您输入的身份证号与注册时信息不一致,请核实!")</script>';
+	exit();
+	}
+$sql="select * from zt_bind_bank where ssyh='$user' and yhkh='$kh' order by id desc";
+$qs1=mysql_query($sql);
+if(mysql_num_rows($qs1)>=1){
+echo '<script>alert("您已经绑定过银行卡!")</script>';
+exit();
+}else{
+$date=date("Y-m-d h:i:s");
+$sql8="insert into zt_bind_bank(`id`,`xm`,`sfzh`,`khdz`,`zhihang`,`yhkh`,`khh`,`ssyh`,`bind`)VALUES(NULL,'$xm','$code','$khdz','$zh','$kh','$bank','$user','$date');";
+$q=mysql_query($sql8);
+if($q){
+echo "<script>alert('您的银行卡信息绑定完成！');location.reload();</script>";
+exit();
+}
+}
+mysql_close($db);
+?>

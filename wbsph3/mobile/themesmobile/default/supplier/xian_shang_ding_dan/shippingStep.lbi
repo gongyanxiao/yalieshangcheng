@@ -1,0 +1,48 @@
+<form name="theForm" action="order.php?act=step_post&step={$step}&order_id={$order_id}&step_act={$step_act}" method="post" onsubmit="return checkShipping()">
+<div class="list-div">
+<table cellpadding="3" cellspacing="1">
+  <tr>
+    <th width="5%">&nbsp;</th>
+    <th width="25%">{$lang.name}</th>
+    <th>{$lang.desc}</th>
+    <th width="15%">{$lang.shipping_fee}</th>
+    <th width="15%">{$lang.free_money}</th>
+  <th width="15%">{$lang.insure}</th>
+  </tr>
+  {foreach from=$shipping_list item=shipping}
+  <tr>
+    <td><input name="shipping" type="radio" value="{$shipping.shipping_id}" {if $order.shipping_id eq $shipping.shipping_id}checked{/if} onclick="" /></td>
+    <td>{$shipping.shipping_name}</td>
+    <td>{$shipping.shipping_desc}</td>
+    <td><div align="right">{$shipping.format_shipping_fee}</div></td>
+    <td><div align="right">{$shipping.free_money}</div></td>
+  <td><div align="right">{$shipping.insure}</div></td>
+  </tr>
+  {/foreach}
+  {if $pickup_point_list}
+	<tr>
+    <th width="5%">&nbsp;</th>
+    <th width="25%">门店自提点列表</th>
+    <th colspan="4">详细描述</th>
+    </tr>
+  {foreach from=$pickup_point_list item=shipping}
+  <tr>
+    <td><input name="pickup_point" type="radio" value="{$shipping.id}" {if $order.pickup_point eq $shipping.id}checked{/if} onclick="" /></td>
+    <td>{$shipping.shop_name}</td>
+    <td colspan="4">地址:{$shipping.address}&nbsp;&nbsp;联系人:{$shipping.contact}&nbsp;&nbsp;联系方式:{$shipping.phone}</td>
+    </tr>
+  {/foreach}
+  <tr>
+  {/if}
+</table>
+</div>
+
+<p align="right"><input name="insure" type="checkbox" value="1" {if $order.insure_fee > 0}checked{/if} />
+{$lang.want_insure}</p>
+
+  <p align="center">
+    {if $step_act eq "add"}<input type="button" value="{$lang.button_prev}" class="button" onclick="history.back()" />{/if}
+    <input name="{if $step_act eq 'add'}next{else}finish{/if}" type="submit" class="button" value="{if $step_act eq 'add'}{$lang.button_next}{else}{$lang.button_submit}{/if}" />
+    <input type="button" value="{$lang.button_cancel}" class="button" onclick="location.href='order.php?act=process&func=cancel_order&order_id={$order_id}&step_act={$step_act}'" />
+  </p>
+</form>

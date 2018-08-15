@@ -1,0 +1,199 @@
+<!-- $Id: account_info.htm 14216 2008-03-10 02:27:21Z testyang $ -->
+{include file="pageheader.htm"}
+
+<div class="main-div">
+    <form method="post" action="role_offline_order.php" name="theForm" onsubmit="return validate()" enctype="multipart/form-data">
+        <table cellspacing="1" cellpadding="3" width="100%">
+            <tr>
+                <td class="label">会员手机号</td>
+                <td><input name="user_id" id="user_id" type='text' /><span id='txtPhone'></span></td>
+            </tr>
+             {if $dayu_xiaofei eq 1}
+            <tr>
+                <td class="label">验证码</td>
+                <td>
+                    <input type="text" id="mobile_code" name="mobile_code" placeholder="手机验证码" class="hq_phone" />
+                    <input id="zphone" type="button" value=" 获取手机验证码" class="zphone" />
+                    <span id='txtYzm'></span>
+                </td>
+            </tr>
+            {/if}
+            <tr>
+                <td class="label">商品名称</td>
+                <td><input name="good_name" type='text' /></td>
+            </tr>
+            <tr>
+                <td class="label">消费金额</td>
+                <td><input name="order_amt" type='text' /><span id='txtAmt'></span></td>
+            </tr>
+            <tr>
+                <td class="label">服务费</td>
+                <td><input name="order_bdf" readonly="readonly" type='text' /></td>
+            </tr>
+            <tr>
+                <td colspan="2" align="center">
+                    <input type="hidden" name="bdFei" value="{$bdFei}" id="bdFei" />
+                    <input name="postToken" value="{$postToken}" type="hidden">
+                    <input type="submit" class="button" value="{$lang.button_submit}" />
+                    <input type="reset" class="button" value="{$lang.button_reset}" />
+                    <input type="hidden" name="act" value="insert" />
+            </tr>
+        </table>
+    </form>
+</div>
+{insert_scripts files="../js/utils.js,validator.js"}
+{literal}
+<script language="JavaScript">
+    onload = function ()
+    {
+        // 开始检查订单
+        startCheckOrder();
+    }
+    /**
+     * 检查表单输入的数据
+     */
+    function validate()
+    {
+        validator = new Validator("theForm");
+        validator.required("user_id", "会员手机号不能为空");
+        {if $dayu_xiaofei eq 1}
+        validator.required("mobile_code", "验证码不能为空");
+        {/if}
+        validator.required("good_name", "商品名称不能为空");
+        validator.required("order_amt", "消费金额不能为空");
+        validator.required("order_bdf", '报单费不能为空');
+        validator.isNumber("order_amt", "消费金额格式不正确");
+        validator.isNumber("order_bdf", "报单费格式不正确");
+
+        return validator.passed();
+    }
+
+    $("#zphone").click(function(){
+        if($("#user_id").val().length===0)
+        {
+            alert("会员手机号不能为空");
+        }
+        else
+        {
+            send_mobile_code($("#mobile_code"), $(this));
+        }
+    });
+    var wait = 60;
+    function countdown(obj, msg) {
+        obj = $(obj);
+
+        if (wait == 0) {
+            obj.removeAttr("disabled");
+            obj.val(msg);
+            wait = 60;
+        } else {
+            if (msg == undefined || msg == null) {
+                msg = obj.val();
+            }
+            obj.attr("disabled", "disabled");
+            obj.val(wait + "秒后重新获取");
+            wait--;
+            setTimeout(function () {
+                countdown(obj, msg)
+            }, 1000)
+        }
+    }
+
+    function send_mobile_code(mobileCodeObj, sendButton) {
+        // 发送邮件
+        var url = 'role_offline_order.php';
+        $.post(url, {
+                act: 'send_mobile_code',
+                mobile:$("#user_id").val()
+        }, function(result) {
+                if (result == 'ok') {
+                        //倒计时
+                        countdown(sendButton);
+                } else {
+                        alert(result);
+                }
+        }, 'text');
+    }                          
+    $("input[name='user_id']").blur(function () {
+        $("#txtPhone").text("");
+        $.ajax({
+            url: 'role_offline_order.php?act=get_user',
+            data: {user_id: $("input[name='user_id']").val()},
+            type: "POST",
+            dataType: "json",
+            success: function (res) {
+                if (res)
+                {
+                    if (res.code * 1 === 0)
+                    {
+                        $("#txtPhone").text(res.message);
+                    } else
+                    {
+                        $("#txtPhone").text("(会员:" + res.user_id + ",真实姓名:" + res.real_name + ")");
+                    }
+                }
+            },
+            error: function () {
+                //alert("网络繁忙，请稍后再试");
+            }
+        });
+    });
+    $("input[name='order_amt']").blur(function () {
+        $("#txtAmt").text("");
+        $("input[name='order_bdf']").val('');
+        if (!isPriceNumber($("input[name='order_amt']").val()))
+        {
+            $("#txtAmt").text("消费金额不合法");
+        }
+        $("input[name='order_bdf']").val(0);
+       
+      
+        $.ajax({
+            url: 'role_offline_order.php?act=checkje',
+            data: {amount: $("input[name='order_amt']").val(),user_id:$("#user_id").val()},
+            type: "POST",
+            dataType: "json",
+            success: function (res) {
+                if (res)
+                {
+                    if (res.code * 1 === 0)
+                    {
+                        $("#txtAmt").text(res.message);
+                        $("input[name='order_amt']").val('');
+                        $("input[name='order_bdf']").val('');
+                    }
+                }
+            },
+            error: function () {
+                //alert("网络繁忙，请稍后再试");
+            }
+        });
+    });
+    function isPriceNumber(_keyword) {
+        if (_keyword == "0" || _keyword == "0." || _keyword == "0.0" || _keyword == "0.00") {
+            _keyword = "0";
+            return false;
+        } else {
+            var index = _keyword.indexOf("0");
+            var length = _keyword.length;
+            if (index === 0 && length > 1) {/*0开头的数字串*/
+                var reg = /^[0]{1}[.]{1}[0-9]$/;
+                if (!reg.test(_keyword)) {
+                    return false;
+                } else {
+                    return true;
+                }
+            } else {/*非0开头的数字*/
+                var reg = /^[1-9]{1}[0-9]{0,10}$/;
+                if (!reg.test(_keyword)) {
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+            return false;
+        }
+    }
+</script>
+{/literal}
+{include file="pagefooter.htm"}

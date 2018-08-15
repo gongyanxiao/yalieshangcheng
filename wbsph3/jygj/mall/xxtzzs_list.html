@@ -1,0 +1,167 @@
+<?php
+  include "config.php" ;
+  include "page.class.php" ;
+
+ 
+?>
+<!DOCTYPE html>
+<html>
+<head lang="en">
+<meta charset="UTF-8">
+<title><?=_TITLE_?></title>
+<meta name="keyword" content="<?=_KEYWORD_?>" />
+<meta name="description" content="<?=_DESCRIPTION_?>" />
+<link href="/Public/ico.ico" type="image/x-icon" rel="shortcut icon" />
+<link rel="stylesheet" type="text/css" href="/jygj/Public/home/css/page.css">
+<link rel="stylesheet" type="text/css" href="/jygj/Public/home/css/index.css" />
+<script type="text/javascript" src="/jygj/Public/home/js/jquery-1.7.2.js"></script>
+<script type="text/javascript" src="/Public/js/jquery.flexslider-min.js"></script>
+<script type="text/javascript" src="/Public/js/clipboard.min.js"></script>
+
+
+</head>
+
+
+<body >
+	<div class="warp">
+		<!------最顶部开始------>
+		<!------logo结束------>
+		<script>
+			$(function() {
+				 
+			});
+			function  f1(url){
+				window.location.href=url;
+			}
+		</script>
+
+		<!------导航开始------>
+		<?
+        include("sheader1.html");
+		?>
+		<!------导航结束------>
+		<!------导航结束------>
+		<?php
+include "myphplib/db.php";
+include "config/check.php";
+date_default_timezone_set("Asia/Shanghai");
+$user=$_COOKIE['ECS']['username'];
+ 
+ ?>
+
+		<!----内容开始---->
+		<div class="warp_moer">
+
+			<div class="warp_h">
+				<!----right内容开始---->
+				<div class="warp_h_right">
+
+					<div class="warp_f">
+
+						<div class="warp_f_div">
+							<b>贝赠送记录</b>
+						</div>
+
+						<table border="1" cellspacing="0" cellpadding="0"
+							class="warp_f_th">
+							<tr>
+								<th align="center">发放日期</th>
+								<th align="center">总贝数</th>
+								<th align="center">服务费</th>
+								<th align="center">储备贝</th>
+								<th align="center">收益贝</th>
+								<th align="center">消费贝</th>
+								<th align="center">店铺资金</th>
+								<th align="center">投资收益</th>
+								<th align="center">推荐收益</th>
+								<th align="center">描述</th>
+							</tr>
+							<?php
+                        $where ="user='$user'";
+						$num  = getCount("zt_xxtzzs", $where);
+				     	$per = 12;
+						$page_obj=new Page($num,$per);
+ 						$q="select id,cz_id,user, zsrq , jf,  comment,xxtzzfwf,xxtzzcbjz,xxtzzsyjz,xxtzzxfjz,xxtzztxjf, dian_pu_zi_jin,tui_jian_shou_yi  from zt_xxtzzs  where  ".$where." order by id desc limit ".($page_obj->page-1)*$per.",".$per;
+ 						$r=mysql_query($q);
+						$pagelist=$page_obj->fpage();
+					while($data2=mysql_fetch_array($r)){;
+				?>
+							<tr>
+							 
+								<td align="center"
+									style="font-family: Arial, Helvetica, sans-serif; color: #F00; border-bottom: 1px solid #CCC;">
+									<?=$data2["zsrq"];?>
+								</td>
+								<td align="center" style="border-bottom: 1px solid #CCC;">
+									<?=$data2["jf"];?>
+								</td>
+							 
+								<td align="center" style="border-bottom: 1px solid #CCC;">
+									<?=$data2["xxtzzfwf"];?>
+								</td>
+								<td align="center" style="border-bottom: 1px solid #CCC;">
+									<?=$data2["xxtzzcbjz"];?>
+								</td>
+								<td align="center" style="border-bottom: 1px solid #CCC;">
+									<?=$data2["xxtzzsyjz"];?>
+								</td>
+								<td align="center" style="border-bottom: 1px solid #CCC;">
+									<?=$data2["xxtzzxfjz"];?>
+								</td>
+								<td align="center" style="border-bottom: 1px solid #CCC;">
+									<?=$data2["dian_pu_zi_jin"];?>
+								</td>
+								 <td align="center" style="border-bottom: 1px solid #CCC;">
+									<?=$data2["xxtzztxjf"];?>
+								</td>
+								 <td align="center" style="border-bottom: 1px solid #CCC;">
+									<?=$data2["tui_jian_shou_yi"];?>
+								</td>
+								<td align="center" style="border-bottom: 1px solid #CCC;">
+									<?=$data2["comment"];?>
+								</td>
+							</tr>
+							<?php  } ?>
+
+
+						</table>
+						<center>
+							<table width="100%" border="0" align="center" cellpadding="0"
+								cellspacing="0" style="text-align: center;">
+								<tr>
+									<td height="21px" colspan="6"><div class="epages"
+											style="margin-top: 0">
+											<?php  echo $pagelist;?>
+										</div></td>
+								</tr>
+							</table>
+						</center>
+					</div>
+
+				</div>
+				<!----right内容结束---->
+
+				<!----left内容开始---->
+				<div class="warp_h_left">
+					<?
+		   			 include_once "left_p_menu.html";
+					 mysql_close($db);
+  					?>
+
+					<a href="" class="warp_h_left_gg"><img
+						src="/jygj/Public/home/img/im113.jpg" width="170" height="207"></a>
+
+				</div>
+				<!----left内容结束---->
+			</div>
+
+		</div>
+		<!----内容结束---->
+
+
+		<!------底部开始------>
+		<?include("sfooter.html");?>
+		<!------底部结束------>
+	</div>
+</body>
+</html>

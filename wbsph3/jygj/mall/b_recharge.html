@@ -1,0 +1,301 @@
+<?include("config.php");?>
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title><?=_TITLE_?></title>
+    <meta name="keyword" content="<?=_KEYWORD_?>"/>
+    <meta name="description" content="<?=_DESCRIPTION_?>"/>
+<meta http-equiv="refresh" content="1440">
+    <link href="/Public/ico.ico" type="image/x-icon" rel="shortcut icon" /> 
+    <link rel="stylesheet" type="text/css" href="/jygj/Public/home/css/index.css">
+	<link rel="stylesheet" type="text/css" href="/jygj/Public/home/css/page.css">
+<script type="text/javascript" src="js/jquery.min.js"></script>
+
+    <script type="text/javascript" src="/jygj/Public/home/js/jquery-1.7.2.js"></script>
+	<script src="/jygj/Public/home/js/jquery.validate.min.js" type="text/javascript" ></script>
+	<style>
+	.zxcz_p{overflow: hidden;width: 300px}
+	.zxcz_p li{width: 80px;height: 28px;line-height: 28px;text-align: center;font-size: 14px;color; #333;border:1px solid #D0D0D0;margin-right: 18px;margin-bottom: 13px;cursor:pointer;float: left;    border-radius: 5px}
+	.zxcz_p li span{display: block;padding: 0;color: #333}
+	.zxcz_p li input{display: none}
+	.zxcz_p li.thisclass{border: 1px solid #F08300;background: #F08300}
+	.zxcz_p li.thisclass span{color: #fff;}
+	</style>
+
+
+</head>
+
+<body>
+<?
+
+include "config/zt_config.php";
+include_once "config/check.php";
+include "pay/wx/query.php";
+date_default_timezone_set("Asia/Shanghai");
+$db=mysql_connect($db_host,$db_user,$db_pwd);
+mysql_query("SET NAMES $coding"); 
+mysql_select_db($db_database);
+
+$a=date("Y");
+$b=date("m");
+$c=date("d");
+$d=date("G");
+$e=date("i");
+$f=date("s");
+$strDatetime=$a.$b.$c.$d.$e.$f;
+
+$yh=$_COOKIE['ECS']['username'];
+$q1="select * from zt_cz  where user='$yh' and zt='8' order by id desc";
+$o=mysql_query($q1);
+$out=mysql_fetch_assoc($o);
+$key ="A1234567890";
+$merchantId="109045511701004";
+	$version ="v1.5";
+	$signType="0";
+	$orderNo=$out["ddbh"];
+	$orderDatetime=$out["czrq"];
+	$queryDatetime=$strDatetime;
+  //组签名原串
+	$bufSignSrc = "";
+	if($merchantId != "")
+	$bufSignSrc = $bufSignSrc."merchantId=".$merchantId."&";
+	if($version != "")
+	$bufSignSrc = $bufSignSrc."version=".$version."&";
+	if($signType != "")
+	$bufSignSrc = $bufSignSrc."signType=".$signType."&";
+	if($orderNo != "")
+	$bufSignSrc = $bufSignSrc."orderNo=".$orderNo."&";
+	if($orderDatetime != "")
+	$bufSignSrc = $bufSignSrc."orderDatetime=".$orderDatetime."&";
+	if($queryDatetime != "")
+	$bufSignSrc = $bufSignSrc."queryDatetime=".$queryDatetime."&";
+	if($key != "")
+	//生成签名串			
+	$bufSignSrc = $bufSignSrc."key=".$key;
+	$signMsg = strtoupper(md5($bufSignSrc));
+$bufSignSrc = $bufSignSrc."&signMsg=".$signMsg;
+$p="https://service.allinpay.com/gateway/index.do?".$bufSignSrc;
+$url=file_get_contents(trim($p));
+parse_str($url,$output);
+if($output['payResult']=="1"){
+$sql="update zt_cz set zt='1' where ddbh='$orderNo' and zt='8';";
+
+mysql_query($sql);
+}
+?>
+<div id="jygj"></div>
+<div class="warp">
+    <!------最顶部开始------>
+    <?
+        include("sheader1.html");
+		?>
+    <!------logo结束------>
+<script>
+	$(function(){
+		$(".open_xl").click(function(){
+			$(".xiala").show();
+		})
+		$(".xiala a").click(function(){
+			var xq=$(this).html();
+			$(".open_xl a").html(xq);
+			$(this).parent().hide();
+		})
+	})
+</script>
+
+<!------导航开始------><!------导航结束------>
+    <!------导航结束------>
+
+
+    <!----内容开始---->
+  <div class="warp_moer">
+
+        <div class="warp_m">
+            <!----right内容开始---->
+            <div class="warp_h_right" style="width: 989px;">
+			
+                <div class="warp_f">
+
+                    <div class="warp_f_div">
+                        <b>在线充值</b>
+                    </div>
+					<div class="warp_f_div">
+                        <b>账户余额：
+								<?php
+						
+$user=$_COOKIE['ECS']['username'];
+$sql="select sum(je) as je1 from zt_cz where zt in(1,2) and  user='$user' order by id desc";
+$query=mysql_query($sql);
+$out=mysql_fetch_assoc($query);
+echo $out['je1']?abs(round($out['je1'],3)):0;
+
+						?>元</b>
+                    </div>
+			<form action="" method="post" id="form" enctype='multipart/form-data'>
+<input type="hidden" name="pay1" value="<?php session_start(); $_SESSION['pay1'] = md5(uniqid('jygj123456',true)); echo $_SESSION['pay1'];?>">	
+			<input type="hidden" name="money" value="" id="money">
+                    <table class="tx_i">
+                        <tr>
+                            <td colspan="2" valign="top"><span style="padding: 0;line-height: 30px">金额：<input type="text" class="tx_i_ex" name='money' id="m"></span>
+							
+							</td>
+                        </tr>
+                        <tr>
+                          <td colspan="2" align="center" valign="top"><input type="button"  value="确认充值" class="tx_i_ton"> 
+                            &nbsp;<a href="b_orderadd.html">返回订单录入</a></td>
+                        </tr>
+                        
+                        <tr>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="zfs_p">
+    <div class="zfs_p_mor">
+        <div class="zfs_o">
+            <a href="#"></a>
+        </div>
+        <div class="zfs_i">
+            <h2>付款方式</h2>
+            <ul class="zfs_i_ul">
+                         <li class="thisclass" value="1">
+                    <div class="zfs_i_ul_div">
+						    <input type="radio" name="radiu"  value="1" checked="checked">
+                        <img src="/jygj/Public/home/img/tl.png" width="52" height="44">
+                        <span class="zfs_i_ul_sp">
+                            <b>网银支付</b>
+                            <span>支持有网银用户的使用</span>
+                        </span>
+                    </div>
+                </li>
+                <li>
+                    <div class="zfs_i_ul_div">
+                        <label>
+						    <input type="radio" name="radiu"  value="2">
+							<img src="/jygj/Public/home/img/zfs_2.png" width="52" height="44">
+							<span class="zfs_i_ul_sp">
+								<b>微信支付</b>
+								<span>安全便捷</span>
+							</span>
+						</label>
+                    </div>
+                </li>
+                <li>
+                    <div class="zfs_i_ul_div">
+					    <label>
+							<input type="radio" name="radiu" value="3">
+							<img src="/jygj/Public/home/img/zfs_3.png" width="52" height="44">
+							<span class="zfs_i_ul_sp">
+								<b>支付宝支付</b>
+								<span>支持有支付宝用户的使用</span>
+							</span>
+						</label>
+                    </div>
+                </li>
+      
+            </ul>
+            <input type="button" onClick="chong()" value="确认" class="zfs_i_ton">
+        </div>
+    </div>
+</div>	
+
+			</form>
+<script>
+var dsa=1;
+	function chong(){
+		dsa++;
+        a = $('input[name="radiu"]:checked').val();
+        money= $(".thisclass input").val();
+      
+        $("#money").attr('value',money);
+        
+        var m= $("#m").val()
+        if(dsa!==2) {
+            $('.zfs_i_ton').attr("disabled",'true');
+            return false;
+        }
+		if(m==0 || m==''){
+			alert("请输入充值金额");return false;
+		}
+		if(a==1){
+			$("#form").attr("action","/mall/pay/shop_chong_post.html").submit()
+		}else if(a==2){
+			$("#form").attr("action","/mall/pay/wx/wx.html").submit()
+		
+		}else if(a==3){
+			$("#form").attr("action","/mall/pay/wx/alipay.html").submit()
+		
+		}
+		
+		
+	}
+
+</script>
+
+			
+            </div>
+            <!----right内容结束---->
+            <!----left内容开始---->
+			            <? include_once "left_menu2.html";?>
+            <!----left内容结束---->
+        </div>
+
+    </div>
+    <!----内容结束---->
+
+    <!------底部开始------>
+
+  <div class="warp_e_db"></div>
+
+
+
+	<?include("sfooter.html");?>
+    <!------底部结束------>
+</div>
+
+<!------弹出框开始------>
+<script>
+    $(function(){
+	    $(".tx_i_ton").click(function(){
+            $(".zfs_p").show();
+        })
+        $(".zfs_o").click(function(){
+            $(".zfs_p").hide();
+        })
+    });
+</script>
+<style>
+.zfs_i_ul_div input{display:none}
+.zfs_i_ul_div label{display: block;overflow: hidden;height: 75px}
+</style>
+		
+
+<!----------------------------点击变色开始-------------------------->
+<script>
+    $(function(){
+        var cotrs = $(".zfs_i_ul li");
+        cotrs.click(function(){
+            $(this).addClass("thisclass").siblings().removeClass("thisclass");
+			
+        });
+    });
+</script>
+<!----------------------------点击变色结束-------------------------->
+<!------弹出框结束------>
+
+<!----------------------------点击变色开始-------------------------->
+<script>
+    $(function(){
+        var cotrs = $(".zxcz_p li");
+        cotrs.click(function(){
+            $(this).addClass("thisclass").siblings().removeClass("thisclass");
+			
+        });
+    });
+</script>
+<!----------------------------点击变色结束-------------------------->
+
+</body>
+</html>

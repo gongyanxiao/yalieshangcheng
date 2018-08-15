@@ -1,0 +1,51 @@
+<div class="tabmenu">
+            <ul class="tab pngFix">
+              <li class="first active">提货券</li>
+            </ul>
+          </div>
+          <div class="mar_top">
+            <form action="" method="post" name="valueForm" id="valueForm" onSubmit="return valueLogin()">
+              <table width="100%" border="0" cellpadding="5" cellspacing="1" bgcolor="#ffffff" style="border:1px solid #eee;border-top:1px solid #eee;padding-top:35px;">
+                <tr >
+                  <td align="right" height="25px" width="30%">请输入您的提货券号码：</td>
+                  <td width="80%"><input type="text" name="tcard"  class="inputBg" size=30>
+                    <font color=#ff3300>*</font></td>
+                </tr>
+                <tr >
+                  <td align="right" height="25px" width="30%">请输入您的提货券密码：</td>
+                  <td width="80%"><input type="password" name="pwd"  class="inputBg" size=20>
+                    <font color=#ff3300>*</font></td>
+                </tr>
+                <tr>
+                  <td></td>
+                  <td height=30><input type="hidden" name="act" value="tg_login_act">
+                    <input type="submit" name="submit" class="main-btn main-btn-large" value="确认" ></td>
+                </tr>
+                <tr>
+                  <td colspan=2 height=30></td>
+                </tr>
+              </table>
+            </form>
+          </div>
+          <script type="text/javascript">
+          function valueLogin(){
+				var frm = document.forms['valueForm'];
+				var vcard=frm.elements['vcard'].value;
+				var pwd = frm.elements['pwd'].value;
+				var msg = '';
+		
+				if (vcard.length == 0){
+					msg +=  '卡号不能为空\n';
+				}
+				if (pwd.length == 0){
+					msg +=  '密码不能为空\n';
+				}
+		
+				if (msg.length > 0){
+					alert(msg);
+					return false;
+				}else{
+					return true;
+				}
+			}
+        	</script> 

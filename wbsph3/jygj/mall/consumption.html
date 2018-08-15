@@ -1,0 +1,199 @@
+<?include "config.php";?>
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title><?=_TITLE_?></title>
+    <meta name="keyword" content="<?=_KEYWORD_?>"/>
+    <meta name="description" content="<?=_DESCRIPTION_?>"/>
+    <link href="/Public/ico.ico" type="image/x-icon" rel="shortcut icon" /> 
+	
+    <link rel="stylesheet" type="text/css" href="/jygj/Public/home/css/index.css"/>
+    <script type="text/javascript" src="/jygj/Public/home/js/jquery-1.7.2.js"></script>
+	<script type="text/javascript">
+    $(document).ready(function () {
+
+        $("#checkedAll").click(function () {
+
+            //alert("aa");
+
+
+            if ($(this).attr("checked")) { // 全选 
+
+                $("input[name='id[]']").each(function () {
+                    $(this).attr("checked", true);
+                });
+            }
+            else { // 取消全选 
+
+                $("input[name='id[]']").each(function () {
+                    $(this).attr("checked", false);
+                });
+            }
+        });
+
+    }); 
+
+	</script>
+</head>
+<body >
+<div class="warp">
+    <!------最顶部开始------><!------logo结束------>
+<script>
+	$(function(){
+		$(".open_xl").click(function(){
+			$(".xiala").show();
+		})
+		$(".xiala a").click(function(){
+			var xq=$(this).html();
+			$(".open_xl a").html(xq);
+			$(this).parent().hide();
+		})
+	})
+</script>
+
+<!------导航开始------>
+ <?
+        include("sheader1.html");
+		?>
+<!------导航结束------>
+
+
+    <!----内容开始---->
+  <div class="warp_moer">
+
+        <div class="warp_h">
+            <!----right内容开始---->
+            <div class="warp_h_right">
+			    <div class="warp_f">
+                <div class="warp_f_div">
+                        <b>&nbsp;&nbsp;&nbsp;&nbsp;消费记录</b>
+ 					  <?php
+  $user=$_COOKIE['ECS']['username'];
+ include "config/zt_config.php";
+$db=mysql_connect($db_host,$db_user,$db_pwd);
+mysql_query("SET NAMES $coding"); 
+mysql_select_db($db_database);
+$q1="select sum(jyje) as j from zt_orderlist  where mjhyh='$user'  order by id desc";
+$q2=mysql_query($q1);
+$o=mysql_fetch_assoc($q2);
+?>
+
+	                    <span style="width: 100%;text-align:left;">
+						&nbsp;&nbsp;&nbsp;总共消费：<i><?=number_format($o['j'],2);?>元</i>&nbsp;</span>                </div>
+					
+                <div class="warp_m_right_div">
+
+                    <table border="1" cellspacing="0" cellpadding="0"  class="warp_m_right_ble">
+                        <tr>
+                            <th width="300">交易时间</th>
+                            <th width="310">订单号</th>
+                            <th>交易金额</th>
+                        </tr>
+                      </table>
+					  <?php
+                           
+//判断登录状态
+$sql="select lx from xbmall_users where user_name='$user'";
+$qs1=mysql_query($sql);
+$sf1=mysql_fetch_assoc($qs1);
+$q="select * from zt_orderlist  where mjhyh='$user'  order by id desc";
+$r=mysql_query($q,$db);
+$num=mysql_num_rows($r);
+for($i=0;$i<$num;$i++){
+$data2=mysql_fetch_array($r);
+?>
+<table width="925" border="0" cellpadding="0" cellspacing="0">
+  <tr>
+    <td width="299" height="37" align="center" style="font-family:Arial, Helvetica, sans-serif;color:#F00;border-bottom:1px  solid #CCC;">
+      <?=$data2["ddrq"];?>
+</td>
+    <td width="313" align="center" style="border-bottom:1px  solid #CCC;">
+      <?=$data2["ddbh"];?>
+ </td>
+    <td width="313" align="center" style="border-bottom:1px  solid #CCC;">¥ <?=$data2["jyje"];?></td>
+    </tr>
+</table>
+<?php
+  }
+  mysql_close($db);
+  ?>  
+				
+					  
+
+                    <div class="warp_m_right_mp">
+                        <!----下一页开始---->
+                        <div class="warp_f_mp_xia">
+                      </div>
+                        <!----下一页结束---->
+                    </div>
+                </div>
+				</div>
+
+            </div>
+            <!----right内容结束---->
+
+            <!----left内容开始---->
+            <div class="warp_h_left">
+		<?
+    include_once "left_p_menu.html";
+    ?>
+
+
+	<a href="" class="warp_h_left_gg"><img src="/jygj/Public/home/img/im113.jpg" width="170" height="207"></a>
+	
+</div>
+            <!----left内容结束---->
+        </div>
+	<script>
+		function del()
+		{
+			if(window.confirm('确认删除吗?')){
+				$('#form').submit();
+			}
+		}
+		</script>
+    </div>
+    <!----内容结束---->
+
+    <!------底部开始------><script type="text/javascript">
+$(function(){
+	var $qqServer = $('.qqserver');
+	var $qqserverFold = $('.qqserver_fold');
+	var $qqserverUnfold = $('.qqserver_arrow');
+	$qqserverFold.click(function(){
+		$qqserverFold.hide();
+		$qqServer.addClass('unfold');
+	});
+	$qqserverUnfold.click(function(){
+		$qqServer.removeClass('unfold');
+		$qqserverFold.show();
+	});
+	//窗体宽度小鱼1024像素时不显示客服QQ
+	function resizeQQserver(){
+		$qqServer[document.documentElement.clientWidth < 1024 ? 'hide':'show']();
+	}
+	$(window).bind("load resize",function(){
+		resizeQQserver();
+	});
+});
+</script>
+<div class="qqserver">
+
+	<div class="qqserver_fold">
+		<div></div>
+	</div>
+	
+	<div class="qqserver-body" style="display: block;">
+		<div class="qqserver-header">
+			<div></div>
+			<span class="qqserver_arrow"></span>
+		</div>
+ 
+	</div>
+	
+</div><?include("sfooter.html");?>
+    <!------底部结束------>
+</div>
+</body>
+</html>

@@ -1,0 +1,23 @@
+<?php
+error_reporting(0);
+date_default_timezone_set("Asia/Shanghai");
+include "../config/check.php";
+include "../config/zt_config.php";
+$kh=htmlspecialchars(trim($_POST["kh"]));
+if(empty($kh)){
+echo "<script>alert('您还没有绑定银行卡号！');refresh();</script>";
+}
+$db=mysql_connect($db_host,$db_user,$db_pwd);
+mysql_query("SET NAMES $coding"); 
+mysql_select_db($db_database);
+$user=$_COOKIE['ECS']['username'];
+$date=date("Y-m-d h:i:s");
+$sql8="update zt_bind_bank set bind='$date' where id='$kh' and ssyh='$user';";
+$q=mysql_query($sql8);
+if($q){
+echo "<script>alert('选择默认银行卡信息完成！');refresh();</script>";
+exit();
+}
+
+mysql_close($db);
+?>

@@ -1,0 +1,54 @@
+<!-- $Id: agency_info.htm 14216 2008-03-10 02:27:21Z testyang $ -->
+{include file="pageheader.htm"}
+{insert_scripts files="validator.js,../js/transport.org.js,../js/region.js"}
+<div class="main-div">
+<form method="post" action="large_area.php" name="theForm" enctype="multipart/form-data" onsubmit="return validate()">
+<table cellspacing="1" cellpadding="3" width="100%">
+  <tr>
+    <td class="label">大区名称</td>
+    <td><input type="text" name="name" maxlength="60" value="{$agency.name}" />{$lang.require_field}</td>
+  </tr>
+  <tr>
+    <td class="label">大区经理</td>
+    <td><input type="text" name="user_name" maxlength="60" value="{$agency.user_name}" />{$lang.require_field}</td>
+  </tr>
+  <tr>
+    <td class="label">管辖省份</td>
+    <td>
+        {foreach from=$provices item=prov}
+            <input type="checkbox" name="province[]" maxlength="60" value="{$prov.region_id}"{if $prov.large_area_id eq $agency.id}checked="checked"{/if}  />
+                   {$prov.region_name}
+        {/foreach}
+        {$lang.require_field}</td>
+  </tr>
+</table>
+<hr>
+
+<table align="center">
+  <tr>
+    <td colspan="2" align="center">
+      <input type="submit" class="button" value="{$lang.button_submit}" />
+      <input type="reset" class="button" value="{$lang.button_reset}" />
+      <input type="hidden" name="act" value="{$form_action}" />
+      <input type="hidden" name="id" value="{$agency.id}" />
+    </td>
+  </tr>
+</table>
+</form>
+</div>
+{insert_scripts files="../js/utils.js,validator.js"}
+{literal}
+<script language="JavaScript">
+/**
+ * 检查表单输入的数据
+ */
+function validate()
+{
+    validator = new Validator("theForm");
+    validator.required("name",  "大区名称不能为空");
+    validator.required("user_name",  "大区经理不能为空");
+    return validator.passed();
+}
+</script>
+{/literal}
+{include file="pagefooter.htm"}

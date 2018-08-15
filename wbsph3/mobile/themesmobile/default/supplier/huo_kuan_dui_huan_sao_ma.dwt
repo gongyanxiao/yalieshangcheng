@@ -1,0 +1,102 @@
+<!DOCTYPE html >
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<title>{$page_title}</title>
+<meta name="Keywords" content="{$keywords}" />
+<meta name="Description" content="{$description}" />
+<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+<link rel="stylesheet" type="text/css" href="themesmobile/default/css/public.css"/>
+<link rel="stylesheet" href="themesmobile/default/css/stores.css">
+<link href="themesmobile/default/css/supp_center.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" type="text/css" href="themesmobile/default/css/user.css" />
+
+<script type="text/javascript" src="themesmobile/default/js/jquery.js"></script>
+	{insert_scripts files='index.js'}
+</head>
+<script type="text/javascript" src="themesmobile/default/js/utils.js"></script>
+<script type="text/javascript" src="themesmobile/default/js/validator.js"></script>
+
+<body class="bodybj">
+      <header>
+      <div class="tab_nav">
+        <div class="header">
+          <div class="h-left"><a class="sb-back" href="javascript:history.back(-1)" title="返回"></a></div>
+          <div class="h-mid">扫码货款提现</div>
+          <div class="h-right">
+            <aside class="top_bar">
+              <div onClick="show_menu();$('#close_btn').addClass('hid');" id="show_more"><a href="javascript:;"></a> </div>
+            </aside>
+          </div>
+        </div>
+      </div>
+      </header>
+     <!-- #BeginLibraryItem "/library/up_menu.lbi" -->
+    <!-- #EndLibraryItem -->
+ 
+      <div id="container" class="shouye">
+	   <form name="formSurplus" method="post" action="supplier_m_center.php" onsubmit="return submitSurplus()">
+	
+	       <div class="recharge">
+	           <dl class="re_one">
+                    <dt><font class="main-color">*</font>提现积分：</dt>
+				    <dd>
+				    	<input type="text" name="amount" value="" class="inputBg" size="25"> 
+					    <div class="required-notice"><i class="notice-icon"></i><span class="notice-text real_name-notice"></span>
+					    </div>
+				    </dd>
+		       </dl>
+		        <dl class="re_one">
+	                <dt><font class="main-color">*</font>会员备注：</dt>
+				    <dd>
+				      <input type="text" name="user_note" value="" class="inputBg" size="25"> 
+					    <div class="required-notice"><i class="notice-icon"></i><span class="notice-text real_name-notice"></span>
+					    </div>
+				    </dd>
+		       </dl>      
+	          
+	          <div class="field submit-btn">
+	            <input type="hidden" name="surplus_type" value="1">
+	            <input type="hidden" name="act" value="sao_ma_huo_kuan_dui_huan">
+	            <input type="submit" name="submit" class="btn_big1" value="提交申请">
+		      </div>
+	      </div>
+	</form> 
+</div>  
+<script type="text/javascript">
+    function submitSurplus()
+    {
+        var frm = document.forms['formSurplus'];
+        var surplus_amount = frm.elements['amount'].value;
+        var process_notic = frm.elements['user_note'].value;
+        var payment_id = 0;
+        var msg = '';
+
+        if (surplus_amount.length == 0)
+        {
+            msg +=  "提现积分不能为空\n";
+        } else
+        {
+            var reg = /^[\.0-9]+/;
+            if (!reg.test(surplus_amount))
+            {
+                msg +=  '提现积分格式不正确\n';
+            }
+        }
+
+        if (msg.length > 0)
+        {
+            alert(msg);
+            return false;
+        }
+        return true;
+    }
+</script>
+</body>
+</html>
+ 
+ 
+ 
+  
+ 

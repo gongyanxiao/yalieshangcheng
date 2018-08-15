@@ -1,0 +1,26 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<ul class="shopTolal" style="margin-top:10px;text-align:center;">   
+<li>
+{if $suppinfo.zhizhao}
+<img src="{$suppinfo.zhizhao}"  height="220" />
+{/if}
+{if $suppinfo.shop_pics1}
+<img src="{$suppinfo.shop_pics1}"  height="220" />
+{/if}
+{if $suppinfo.shop_pics2}
+<img src="{$suppinfo.shop_pics2}"  height="220" />
+{/if}
+{if $suppinfo.shop_pics3}
+<img src="{$suppinfo.shop_pics3}"  height="220" />
+{/if}
+{if $suppinfo.shop_pics4}
+<img src="{$suppinfo.shop_pics4}"  height="220" />
+{/if}
+{if $suppinfo.shop_pics5}
+<img src="{$suppinfo.shop_pics5}"  height="220" />
+{/if}
+{if !$suppinfo.zhizhao and !$suppinfo.shop_pics1 and !$suppinfo.shop_pics2 and !$suppinfo.shop_pics3 and !$suppinfo.shop_pics4 and !$suppinfo.shop_pics5}
+暂无店铺介绍
+{/if}
+</li>             
+</ul>

@@ -1,0 +1,95 @@
+
+{insert_scripts files="../js/transport.org.js,../js/region.js"}
+<script type="text/javascript">
+region.isAdmin=true;
+</script>
+<form name="theForm" action="order.php?act=step_post&step={$step}&order_id={$order_id}&step_act={$step_act}" method="post" onsubmit="return checkConsignee()">
+<div class="list-div">
+<table cellpadding="3" cellspacing="1">
+  {if $address_list}
+  <tr>
+    <th align="left">{$lang.address_list}</th>
+    <td><select onchange="loadAddress(this.value)"><option value="0" selected>{$lang.select_please}</option>
+      {foreach from=$address_list item=address}<option value="{$address.address_id}" {if $smarty.get.address_id eq $address.address_id}selected{/if}>{$address.consignee|escape} {$address.email} {$address.address|escape} {$address.tel|escape}</option>{/foreach}
+    </select></td>
+  </tr>
+  {/if}
+  <tr>
+    <th width="150" align="left">{$lang.label_consignee}</th>
+    <td><input name="consignee" type="text" value="{$order.consignee}" />
+      {$lang.require_field}</td>
+  </tr>
+  {if $exist_real_goods}
+  <tr>
+    <th align="left">{$lang.label_area}</th>
+    <td><select name="country" id="selCountries" onChange="region.changed(this, 1, 'selProvinces')">
+        <option value="0" selected="true">{$lang.select_please}</option>
+        {foreach from=$country_list item=country}
+        <option value="{$country.region_id}" {if $order.country eq $country.region_id}selected{/if}>{$country.region_name}</option>
+        {/foreach}
+      </select> <select name="province" id="selProvinces" onChange="region.changed(this, 2, 'selCities')">
+        <option value="0">{$lang.select_please}</option>
+        {foreach from=$province_list item=province}
+        <option value="{$province.region_id}" {if $order.province eq $province.region_id}selected{/if}>{$province.region_name}</option>
+        {/foreach}
+      </select> <select name="city" id="selCities" onchange="region.changed(this, 3, 'selDistricts')">
+          <option value="0">{$lang.select_please}</option>
+          <!-- {foreach from=$city_list item=city} -->
+          <option value="{$city.region_id}" {if $order.city eq $city.region_id}selected{/if}>{$city.region_name}</option>
+          <!-- {/foreach} -->
+        </select>
+        <select name="district" id="selDistricts">
+          <option value="0">{$lang.select_please}</option>
+          <!-- {foreach from=$district_list item=district} -->
+          <option value="{$district.region_id}" {if $order.district eq $district.region_id}selected{/if}>{$district.region_name}</option>
+          <!-- {/foreach} -->
+        </select>
+        {$lang.require_field}</td>
+  </tr>
+  {/if}
+  <tr>
+    <th align="left">{$lang.label_email}</th>
+    <td><input name="email" type="text" value="{$order.email}" size="40" />
+    {$lang.require_field}</td>
+  </tr>
+  {if $exist_real_goods}
+  <tr>
+    <th align="left">{$lang.label_address}</th>
+    <td><input name="address" type="text" value="{$order.address}" size="40" />
+    {$lang.require_field}</td>
+  </tr>
+  <tr>
+    <th align="left">{$lang.label_zipcode}</th>
+    <td><input name="zipcode" type="text" value="{$order.zipcode}" /></td>
+  </tr>
+  {/if}
+  <tr>
+    <th align="left">{$lang.label_tel}</th>
+    <td><input name="tel" type="text" value="{$order.tel}" />
+    {$lang.require_field}</td>
+  </tr>
+  <tr>
+    <th align="left">{$lang.label_mobile}</th>
+    <td><input name="mobile" type="text" value="{$order.mobile}" /></td>
+  </tr>
+  {if $exist_real_goods}
+<!--  <tr>
+    <th align="left">{$lang.label_sign_building}</th>
+    <td><input name="sign_building" type="text" value="{$order.sign_building}" size="40" /></td>
+  </tr>-->
+  <tr>
+    <th align="left">{$lang.label_best_time}</th>
+    <td><input name="best_time" type="text" value="{$order.best_time}" size="40" /></td>
+  </tr>
+  {/if}
+</table>
+</div>
+
+<div align="center">
+  <p>
+    {if $step_act eq "add"}{if $step_act eq "add"}<input type="button" value="{$lang.button_prev}" class="button" onclick="history.back()" />{/if}{/if}
+    <input name="{if $step_act eq 'add'}next{else}finish{/if}" type="submit" class="button" value="{if $step_act eq 'add'}{$lang.button_next}{else}{$lang.button_submit}{/if}" />
+    <input type="button" value="{$lang.button_cancel}" class="button" onclick="location.href='order.php?act=process&func=cancel_order&order_id={$order_id}&step_act={$step_act}'" />
+  </p>
+</div>
+</form>

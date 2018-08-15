@@ -1,0 +1,191 @@
+<?
+include("config.php");?>
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <title>注册_<?=_TITLE_?></title>
+    <meta name="keyword" content="<?=_KEYWORD_?>"/>
+    <meta name="description" content="<?=_DESCRIPTION_?>"/>
+    <link href="/Public/ico.ico" type="image/x-icon" rel="shortcut icon" /> 
+	
+    <link rel="stylesheet" type="text/css" href="/jygj/Public/wap/css/index.css">
+    <script type="text/javascript" src="/jygj/Public/home/js/jquery-1.js"></script>
+</head>
+<body style="background: #F6F6F6">
+<div class="warp">
+
+    <div class="warp_q">
+        <a href="/Wap/member/center.html"></a>
+        <span>购物车</span>
+    </div>
+
+
+    <ul class="flt_y">
+	<form action="" method="post" id="form" enctype='multipart/form-data'>
+		
+	</form>	
+    </ul>
+
+
+	<script>
+	function jiesuan(){
+		var obj=$(".dui"); //选择所有name="'test'"的对象，返回数组 
+				//取到对象数组后，我们来循环检测它是不是被选中 
+				var s=''; 
+				for(var i=0; i<obj.length; i++){ 
+				if(obj[i].checked) s+=obj[i].value+','; //如果选中，将value添加到变量s中 
+					} 
+		//那么现在来检测s的值就知道选中的复选框的值了 
+				
+				if(s==''){
+				
+					alert('请选择商品');return false;
+				}else{
+					$("#form").attr("action","/Wap/entity/confirmorder.html").submit()
+				}
+	
+	}
+	
+	</script>
+	<input type="hidden" id="tizong" value=""/>	
+    <div class="flt_o">
+        <input type="button" value="去结算"  onclick="jiesuan()" class="flt_o_js">
+        <span class="flt_o_ton_sp" id="zong1">总金额：￥<i id="shuliang">0</i></span>
+        <label class="flt_o_le" onclick="check_all()">
+            <input type="checkbox"  id="Checkbox1" class="check_all">
+            <span>全选</span>
+        </label>
+    </div>
+<script type="text/javascript">
+$(document).ready(function () {
+	// 全选        
+	$("#Checkbox1").click(function () {
+		var result="";
+		var result_1="";
+		var result_2="";
+		var result_3="";
+		if($(this).attr("checked")){
+			$(".gwc_tb2 input[name=newslist]").each(function () {
+				$(this).attr("checked", true);
+				 $(this).addClass('add');
+				 result+=$(this).val()+',';
+				 result_1+=$(this).attr('field')+',';
+				 result_2+=$(this).attr('num')+',';
+				result_3+=$(this).attr('scid')+',';
+			});
+			$("#txtHobby").val(result); 
+			$("#txtHobby_pro").val(result_1); 
+			$("#txtHobby_num").val(result_2); 
+			$("#txtHobby_scid").val(result_3); 
+			GetCount();
+		var result="";
+		}
+		else
+   		{
+			$(".gwc_tb2 input[name=newslist]").each(function () {
+				if ($(this).attr("checked")) {
+					$(this).attr("checked", false);
+				} else {
+					$(this).attr("checked", true);
+				} 
+				$("#txtHobby").attr("value","");
+				$("#txtHobby_pro").attr("value","");
+				$("#txtHobby_num").attr("value","");
+
+			});
+			GetCount();
+    
+   		}
+	});
+
+	//反选
+	$("#invert").click(function () {
+		$(".gwc_tb2 input[name=newslist]").each(function () {
+			if ($(this).attr("checked")) {
+				$(this).attr("checked", false);
+			} else {
+				$(this).attr("checked", true);
+			} 
+		});
+		GetCount();
+	});
+
+	//取消
+	$("#cancel").click(function () {
+		$(".gwc_tb2 input[name=newslist]").each(function () {
+			$(this).attr("checked", false);
+		});
+		GetCount();
+	});
+
+	// 所有复选(:checkbox)框点击事件
+	$(".gwc_tb2 input[name=newslist]").click(function () {
+		if ($(this).attr("checked")) {
+			//$(this).next().css({ "background-color": "#3366cc", "color": "#ffffff" });
+		} else {
+			// $(this).next().css({ "background-color": "#ffffff", "color": "#000000" });
+		}
+	});
+
+	// 输出
+	$(".gwc_tb2 input[name=newslist]").click(function () {
+		GetCount();
+	});
+});
+//******************
+function GetCount() {
+	var conts = 0;
+	var aa = 0;
+	$(".gwc_tb2 input[name=newslist]").each(function () {
+		if ($(this).attr("checked")) {
+			for (var i = 0; i < $(this).length; i++) {
+				conts += Math.floor(($(this).val()) * 100) / 100;
+				aa += 1;
+			}
+		}
+	});
+	$("#shuliang").text(aa);
+	$("#tizong").attr("value",(conts).toFixed(2));
+	$("#zong1").html((conts).toFixed(2));
+	zongjia = (conts).toFixed(2);
+	$("#txtHobby_zongjia").val(zongjia);
+	$("#jz1").css("display", "none");
+	$("#jz2").css("display", "block");
+}
+</script>
+<!---商品加减算总数---->
+	
+	
+	
+	
+    <script>
+        $(function(){
+            $("input[type='checkbox']").click(function(){
+                if($(this).is(':checked')){
+                    $(this).addClass('add');
+                }else{
+                    $(this).removeClass('add');
+                }
+            });
+        })
+        function check_all()
+        {
+            var vt = $(".check_all").is(':checked');
+            $(".flt_y_box").prop('checked',vt);
+            if(vt){
+                $(".flt_y_box").addClass('add');
+                $(".check_all").parent().addClass('add');
+            }else{
+                $(".flt_y_box").removeClass('add');
+                $(".check_all").parent().removeClass('add');
+            }
+
+        }
+    </script>
+
+</div>
+</body>
+</html>

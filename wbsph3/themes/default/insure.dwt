@@ -1,0 +1,70 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="Keywords" content="{$keywords}" />
+<meta name="Description" content="{$description}" />
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+<!-- TemplateBeginEditable name="doctitle" -->
+<title>{$page_title}</title>
+<!-- TemplateEndEditable -->
+<!-- TemplateBeginEditable name="head" -->
+<!-- TemplateEndEditable -->
+<link rel="shortcut icon" href="favicon.ico" />
+<link rel="icon" href="animated_favicon.gif" type="image/gif" />
+<link rel="stylesheet" type="text/css" href="themes/default/css/category.css" />
+<script type="text/javascript" src="themes/default/js/jquery-1.9.1.min.js" ></script>
+<script type="text/javascript" src="themes/default/js/jquery-lazyload.js" ></script>
+{insert_scripts files='jquery.json.js,transport.js'}
+{insert_scripts files='utils.js,common.js,global.js'}
+</head>
+<body>
+<!-- #BeginLibraryItem "/library/page_header.lbi" --><!-- #EndLibraryItem -->
+<div class="blank"></div>
+<div class="w1210">
+	<!-- #BeginLibraryItem "/library/ur_here.lbi" --><!-- #EndLibraryItem --> 
+    <div class="content-wrap category-wrap clearfix">
+
+        <!--右侧 start-->
+        <div>
+           <ul class="list-grid clearfix">
+                <!--{foreach from=$baoxian item=bx}--> 
+                <li id="li_3" class="item">
+                  <div class="item-con"> 
+                    <div class="item-tag-box">
+                    </div>
+                    <div class="item-pic">
+                        <a href="insure.php?id={$bx.id}&act=insureView" title="" target="_blank">
+                            <img src="{$bx.picture}" title="" class="pic_img_3">
+                        </a>
+                    </div>
+                    <div class="item-info">
+                        <div class="item-price">
+                            <em class="sale-price main-color" title="">{$bx.insure_title}</em>
+                            <em class="sale-count"></em>
+                        </div>
+                        <div class="item-name">
+                            <a title="">{$bx.insure_money}</a>
+                        </div>
+                        <div class="item-operate">
+                        </div>
+                    </div>
+                  </div>
+                </li>
+                <!--{/foreach}-->
+            </ul>
+        </div>
+        <!--右侧 end-->
+    </div>
+    
+</div>
+
+<div class="site-footer">
+    <div class="footer-related">
+  		<!-- #BeginLibraryItem "/library/help.lbi" --><!-- #EndLibraryItem -->
+  		<!-- #BeginLibraryItem "/library/page_footer.lbi" --><!-- #EndLibraryItem -->
+  </div>
+</div>
+<script type="text/javascript" src="themes/default/js/compare.js"></script> 
+</body>
+</html>

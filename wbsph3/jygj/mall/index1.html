@@ -1,0 +1,409 @@
+<?include("config.php");?>
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>网络平台_<?=_TITLE_?></title>
+    <meta name="keyword" content="<?=_KEYWORD_?>"/>
+    <meta name="description" content="<?=_DESCRIPTION_?>"/>
+    <link href="/Public/ico.ico" type="image/x-icon" rel="shortcut icon" /> 
+    <meta http-equiv="refresh" content="5">
+    <link rel="stylesheet" type="text/css" href="/jygj/Public/home/css/index.css">
+    <script type="text/javascript" src="/jygj/Public/home/js/jquery-1.7.2.js"></script>
+    <script type="text/javascript" src="/jygj/Public/home/js/myfocus-2.0.4.min.js"></script>
+    <script>
+        $(function(){
+            $(".fix_v_p").click(function(){
+                $(".fix_v_o").show();
+            })
+            $(".ri-close").click(function(){
+                $(".fix_v_o").hide();
+            }
+        });
+    </script>
+    <script language="javascript" type="text/javascript">
+        $(document).ready(function(){
+            $('.warp_u_rigt_gi li').hover(function(){
+                $('.warp_u_rigt_gu_li').hide();
+                $('.warp_u_rigt_gu_li').eq($(this).index()).show()
+            });
+        });
+    </script>
+    <script type="text/javascript">
+        //设置
+        myFocus.set({
+            id:'myFocus',//ID
+            pattern:'mF_sohusports'//风格
+        });
+    </script>
+    <script type="text/javascript">
+        //设置
+        myFocus.set({
+            id:'myFocus_1',//ID
+            pattern:'mF_sohusports'//风格
+        });
+    </script>
+</head>
+<body >
+
+
+
+
+<div class="warp">
+    <!------最顶部开始------>
+    <?
+        include("sheader.html");
+        $link = mysqli_connect($db_host,$db_user,$db_pwd,$db_database) or die('Unale to link');
+        $link->set_charset('utf8');
+    ?>
+    <!------最顶部结束------>
+     <!------banner开始------>
+    <div class="flexslider">
+        <ul class="slides">
+                <? 
+                    $sqla="SELECT * FROM  `zt_ad` where type=0 order by id desc limit 0,5";
+                    $qrya=$link->query($sqla);
+                    while($rst1=$qrya->fetch_array()) {
+                ?>
+                      <li style="background:url(<?=strtr($rst1['tpurl'],array("../"=>"/mall/"));?>) 50% 0 no-repeat;"><a href="<?=$rst1['url']?>"></a></li>
+                <? 
+                    }
+                ?>
+        </ul>
+    </div>
+    <script type="text/javascript" src="/jygj/Public/home/js/jquery.flexslider-min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('.flexslider').flexslider({
+                directionNav: true,
+                pauseOnAction: false
+            });
+        });
+    </script>
+    <!------banner结束------>
+
+    <!------内容开始------>
+    <div class="warp_y">
+        <!------猜你喜欢开始------>
+        <div class="warp_y_div">
+
+            <div class="warp_y_xh">
+                <span>猜你喜欢</span>
+            </div>
+            
+            <div id="pic_list_1" class="scroll_horizontal">
+                <div class="box">
+                    <ul class="list">
+                    <?  
+    
+                        $sql="SELECT * FROM  `zt_goods` where cnxh=1 and sfsj=1 order by fbsj desc limit 0,20";
+                        $qry=$link->query($sql);
+                        while($rst=$qry->fetch_array()) {
+                    ?>
+                        <li>
+                   <a href="cpcontent.html?cpid=<?=$rst[id]?>" title="<?=$rst['spmc']?>" target="_blank"><img src="<?=strtr($rst['spslt'],array("../"=>"/mall/"));?>" width="147" height="147">
+                    <span><?=mb_substr($rst['spmc'],0,22,'utf-8'); ?></span>
+                    <b>￥<?=$rst['spjg']?></b>
+                   </a>
+                </li>
+
+                    <?
+                        }
+                    ?>
+                         </ul>
+                </div>
+            </div>
+            <script src="/jygj/Public/home/js/jquery.cxscroll.min.js"></script>
+            <script>
+                $("#pic_list_1").cxScroll();
+            </script>
+        </div>
+        <!------猜你喜欢结束------>
+
+        <!------图片展示开始------>
+        <ul class="warp_t">
+
+                        <? 
+                    $sqla="SELECT * FROM  `zt_ad` where type=1 order by id";
+                    $qrya=$link->query($sqla);
+                    $total=$qrya->num_rows>=7?7:$qrya->num_rows;
+                    $x=0;
+                    while($x<$total) {
+                        $sql1=$sqla." limit ".$x.",1";
+                        $qry1=$link->query($sql1); 
+                        $rst1=$qry1->fetch_array();
+                ?>
+                        <li class="warp_t_<?=$x+1?>">
+                   <a href="<?=$rst1['url']?>" title="<?=$rst1['name']?>" target="_blank"><img src="<?=strtr($rst1['tpurl'],array("../"=>"/mall/"));?>">
+                   </a>
+                </li>
+                <?
+                        $x++;   
+                    }
+                ?>
+                        
+
+
+
+
+                            
+                        
+        </ul>
+        <!------图片展示结束------>
+
+        <!------服饰鞋帽开始------>
+        <div class="warp_r">
+            <div class="warp_r_mor" style="border-bottom: 2px solid #00418F">
+                <h2 class="warp_r_mor_h2">服装/鞋帽/箱包</h2>
+            </div>
+
+            <div class="warp_r_div">
+            
+              <? 
+                    $sqla="SELECT * FROM  `zt_ad` where type=3 order by id limit 0,1";
+                    $qrya=$link->query($sqla);
+                    $rst1=$qrya->fetch_array();
+                ?>
+                     
+                     <a href="<?=$rst1['url']?>" title="<?=$rst1['name']?>" class="warp_r_div_tp">
+                                    <img src="<?=strtr($rst1['tpurl'],array("../"=>"/mall/"));?>" width="201" height="501">
+                                </a>
+               
+                                    
+                    
+                    
+                <table class="warp_r_div_ble">
+<tr>
+                        <?
+           $sqlb="select * from `zt_goods` where `fl` in (select id from `zt_goods_sort` where item2 in (select id from `zt_goods_sort` where item1=3 and item2=2) and item3=3) and `sftj` = 1 and sfsj=1 order by `id` desc limit 0,5";
+            $qryb=$link->query($sqlb);
+            while($rstb=$qryb->fetch_array()) {
+            ?>
+                
+                        <td><a href="cpcontent.html?cpid=<?=$rstb[id]?>" title="<?=mb_substr($rstb[spmc],0,11,'utf-8'); ?>" target="_blank"><img src="<?=strtr($rstb['spslt'],array("../"=>"/mall/"));?>" style="width: 147px;height: 147px" border="0"/>
+                        <span><?=mb_substr($rstb[spmc],0,11,'utf-8'); ?></span>
+                        <b>￥<?=$rstb[spjg];?></b>
+                        </a>
+                            
+                        </td>
+            <?
+            }
+            ?>
+                      
+                        
+                    </tr>
+                   <tr>
+                        <?
+            $sqlb="select * from `zt_goods` where `fl` in (select id from `zt_goods_sort` where item2 in (select id from `zt_goods_sort` where item1=3 and item2=2) and item3=3) and `sftj` = 1  and sfsj=1 order by `id` desc limit 5,5";
+            $qryb=$link->query($sqlb);
+            while($rstb=$qryb->fetch_array()) {
+            ?>
+                
+                        <td><a href="cpcontent.html?cpid=<?=$rstb[id]?>" title="<?=mb_substr($rstb[spmc],0,11,'utf-8'); ?>" target="_blank"><img src="<?=strtr($rstb['spslt'],array("../"=>"/mall/"));?>"  style="width: 147px;height: 147px" border="0"/>
+                        <span><?=mb_substr($rstb[spmc],0,11,'utf-8'); ?></span>
+                        <b>￥<?=$rstb[spjg];?></b>
+                        </a>
+                            
+                        </td>
+            <?
+            }
+            ?>
+                      
+                        
+                    </tr>
+                    
+                </table>
+
+            </div>
+        </div>
+        <!------服饰鞋帽结束------>
+
+        <!------轮播图开始------>
+        <div id="myFocus"><!--焦点图盒子-->
+            <div class="pic"><!--图片列表-->
+                <ul>
+                    
+                    <? 
+                    $sqla="SELECT * FROM  `zt_ad` where type=2 order by id limit 1,2";
+                    $qrya=$link->query($sqla);
+                    while($rst1=$qrya->fetch_array()) {
+                ?>
+                    <li>
+                        <a href='<?=$rst1['url']?>' title="<?=$rst1['name']?>" target=_blank><img src='<?=strtr($rst1['tpurl'],array("../"=>"/mall/"));?>' border=0 width='1200' height='110' alt='<?=$rst1['name']?>'></a>                    </li>                
+                <?}?>
+                </ul>
+            </div>
+        </div>
+        <!------轮播图结束------>
+
+        <!------数码办公开始------>
+        <div class="warp_r">
+            <div class="warp_r_mor" style="border-bottom: 2px solid #00418F">
+                <h2 class="warp_r_mor_h2">珠宝/饰品/美妆</h2>
+            </div>
+
+            <div class="warp_r_div">
+
+
+                 <? 
+                    $sqla="SELECT * FROM  `zt_ad` where type=9 order by id limit 0,1";
+                    $qrya=$link->query($sqla);
+                    $rst1=$qrya->fetch_array();
+                ?>
+                     
+                     <a href="<?=$rst1['url']?>" title="<?=$rst1['name']?>" class="warp_r_div_tp">
+                                    <img src="<?=strtr($rst1['tpurl'],array("../"=>"/mall/"));?>" width="201" height="501">
+                     </a>
+                    
+                    
+                <table class="warp_r_div_ble">
+
+                    
+<tr>
+                        <?
+            $sqlb="select * from `zt_goods` where `fl` in (select id from `zt_goods_sort` where item2 in (select id from `zt_goods_sort` where item1=9 and item2=2) and item3=3) and `sftj` = 1  and sfsj=1 order by `id` desc limit 0,5";
+            $qryb=$link->query($sqlb);
+            while($rstb=$qryb->fetch_array()) {
+            ?>
+                 <td><a href="cpcontent.html?cpid=<?=$rstb[id]?>" title="<?=mb_substr($rstb[spmc],0,11,'utf-8'); ?>" target="_blank"><img src="<?=strtr($rstb['spslt'],array("../"=>"/mall/"));?>"  style="width: 147px;height: 147px" border="0"/>
+                        <span><?=mb_substr($rstb[spmc],0,11,'utf-8'); ?></span>
+                        <b>￥<?=$rstb[spjg];?></b>
+                        </a>
+                            
+                        </td>
+            <?
+            }
+            ?>
+                      
+                        
+                    </tr>
+                   <tr>
+                        <?
+            $sqlb="select * from `zt_goods` where `fl` in (select id from `zt_goods_sort` where item2 in (select id from `zt_goods_sort` where item1=9 and item2=2) and item3=3) and `sftj` = 1  and sfsj=1 order by `id` desc limit 5,5";
+            $qryb=$link->query($sqlb);
+            while($rstb=$qryb->fetch_array()) {
+            ?>
+                
+                        <td><a href="cpcontent.html?cpid=<?=$rstb[id]?>" title="<?=mb_substr($rstb[spmc],0,11,'utf-8'); ?>" target="_blank"><img src="<?=strtr($rstb['spslt'],array("../"=>"/mall/"));?>"  style="width: 147px;height: 147px" border="0"/>
+                        <span><?=mb_substr($rstb[spmc],0,11,'utf-8'); ?></span>
+                        <b>￥<?=$rstb[spjg];?></b>
+                        </a>
+                            
+                        </td>
+            <?
+            }
+            ?>
+                      
+                        
+                    </tr>
+                    
+                </table>
+            </div>
+        </div>
+        <!------数码办公结束------>
+
+        <!------轮播图开始------>
+        <div id="myFocus_1"><!--焦点图盒子-->
+            <div class="pic"><!--图片列表-->
+                <ul>
+                 <? 
+                    $sqla="SELECT * FROM  `zt_ad` where type=2 order by id limit 2,2";
+                    $qrya=$link->query($sqla);
+                    while($rst1=$qrya->fetch_array()) {
+                ?>
+                    <li>
+                        <a href='<?=$rst1['url']?>' title="<?=$rst1['name']?>" target=_blank><img src='<?=strtr($rst1['tpurl'],array("../"=>"/mall/"));?>' border=0 width='1200' height='110' alt='<?=$rst1['name']?>'></a>                    </li>                
+                <?}?>
+                </ul>
+            </div>
+        </div>
+        <!------轮播图结束------>
+
+        <!------个性化妆开始------>
+        <div class="warp_r">
+            <div class="warp_r_mor" style="border-bottom: 2px solid #00418F">
+                <h2 class="warp_r_mor_h2">宠物/休闲/娱乐</h2>
+            </div>
+
+            <div class="warp_r_div">
+ <? 
+                    $sqla="SELECT * FROM  `zt_ad` where type=15 order by id limit 0,1";
+                    $qrya=$link->query($sqla);
+                    $rst1=$qrya->fetch_array();
+                ?>
+                     
+                     <a href="<?=$rst1['url']?>" title="<?=$rst1['name']?>" class="warp_r_div_tp">
+                                    <img src="<?=strtr($rst1['tpurl'],array("../"=>"/mall/"));?>" width="201" height="501">
+                                </a>
+                    
+                    
+                <table class="warp_r_div_ble">
+
+                        
+                      <tr>
+                             <?
+            $sqlb="select * from `zt_goods` where `fl` in (select id from `zt_goods_sort` where item2 in (select id from `zt_goods_sort` where item1=15 and item2=2) and item3=3) and `sftj` = 1  and sfsj=1 order by `id` desc limit 0,5";
+            $qryb=$link->query($sqlb);
+            while($rstb=$qryb->fetch_array()) {
+            ?>
+                
+                         <td><a href="cpcontent.html?cpid=<?=$rstb[id]?>" title="<?=mb_substr($rstb[spmc],0,11,'utf-8'); ?>" target="_blank"><img src="<?=strtr($rstb['spslt'],array("../"=>"/mall/"));?>"  style="width: 147px;height: 147px" border="0"/>
+                        <span><?=mb_substr($rstb[spmc],0,11,'utf-8'); ?></span>
+                        <b>￥<?=$rstb[spjg];?></b>
+                        </a>
+                            
+                        </td>
+            <?
+            }
+            ?>
+                      
+                        
+                    </tr>
+                   <tr>
+                        <?
+            $sqlb="select * from `zt_goods` where `fl` in (select id from `zt_goods_sort` where item2 in (select id from `zt_goods_sort` where item1=15 and item2=2) and item3=3) and `sftj` = 1  and sfsj=1 order by `id` desc limit 5,5";
+            $qryb=$link->query($sqlb);
+            while($rstb=$qryb->fetch_array()) {
+            ?>
+                
+                        <td><a href="cpcontent.html?cpid=<?=$rstb[id]?>" title="<?=mb_substr($rstb[spmc],0,11,'utf-8'); ?>" target="_blank"><img src="<?=strtr($rstb['spslt'],array("../"=>"/mall/"));?>"  style="width: 147px;height: 147px" border="0"/>
+                        <span><?=mb_substr($rstb[spmc],0,11,'utf-8'); ?></span>
+                        <b>￥<?=$rstb[spjg];?></b>
+                        </a>
+                            
+                        </td>
+            <?
+            }
+            ?>
+                      
+                        
+                    </tr>
+                    
+                </table>
+
+            </div>
+        </div>
+        <!------个性化妆结束------>
+    </div>
+    <!------内容结束------>
+
+    <div class="ht30"></div>
+
+    <!------底部开始------>
+   <?include("sfooter.html");?>
+
+    <!------底部结束------>
+</div>
+<!----------------------------点击变色开始-------------------------->
+<script>
+    $(function(){
+        var cotrs = $(".warp_u_rigt_gi li");
+        cotrs.hover(function(){
+            $(this).addClass("thisclass").siblings().removeClass("thisclass");
+        });
+    });
+</script>
+<?$link->close();?>
+<!----------------------------点击变色结束-------------------------->
+</body>
+</html>

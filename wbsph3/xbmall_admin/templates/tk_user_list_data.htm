@@ -1,0 +1,55 @@
+<table cellpadding="3" cellspacing="1">
+	<tr>
+		<th><input onclick='listTable.selectAll(this, "checkboxes")'
+			type="checkbox" /> <a href="javascript:listTable.sort('tk_id'); ">{$lang.tk_id}</a>ID
+		</th>
+		<th>手机号</th>
+		<th>真实姓名</th>
+		<th>推荐人手机号</th>
+		<th>推荐人真实姓名</th>
+		<th><a href="javascript:listTable.sort('add_time'); ">申请时间</a></th>
+		<th>{$lang.handler}</th>
+	<tr>{foreach from=$data_list item=data}
+	<tr>
+		<td><input type="checkbox" name="checkboxes[]"
+			value="{$data.tk_id}" />{$data.user_id}</td>
+		<td align="center">{$data.mobile_phone}</td>
+		<td align="center">{$data.real_name}</td>
+		<td><span>{$data.tui_jian_mobile_phone}</span></td>
+		<td align="right">{$data.tui_jian_real_name}<span> </span></td>
+		<td align="center">{$data.add_time}</td>
+		<td align="center"><a href="javascript:void(0)"
+			onclick="operate(0,{$data.user_id})">通过</a>&nbsp;<a	href="javascript:void(0)"
+			onclick="operate(1,{$data.user_id})">不通过</a></td> 
+  </tr>
+  {foreachelse}
+  <tr><td class="
+			no-records" colspan="13">{$lang.no_records}</td>
+	</tr>
+	{/foreach}
+</table>
+
+
+<!-- 分页 -->
+<table id="page-table" cellspacing="0">
+	<tr>
+		<td align="right" nowrap="true">{include file="page.htm"}</td>
+	</tr>
+</table>
+<script>
+
+ function  operate(type,user_id){
+	
+	 if(type==0){
+		 var r=confirm("确认通过吗")
+	 }else{
+		 var r=confirm("确认不通过吗")
+	 }
+	 var url="tk_user.php?act=shen_he&user_id="+user_id+"&type="+type;
+	  if (r==true)
+	    {
+		   window.location.href=url;
+	    }
+ }
+
+</script>

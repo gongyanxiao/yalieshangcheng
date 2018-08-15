@@ -1,0 +1,40 @@
+<table cellpadding="3" cellspacing="1">
+  <tr>
+    <th>
+      <input onclick='listTable.selectAll(this, "checkboxes")' type="checkbox" />
+      <a href="javascript:listTable.sort('tk_id'); ">{$lang.tk_id}</a>ID
+    </th>
+     <th><a href="javascript:listTable.sort('goods_name'); ">商品</a></th>
+      <th><a href="javascript:listTable.sort('buy_num'); ">购买数量</a></th>
+    <th><a href="javascript:listTable.sort('user_name'); ">用户名</a></th>
+    <th><a href="javascript:listTable.sort('buy_time'); ">购买时间</a></th>
+   
+    <th>状态</th> 
+    <th>{$lang.handler}</th>
+  <tr>
+  {foreach from=$goods_list item=goods}
+  <tr>
+    <td><input type="checkbox" name="checkboxes[]" value="{$goods.tk_id}" />{$goods.tk_id}</td>
+    <td class="first-cell"  ><span >{$goods.goods_name|escape:html}</span></td>
+    <td align="center">{$goods.buy_num} </td> 
+    <td><span  >{$goods.user_name}</span></td>
+    <td align="right">{$goods.buy_time}<span>
+    </span></td>
+
+    <td align="center">{$goods.state}</td> 
+    <td align="center"></td> 
+  </tr>
+  {foreachelse}
+  <tr><td class="no-records" colspan="13">{$lang.no_records}</td></tr>
+  {/foreach}
+</table>
+
+
+<!-- 分页 -->
+<table id="page-table" cellspacing="0">
+  <tr>
+    <td align="right" nowrap="true">
+    {include file="page.htm"}
+    </td>
+  </tr>
+</table>

@@ -1,0 +1,33 @@
+<table cellpadding="3" cellspacing="1">
+  <tr>
+    <th>
+      <input onclick='listTable.selectAll(this, "checkboxes")' type="checkbox" />
+      <a href="javascript:listTable.sort('tk_id'); ">{$lang.tk_id}</a>ID
+    </th>
+    <th><a href="javascript:listTable.sort('data_name'); ">提现金额</a></th>
+    <th><a href="javascript:listTable.sort('buy_num'); ">申请时间</a></th>
+    <th><a href="javascript:listTable.sort('user_name'); ">状态</a></th>
+    <th>{$lang.handler}</th>
+  <tr>
+  {foreach from=$data_list item=data}
+  <tr>
+    <td><input type="checkbox" name="checkboxes[]" value="{$data.tk_id}" />{$data.tk_id}</td>
+    <td align="center">{$data.ti_xian_jin_e} </td> 
+    <td align="right">{$data.ti_xian_time}</td>
+    <td align="center">{$data.state}</td> 
+    <td align="center">{if $data.state=='审核中'}<a href="tk_xiao_shou.php?act=cancel_ti_xian&id={$data.tk_id}">取消</a>{/if}</td> 
+  </tr>
+  {foreachelse}
+  <tr><td class="no-records" colspan="13">{$lang.no_records}</td></tr>
+  {/foreach}
+</table>
+
+
+<!-- 分页 -->
+<table id="page-table" cellspacing="0">
+  <tr>
+    <td align="right" nowrap="true">
+    {include file="page.htm"}
+    </td>
+  </tr>
+</table>

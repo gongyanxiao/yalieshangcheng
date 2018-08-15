@@ -1,0 +1,126 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <div id="J_ItemList" class="Fund">
+        <style>
+        .xbtal td{ background: #fff none repeat scroll 0 0; border:solid 1px #eeeeee}
+        </style>
+            <ul class="product single_item info">
+                <li>
+                  
+                    <div class="account">
+                <div class="mar_top" id="con_tab_2">
+                    <div class='not_u'>
+                    {if $is_bigfamily==1 }
+                                                                    您正在升级大家庭代理 </a><br><br>
+                    {else}
+                                                                  申请加入香柏大家庭<br><br>
+                    {/if}
+                    </div>
+                </div>
+                <div class="mar_top" id="con_tab_2">
+                    <form name="formEdit" id="formEdit" action="user.php"  onsubmit="return bigfamily()">
+                        <table cellspacing="1" cellpadding="10" class='xbtal' bgcolor="#eeeeee" border="0" width="100%">
+                            <tbody>
+                                <tr>
+                                    <td align="right" width="35%">用户名称：</td>
+                                    <td align="left" width="65%">{$user_name}</td>
+                                </tr>
+                                <tr>
+                                    <td align="right" width="35%">推荐人(手机号)：</td>
+                                    {if $parent_desc} 
+                                      <td align="left" width="65%"> <input id='tuijian_u' style='width:150px;height:30px' name='tuijian_name'  type=text value='{$parent_desc}' /></td>
+                                    {else}
+                                        <td align="left" width="65%">
+                                          <input id='tuijian_u' style='width:150px;height:30px' name='tuijian_name'  type=text value='' />
+                                          <span id='parent_desc'>非必填不填,填写后不能修改</span>
+                                          <input id='tuijian_u_id'   name='tuijian_name_id'  type=hidden value='' />
+                                        </td>
+                                        
+                                    {/if}
+                                </tr>
+                                <tr>
+                                    <td align="right">加入类型：</td>
+                                    <td align="left">
+                                        {if $family_config.bigfamily_u_m > 0} 
+                                        <label> <input name="money" class='djtmoney' value="1" money='{$family_config.bigfamily_u_m}' type="radio"> 大家庭合伙人 </label> {/if} 
+                                        {if $family_config.bigfamily_d_m > 0} 
+                                        <label> <input name="money" class='djtmoney' value="2" money='{$family_config.bigfamily_d_m}' type="radio"> 大家庭代理 </label> {/if}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td align="right">充值金额：</td>
+                                    <td align="left">
+                                        <span id='money'></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td align="right">付款方式：</td>
+                                    <td align="left">
+                                        {foreach from=$payment_list item=pays}
+                                         <label> <input name="pay_id" class="pay_n" value="{$pays.pay_id}" money="1000" type="radio">{$pays.pay_name}</label>   
+                                    	{/foreach}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" align="center">
+                                        <label class="submit-border"> 
+                                        <input name="act" value="joinbigfamily" type="hidden"> 
+                                        <input onclick="joinbigfamily()" style="background:#E71F19; padding:5px 10px; color:#fff; border:1px solid #E71F19"  class="main-btn main-btn-large" value="确认加入" type="button">
+                                        </label>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </form>
+                                <script type="text/javascript">
+									$(function(){
+									    $('#injoin').click(function(){
+									        $('.not_u').attr('style',"text-align:left")
+									        $('#con_tab_2 form').show(300)
+									    })
+									    $('.djtmoney').click(function(){
+									        var money = $(this).attr('money');
+									        $('#money').html(money+'元');
+									    });
+									    //升级到代理
+									    if({$is_bigfamily}==1){
+									       $('#injoin').click();
+									      
+									       var radio = $("input[name='money'][value='2']").get(0);
+									       radio.click(); 
+									       var money = $(radio).attr('money');
+									        $('#money').html(money+'元');
+									       $("input[name='money'][value='1']").get(0).parentNode.remove();
+									      
+									    }
+									});
+									
+									function joinbigfamily(){
+									    if($('#money').html() < 1 )
+									    {
+									        alert('请选择加入类型');
+									        return false;
+									    }
+									    
+									    var url="/mobile/user.php?"+$("#formEdit").serialize();
+									    window.location.href=url;
+									   
+									}
+									
+									function bigfamily()
+									{
+                                        
+									    if($('#money').html() < 1 )
+									    {
+									        alert('请选择加入类型');
+									        return false;
+									    }
+									    return false;
+									}
+							</script>
+                </div>
+            </div>
+                    
+                </li>
+            </ul>
+            <a href="javascript:;" class="get_more"> </a>
+        </div>

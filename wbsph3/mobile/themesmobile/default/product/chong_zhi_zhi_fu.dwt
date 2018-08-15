@@ -1,0 +1,98 @@
+<!DOCTYPE html >
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<title>{$page_title}</title>
+<meta name="Keywords" content="{$keywords}" />
+<meta name="Description" content="{$description}" />
+<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+<link rel="stylesheet" type="text/css" href="themesmobile/default/css/public.css"/>
+<link rel="stylesheet" href="themesmobile/default/css/stores.css">
+<link href="themesmobile/default/css/supp_center.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="themesmobile/default/js/jquery.js"></script>
+	{insert_scripts files='index.js'}
+</head>
+{insert_scripts files="jquery.json.js,transport.js"}
+<script type="text/javascript" src="admin/js/common.js"></script>
+
+<script type="text/javascript" src="themesmobile/default/js/utils.js"></script>
+<script type="text/javascript" src="themesmobile/default/js/validator.js"></script>
+<script type="text/javascript" src="js/listtable.js"></script>
+<body class="bodybj">
+      <header>
+      <div class="tab_nav">
+        <div class="header">
+          <div class="h-left"><a class="sb-back" href="javascript:history.back(-1)" title="返回"></a></div>
+          <div class="h-mid">充值记录</div>
+          <div class="h-right">
+            <aside class="top_bar">
+              <div onClick="show_menu();$('#close_btn').addClass('hid');" id="show_more"><a href="javascript:;"></a> </div>
+            </aside>
+          </div>
+        </div>
+      </div>
+      </header>
+     <!-- #BeginLibraryItem "/library/up_menu.lbi" -->
+    <!-- #EndLibraryItem -->
+ 
+ 
+  <table width="100%" border="0" cellpadding="10" cellspacing="1" bgcolor="#eeeeee">
+    <tr>
+        <td width="25%" align="right">充值金额:</td>
+        <td width="15%">&nbsp;</td>
+        <td width="50%">{$amount}</td>
+    </tr>
+    <tr>
+        <td align="right">充值方式:</td>
+         <td width="15%">&nbsp;</td>
+        <td>{$payment.pay_name}</td>
+    </tr>
+    <tr>
+        <td align="right">支付手续费:</td>
+         <td width="15%">&nbsp;</td>
+        <td>{$pay_fee}</td>
+    </tr>
+    <tr>
+        <td align="right" valign="middle">充值描述:</td>
+         <td width="15%">&nbsp;</td>
+        <td>{$payment.pay_desc}</td>
+    </tr>
+    <tr>
+        <td colspan="2">{$pay_button}
+            <!-- <script>
+                function run() {
+                    $.get("{$site_domain}/waiting_weixin_pay1.php?step=waiting_weixin_pay&log_id=" + {$order.log_id}, function (data) {
+                        if (data === "1") {
+                            window.location = "product_center_recharge.php?act=list";
+                        } else {
+                            
+                        }
+                    });
+                }
+                window.setInterval("run()",5000) ;
+            </script> -->
+        </td>
+    </tr>
+</table>
+
+  
+
+ <!-- #BeginLibraryItem "/library/footer_nav.lbi" --><!-- #EndLibraryItem -->
+<!-- end payment list -->
+<script type="Text/Javascript" language="JavaScript">
+ function confirm_redirect(msg, url)
+{	
+  if (confirm(msg))
+  {
+    location.href=url;
+  }
+}
+</script>
+</body>
+</html>
+ 
+ 
+ 
+  
+ 

@@ -1,0 +1,9 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<ul class="single_item">
+    <li class="Funds_li" >
+    	<span class="icon"></span>
+        <span>{$account_items.type},<em>{$account_items.amount}</em></span>
+        <span>{$account_items.change_time}</span>
+        <span>{$account_items.short_change_desc}</span>
+    </li>
+</ul>

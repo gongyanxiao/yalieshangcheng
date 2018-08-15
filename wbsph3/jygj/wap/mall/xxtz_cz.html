@@ -1,0 +1,114 @@
+<?php
+  include "config.php" ;
+ 
+?>
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<meta content="no-cache,must-revalidate" http-equiv="Cache-Control">
+<meta content="no-cache" http-equiv="pragma">
+<meta content="0" http-equiv="expires">
+<meta content="telephone=no, address=no" name="format-detection">
+<meta name="apple-mobile-web-app-capable" content="yes"> 
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta http-equiv="pragma" content="no-cache">
+<meta http-equiv="cache-control" content="no-cache">
+<meta http-equiv="expires" content="0">   
+    <title><?=_TITLE_?></title>
+    <meta name="keyword" content="<?=_KEYWORD_?>"/>
+    <meta name="description" content="<?=_DESCRIPTION_?>"/>
+    <link href="/Public/ico.ico" type="image/x-icon" rel="shortcut icon" /> 
+	<script type="text/javascript" src="/jygj/Public/home/js/jquery-1.7.2.js"></script>
+    <link rel="stylesheet" type="text/css" href="/jygj/Public/wap/css/index.css">
+    <style type="text/css">
+     li {padding-bottom:20px;}
+    </style>
+</head>
+
+
+<body>
+<div class="warp_q" style="text-align: center;font-size: 18px">
+        <a href="javascript:history.go(-1)"></a>
+                <span>充值</span>  
+    </div>
+	<div class="warp">
+		<!------最顶部开始------>
+		<!------logo结束------>
+		<script>
+			$(function() {
+
+			});
+		</script>
+		 
+		<!------导航结束------>
+		<?php
+include "myphplib/db.php";
+include "config/check.php";
+include "myphplib/message.php";
+date_default_timezone_set("Asia/Shanghai");
+ 
+$user=$_COOKIE['ECS']['username'];
+//调取用户的银行卡号
+$sql="select yhkh from zt_bind_bank where ssyh='$user'";
+$yhkh=getRow($sql);
+ 
+session_start();
+$_SESSION["addXXFT"]="1";
+
+$sql="select * from xbmall_users where user_name='{$user}'";
+$userInfo = getRow($sql);
+
+if($userInfo['real_name']==''){
+  alertAndRelocation("先进行实名认证","/mobile/user.php?act=identity");
+}
+
+ ?>
+
+						<form action="/jygj/wap/mall/xxtz_cz.php" method="post"  enctype="multipart/form-data">
+							<ul style="padding-left:20px;padding-top:20px; ">
+							<li>
+							   现有云贝:<font color="red"><?php echo $userInfo['dian_pu_zi_jin']+$userInfo['xxtzztxjf']+$userInfo['tui_jian_shou_yi']?></font>元
+							</li>
+							
+							<li>
+							   充值:<input type="text" size="8"  name="czje">元
+							</li>
+							
+							
+							<li>
+							   选择收款账号 
+							</li>
+							<li>
+							 <select name="skyhkh">
+							   <option value="中国银行6217886000002127184">中国银行6217886000002127184</option>
+							   <option value="民生银行 6226227902372832">民生银行 6226227902372832</option>
+							 <option value="平安 6230580000152604703">平安 6230580000152604703</option>
+							 <option value="农行6228481829045911576">农行6228481829045911576</option>
+							 <option value="工行6212261610011038390">工行6212261610011038390</option>
+									 </select>
+							</li>
+							<li>
+							 添加打款凭证图片(<font color="red">此项必填</font>):<input id="ping_zheng" type="file" name="ping_zheng">
+							</li>
+							 <li>
+							   <button type="submit" style="width:150px">提交</button>
+							 </li>
+								 
+							</ul>
+							<input type="hidden" name="type" value="2">
+						</form>
+					 
+					<?
+		   			 include_once "left_p_menu.html";
+					 mysql_close($db);
+  					?>
+
+		<!------底部开始------>
+		<?include("footer_li_cai.html");?>
+		<!------底部结束------>
+	</div>
+</body>
+</html>

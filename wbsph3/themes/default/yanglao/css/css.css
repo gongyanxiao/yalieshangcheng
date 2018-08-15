@@ -1,0 +1,54 @@
+@charset "utf-8";
+/* CSS Document */
+/** 清除内外边距 **/
+body, h1, h2, h3, h4, h5, h6, hr, p, blockquote, dl, dt, dd, ul, ol, li, pre, form, fieldset, legend, button, input, textarea, img { border: medium none; margin: 0; padding: 0; }
+/** 设置默认字体 **/
+body, button, input, select, textarea { font: 12px/1.5 Verdana, Geneva, sans-serif, tahoma, Srial, helvetica, sans-serif; }
+h1, h2, h3, h4, h5, h6 { font-size: 100%; }
+a { text-decoration: none; color: #333; }
+em { font-style: normal; }
+/** 重置列表元素 **/
+ul, ol, li { list-style: none; }
+/** 重置图片元素 **/
+img { vertical-align: middle; }
+/** 重置表格元素 **/
+* { margin: 0; padding: 0; }
+ul, li { list-style: none; }
+a { text-decoration: none; }
+.mar-top-10 { margin-top: 10px; }
+.mar-top-20 { margin-top: 20px; }
+
+
+
+.rxyl_top{ width:1103px; margin:0 auto; overflow:hidden;}
+.rxyl_top_left{ width:198px; float:left}
+.rxyl_top_right{ line-height:97px; font-size:20px; margin-left:40px;float:left}
+.rxyl_top_right a{ color:#000;font-size:16px;margin-left:20px}
+.rxyl_top_right a:hover{ color:#f00}
+
+.rxyl_con { width: 100%; margin: 0 auto; overflow: hidden; }
+.rxyl_con_banner { width: 100%; margin: 0 auto; overflow: hidden; text-align:center }
+.rxyl_pension { width: 100%; margin: 0 auto; overflow: hidden; }
+.rxyl_pens_con { /*width:1920px;*/ margin: 0 auto; overflow: hidden; text-align: center ;}
+.rxyl_pens_con h2 { font-size: 40px; color: #000 }
+.rxyl_pens_con h3 { font-size: 30px; color: #ccc; font-weight: normal; }
+.rxyl_pens_co { width: 1103px; margin: 0 auto; overflow: hidden; text-align: center; }
+.rxyl_pens_con dl { width: 251px; height: 233px; border: #ccc 1px solid; text-align: center; font-family: "微软雅黑"; float: left; margin-left: 20px; position: relative }
+.rxyl_pens_con dl dt { margin-top: 50px; }
+.rxyl_pens_con dl dd { text-align: center; height: 47px; line-height: 47px; font-size: 20px; color: #f00; font-weight: bold; }
+.rxyl_pens_con dl dd h4 { width: 251px; text-align: center; font-size: 14px; color: #444; background: #f3f3f3; font-weight:normal; position: absolute; bottom: 0; left: 0 }
+
+.rxyl_good_con { width: 100%; margin: 50px auto; overflow: hidden; text-align: center; background: #f7f8fa }
+.rxyl_good_con h2 { font-size: 40px; color: #000 }
+.rxyl_good_con h3 { font-size: 30px; color: #ccc; font-weight: normal; }
+.rxyl_good_co { width: 1103px; margin: 50px auto; overflow: hidden; }
+.rxyl_good_co dl { width: 251px; height: 381px; border: #ccc 1px solid; font-family: "微软雅黑"; float: left; margin-left: 20px; background: #fff; position: relative }
+.rxyl_good_co dl dt { margin-top: 0px; text-align: center; }
+.rxyl_good_co dl dd { font-size: 20px; color: #f00; }
+.rxyl_good_co dl dd p { width: 251px; font-size: 14px; color: #444; line-height: 30px; }
+.rxyl_good_co dl dd h4 { width: 251px; height: 47px; line-height: 47px; text-align: center; font-size: 14px; color: #fff; background: #f00; position: absolute; bottom: 0; left: 0 }
+
+.rxyl_rela { width: 100%; margin: 0 auto; overflow: hidden; font-family: "微软雅黑"; }
+.rxyl_rela_con { width: 1103px; margin: 20px auto 50px; overflow: hidden; }
+.rxyl_rela_con h2 { font-size: 20px; color: #575757; text-align: center; margin: 20px auto; }
+.rxyl_rela_con p { font-size: 14px; color: #444; line-height: 30px; text-indent: 2em; color: #acacac }

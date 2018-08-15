@@ -1,0 +1,12 @@
+发生错误：<table border="1" style="" align="center"><tr><td style="padding: 10px;">消息</td><td style="padding: 10px;">MySQL Query Error</td></tr><tr><td style="padding: 10px;">SQL</td><td style="padding: 10px;">insert into tk_xiao_shou (user_id,buy_time, buy_num, buy_times,parent_id,state,user_mobile
+,user_name, parent_name, parent_mobile,goods_id, goods_name, shou_yi1 values(130,
+1505026034,12,1,199,'已付款',199,15910142205,15910142205
+,1,'产品',3000) </td></tr><tr><td style="padding: 10px;">错误</td><td style="padding: 10px;">You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'values(130,\x0D\x0A1505026034,12,1,199,'\xE5\xB7\xB2\xE4\xBB\x98\xE6\xAC\xBE',19' at line 2</td></tr><tr><td style="padding: 10px;">代码</td><td style="padding: 10px;">1064</td></tr></table>
+发生错误：<table border="1" style="" align="center"><tr><td style="padding: 10px;">消息</td><td style="padding: 10px;">MySQL Query Error</td></tr><tr><td style="padding: 10px;">SQL</td><td style="padding: 10px;">insert into tk_xiao_shou (user_id,buy_time, buy_num, buy_times,parent_id,state,user_mobile
+,user_name, parent_name, parent_mobile,goods_id, goods_name, shou_yi1) values(130,
+1505026101,12,1,199,'已付款',199,15910142205,15910142205
+,1,'产品',3000) </td></tr><tr><td style="padding: 10px;">错误</td><td style="padding: 10px;">Table 'xiangbai.tk_xiao_shou' doesn't exist</td></tr><tr><td style="padding: 10px;">代码</td><td style="padding: 10px;">1146</td></tr></table>
+发生错误：<table border="1" style="" align="center"><tr><td style="padding: 10px;">消息</td><td style="padding: 10px;">MySQL Query Error</td></tr><tr><td style="padding: 10px;">SQL</td><td style="padding: 10px;">insert into `xiangbai`.`xbmall_tk_xiao_shou` (user_id,buy_time, buy_num, buy_times,parent_id,state,user_mobile
+,user_name, parent_name, parent_mobile,goods_id, goods_name, shou_yi1) values(130,
+1505026167,12,1,199,'已付款',199,15910142205,15910142205
+,1,'产品',3000) </td></tr><tr><td style="padding: 10px;">错误</td><td style="padding: 10px;">Column count doesn't match value count at row 1</td></tr><tr><td style="padding: 10px;">代码</td><td style="padding: 10px;">1136</td></tr></table>

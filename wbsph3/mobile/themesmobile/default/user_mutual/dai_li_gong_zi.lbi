@@ -1,0 +1,52 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <div class="sc_nav">
+            <ul>
+                <li class="tab_head on">
+                    <a href="user.php?act=djtfh_raply" class="sc1">提现</a>
+                </li>
+                <li class="tab_head">
+                    <a href="user.php?act=account_log&type=2" class="sc1">提现记录</a>
+                </li>
+            </ul>
+        </div>
+        <div id="J_ItemList" class="Fund" style='padding:0'>
+        <style>
+        .xbtal td{ height:50px; border:solid 1px #fff}
+        </style>
+            <ul class="product single_item info">
+                <li>
+                  
+                    <div class="account">
+                <div class="mar_top" id="con_tab_2">
+                    <form name="formEdit" action="user.php" method="post" onsubmit="return bigfamily()">
+                        <table cellspacing="1" cellpadding="10" class='xbtal' bgcolor="#eeeeee" border="0" width="100%">
+                            <tbody>
+                                <tr>
+                                    <td align="right" width="35%">提现数量：</td>
+                                    <td align="left" width="65%"><input style='width:90%;height:40px' name="amount" value="" class="inputBg" size="30" type="text"></td>
+                                </tr>
+                                <tr>
+                                    <td align="right" width="35%">备注：</td>
+                                    <td align="left" width="65%">
+									<textarea name="user_note"  style="width:90%;height:100px;border: 1px solid #ddd;"></textarea>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" align="center">
+                                        <label class="submit-border"> 
+                                        <input style="background:#E71F19; padding:5px 10px; color:#fff; border:1px solid #E71F19" name="submit" class="main-btn main-btn-large" value="确认提现" type="submit">
+                                        </label>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                         <input name="act" value="gz_raply_save" type="hidden">
+                         <input name="type" value="2" type="hidden"> 
+                         <input name="surplus_type" value="1" type="hidden">
+                    </form>
+                </div>
+            </div>
+                    
+                </li>
+            </ul>
+        </div>

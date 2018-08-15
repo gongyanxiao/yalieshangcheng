@@ -1,0 +1,296 @@
+<!--在page_footer.dwt 下添加  @author xiaozhu qq:364642382-->
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<script id="JS_city_data" type="text/html">{insert name='area_info'}</script>
+<div id="JS_choose_city_source" style="display:none">
+	<div class="hideMap">
+		<div class="showPanel clearfix">
+			<div class="Left mycity">
+				<div id="JS_current_city_box" style="float:left;width:50%;">
+					当前城市&nbsp;<strong id="JS_city_current_city" style="font-size:16px;color:#E31939;">{insert name='get_area_name'}</strong>				
+				</div>
+                                <div style="float:right;width:50%;text-align:right;font-size:16px;color:#E31939;"><a href="city.php">进入城市站</a></div>
+				<div id="JS_default_city_delete" style="dsiplay:none"></div>
+			</div>		
+		</div>
+		<div class="showPanel showPanel2 clearfix">
+			<div class="hot_city" id="JS_header_city_hot"></div>
+			<div class="mt10"  style="display:none;">
+				<div id="JS_search_city_tip_header" class="search_city_tip"  style="display:none;">抱歉，该城市暂无体验馆！</div>
+				<input id="JS_search_city_input_header" class="search_city_input" value="输入城市名" /><input type="button" id="JS_search_city_submit_header" class="search_city_submit" value="搜索">
+			</div>
+			<div class="city_words mt10" style="display:none;" id="JS_header_city_char"></div>
+		</div>
+		<div class="scrollBody" style="display:none;">
+        <div class="scrollBar"><span id="JS_header_city_bar"></span></div>
+			<div class="cityMap clearfix">
+				<table id="JS_header_city_list" class="city_list"></table>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+//window._onReadyList = window._onReadyList || [];
+$(document).ready(function () {
+    $('#JS_hide_city_menu_11').hover(function () {
+        _show_(this, {
+            source: 'JS_choose_city_source',
+            target: 'JS_header_city_bar_box',
+            data: 'JS_city_data',
+            templateFunction: function (dom, json) {
+                dom = dom.jquery ? dom : $(dom);
+                if (json) {
+                    var out = '';
+                    var hot = '<strong>热门城市</strong>&nbsp;<a href="javascript:void(0);" data-region_id="1" data-pinyin="quanguo" onclick="set_area_cookie2(1,\'全国\')">全国</a>';
+                    var inner = '';
+                    var charList = '';
+                    $.each(json.city_list, function (key, item) {
+                        if (key != 'toJSONString') {
+                            charList += '<a href="javascript:;">' + key + '</a>';
+                            out += '<tr><th><div>' + key + '</div></th><td>';
+                            //out += '<tr><td>';
+                            $.each(item, function (index, shi) {
+								//city.php?cityname=changsha
+                                out += '<a href="javascript:void(0);" data-region_id="' + shi.region_id + '" data-pinyin="' + shi.pinyin + '" onclick="set_area_cookie2(' + shi.region_id + ',\'' + shi.region_name + '\')">' + shi.region_name + '</a>'
+								//out += '<a href="city.php?cityname=' + shi.pinyin + '" data-region_id="' + shi.region_id + '" data-pinyin="' + shi.pinyin + '" onclick="set_area_cookie2(' + shi.region_id + ')">' + shi.region_name + '</a>'
+                            });
+                            out += '</td></tr>'
+                        }
+                    });
+                    $.each(json.host_city_list, function (index, shi) {
+					//hot += '<a href="city.php?cityname=' + shi.pinyin + '" data-region_id="' + shi.region_id + '" data-pinyin="' + shi.pinyin + '" onclick="set_area_cookie2(' + shi.region_id + ',\'' + shi.region_name + '\')">' + shi.region_name + '</a>'
+                        hot += '<a href="javascript:void(0);" data-region_id="' + shi.region_id + '" data-pinyin="' + shi.pinyin + '" onclick="set_area_cookie2(' + shi.region_id + ',\'' + shi.region_name + '\')">' + shi.region_name + '</a>'
+                    });
+                    dom.find('#JS_header_city_hot').html(hot);
+                    dom.find('#JS_header_city_char').html(charList);
+                    dom.find('#JS_header_city_list').html(out);
+                    return dom
+                }
+            }
+        });
+        City.init()
+    }, function () {
+        _hide_(this)
+    })
+});
+
+function _show_(j, d) {
+    if (!j) {
+        return
+    }
+    if (d && d.source && d.target) {
+        var b = typeof d.source === "string" ? $("#" + d.source) : $(d.source);
+        var l = typeof d.target === "string" ? $("#" + d.target) : $(d.target);
+        var f = typeof d.data === "string" ? $("#" + d.data) : $(d.data);
+        if (b.length && l.length && !l.isDone) {
+            var h = (b); 
+            if (f.length && typeof d.templateFunction == "function") {
+                var i = f.val() || f.html();
+                i = $.parseJSON(i);
+                h = d.templateFunction(h, i);
+                f.remove()
+            }
+            l.empty().append($(h).html());
+            b.remove();
+            if (typeof d.callback == "function") {
+                d.callback()
+            }
+            l.isDone = true
+        }
+    }
+    $(j).addClass("hover");
+    if (d && d.isLazyLoad && j.isDone) {
+        var g = j.find("img");
+        for (var e = 0, c = g.length; e < c; e++) {
+            var a = g[e].getAttribute("data-src_index_menu");
+            if (a) {
+                g[e].setAttribute("src", a);
+                g[e].removeAttribute("data-src_index_menu")
+            }
+        }
+        j.isDone = true
+    }
+}
+function _hide_(b) {
+    if (!b) {
+        return
+    }
+    var a = $(b);
+    if (a.hasClass("hover")) {
+        a.removeClass("hover")
+    }
+}
+</script>
+<script>
+var City = {};
+City.init = function () {
+    if (City.ready && City.currentCity == $("#DY_site_name").html().replace("站", "")) {
+        return
+    }
+    City.currentCity = $("#DY_site_name").html().replace("站", "");
+    City.handdler = $("JS_header_city_char");
+    City.chars = $("#JS_header_city_char a");
+    City.stage = $("#JS_header_city_list");
+    City.lists = $("#JS_header_city_list tr");
+    City.setDefaultDom = $("#JS_set_default_city_header");
+    City.deleteDefaultCityDom = $("#JS_default_city_delete");
+    City.nearDom = $("#JS_my_near_expr");
+    City.currentBox = $("#JS_current_city_box");
+    var c = City.stage.find("a");
+    City.cityData = {};
+    for (var a = 0, d = c.length; a < d; a++) {
+        var f = c[a];
+        var g = f.getAttribute("data-region_id");
+        var b = f.getAttribute("data-pinyin");
+        var e = f.innerHTML;
+        City.cityData[e] = City.cityData[b] = City.cityData[g] = {
+            regionId: g,
+            pinyin: b,
+            regionName: e
+        }
+    }
+    c = null;
+    City.inputDom = $("#JS_search_city_input_header");
+    City.tip = $("#JS_search_city_tip_header");
+    City.inputDom.keyup(function (h) {
+        City.tip.hide();
+        if (h.keyCode == 13) {
+            City.goSearch()
+        }
+    });
+    City.inputDom.focus(function () {
+        if (this.value == "输入城市名") {
+            this.value = ""
+        }
+        City.tip.hide()
+    });
+    $("#JS_search_city_submit_header").click(City.goSearch);
+    City.bar = $("#JS_header_city_bar");
+    City.barBox = $("#JS_header_city_bar_box");
+    City.size = City.chars.length;
+    City.allHeight = City.stage.height();
+    City.rate = (City.allHeight - 170) / (180 - 36);
+    City.to = 0;
+    City.to2 = 0;
+    City.nowH = 0;
+    City.mouseDown = false;
+    City.selectByChar();
+    City.scrollBar();
+    City.scrollByWheel();
+    City.ready = true
+};
+City.goSearch = function () {
+    var b = (City.inputDom.val() + "").replace(/[\s\d]/g, "");
+    var a = City.cityData[b];
+    if (a) {
+        City.tip.hide();
+        set_area_cookie2(a.regionId)
+    } else {
+        City.tip.show()
+    }
+};
+City.selectByChar = function () {
+    var b = 0;
+    for (var a = 0; a < City.size; a++) {
+        City.chars[a]._h = b;
+        City.chars[a].onmouseover = function () {
+            City.move(this._h);
+            City.to2 = City.to
+        };
+        b += City.lists.eq(a).height()
+    }
+};
+City.move = function (b, a) {
+    if (b < 0) {
+        b = 0
+    }
+    b = b >= (City.allHeight - 170) ? (City.allHeight - 170) : b;
+    var c = parseInt(b / City.rate);
+    if (a) {
+        City.stage.css("margin-top", (0 - b) + "px");
+        City.bar.css("margin-top", c + "px")
+    } else {
+        City.stage.stop(true, false).animate({
+            marginTop: (0 - b) + "px"
+        });
+        City.bar.stop(true, false).animate({
+            marginTop: c + "px"
+        })
+    }
+    City.to = c;
+    City.nowH = b
+};
+City.scrollBar = function () {
+    City.bar.bind("mousedown", function (a) {
+        a = a || window.event;
+        City.mouseDown = true;
+        City.nowHeight = a.pageY || a.clientY;
+        a.returnValue = false;
+        return false
+    });
+    City.bar.bind("dragstart", function (a) {
+        a = a || window.event;
+        a.returnValue = false
+    });
+    $("body").bind("mouseup", function (a) {
+        a = a || window.event;
+        City.mouseDown = false;
+        City.to2 = City.to;
+        a.returnValue = false;
+        return false
+    });
+    City.barBox.bind("mousemove", function (a) {
+        if (!City.mouseDown) {
+            return
+        }
+        a = a || window.event;
+        var b = a.pageY || a.clientY;
+        City.move((b - City.nowHeight + City.to2) * City.rate, true);
+        a.returnValue = false;
+        return false
+    })
+};
+City.scrollByWheel = function () {
+    City.addScrollListener(City.barBox[0], function (c) {
+        c = c || window.event;
+        var b;
+        if (c.wheelDelta) {
+            b = (0 - c.wheelDelta) / Math.abs(c.wheelDelta)
+        } else {
+            b = c.detail / Math.abs(c.detail)
+        }
+        City.move(City.nowH + b * 50);
+        City.to2 = City.to;
+        if (navigator.userAgent.toLowerCase().indexOf("msie") >= 0) {
+            event.returnValue = false
+        } else {
+            c.preventDefault()
+        }
+    })
+};
+City.addScrollListener = function (e, d) {
+    if (typeof e != "object") {
+        return
+    }
+    if (typeof d != "function") {
+        return
+    }
+    if (typeof arguments.callee.browser == "undefined") {
+        var c = navigator.userAgent;
+        var a = {};
+        a.opera = c.indexOf("Opera") > -1 && typeof window.opera == "object";
+        a.khtml = (c.indexOf("KHTML") > -1 || c.indexOf("AppleWebKit") > -1 || c.indexOf("Konqueror") > -1) && !a.opera;
+        a.ie = c.indexOf("MSIE") > -1 && !a.opera;
+        a.gecko = c.indexOf("Gecko") > -1 && !a.khtml;
+        arguments.callee.browser = a
+    }
+    if (e == window) {
+        e = document
+    }
+    if (arguments.callee.browser.ie) {
+        e.attachEvent("onmousewheel", d)
+    } else {
+        e.addEventListener(arguments.callee.browser.gecko ? "DOMMouseScroll" : "mousewheel", d, false)
+    }
+};
+City.exed = true;
+</script>

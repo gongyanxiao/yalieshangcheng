@@ -1,0 +1,131 @@
+<style>
+.not_u {
+	font-size: 16px; text-align: center; margin-top: 50px
+}
+
+#injoin {
+	color: red
+}
+
+.xbtal td {
+	background: #fff none repeat scroll 0 0;
+}
+
+#money {
+	color: red
+}
+
+#con_tab_2 form {
+	display: none;
+}
+</style>
+            <div class="account">
+                <div class="tabmenu">
+                    <ul class="tab pngFix">
+                        <li class="normal active">香柏大家庭</li>
+                    </ul>
+                </div>
+                <div class="mar_top">
+                    <div class='not_u'>
+                    {if $is_bigfamily==1 }
+                                                                    您正在升级大家庭代理 <a href='javascript:void(0);'id="injoin"></a>
+                    {else}
+                                                                  您还不是家庭成员 <a href='javascript:void(0);'><span id='injoin'>现在加入</span></a>
+                    {/if}
+                   
+                    </div>
+                </div>
+                <div class="mar_top" id="con_tab_2">
+                    <form name="formEdit" action="user.php" method="post">
+                        <table cellspacing="1" cellpadding="10" class='xbtal' bgcolor="#eeeeee" border="0" width="100%">
+                            <tbody>
+                                <tr>
+                                    <td align="right" width="35%">用户名称：</td>
+                                    <td align="left" width="65%">{$user_name}</td>
+                                </tr>
+                                <tr>
+                                    <td align="right" width="35%">推荐人(帐号/手机号)：</td>
+                                   
+                                        <td align="left" width="65%">
+                                          <input id='tuijian_u' style='width:150px;height:80%' name='tuijian_name'  type=text value='{$parent_desc}' />
+                                          <span id='parent_desc'>可不填(只能填写一次,填写后不能修改)</span>
+                                          <input id='tuijian_u_id'   name='tuijian_name_id'  type=hidden value='' />
+                                        </td>
+                                        <script>
+                                        $('#tuijian_u').change(function(){
+                                        	
+                                        	$.get("user.php?act=check_djt_tuijian&mobile_phone="+this.value,'',function(data){
+                                        		console.log(data);
+                                                $('#parent_desc').html(data['parent_desc']);
+                                                $('#tuijian_u_id').val(data['parent_id']);
+                                            },'json'); 
+                                        	
+                                        });
+                                        </script>
+                                        
+                                  
+                                </tr>
+                                <tr>
+                                    <td align="right">加入类型：</td>
+                                    <td align="left">
+                                        {if $family_config.bigfamily_u_m > 0} 
+                                        <label> <input name="money" class='djtmoney' value="1" money='{$family_config.bigfamily_u_m}' checked=checked type="radio"> 大家庭合伙人 </label> {/if} 
+                                        {if $family_config.bigfamily_d_m > 0} 
+                                        <label> <input name="money" class='djtmoney' value="2" money='{$family_config.bigfamily_d_m}' type="radio"> 大家庭代理 </label> {/if}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td align="right">充值金额：</td>
+                                    <td align="left">
+                                        <span id='money'>{$family_config.bigfamily_u_m}</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td align="right">付款方式：</td>
+                                    <td align="left">
+                                        {foreach from=$payment_list item=pays}
+                                         <label> <input name="pay_id" class="pay_n" value="{$pays.pay_id}" money="1000" type="radio">{$pays.pay_name}</label>   
+                                    	{/foreach}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" align="center">
+                                        <label class="submit-border"> 
+                                        <input name="act" value="bigfamily" type="hidden"> 
+                                        <input name="submit" class="main-btn main-btn-large" value="确认加入" type="submit">
+                                        </label>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </form>
+                </div>
+            </div>
+            </div>
+            <script type="text/javascript">
+			$(function(){
+			    $('#injoin').click(function(){
+			        $('.not_u').attr('style',"text-align:left")
+			        $('#con_tab_2 form').show(300)
+			    });
+			    
+			    //升级到代理
+			    if({$is_bigfamily}==1){
+			       $('#injoin').click();
+			      
+			       var radio = $("input[name='money'][value='2']").get(0);
+			       radio.click(); 
+			       var money = $(radio).attr('money');
+			        $('#money').html(money+'元');
+			       $("input[name='money'][value='1']").get(0).parentNode.remove();
+			      
+			    }
+			    
+			    
+			    $('.djtmoney').click(function(){
+			        var money = $(this).attr('money');
+			        $('#money').html(money+'元');
+			    });
+			});
+</script>
+

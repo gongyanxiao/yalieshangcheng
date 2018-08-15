@@ -1,0 +1,93 @@
+<?php
+include_once "../config/zt_config.php";
+include_once "../config/zt_class.php";
+include_once "../config/check.php";
+$user=$_COOKIE['ECS']['username'];
+$money=abs(htmlspecialchars(trim($_POST['money'])));
+$db=mysql_connect("$db_host","$db_user","$db_pwd");
+mysql_query("set names $coding"); 
+mysql_select_db("$db_database");
+$sql1="select jf from xbmall_users where user_name='$user' order by id desc";
+	$q1=mysql_query($sql1);
+	$ss=mysql_fetch_assoc($q1);
+
+
+	//判断提现审核日期到帐7天以上
+$sql2="select date,ck from zt_b_cash_record where user='$user' order by id desc";
+	$q2=mysql_query($sql2);
+	$ss2=mysql_fetch_assoc($q2);
+$date=date("Y-m-d H:i:s");
+$ck=$ss2["ck"];
+$day=(strtotime($date)-strtotime($ss2["date"]))/60/60/24;
+if($day<=7&&$ck!='3'){
+
+	print("<script language='javascript'>alert('上次提现到帐后的7个工作日后方可再次提现!');</script>");
+		print("<script language='javascript'>location.reload();</script>");
+		exit();
+
+}elseif($day<'1' and $ck=='3') {
+		print("<script language='javascript'>alert('提现被驳回后的24小时方可再次提现!');</script>");
+		print("<script language='javascript'>location.reload();</script>");
+		exit();
+}else{
+$query1="select * from xbmall_users where user_name='$user' order by id desc";
+$q1=mysql_query($query1);
+$out=mysql_fetch_assoc($q1);
+if(empty($out['sjhm']) and empty($out['lxdh'])){
+echo '<script>alert("您在本系统预留的手机号不存在!")</script>';
+exit();
+}else{
+if($out["lx"]=="1"){
+	$mobile=$out['lxdh'];//手机号
+
+}else{
+	$mobile=$out['sjhm'];//手机号
+
+}
+$flag = 0; 
+$params='';//要post的数据 
+$verify = rand(123456, 999999);//获取随机验证码		
+	//以下信息自己填以下
+	
+if(empty($mobile)){
+echo '<script>alert("您在本系统预留的手机号不存在!")</script>';
+exit();
+}
+	$argv = array( 
+		'name'=>'13283727779',     //必填参数。用户账号
+		'pwd'=>'B93E250EACC6DB516BE120FBDBF3',     //必填参数。（web平台：基本资料中的接口密码）
+		'content'=>'您本次提现验证码为：'.$verify.'如有疑问请联系400-9922-831【聚元国际】',   //必填参数。发送内容（1-500 个汉字）UTF-8编码
+		'mobile'=>$mobile,   //必填参数。手机号码。多个以英文逗号隔开
+		'stime'=>'',   //可选参数。发送时间，填写时已填写的时间发送，不填时为当前时间发送
+		'sign'=>'',    //必填参数。用户签名。
+		'type'=>'pt',  //必填参数。固定值 pt
+		'extno'=>''    //可选参数，扩展码，用户定义扩展码，只能为数字
+	); 
+	//print_r($argv);exit;
+	//构造要post的字符串 
+
+	foreach ($argv as $key=>$value) { 
+		if ($flag!=0) { 
+			$params .= "&"; 
+			$flag = 1; 
+		} 
+		$params.= $key."="; $params.= urlencode($value);// urlencode($value); 
+		$flag = 1; 
+	} 
+	$url = "http://web.cr6868.com/asmx/smsservice.aspx?".$params; //提交的url地址
+	$con= substr( file_get_contents($url),0,1);  //获取信息发送后的状态
+	
+	if($con == '0'){
+			zt_cookie("yzm",$verify,time()+1080,"/");
+         zt_cookie("user",$user,time()+1080,"/");
+		echo "<script>alert('验证码发送成功!如有疑问请联系400-9922-831【聚元国际】');</script>";
+
+	}else{
+		echo "<script>alert('发送失败!');history.back();</script>";
+	}
+}
+}
+mysql_close($db);
+?>
+
+

@@ -1,0 +1,36 @@
+<table width="100%" border="0" cellpadding="10" cellspacing="1" bgcolor="#eeeeee">
+	            <tr>
+	              <td width="25%" align="right">{$lang.surplus_amount}</td>
+	              <td width="80%">{$amount}</td>
+	            </tr>
+	            <tr>
+	              <td align="right">{$lang.payment_name}</td>
+	              <td>{$payment.pay_name}</td>
+	            </tr>
+	            <tr>
+	              <td align="right">{$lang.payment_fee}</td>
+	              <td>{$pay_fee}</td>
+	            </tr>
+	            <tr>
+	              <td align="right" valign="middle">{$lang.payment_desc}</td>
+	              <td>{$payment.pay_desc}</td>
+	            </tr>
+	            <tr>
+	              <td colspan="2">{$payment.pay_button}
+	                {if $order.pay_id eq $weixin_pay}
+						<script>
+			                run();
+			                function run(){
+			                    $.get("waiting_weixin_pay1.php?step=waiting_weixin_pay&log_id="+{$order.log_id},function(data){
+			                        if(data=="1"){
+			                           window.location="user.php?act=account_detail&account_type=user_money";
+			                        }else{
+			                            run();
+			                        }
+			                    });
+			                }
+			    	    </script>
+	          		{/if}
+	                </td>
+	            </tr>
+	          </table>

@@ -1,0 +1,283 @@
+<?
+include("config.php");
+include("config/zt_config.php");
+$link = mysqli_connect($db_host,$db_user,$db_pwd,$db_database) or die('Unale to link');
+$link->set_charset('utf8');
+if(empty($_COOKIE['ECS']['username'])){
+header("Location:/mall/"); 
+    exit;
+}
+
+
+?>
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title><?=_TITLE_?></title>
+    <meta name="keyword" content="<?=_KEYWORD_?>"/>
+    <meta name="description" content="<?=_DESCRIPTION_?>"/>
+    
+    <link href="/Public/ico.ico" type="image/x-icon" rel="shortcut icon" /> 
+	
+    <link rel="stylesheet" type="text/css" href="/jygj/Public/home/css/index.css"/>
+    <script type="text/javascript" src="/jygj/Public/home/js/jquery-1.7.2.js"></script>
+    <script type="text/javascript" src="/jygj/Public/home/js/jquery.validate.min.js"></script>
+	<script src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/jquery.wallform.js"></script>
+
+</head>
+<body >
+<div class="warp">
+    <!------最顶部开始------>
+  <?
+        include("sheader1.html");
+		?>
+  <!------logo结束------>
+<script>
+	$(function(){
+		$(".open_xl").click(function(){
+			$(".xiala").show();
+		})
+		$(".xiala a").click(function(){
+			var xq=$(this).html();
+			$(".open_xl a").html(xq);
+			$(this).parent().hide();
+		})
+	})
+	
+$(function(){
+	$('#photoimg').die('click').live('change', function(){
+		var status = $("#up_status");
+		var btn = $("#up_btn");
+		$("#imageform").ajaxForm({
+			target: '#preview', 
+			beforeSubmit:function(){
+				status.show();
+				btn.hide();
+			}, 
+			success:function(){
+				status.hide();
+				btn.show();
+			}, 
+			error:function(){
+				status.hide();
+				btn.show();
+		} }).submit();
+	});
+});
+//-->
+</script>
+
+<style type="text/css">
+.demo{width:100px; min-height:80px;float:left;}
+#preview{height: 110px;
+overflow: hidden; margin-top:10px;}
+.preview{width:100px;height:100px;border:solid 1px #dedede;}
+.demo p{line-height:26px}
+.btn{position: relative;overflow: hidden;margin-right: 4px;display:inline-block;*display:inline;padding:4px 10px 4px;font-size:14px;line-height:18px;*line-height:20px;color:#fff;text-align:center;vertical-align:middle;cursor:pointer;background-color:#0054A7;border:1px solid #cccccc;border-color:#0054A7 #0054A7 #0054A7;border-bottom-color:#b3b3b3;-webkit-border-radius:4px;-moz-border-radius:4px;border-radius:4px;}
+.btn input {position: absolute;top: 0; right: 0;margin: 0;border: solid transparent;opacity: 0;filter:alpha(opacity=0); cursor: pointer;}
+select{width: 122px;height: 20px;border: 1px solid #CCCCCC}
+</style>
+<!------导航开始------><!------导航结束------>
+<?
+
+$query1=$link->query("select * from xbmall_users where user_name='".$_COOKIE['ECS']['username']."'"); 
+$r1=$query1->fetch_array(); 
+$query2=$link->query("select * from zt_memberinfo where userid=".$r1['id']); 
+$r2=$query2->fetch_array(); 
+$x=$query2->num_rows;
+?>
+
+    <!----内容开始---->
+  <div class="warp_moer">
+
+        <div class="warp_h">
+            <!----right内容开始---->
+            <div class="warp_h_right">
+
+                <div class="warp_f">
+                    <div class="warp_f_div">
+                        <b>个人信息</b>
+                    </div>
+                    <div class="warp_d_home" style="width:auto;padding: 0">
+									
+                        <table class="warp_d" style="width:auto">
+                            <tr>
+                                <td width="100" valign="top"><b>头像：</b></td>
+                                <td>
+                                   
+		<form id="imageform" method="post" enctype="multipart/form-data" action="upload4.php">
+             <div class="demo">
+			 <div id="up_status" style="display:none"><img src="loader.gif" alt="uploading"/></div>
+			<div id="up_btn" class="btn">
+				<span>添加图片</span>
+				<input id="photoimg" type="file" name="photoimg">
+			</div>
+              <div id="preview"><img src="<?=empty($r2['tx'])?'/images/logoa.png':$r2['tx']?>" style="width: 100px;height:100px"></div>
+		 </div>
+   </form>				
+									
+                                </td>
+                            </tr>
+                            	<form id="form" method="post" enctype="multipart/form-data" action="information_do.php?type=<?=$x?>">
+                                    
+                            <tr>
+                                <td><b>姓名：</b></td>
+                                <td><input type="text" class="warp_d_ex" name="xm" id="name" value="<?=$r1['xm']?>"></td>
+                            </tr>
+                            <tr>
+                                <td><b>性别：</b></td>
+                                <td>
+                                    <label>
+                                        <input type="radio" checked="checked" name="sex" value="1">
+                                        <span>男</span>
+                                    </label>
+                                    <label>
+                                        <input type="radio" name="sex" value="0" >
+                                        <span>女</span>
+                                    </label>
+                                    <script type="text/javascript">
+                                    	if(<?=$r2['xb']?>==1) {
+                                    		$("input[name='sex']").eq(0).attr("checked","checked");
+                                    	} else {
+                                    		$("input[name='sex']").eq(1).attr("checked","checked");
+                                    	}
+                                    </script>
+                                </td>
+                            </tr>
+                            
+                            <tr>
+                                <td><b>邮箱：</b></td>
+                                <td><input type="text" class="warp_d_ex" name="yx" id="email" value="<?=$r2['yx']?>"></td>
+                            </tr>
+						<tr>
+                            <td >
+                              <b>所在地区：</b>
+                            </td>
+                            <td style="padding-top: 15px">
+                                
+                                <input type="hidden" id="sa" value="<?=$r1[a]?>">
+                                <input type="hidden" id="sb" value="<?=$r1[b]?>">
+                                <input type="hidden" id="sc" value="<?=$r1[c]?>">
+                                    <select id="s_province" name="a"></select>  
+                                    <select id="s_city" name="b" ></select>  
+                                    <select id="s_county" name="c"></select>
+                                    <script class="resources library" src="/jygj/Public/home/js/area.js" type="text/javascript"></script>
+                                     <script type="text/javascript">
+                                        var s=["s_province","s_city","s_county"];//三个select的name
+                                        var x="省份";
+                                        var y="地级市";
+                                        var z="市、县级市";
+                                        var opt0 = [x,y,z];/**/
+                                        _init_area();</script>
+                                        <br><br>
+                                 <span style="position: relative;">当前已选择:<font style="color: red;margin-left: 5px"><?=$r1[a]?><?=$r1[b]?><?=$r1[c]?></font>为所在地区 </span>
+                                <!-- <script type="text/javascript">
+                                    $(function() {
+                                        var sp=document.getElementById("s_province");
+                                        var sci=document.getElementById("s_city");
+                                        var sco=document.getElementById("s_county");
+                                        var value1 = $("#sa").val();
+                                        var value2 = $("#sb").val();
+                                        var value3 = $("#sc").val();
+                                        for(var i=0;i<sp.options.length;i++){
+                                            if(value1==sp.options[i].value){
+                                                    sp.options[i].selected = 'selected';
+                                                    alert(sp.options[i].value);
+                                                    break;
+                                            }
+                                        }
+                                        for(var i=0;i<sci.options.length;i++){
+                                            if(value2==sci.options[i].value){
+                                                    sci.options[i].selected = 'selected';
+                                                    alert(sci.options[i].value);
+                                                    break;
+                                            }
+                                        }
+                                        for(var i=0;i<sco.options.length;i++){
+                                            if(value3==sco.options[i].value){
+                                                    sco.options[i].selected = 'selected';
+                                                    alert(sco.options[i].value);
+                                                    break;
+                                            }
+                                        }
+                                    })
+
+
+                                </script> -->
+                            </td>
+                            </tr>
+                             <tr>
+                                <td><b>详细地址：</b></td>
+                                <td><input type="text" class="warp_d_ex" name='xxdz' value="<?=$r1['xxdz']?>"></td>
+                            </tr>
+                            
+                            <tr>
+                                <td></td>
+                                <td><input type="button" value="确认修改" class="warp_d_ton"></td>
+                            </tr>
+                        
+						</form>
+						</table>
+                    </div>
+
+                </div>
+                
+            </div>
+            <!----right内容结束---->
+
+            <!----left内容开始---->
+            <div class="warp_h_left">
+	        	<?
+    include_once "left_p_menu.html";
+    ?>
+
+
+	<a href="" class="warp_h_left_gg"><img src="/jygj/Public/home/img/im113.jpg" width="170" height="207"></a>
+	
+</div>
+            <!----left内容结束---->
+        </div>
+
+    </div>
+    <!----内容结束---->
+
+    <!------底部开始------>
+	<?include("sfooter.html");?>
+ <!------底部结束------>
+<script>
+$(".warp_d_ton").click(function()
+{
+	var name = $("#name").val();
+	var phone = $("#phone").val();
+    var email = $("#email").val();
+	
+	if(name==''){
+			alert('姓名不能为空!')
+			return false
+	} else{
+		var rel = /^[\u4e00-\uf900]{2,4}$/
+		if(!rel.test(name)){
+			alert('请输入正确的姓名!');
+			return false
+		}else{
+			
+				var rel = /^(\w)+(\.\w+)*@(\w)+((\.\w+)+)$/;
+				if(!rel.test(email)){
+					alert('请输入正确的邮箱!');
+					return false
+				}else{
+					$('#form').submit()	
+				}
+					
+		}
+	}
+	
+})
+
+</script>
+</div>
+</body>
+</html><?$link->close();?>

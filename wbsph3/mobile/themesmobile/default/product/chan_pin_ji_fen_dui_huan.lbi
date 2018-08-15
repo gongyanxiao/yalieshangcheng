@@ -1,0 +1,56 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <div class="sc_nav">
+            <ul>
+                <li class="tab_head on">
+                    <a href="product_center_recharge.php?act=chan_pin_ji_fen_ti_xian" class="sc1">提现</a>
+                </li>
+                <li class="tab_head">
+                    <a href="product_center_recharge.php?act=chan_pin_ji_fen_ti_xian_log" class="sc1">提现记录</a>
+                </li>
+            </ul>
+        </div>
+        <div id="J_ItemList" class="Fund" style='padding:0'>
+        <style>
+        .xbtal td{ height:50px; border:solid 1px #fff}
+        </style>
+            <ul class="product single_item info">
+                <li>
+                  
+                    <div class="account">
+                <div class="mar_top" id="con_tab_2">
+                    <form name="formEdit" action="product_center_recharge.php" method="post">
+                        <table cellspacing="1" cellpadding="10" class='xbtal' bgcolor="#eeeeee" border="0" width="100%">
+                            <tbody>
+                                <tr>
+                                    <td align="right" width="35%">提现金额：</td>
+                                    <td align="left" width="65%"><input style='width:50%;height:40px' readonly="readonly" name="amount" value="{$bean.points}" class="inputBg" size="30" type="text">手续费:{$rate}%</td>
+                                </tr>
+                                <tr>
+                                    <td align="right" width="35%">备注：</td>
+                                    <td align="left" width="65%">
+									<textarea name="user_note"  style="width:90%;height:100px;border: 1px solid #ddd;"></textarea>
+                                    </td>
+                                </tr>
+                              
+                                <tr>
+                                    <td colspan="2" align="center">
+                                        <label class="submit-border"> 
+                                        <input style="background:#E71F19; padding:5px 10px; color:#fff; border:1px solid #E71F19" name="submit" class="main-btn main-btn-large" value="确认提现" type="submit">
+                                        </label>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                         <input name="id" value="{$bean.id}" type="hidden">
+                         <input name="act" value="chan_pin_ji_fen_ti_xian_save" type="hidden">
+                         <input name="type" value="2" type="hidden"> 
+                         <input name="surplus_type" value="1" type="hidden">
+                    </form>
+                </div>
+            </div>
+                    
+                </li>
+            </ul>
+        </div>
+
+ 

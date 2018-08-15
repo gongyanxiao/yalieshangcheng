@@ -1,0 +1,266 @@
+<?include("config.php");?>
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title><?=_TITLE_?></title>
+    <meta name="keyword" content="<?=_KEYWORD_?>"/>
+    <meta name="description" content="<?=_DESCRIPTION_?>"/>
+
+<link href="/Public/ico.ico" type="image/x-icon" rel="shortcut icon" /> 
+	
+    <link rel="stylesheet" type="text/css" href="/jygj/Public/home/css/index.css">
+    <script type="text/javascript" src="/jygj/Public/home/js/jquery-1.7.2.js"></script>
+		 <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script>
+	<!--
+        $(function(){
+            $(".warp_s_ul_a").click(function(){
+                $(".warp_s_tc").show();
+            })
+
+            $(".warp_s_tc_div h2  a").click(function(){
+                $(".warp_s_tc").hide();
+            })
+        });
+function tj(){	
+var xm=document.myform.xm.value;
+var code=document.myform.code.value;
+var bankaddress=document.myform.bankaddress.value;
+var zhihang=document.myform.zhihang.value;
+var number=document.myform.number.value;
+var bank=document.myform.bank.value;
+var dataString='xm='+xm+'&code='+code+'&bankaddress='+bankaddress+'&zhihang='+zhihang+'&number='+number+'&bank='+bank;
+ $.ajax({  
+type: "POST",  
+url: "member/b_card_bind.html",  
+data:dataString,  
+cache:false,  
+success:function(html){  
+$("#jygj").html(html);
+}
+});
+}
+//绑定信息
+function bind(){	
+var kh=document.myform1.kh.value;
+var dataString='kh='+kh;
+ $.ajax({  
+type: "POST",  
+url: "member/bind_card.html",  
+data:dataString,  
+cache:false,  
+success:function(html){  
+$("#jygj").html(html);
+}
+});
+}
+
+
+//-->		
+	</script>
+</head>
+<div id="jygj"></div>
+<body >
+<div class="warp">
+    <!------最顶部开始------>
+    
+    <?
+        include("sheader1.html");
+		  $user=$_COOKIE['ECS']['username'];
+ include "config/zt_config.php";
+$db=mysql_connect($db_host,$db_user,$db_pwd);
+mysql_query("SET NAMES $coding"); 
+mysql_select_db($db_database);
+//判断登录状态
+$sql="select lx from xbmall_users where user_name='$user'";
+$qs1=mysql_query($sql);
+$sf1=mysql_fetch_assoc($qs1);
+$lx=$sf1["lx"];
+if($lx=="0"){
+echo '<script>location.href="member_login.html";</script>';
+}
+//调用银行卡信息
+$sql="select * from zt_bind_bank where ssyh='$user' order by bind desc";
+$qs1=mysql_query($sql);
+$sf1=mysql_fetch_assoc($qs1);
+		?><!------logo结束------>
+<script>
+	$(function(){
+		$(".open_xl").click(function(){
+			$(".xiala").show();
+		})
+		$(".xiala a").click(function(){
+			var xq=$(this).html();
+			$(".open_xl a").html(xq);
+			$(this).parent().hide();
+		})
+	})
+</script>
+
+<!------导航开始------><!------导航结束------>
+
+
+    <!----内容开始---->
+    <div class="warp_moer">
+
+        <div class="warp_h">
+            <!----right内容开始---->
+            <div class="warp_h_right" style="width: 990px;">
+
+                <div class="warp_f">
+			
+                    <div class="warp_s">
+                        <div class="warp_s_div">
+                            <b>银行卡身份认证</b>
+                        </div>
+                        <ul class="warp_s_ul">
+ <li>
+ <form  method="post" id="myform1" name="myform1" enctype='multipart/form-data'>	
+ <span><strong>绑定卡号信息</strong>：<b><select name="kh">
+ <?php
+ $sql2="select * from zt_bind_bank where ssyh='$user' order by bind desc";
+$r2=mysql_query($sql2,$db);
+$num2=mysql_num_rows($r2);
+for($i=0;$i<$num2;$i++){
+$data2=mysql_fetch_array($r2);
+?>
+   <option value="<?=$data2['id']?>"><?=$data2["khh"]?></option>
+ <?
+ }
+ ?>
+ </select> <input type="submit" name="Submit" value="选择默认卡号" onClick="bind();"></b></span>
+ </form>
+ </li>
+<li><span>真实姓名：<b><?=$sf1['xm']?$sf1['xm']:"未填写";?></b></span></li>
+                            <li><span>身份证号码：<b><?php
+							if($sf1['sfzh']<>""){
+							$sfz=substr($sf1['sfzh'],0,4)."**********".substr($sf1['sfzh'],-4);
+							}else{
+							$sfz="";
+							}
+							echo $sfz?$sfz:"未填写";?></b></span></li>
+                            <li><span>开户银行：<b><?=$sf1['khh']?$sf1['khh']:"未填写";?></b></span></li>
+                            <li><span>开户地址：<b><?=$sf1['khdz']?$sf1['khdz']:"未填写";?></b></span></li>
+                            <li><span>支行名称：<b><?=$sf1['zhihang']?$sf1['zhihang']:"未填写";?></b></span></li>
+                            <li><span>银行卡号：<b><?
+echo substr($sf1['yhkh'],0,4)."***********".substr($sf1['yhkh'],-4)?substr($sf1['yhkh'],0,4)."***********".substr($sf1['yhkh'],-4):"未填写";mysql_close($db);?></b></span></li>
+                            <li><i>请正确填写真实姓名和身份证号。账户资金将只能提现到对应银行账号。银行卡体现仅支持借记卡，不支持信用卡。</i></li>
+                            <li><a href="javascript:void(0)" class="warp_s_ul_a">立即认证</a></li>
+                        </ul>
+                    </div>
+
+                </div>
+
+            </div>
+            <!----right内容结束---->
+
+            <!----left内容开始---->
+                        <? include_once "left_menu2.html";?>
+            <!----left内容结束---->
+        </div>
+
+  </div>
+    <!----内容结束---->
+
+</div>
+
+<!------弹出框开始------>
+						<form  method="post" id="myform" name="myform" enctype='multipart/form-data'>	
+
+<div class="warp_s_tc">
+    <div class="warp_s_tc_div" style="background:#FFFFFF;">
+        <h2>
+            <a href="javascript:void(0)"></a>
+            <span>银行卡身份认证</span>
+        </h2>
+        <div class="warp_s_tc_mp">
+            <h3>请认真填写真实信息，账户资金只能提现至真实姓名与之对应的银行账号</h3>
+            <table class="warp_s_tc_ble" style="width:356px">
+                <tr>
+                    <td width="85" align="right"><b>真实姓名：</b></td>
+                    <td><input type="text" class="warp_s_tc_ble_ex" id="name" name="xm"></td>
+                </tr>
+                <tr>
+                    <td align="right"><b>身份证号：</b></td>
+                    <td><input type="text" class="warp_s_tc_ble_ex" id="code" name="code"></td>
+                </tr>
+                <tr>
+                    <td align="right"><b>开户银行：</b></td>
+                    <td>
+                        <select name="bank" id="bank">
+							<option value="中国工商银行" >中国工商银行</option><option value="中国农业银行" >中国农业银行</option><option value="中国银行" >中国银行</option><option value="中国建设银行" >中国建设银行</option><option value="交通银行" >交通银行</option>
+							<option value="中国邮政储蓄" >中国邮政储蓄</option><option value="农村信用社" >农村信用社</option>
+							<option value="中信银行" >中信银行</option><option value="中国光大银行" >中国光大银行</option><option value="华夏银行" >华夏银行</option><option value="中国民生银行" >中国民生银行</option><option value="广发银行" >广发银行</option><option value="招商银行" >招商银行</option><option value="兴业银行" >兴业银行</option><option value="上海浦东发展银行" >上海浦东发展银行</option><option value="恒丰银行" >恒丰银行</option><option value="浙商银行" >浙商银行</option><option value="渤海银行" >渤海银行</option>                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right"><b>银行所在地：</b></td>
+                    <td><input type="text" class="warp_s_tc_ble_ex" id="bankaddress"  name="bankaddress"></td>
+                </tr>
+                <tr>
+                    <td align="right"><b>支行名称：</b></td>
+                    <td><input type="text" class="warp_s_tc_ble_ex" id="zhihang" name="zhihang"></td>
+                </tr>
+                <tr>
+                    <td align="right"><b>银行卡号：</b></td>
+                    <td><input type="text" class="warp_s_tc_ble_ex" id="number"  name="number"></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><input type="button" value="确认" class="warp_s_tc_ble_ton"></td>
+                </tr>
+            </table>
+        </div>
+
+    </div>
+</div>
+
+<script>
+$(".warp_s_tc_ble_ton").click(function(){	
+	var name = $("#name").val();
+	var code = $("#code").val();
+	var bankaddress = $("#bankaddress").val();
+	var zhihang = $("#zhihang").val();
+	var number = $("#number").val();
+	var bank = $("#bank").val();
+	
+	if(name==''){
+		alert('真实姓名不能为空!')
+		return false
+	}else{
+		var rel = /^[\u4e00-\uf900]{2,4}$/
+		if(!rel.test(name)){
+			alert('请输入正确的姓名!');
+			return false
+		}else{
+			var rel = /^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$|^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|x|X)$/
+			if(!rel.test(code)){
+				alert('请输入正确的身份证号!');
+				return false
+			}else{
+				if(bankaddress=='')
+				{
+					alert('请输入银行所在地!');
+					return false
+				}else
+				{
+					if(number==''||isNaN(number))
+					{
+						alert('请输入正确银行卡号!');
+						return false
+					}else{
+tj();
+					}
+				}				
+			}	
+		}
+	}
+	
+})
+</script>
+</form>
+<!------弹出框结束------>
+<?include("sfooter.html");?>
+</body>
+</html>

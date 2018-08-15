@@ -1,0 +1,54 @@
+<!-- $Id: card_list.htm 14216 2008-03-10 02:27:21Z testyang $ -->
+{include file="pageheader.htm"}
+{insert_scripts files="../js/utils.js,listtable.js"}
+<script type='text/javascript' src='../js/calendar.php' ></script>
+<link href='../js/calendar/calendar.css' rel='stylesheet' type='text/css' />
+ 
+
+<!-- start goods list -->
+<form method="post" action="tk_li_cai_chan_pin.php" name="offlinelistForm">
+    <div class="list-div" id="listDiv">
+        <table cellpadding="3" cellspacing="1">
+              <tr>
+                <td align="center">
+                  	产品名字
+                </td>
+                <td align="left"><input type="text"name="product_name" value="{$bean.product_name}" id="product_name"></td>
+              </tr>
+                 <tr>
+                <td align="center">
+                  	产品周期
+                </td>
+                <td align="left"><input type="text" name="period" value="{$bean.period}"id="period"></td>
+              </tr> <tr>
+                <td align="center">
+                  	产品利率
+                </td>
+                <td align="left"><input type="text"name="rate" value="{$bean.rate}"id="rate"></td>
+              </tr> <tr>
+                <td align="center">
+                  	产品描述
+                </td>
+                <td align="left"><input type="text" name="description"value="{$bean.description}" id="description"></td>
+              </tr>
+              
+               <tr>
+                <td align="center" colspan="2">
+                 <input type="hidden" value="{$bean.tk_id}" name="tk_id" />
+                  <input type="hidden" value="update" name="act" />
+                  <input type="submit" value="{$lang.button_submit}" class="button" />
+                </td>
+              </tr>
+        </table>
+
+ 
+    </div>
+</form>
+
+<script type="text/javascript" src="js/layer/layer.js" ></script>
+<script type="text/javascript" language="JavaScript">
+   
+
+</script>
+{include file="pagefooter.htm"}
+ 

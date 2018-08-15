@@ -1,0 +1,109 @@
+<!-- $Id: ad_position_list.htm 14216 2008-03-10 02:27:21Z testyang $ -->
+{if $full_page}
+{include file="pageheader.htm"}
+{insert_scripts files="../js/utils.js,listtable.js"}
+<script type="text/javascript" src="../js/calendar.php?lang={$cfg_lang}"></script>
+<link href="../js/calendar/calendar.css" rel="stylesheet" type="text/css" />
+<div class="form-div">
+  <form action="javascript:search_ad_position()" name="searchForm">
+    <img src="images/icon_search.gif" width="26" height="22" border="0" alt="SEARCH" />
+    <select name="select">
+		<option value="order_sn">投保编号</option>
+		<option value="user_name">会员昵称</option>
+		<option value="consignee">投保人</option>
+		<option value="mobile">联系方式</option>
+		<option value="insure_baoe">投保额</option>
+		<option value="insure_money">缴费金额</option>
+	</select>
+	<input type="text" name="keyword" size="15" />
+    <select name="order_status">
+		<option value="">--是否付款--</option>
+		<option value='1'>已付款</option>
+		<option value='0'>未付款</option>
+	</select>
+	
+	开始时间: <input name="start_time" id="start_time" type="text" size="20">
+    <input class="button" type='button' onclick="return showCalendar('start_time', '%Y-%m-%d %H:%M:%S', '24', false, 'start_time');" value="选择">
+     结束时间: <input name="end_time" id="end_time" type="text" size="20">
+    <input class="button" type='button' onclick="return showCalendar('end_time', '%Y-%m-%d %H:%M:%S', '24', false, 'end_time');" value="选择">
+
+    <input type="submit" value="{$lang.button_search}" class="button" />
+  </form>
+</div>
+
+<script language="JavaScript">
+    function search_ad_position()
+    {
+		listTable.filter['select'] = document.forms['searchForm'].elements['select'].value;
+		listTable.filter['order_status'] = document.forms['searchForm'].elements['order_status'].value;
+        listTable.filter['keyword'] = Utils.trim(document.forms['searchForm'].elements['keyword'].value);
+        listTable.filter['start_time'] = Utils.trim(document.forms['searchForm'].elements['start_time'].value);
+        listTable.filter['end_time'] = Utils.trim(document.forms['searchForm'].elements['end_time'].value);
+        listTable.filter['page'] = 1;
+        
+        listTable.loadList();
+    }
+
+</script>
+
+<form method="post" action="" name="listForm">
+<!-- start ad position list -->
+<div class="list-div" id="listDiv">
+{/if}
+
+<table cellpadding="3" cellspacing="1">
+  <tr>
+    <th>投保编号</th>
+    <th>会员昵称 / 投保人</th>
+    <th>联系方式</th>
+    <th>投保额</th>
+    <th>缴费金额</th>
+    <th>缴费时间</th>
+    <th>状态</th>
+    <th>操作</th>
+  </tr>
+  {foreach from=$position_list item=list}
+  <tr>
+    <td align="center" class="first-cell">{$list.order_sn}</td>
+    <td align="center" class="first-cell"> {$list.user_name} / {$list.consignee} </td>
+    <td align="center">{$list.mobile}</td>
+    <td align="center">{$list.insure_baoe}</td>
+    <td align="center">{$list.pay_fee}</td>
+    <td align="center">{$list.times}</td>
+    <td align="center">{$list.order_status}</td>
+    <td align="center">
+      <a href="insure.php?act=edit&id={$list.order_id}" title="{$lang.edit}">
+      <img src="images/icon_edit.gif" border="0" height="16" width="16" /></a>
+      <a href="javascript:;" onclick="listTable.remove({$list.order_id}, '{$lang.drop_confirm}')" title="{$lang.remove}"><img src="images/icon_drop.gif" border="0" height="16" width="16" /></a>
+    </td>
+  </tr>
+  {foreachelse}
+    <tr><td class="no-records" colspan="8">{$lang.no_position}</td></tr>
+  {/foreach}
+  <tr>
+    <td align="right" nowrap="true" colspan="8">{include file="page.htm"}</td>
+  </tr>
+</table>
+
+{if $full_page}
+</div>
+<!-- end ad_position list -->
+</form>
+
+<script type="text/javascript" language="JavaScript">
+  listTable.recordCount = {$record_count};
+  listTable.pageCount = {$page_count};
+
+  {foreach from=$filter item=item key=key}
+  listTable.filter.{$key} = '{$item}';
+  {/foreach}
+  {literal}
+  onload = function()
+  {
+    // &#64138;&#53036;&#10870;鵥
+    startCheckOrder();
+  }
+  {/literal}
+</script>
+{include file="pagefooter.htm"}
+{/if}

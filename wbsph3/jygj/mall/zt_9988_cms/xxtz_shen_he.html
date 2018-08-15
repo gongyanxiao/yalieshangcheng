@@ -1,0 +1,133 @@
+
+<?php
+include "../myphplib/db.php";
+include "config/check.php";
+date_default_timezone_set("Asia/Shanghai");
+include "getRoleId.php";
+
+
+$id=$_REQUEST['id'];//线下充值的id
+ session_start();
+$sql="select id,date_format(FROM_UNIXTIME(tjrq),'%Y-%m-%d %H:%i') as tjrq ,czyhkh,  skyhkh,czje ,user_bz, js_bz,cw_bz,ping_zheng    from xbmall_xb_cz  where id=".$id  ;
+$bean=getRow($sql);
+
+//查询出此银行卡上次的充值日期, 好判断本次有没有充值
+$sql="SELECT max(czrq) as czrq FROM `xbmall_xb_cz` WHERE cw_sh_state=1 and  czyhkh = ".$bean['czyhkh'];
+$czrq=getOne($sql);
+if($czrq!=null){
+  $czrq = date('Y-m-d H:i',$czrq);
+}
+
+$nowTime =  date('Y-m-d H:i',time());
+ ?>
+<!DOCTYPE html>
+<html>
+<head lang="en">
+<meta charset="UTF-8">
+<title><?=_TITLE_?></title>
+<meta name="keyword" content=" " />
+<meta name="description" content="" />
+<link href="/Public/ico.ico" type="image/x-icon" rel="shortcut icon" />
+<link rel="stylesheet" type="text/css" href="/jygj/Public/home/css/page.css">
+<link rel="stylesheet" type="text/css" href="/jygj/Public/home/css/index.css" />
+<script type="text/javascript" src="/jygj/Public/home/js/jquery-1.7.2.js"></script>
+<script type="text/javascript" src="/Public/js/jquery.flexslider-min.js"></script>
+<style type="text/css">
+tr {
+	height: 30px;
+}
+</style>
+</head>
+
+
+<body >
+	<div class="warp">
+		<!------最顶部开始------>
+		<!------logo结束------>
+		<script>
+			function shenhe(type) {
+				$("#type").val(type);
+				var czrq = $("#czrq").val();
+				if (type == 1 && czrq == '') {
+					alert("必须填写客户本次的真实充值时间, 方便下次充值时对照时间");
+					return false;
+				}
+
+			}
+		</script>
+
+
+		<div class=" ">
+
+			<div class="warp_f">
+				<form action="xxtz_shen_he.php">
+				<input type="hidden" name="id" value="<?php echo $bean['id'];?>" >
+				<input type="hidden" name="type" id="type" value="" >
+					<table border="1" cellspacing="0" cellpadding="0" class="warp_f_th">
+						<tr>
+							<td>&nbsp;</td>
+							<td align="center">充值币:<?php echo $bean['czje'];?>
+							</td>
+						</tr>
+						<tr>
+							<td>&nbsp;</td>
+							<td align="center">tap账号:<?php  echo  $bean['czyhkh'];?></td>
+						</tr>
+						 
+						<tr>
+							<td>&nbsp;</td>
+							<td align="center">此tap账号上次充值时间:<?php  echo  $czrq;?></td>
+						</tr>
+						<tr>
+							<td>&nbsp;</td>
+							<td align="center">凭证:<img alt="" style="width:50%"
+								src="/data/xxtzuploads/<?php  echo $bean['ping_zheng'];?>"></td>
+						</tr>
+						<tr>
+							<td>&nbsp;</td>
+							<td align="center">用户备注: <?=$bean['user_bz'];?>
+							</td>
+						</tr>
+						<tr>
+							<td>&nbsp;</td>
+							<td align="center">技术备注: <?php  
+									 if($role_id==6){  //技术人员的审核
+									?> <textarea name="js_bz" rows="5" cols="40"><?=$bean['js_bz'];?></textarea>
+								<?php   }else{ ?> <?=$bean['js_bz'];?> <?php   } ?>
+							</td>
+						</tr>
+						<tr>
+							<td>&nbsp;</td>
+							<td align="center">财务备注: <?php  
+									 if($role_id==3){  //财务人员的审核
+									?> <textarea name="cw_bz" rows="5" cols="40"><?=$bean['cw_bz'];?></textarea>
+								<?php   }else{ ?> <?=$bean['cw_bz'];?> <?php   } ?>
+							</td>
+						</tr>
+						<?php  
+									 if($role_id==3){  //财务人员添加充值时间
+									?>
+						<tr>
+							<td>&nbsp;</td>
+							<td align="center">本次充值时间:<input type="text" name="czrq"
+							 value="<?php echo $nowTime;?>"	id="czrq"></td>
+						</tr>
+						<?php   } ?>
+
+						<tr>
+							<td>&nbsp;</td>
+							<td align="center"><button type="submit"
+									style="width: 150px" onclick="return shenhe(1)">审核通过</button>
+								<button type="submit" style="width: 150px" onclick="return shenhe(2)">审核不通过</button>
+							</td>
+
+						</tr>
+					</table>
+				</form>
+			</div>
+
+		</div>
+
+	</div>
+</body>
+</html>

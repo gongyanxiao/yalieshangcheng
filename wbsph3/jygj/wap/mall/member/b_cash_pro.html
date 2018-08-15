@@ -1,0 +1,153 @@
+<?php
+error_reporting(0);
+$referer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : NULL;
+$host = $_SERVER['HTTP_HOST'];
+if(substr($referer,7,strlen($host)) != $host){
+ echo '非法操作';
+exit();
+}
+session_start(); 
+date_default_timezone_set("Asia/Shanghai");
+include_once "../config/check.php";
+include_once "../config/zt_config.php";
+session_start();
+$db=mysql_connect($db_host,$db_user,$db_pwd);
+mysql_query("SET NAMES $coding"); 
+mysql_select_db($db_database);
+$money=abs(htmlspecialchars(trim($_POST['money'])));
+$yzm=htmlspecialchars(trim($_POST['yzm']));
+$session=htmlspecialchars(trim($_POST['session']));
+
+if(($session!==$_SESSION['uniqid'])) {
+	echo '<script>alert("请不要重复点击!")</script>';
+print("<script language='javascript'>location.reload();</script>");
+	exit();
+} else {
+	 unset($_SESSION['uniqid']);
+}
+
+if($_COOKIE["yzm"]<>"$yzm"){
+echo '<script>alert("验证码不正确，请核实!")</script>';
+print("<script language='javascript'>location.reload();</script>");
+exit();
+}
+if(!is_numeric($money) || empty($money)){
+print("<script language='javascript'>alert('提现金额必须为数字格式!');</script>");
+print("<script language='javascript'>location.reload();</script>");
+exit();
+}
+if(!is_int($money/100)){
+print("<script language='javascript'>alert('您提现的金额必须是100的倍数!');</script>");
+print("<script language='javascript'>location.reload();</script>");
+exit();
+	}
+$user=$_COOKIE['ECS']['username'];
+//绑定银行卡判断
+$sql3="select * from zt_bind_bank where ssyh='$user' order by id desc";
+$q3=mysql_query($sql3);
+$num3=mysql_num_rows($q3);
+if($num3<"1"){
+print("<script language='javascript'>alert('您还没有绑定银行卡!');</script>");
+print("<script language='javascript'>window.location.href='b_bank.html';</script>");
+exit();
+}
+$sql1="select jf from xbmall_users where user_name='$user' order by id desc";
+	$q1=mysql_query($sql1);
+	$ss=mysql_fetch_assoc($q1);
+
+	if(floor($money/100)*100>floor($ss['jf']/100)*100){
+print("<script language='javascript'>alert('您提现的金额超额!');</script>");
+print("<script language='javascript'>location.reload();</script>");
+exit();
+	}
+//判断提现金额是否大于剩余金额
+if($ss['jf']<$money){
+print("<script language='javascript'>alert('提现金额超额!');</script>");
+print("<script language='javascript'>location.reload();</script>");
+exit();
+	}
+//判断提现审核日期到帐7天以上
+$sql2="select date,ck from zt_b_cash_record where user='$user' order by id desc";
+	$q2=mysql_query($sql2);
+	$ss2=mysql_fetch_assoc($q2);
+$date=date("Y-m-d H:i:s");
+$day=(strtotime($date)-strtotime($ss2["date"]))/60/60/24;
+$ck=$ss2["ck"];
+if($day<=11&&$ck!='3'){
+
+	print("<script language='javascript'>alert('上次提现到帐后的7个工作日后方可再次提现!');</script>");
+		print("<script language='javascript'>location.reload();</script>");
+		exit();
+
+}elseif($day<'1' and $ck=='3') {
+		print("<script language='javascript'>alert('提现被驳回后的24小时方可再次提现!');</script>");
+		print("<script language='javascript'>location.reload();</script>");
+		exit();
+}else{
+
+if(($_COOKIE["yzm"]<>"$yzm")||$yzm==''||empty($yzm)){
+echo '<script>alert("验证码不正确，请核实!")</script>';
+print("<script language='javascript'>location.reload();</script>");
+exit();
+}
+//记录转换日志
+$date=date("Y-m-d H:i:s");
+function getIP(){ 
+if (isset($_SERVER)) { 
+if (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) { 
+$realip = $_SERVER['HTTP_X_FORWARDED_FOR']; 
+} elseif (isset($_SERVER['HTTP_CLIENT_IP'])) { 
+$realip = $_SERVER['HTTP_CLIENT_IP']; 
+} else { 
+$realip = $_SERVER['REMOTE_ADDR']; 
+} 
+} else { 
+if (getenv("HTTP_X_FORWARDED_FOR")) { 
+$realip = getenv( "HTTP_X_FORWARDED_FOR"); 
+} elseif (getenv("HTTP_CLIENT_IP")) { 
+$realip = getenv("HTTP_CLIENT_IP"); 
+} else { 
+$realip = getenv("REMOTE_ADDR"); 
+} 
+} 
+return $realip; 
+}
+$ip=getIP();
+$sql3="select zhihang,khh,yhkh from zt_bind_bank where ssyh='$user'  order by bind desc";
+	$q3=mysql_query($sql3);
+	$ss3=mysql_fetch_assoc($q3);
+$khh=$ss3["khh"];
+$yhkh=$ss3["yhkh"];
+$zh=$ss3["zhihang"];
+//扣除手续费
+$money1=$money-$money*0.005;
+$money1=round($money1,3);
+$url='http://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'].'?'.$_SERVER['QUERY_STRING'].'<br><font color="red">操作IP:'.$ip.'</font>';
+$sql4="INSERT INTO  zt_b_cash_record(`id`,`date`,`je`,`zt`,`user`,`url`,`sm`,`khh`,`yhkh`,`zh`,`ck`,`ckdate`)VALUES(NULL,'$date','$money1','0','$user','$url','','$khh','$yhkh','$zh','0','$date');";
+$query=mysql_query($sql4);
+if($query){
+$sql1="select jf from xbmall_users where user_name='$user'  order by id desc";
+	$q1=mysql_query($sql1);
+	$ss=mysql_fetch_assoc($q1);
+$jf5=$ss['jf']-$money;
+$jf5=round($jf5,3);
+$sql5="update xbmall_users set jf='$jf5' where user='$user'";
+mysql_query($sql5);
+$bz3="提现".round($money,3);
+$m1="-".round($money,3);
+$q1="select id from zt_b_cash_record where user='$user' order by id desc";
+$query2=mysql_query($q1);
+$no2=mysql_fetch_assoc($query2);
+$id2=$no2["id"];
+$sqlzw3="INSERT INTO  `zt_jf_record`(`id`,`xmfl`,`date`,`jf`,`bz`,`user`,`bh`) VALUES(null,'提现','$date','$m1','$bz3','$user','$id2');";
+mysql_query($sqlzw3);
+print("<script language='javascript'>alert('提现提交完成！我们在48小时内处理！');</script>");
+print("<script language='javascript'>window.location.href='b_sqtx.html';</script>");
+exit();
+}
+mysql_close($db);
+
+}
+
+
+?>

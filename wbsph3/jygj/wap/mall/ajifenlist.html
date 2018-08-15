@@ -1,0 +1,59 @@
+<?	
+include("config.php");
+$link = mysqli_connect($db_host,$db_user,$db_pwd,$db_database) or die('Unale to link');
+$link->set_charset('utf8');
+$per=16;
+$lmid = htmlspecialchars(trim($_GET['lmid']));
+$_page = htmlspecialchars(trim($_GET['page']));
+$jifen = htmlspecialchars(trim($_GET['jifen']));
+$noj=htmlspecialchars(trim($_GET['noj']));
+$ss='';
+if(!empty($title)){
+	$ss=" ((spmc like '%".$title."%') or (spjs like '%".$title."%')) and ";
+}
+$c=' and ';
+if(!empty($lmid)){
+    $c.=" fl = ".$lmid;
+} else {
+    $c='';
+}
+$c1=' and ';
+if(empty($jifen)) {
+	$c1='';
+} elseif ($jifen==1) {
+	$c1.='dhjf<=1000';
+} elseif ($jifen==2) {
+	$c1.='dhjf between 1000 and 2000';
+} elseif ($jifen==3) {
+	$c1.='dhjf between 2000 and 4000';
+} elseif ($jifen==4) {
+	$c1.='dhjf between 4000 and 6000';
+} elseif ($jifen==5) {
+	$c1.='dhjf>6000';
+}
+?>
+<?
+if(empty($noj)) {
+$sql1="SELECT * FROM  `zt_jifen` where ".$ss." sfsj=1 and gngj=0 ".$c.$c1;
+} else {
+$sql1="SELECT * FROM  `zt_jifen` where ".$ss." sfsj=1 and gngj=1 ".$c.$c1;
+}
+
+?>
+
+<?					
+$sql1.=' limit '.$_page*$per.','.$per;
+$qry1=$link->query($sql1);
+        while($row1 =$qry1->fetch_array()){
+		?> 
+		<li>
+                <a href="jifencontent.html?jfid=<?=$row1[id]?>">
+                    <img src="<?=strtr($row1['spslt'],array("../"=>"/mall/"));?>">
+                    <span style="overflow: hidden;height:27px"><?=mb_substr($row1[spmc],0,22,'utf-8');?></span>
+                    <b><?=$row1[dhjf];?>积分<!-- <i>市场参考价：<?=$row1[ckj];?></i> --></b>
+                </a>
+            </li>
+		<?
+	    }
+	    ?>
+<?$link->close();?>

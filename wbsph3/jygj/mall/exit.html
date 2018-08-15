@@ -1,0 +1,14 @@
+ <?php
+            if(htmlspecialchars($_GET['log'])=='1'){
+            include "config/zt_class.php";
+		zt_cookie("xbmall_users1",'',time()-3600,"/");  		
+                zt_cookie("dl",'',time()-3600,"/");  
+unset($_COOKIE['ECS']['username']);		
+unset($_COOKIE['dl']);			
+header("location:/mall/member_login.html");
+
+            }
+			
+			
+
+                        ?>

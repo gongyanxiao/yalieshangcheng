@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>支付订单</title>
+<style>
+body {
+	text-align: center
+}
+
+div {
+	margin: 0 auto;
+	width: 600px;
+	height: 100px;
+}
+
+td {
+	padding-bottom: 20px;
+}
+</style>
+</head>
+<body>
+	<form action="flow.php">
+		<input type="hidden" name="act" value="ceshiZhiFu">
+		<div>
+			<table>
+
+				<tr>
+					<td>交易流水号</td>
+					<td><input type="text" name="transSeqId" value="12"></td>
+				</tr>
+
+
+				<tr>
+					<td>交易金额</td>
+					<td><input type="text" name="transAmt" value="1000"></td>
+				</tr>
+				<tr>
+					<td>交易手续费</td>
+
+					<td><input type="text" name="transFee" value="0.005"></td>
+				</tr>
+
+				<tr>
+					<td>订单id</td>
+					<td><input type="text" name="orderId" value="12"></td>
+				</tr>
+
+				<tr>
+					<td>付款日志id(非订单id)</td>
+					<td><input type="text" name="paySn" value="12"></td>
+				</tr>
+
+				<tr>
+					<td>网关</td>
+					<td><select name="payCode">
+							<option value="unpaywap">银联WAP</option>
+							<option value="eposgicp">银联快捷支付</option>
+							<option value="reapalx">融宝支付</option>
+							<option value="payeco">易联H5</option>
+					</select></td>
+
+				</tr>
+
+				<tr>
+					<td>支付来源</td>
+					<td><select name="paySrc">
+							<option value="PC" selected="selected">PC</option>
+							<option value="MP">MP</option>
+					</select></td>
+				</tr>
+
+
+				<tr>
+					<td>md5Key</td>
+					<td><input type="text" name="transSeqId" value="d3CgIMWVz4"></td>
+				</tr>
+				<tr>
+					<td><input type="submit" value="提交"></td>
+				</tr>
+			</table>
+		</div>
+	</form>
+</body>
+</html>

@@ -1,0 +1,69 @@
+	{if $order.inv_status eq 'provided'}
+		<form id='invocie_form' name="theForm" action="order.php?act=unprovide_invoice&act_from=invoice_info&order_id={$order.order_id}&order_sns={$order.order_sn}" method="post">
+	{else}
+		<form id='invocie_form' name="theForm" action="order.php?act=provide_invoice&act_from=invoice_info&order_id={$order.order_id}&order_sns={$order.order_sn}" method="post">
+	{/if}
+	<div class='list-div'>
+		<table width='100%' cellspacing='1'>
+			<tbody id='order_info_tbody'>
+				<tr><th colspan='4'><strong>{$lang.order_info}</strong></th><td colspan='2'>&nbsp</td></tr>
+				<tr>
+					<td align='right' width='13%'>{$lang.label_order_sn}</td>
+					<td width='20%'>{$order.order_sn}</td>
+					<td align='right' width='13%'>{$lang.label_order_time}</td>
+					<td width='20%'>{$order.order_time}</td>
+					<td colspan='2'>&nbsp</td>
+				</tr>
+			</tbody>
+			<tbody id='inv_info_tbody'>
+				<tr><th colspan='4'><strong>{$lang.inv_info}</strong></th><td colspan='2'>&nbsp</td>
+				</tr>
+				<tr>
+					<td align='right'>{$lang.label_inv_type}</td>
+					<td>{$lang[$order.inv_type]}</td>
+					<td align='right'>{$lang.label_inv_payee}</td>
+					<td>{$order.inv_payee}</td>
+					<td colspan='2'>&nbsp</td>
+				</tr>
+				<tr>
+					<td align='right'>{$lang.label_inv_content}</td>
+					<td>{$order.inv_content}</td>
+					<td align='right'>{$lang.label_inv_money}</td>
+					<td>{$order.formatted_inv_money}</td>
+					<td colspan='2'>&nbsp</td>
+				</tr>
+			</tbody>
+			<tbody id='inv_consignee_info_tbody'>
+				<tr><th colspan='4'><strong>{$lang.inv_consignee_info}</strong></th><td colspan='2'>&nbsp</td>
+				</tr>
+				<tr>
+					<td align='right'>{$lang.label_inv_consignee_name}</td>
+					<td>{$order.consignee}</td>
+					<td align='right'>{$lang.label_inv_consignee_phone}</td>
+					<td>{$order.mobile}</td>
+					<td colspan='2'>&nbsp</td>
+				</tr>
+				<tr>
+					<td align='right'>{$lang.label_inv_consignee_address}</td>
+					<td>{$order.inv_complete_address}</td>
+					<td colspan='4'>&nbsp</td>
+				</tr>
+				<tr>
+					<td align='right'>{$lang.label_action_note2}</td>
+					<td colspan='3'><textarea id='inv_remark' name='inv_remark' type='text' style='height:150px;width:98%;border:none;'>{$order.inv_remark}</textarea></td>
+					<td colspan='2'>&nbsp</td>
+				</tr>
+			</tbody>
+			<tr>
+				<th colspan='4' align='center'>
+				{if $order.inv_status eq 'provided'}
+				<input class='button' type='submit' value='取消开票' style='margin-top:5px;'/>
+				{else}
+				<input class='button' type='submit' value='开票' style='margin-top:5px;'/>
+				{/if}
+				</th>
+				<th colspan='2'>&nbsp</th>
+			</tr>
+		</table>
+	</div>
+	</form>

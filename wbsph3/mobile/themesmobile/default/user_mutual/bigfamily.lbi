@@ -1,0 +1,49 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <div class="sc_nav">
+            <ul>
+                <li class="tab_head on">
+                    <a>大家庭信息</a>
+                </li>
+                <li class="tab_head">
+                    <a href="user.php?act=djtfh_jilu" class="sc1">大家庭记录</a>
+                </li>
+            </ul>
+        </div>
+        <div id="J_ItemList" class="Fund">
+            <ul class="product single_item info">
+                <li>
+                  
+                    <div class="detail_m"> 
+                        <dl>
+                            <h2>
+                                <em style='float:left'>{$user_info.user_name} 欢迎您回来！</em>
+                            </h2>
+                            <dd style='padding:20px'>
+                                <p>大家庭类型：{if $user_info.is_bigfamily eq '1'}大家庭合伙人{else}大家庭代理{/if}</p>
+                                <br />
+                                <p>大家庭分红 ： {$user_info.djtfh_points} 
+                                <a  style='float:none;display:inline;width:60px;text-align:center;background: #eeeeee none repeat scroll 0 0;' href='user.php?act=djtfh_raply'>提现</a>
+                                </p>
+                                {if $user_info.is_bigfamily eq '2'}
+                                 <p>工资 ： {$user_info.gz_points} 
+                                  <a  style='float:none;display:inline;width:60px;text-align:center;background: #eeeeee none repeat scroll 0 0;' href='user.php?act=gz_raply'>领取工资</a>
+                                 </p>
+                                {/if}
+                                
+                                {if $user_info.is_bigfamily eq '1'}
+	                                  <br />
+		                                <p>
+		                                  <a style='float:none;display:inline;width:60px;text-align:center;background: #eeeeee none repeat scroll 0 0;' href='user.php?act=bigfamily&isShengJi=1'>升级为代理</a>
+		                                </p>
+                                 {/if}
+                                <br />
+                                <p></p>
+                            </dd>
+                        </dl>
+                    </div>
+                    
+                </li>
+            </ul>
+            <a href="javascript:;" class="get_more"> </a>
+        </div>
+ 

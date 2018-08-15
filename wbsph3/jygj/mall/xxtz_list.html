@@ -1,0 +1,193 @@
+<?php
+  include "config.php" ;
+  include "page.class.php" ;
+
+ 
+?>
+<!DOCTYPE html>
+<html>
+<head lang="en">
+<meta charset="UTF-8">
+<title><?=_TITLE_?></title>
+<meta name="keyword" content="<?=_KEYWORD_?>" />
+<meta name="description" content="<?=_DESCRIPTION_?>" />
+<link href="/Public/ico.ico" type="image/x-icon" rel="shortcut icon" />
+<link rel="stylesheet" type="text/css" href="/jygj/Public/home/css/page.css">
+<link rel="stylesheet" type="text/css" href="/jygj/Public/home/css/index.css" />
+<script type="text/javascript" src="/jygj/Public/home/js/jquery-1.7.2.js"></script>
+<script type="text/javascript" src="/Public/js/jquery.flexslider-min.js"></script>
+<script type="text/javascript" src="/Public/js/clipboard.min.js"></script>
+
+
+</head>
+
+
+<body >
+	<div class="warp">
+		<!------最顶部开始------>
+		<!------logo结束------>
+		<script>
+			$(function() {
+
+			});
+		</script>
+
+		<!------导航开始------>
+		<?
+        include("sheader1.html");
+		?>
+		<!------导航结束------>
+		<!------导航结束------>
+		<?php
+include "myphplib/db.php";
+include "myphplib/message.php";
+include "config/check.php";
+date_default_timezone_set("Asia/Shanghai");
+$user=$_COOKIE['ECS']['username'];
+
+//查询有没有购买店铺, 如果没有购买过店铺, 那么让用户购买店铺
+$sql="select * from  xbmall_users where user_name='{$user}'";
+$userInfo = getRow($sql);
+ 
+$sql="select level from xbmall_users where user_name='{$user}'";
+$level = getOne($sql);
+
+
+//查询出配置信息
+$configSQL=" SELECT   a.`value` as first_period, b.`value` as second_period, c.`value` as three_period, d.`value` as four_period FROM `zt_setting`a
+   JOIN      `zt_setting` b      
+WHERE  a.`name`='first_period' and b.`name`='second_period' ";
+$result = getRow($configSQL);
+$first_period =$result['first_period'];
+$second_period =$result['second_period'];
+
+ $where =" where user='$user' ";
+        //自己是消费者， 或者自己是线下消费的全返受益人
+        $sql = "select ft_state, id,parent_id, user,czje,  date_format(FROM_UNIXTIME(tjrq),'%Y-%m-%d %H:%i') as tjrq ,
+date_format(FROM_UNIXTIME(czrq),'%Y-%m-%d %H:%i') as czrq ,   cj_state,date_format(FROM_UNIXTIME(step_start_rq),'%Y-%m-%d %H:%i') as step_start_rq,
+ step, ktxje,ytxje,yfje,date_format(FROM_UNIXTIME(next_ft_time),'%Y-%m-%d %H:%i') as next_ft_time,type,xxtzzfwf
+,xxtzzcbjz,xxtzzsyjz,xxtzzxfjz,xxtzztxjf  from  zt_xxtz {$where}  ";
+						$num  = getOne("select count(0) from zt_xxtz {$where} ");
+				     	$per = 12;
+						$page_obj=new Page($num,$per);
+ 						$q="{$sql} order by id desc limit ".($page_obj->page-1)*$per.",".$per;
+ 
+ 						$r=mysql_query($q);
+						$pagelist=$page_obj->fpage();
+
+ ?>
+
+		<!----内容开始---->
+		<div class="warp_moer">
+			<div class="warp_h">
+				<!----right内容开始---->
+				<div class="warp_h_right">
+
+					<div class="warp_f">
+
+						<div class="warp_f_div">
+							<b>投资记录</b> &nbsp; &nbsp; <a href="xxtz_add.html">添加投资/复投</a>
+						</div>
+
+						<table border="1" cellspacing="0" cellpadding="0"
+							class="warp_f_th">
+							<tr>
+								<th align="center">编号</th>
+								<th align="center">前编号</th>
+								<th align="center">金额</th>
+								<th align="center">提交日期</th>
+								<th align="center">当前阶段</th>
+								<th align="center">本阶段开始日期</th>
+								<th align="center">可提现金额</th>
+								<th align="center">已提现金额</th>
+								<th align="center">复投截止时间</th>
+							</tr>
+							<?php
+					while($data=mysql_fetch_array($r)){
+				?>
+							<tr>
+								<td align="center"
+									style="font-family: Arial, Helvetica, sans-serif; color: #F00; border-bottom: 1px solid #CCC;">
+									<?=$data["id"];?>
+								</td>
+								<td align="center"
+									style="font-family: Arial, Helvetica, sans-serif; color: #F00; border-bottom: 1px solid #CCC;">
+									<?=$data["parent_id"];?>
+								</td>
+								<td align="center" style="border-bottom: 1px solid #CCC;">
+									<?=$data["czje"];?>
+								</td>
+								<td align="center"
+									style="font-family: Arial, Helvetica, sans-serif; color: #F00; border-bottom: 1px solid #CCC;">
+									<?=$data["tjrq"];?>
+								</td>
+							    <td align="center" style="border-bottom: 1px solid #CCC;">
+									第<?=$data["step"];?>阶段
+								</td>
+								<td align="center" style="border-bottom: 1px solid #CCC;">
+									<?=$data["step_start_rq"];?>
+								</td>
+
+							 
+								<td align="center" style="border-bottom: 1px solid #CCC;">
+									<?php  
+									   echo $data["xxtzztxjf"];
+                                     ?>
+								</td>
+								<td align="center" style="border-bottom: 1px solid #CCC;">
+									<?php  
+									   echo $data["ytxje"];
+                                     ?>
+								</td>
+								<td align="center" style="border-bottom: 1px solid #CCC;">
+									<?php
+										if($data["ft_state"]==1)  
+										 echo "已复投";
+										else if($data["step"]==1) 
+                                          echo $data["next_ft_time"];
+ 										else echo "无";
+								  ?>
+								</td>
+							</tr>
+							<?php  } ?>
+						</table>
+						<center>
+							<table width="100%" border="0" align="center" cellpadding="0"
+								cellspacing="0" style="text-align: center;">
+								<tr>
+									<td height="21" colspan="6"><div class="epages"
+											style="margin-top: 0">
+											<?php  echo $pagelist;?>
+										</div></td>
+								</tr>
+							</table>
+						</center>
+					</div>
+
+				</div>
+				<!----right内容结束---->
+
+				<!----left内容开始---->
+				<div class="warp_h_left">
+					<?
+		   			 include_once "left_p_menu.html";
+					 mysql_close($db);
+  					?>
+
+					<a href="" class="warp_h_left_gg"><img
+						src="/jygj/Public/home/img/im113.jpg" width="170" height="207"></a>
+
+				</div>
+				<!----left内容结束---->
+			</div>
+
+		</div>
+		<!----内容结束---->
+
+
+		<!------底部开始------>
+		<?include("sfooter.html");?>
+		<!------底部结束------>
+	</div>
+</body>
+</html>

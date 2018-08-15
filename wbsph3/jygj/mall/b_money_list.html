@@ -1,0 +1,162 @@
+<?include("config.php");?>
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title><?=_TITLE_?></title>
+    <meta name="keyword" content="<?=_KEYWORD_?>"/>
+    <meta name="description" content="<?=_DESCRIPTION_?>"/>
+
+    <link href="/Public/ico.ico" type="image/x-icon" rel="shortcut icon" /> 
+	<link rel="stylesheet" type="text/css" href="/jygj/Public/home/css/page.css">
+    <link rel="stylesheet" type="text/css" href="/jygj/Public/home/css/index.css"/>
+    <script type="text/javascript" src="/jygj/Public/home/js/jquery-1.7.2.js"></script>
+	<script type="text/javascript" src="/Public/js/jquery.flexslider-min.js"></script>
+</head>
+<body >
+<div class="warp">
+    <!------最顶部开始------>
+  <?
+        include("sheader1.html");
+		?>
+  <!------logo结束------>
+<script>
+	$(function(){
+		$(".open_xl").click(function(){
+			$(".xiala").show();
+		})
+		$(".xiala a").click(function(){
+			var xq=$(this).html();
+			$(".open_xl a").html(xq);
+			$(this).parent().hide();
+		})
+	})
+</script>
+
+<!------导航开始------><!------导航结束------>
+    <!------导航结束------>
+
+
+    <!----内容开始---->
+  <div class="warp_moer">
+
+    <div class="warp_h">
+            <!----right内容开始---->
+      <div class="warp_h_right" style="    width: 984px;">
+
+                <div class="warp_f">
+
+                    <div class="warp_f_div">
+                        <span>总共提现：<i><?php
+include "config/zt_config.php";
+include "config/check.php";
+date_default_timezone_set("Asia/Shanghai");
+$user=$_COOKIE['ECS']['username'];
+$db=mysql_connect($db_host,$db_user,$db_pwd);
+mysql_query("SET NAMES $coding"); 
+mysql_select_db($db_database);
+$sql="select * from xbmall_users where user_name='$user';";						
+$query=mysql_query($sql);
+$out=mysql_fetch_assoc($query);	
+$sq2="select sum(je) as ze from zt_b_cash_record  where user='$user'";
+$qs2=mysql_query($sq2);
+$sf2=mysql_fetch_assoc($qs2);
+echo number_format($sf2['ze'],2);
+									?></i></span>
+                        <b>提现记录</b>
+                    </div>
+
+                    <table border="1" cellspacing="0" cellpadding="0" class="warp_f_th">
+                        <tr>
+                            
+                            <th width="374">提现日期</th>
+                            <th width="174">提现金额</th>
+                            <th width="209">状态</th>
+							<th width="409">说明</th>
+							<th width="106">&nbsp;</th>
+                        </tr>
+                    </table>
+					<?php
+					$q="select * from zt_b_cash_record  where user='$user'  order by id desc";
+$r=mysql_query($q,$db);
+$num=mysql_num_rows($r);
+for($i=0;$i<$num;$i++){
+$data2=mysql_fetch_array($r);
+?>
+<table width="985" border="0" cellpadding="0" cellspacing="0">
+  <tr>
+    <td width="290" height="37" align="center" style="font-family:Arial, Helvetica, sans-serif;color:#F00;border-bottom:1px  solid #CCC;"><?=$data2["date"];?></td>
+    <td width="187" align="left" style="border-bottom:1px  solid #CCC;"><?=$data2["je"];?></td>
+    <td width="133" align="left" style="border-bottom:1px  solid #CCC;"><?if($data2["zt"]=="2"){
+	echo "已处理";
+	} elseif($data2["zt"]=="3") {
+    echo "已驳回";
+    } else{
+		echo "未处理";
+	};?></td>
+    <td width="375" align="left" style="border-bottom:1px  solid #CCC;"><?=$data2["sm"];?>
+     </td>
+    </tr>
+</table>
+<?php
+  }
+
+  ?>
+
+                    
+
+                    <table border="1" cellspacing="0" cellpadding="0" class="warp_f_ble">
+						
+                     </volist>  
+                    </table>
+
+                    <div class="warp_f_mp">
+                        <!----下一页开始---->
+						<div class="scott"></div>
+                        <!----下一页结束---->
+
+                    </div>
+
+                </div>
+				<script>
+					$("#btn1").click(function(){    
+						
+						if(this.checked){    
+							$("table input").prop("checked", true);   
+						}else{    
+							$("table input").prop("checked", false); 
+						}    
+					});
+				function del(){
+					if (confirm("确定删除吗？")){
+						if($('input[name="check"]').is(':checked') ){
+							alert('请选择要删除的记录');return false;
+						}else{
+							$("#form").submit();
+						}
+						
+					}
+					
+				
+				}
+				</script>
+
+        </div>
+        <!----right内容结束---->
+
+        <!----left内容开始---->
+                    <? include_once "left_menu2.html";?>
+        <!----left内容结束---->
+      </div>
+
+    </div>
+    <!----内容结束---->
+<?
+include("sfooter.html");
+mysql_close($db);
+
+?>
+    <!------底部开始------><!------底部结束------>
+</div>
+</body>
+</html>

@@ -1,0 +1,209 @@
+<?
+include("config/zt_config.php");
+include("config.php");
+$link = mysqli_connect($db_host,$db_user,$db_pwd,$db_database) or die('Unale to link');
+$link->set_charset('utf8');
+$lmid=htmlspecialchars(trim($_GET['lmid']));
+$noj=htmlspecialchars(trim($_GET['noj']));
+$jifen=htmlspecialchars(trim($_GET['jifen']));
+$a=array();
+$sqly="select * from `zt_jifen_sort`";
+$qryy=$link->query($sqly);
+while($ry=$qryy->fetch_array()) {
+	$a[]=$ry[id];
+}
+if(empty($lmid)||!in_array($lmid, $a)){
+	header("Location:jf.html".(empty($noj)?'':'?noj=1')); 
+    exit;
+}
+?>
+<!DOCTYPE html>
+<html>
+<head lang="en">
+   <meta charset="UTF-8">
+        <title><?=empty($noj)?'国内':'国际'?>积分兑换_网络平台_<?=_TITLE_?></title>
+    <meta name="keyword" content="<?=_KEYWORD_?>"/>
+    <meta name="description" content="<?=_DESCRIPTION_?>"/>
+    <link href="/Public//ico.ico" type="image/x-icon" rel="shortcut icon" /> 
+	 <link rel="stylesheet" type="text/css" href="/Public/jifen/css/index.css">
+    <script type="text/javascript" src="/Public//jifen/js/jquery-1.7.2.js"></script>
+    <script type="text/javascript">
+	function f1(url){
+        var xhr=new XMLHttpRequest();
+        xhr.onreadystatechange=function() {
+            console.log(xhr.readyState);
+            if(xhr.readyState==4&&xhr.status==200){
+                document.getElementById("warp_y_ul").innerHTML=xhr.responseText;
+            }
+        }
+        xhr.open("get",url);
+        xhr.send(null);
+    }
+	window.onload=function() {
+		var url="ajflist.html?lmid=<?=$lmid?><?=empty($noj)?'':'&noj=1'?><?=empty($jifen)?'':'&jifen='.$jifen?>";
+
+		f1(url);
+	}
+ </script>
+</head>
+<body>
+
+
+
+
+<div class="warp">
+    <!--最顶部开始-->
+	<?include("jheader.html");?>
+    <!--导航结束-->
+
+   
+
+    <!--内容开始-->
+  <div class="warp_i">
+
+        
+<?
+	$sqly="select * from `phome_enewsad` where classid=14 and title =(select columname from `zt_jifen_sort` where id=".$lmid.")";
+	$qryy=$link->query($sqly);
+	$ry=$qryy->fetch_array();
+?>
+        <img src="<?=$ry['picurl']?>" width="1090" height="321" class="warp_u_img" style="margin:5px">
+
+        <div class="warp_y" id="warp_y">
+
+            <ul class="select">
+                <li class="select-list">
+                    <dl id="select1">
+                        <dt>积&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;分：</dt>
+                        <?
+                            
+                            if(empty($jifen)) {
+                        ?>
+                            <dd class="select-all selected">
+                        <?
+                            }else {
+                        ?>
+                            <dd>
+                        <?
+                            }
+                        ?>
+                        <a href="jflist.html?lmid=<?=$lmid?><?=empty($noj)?'':'&noj=1'?>">全部</a></dd>
+                        <dd>|</dd>
+                        <?
+                            if($jifen==1) {
+                        ?>
+                            <dd class="select-all selected">
+                        <?
+                            }else {
+                        ?>
+                            <dd>
+                        <?
+                            }
+                        ?>
+                        <a href="jflist.html?lmid=<?=$lmid?><?=empty($noj)?'':'&noj=1'?>&jifen=1">1000以下</a></dd>
+                        <dd>|</dd>
+                        <?
+                            if($jifen==2) {
+                        ?>
+                            <dd class="select-all selected">
+                        <?
+                            }else {
+                        ?>
+                            <dd>
+                        <?
+                            }
+                        ?>
+                        <a href="jflist.html?lmid=<?=$lmid?><?=empty($noj)?'':'&noj=1'?>&jifen=2">1000-2000</a></dd>
+                        <dd>|</dd>
+                        <?
+                            if($jifen==3) {
+                        ?>
+                            <dd class="select-all selected">
+                        <?
+                            }else {
+                        ?>
+                            <dd>
+                        <?
+                            }
+                        ?>
+                        <a href="jflist.html?lmid=<?=$lmid?><?=empty($noj)?'':'&noj=1'?>&jifen=3">2000-4000</a></dd>
+                        <dd>|</dd>
+                        <?
+                            if($jifen==4) {
+                        ?>
+                            <dd class="select-all selected">
+                        <?
+                            }else {
+                        ?>
+                            <dd>
+                        <?
+                            }
+                        ?>
+                        <a href="jflist.html?lmid=<?=$lmid?><?=empty($noj)?'':'&noj=1'?>&jifen=4">4000-6000</a></dd>
+                        <dd>|</dd>
+                        <?
+                            if($jifen==5) {
+                        ?>
+                            <dd class="select-all selected">
+                        <?
+                            }else {
+                        ?>
+                            <dd>
+                        <?
+                            }
+                        ?>
+                        <a href="jflist.html?lmid=<?=$lmid?><?=empty($noj)?'':'&noj=1'?>&jifen=5">6000以上</a></dd>
+                    </dl>
+                </li>
+                <li class="select-result">
+                    <dl>
+                        <dt>已选条件：</dt>
+                        <dd class="select-no">&nbsp;
+                        <?
+                            $jifen=htmlspecialchars(trim($_GET['jifen']));
+                            if(empty($jifen)) {
+                        ?>
+                                全部
+                        <?      
+                            } elseif($jifen==1) {
+                        ?>
+                                1000以下
+                        <?
+                            } elseif($jifen==2) {
+                        ?>
+                                1000-2000
+                        <?  
+                            } elseif($jifen==3) {
+                        ?>
+                                2000-4000
+                        <?  
+                            } elseif($jifen==4) {
+                        ?>
+                                4000-6000
+                        <?  
+                            } elseif($jifen==5) {
+                        ?>
+                                6000以上
+                        <?  
+                            }
+                        ?>
+                        
+                                                </dd>
+                    </dl>
+                </li>
+            </ul>
+            <ul class="warp_y_ul" id="warp_y_ul">
+            </ul>
+        </div>
+
+
+
+    </div>
+    
+
+
+<?include("jfooter.html");?>
+<?$link->close();?>
+</div>
+</body>
+</html>

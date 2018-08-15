@@ -1,0 +1,190 @@
+<?php
+
+
+  include "config.php" ;
+  include "page.class.php" ;
+
+
+ 
+?>
+<!DOCTYPE html>
+<html>
+<head lang="en">
+<meta charset="UTF-8">
+<title><?=_TITLE_?></title>
+<meta name="keyword" content="<?=_KEYWORD_?>" />
+<meta name="description" content="<?=_DESCRIPTION_?>" />
+<link href="/jygj/Public/ico.ico" type="image/x-icon" rel="shortcut icon" />
+<link rel="stylesheet" type="text/css" href="/jygj/Public/home/css/page.css">
+<link rel="stylesheet" type="text/css" href="/jygj/Public/home/css/index.css" />
+<script type="text/javascript" src="/jygj/Public/home/js/jquery-1.7.2.js"></script>
+<script type="text/javascript" src="/Public/js/jquery.flexslider-min.js"></script>
+<script type="text/javascript" src="/Public/js/clipboard.min.js"></script>
+
+
+</head>
+
+
+<body >
+	<div class="warp">
+		<!------最顶部开始------>
+		<!------logo结束------>
+		<script>
+			$(function() {
+				$(".open_xl").click(function() {
+					$(".xiala").show();
+				});
+				$(".xiala a").click(function() {
+					var xq = $(this).html();
+					$(".open_xl a").html(xq);
+					$(this).parent().hide();
+				});
+				var clipboard = new Clipboard('.btn');
+				clipboard.on('success', function(e) {
+					console.log(e);
+					alert("复制成功！")
+				});
+				clipboard.on('error', function(e) {
+					console.log(e);
+					alert("复制失败！请手动复制")
+				});
+			});
+			
+			function kaiTongDianPu(user){
+				var url="xxtz_add.php?type=2&dianPuUser="+user;
+				$.post(url,"",function(data){
+					alert(data);
+					window.location.reload(); 
+				});
+			}
+			
+			function  f1(url){
+				window.location.href=url;
+			}
+		</script>
+
+		<!------导航开始------>
+		<?
+		
+        include("sheader1.html");
+		?>
+		<!------导航结束------>
+		<!------导航结束------>
+<?php
+
+
+include "myphplib/db.php";
+include "myphplib/message.php";
+include "config/check.php";
+date_default_timezone_set("Asia/Shanghai");
+$user=$_COOKIE['ECS']['username'];
+
+$sql="select * from  xbmall_users where user_name='{$user}'";
+$userInfo = getRow($sql);
+ 
+ 
+ ?>
+
+		<!----内容开始---->
+		<div class="warp_moer">
+
+			<div class="warp_h">
+				<!----right内容开始---->
+				<div class="warp_h_right">
+
+					<div class="warp_f">
+
+						<div class="warp_f_div">
+							  <b>推荐记录</b>
+						</div>
+
+						我的推荐码<img alt=""
+							src="erweima_png.php?data=http://www.jysph.com/register.php?re_num=<?php echo  $user ?>">
+						我的推荐链接<input type="text" size="60" id="recommendLink"
+							value="http://www.jysph.com/register.php?re_num=<?php echo  $user ?>">
+						<button class="btn" data-clipboard-target="#recommendLink">复制</button>
+
+						<table border="1" cellspacing="0" cellpadding="0"
+							class="warp_f_th">
+							<tr>
+								<th width="374" align="center">注册日期</th>
+							    <th width="174" align="center">姓名</th>
+								<th width="174" align="center">用户</th>
+							    <th width="174" align="center">操作</th>
+							</tr>
+							<?php
+                     
+						$num  = getOne("select count(0)   from xbmall_users a     WHERE  a.parent_id='$user'");
+				     	$per = 12;
+						$page_obj=new Page($num,$per);
+ 						$q="select  a.*   from xbmall_users a     WHERE  a.parent_id='$user' ORDER BY a.id desc limit ".($page_obj->page-1)*$per.",".$per;
+ 						$r=mysql_query($q,$db);
+						$pagelist=$page_obj->fpage();
+					 
+					while($data2=mysql_fetch_array($r)){
+				?>
+						<tr>
+							<td align="center"
+								style="font-family: Arial, Helvetica, sans-serif; color: #F00; border-bottom: 1px solid #CCC;">
+								<?=$data2["zcrq"];?>
+							</td>
+							<td align="center" style="border-bottom: 1px solid #CCC;">
+								<?=$data2["xm"];?>
+							</td>
+							<td align="center" style="border-bottom: 1px solid #CCC;">
+								<?=$data2["user"];?>
+							</td>
+						 
+						    <td align="center" style="border-bottom: 1px solid #CCC;">
+								<?php
+								  if($data2["is_dian_pu"]==0){
+                                    ?>
+                                  <a href="javascript:void(0)" onclick="kaiTongDianPu(	'<?=$data2["user"];?>')">为他开通店铺</a>    
+                                  <?php } else{echo "已开通店铺";}?>
+                                    	 
+							</td>
+						</tr>
+			<?php  } ?>
+
+
+						</table>
+						<center>
+							<table width="100%" border="0" align="center" cellpadding="0"
+								cellspacing="0" style="text-align: center;">
+								<tr>
+									<td height="21" colspan="6"><div class="epages"
+											style="margin-top: 0">
+											<?php  echo $pagelist;?>
+										</div></td>
+								</tr>
+							</table>
+						</center>
+					</div>
+
+				</div>
+				<!----right内容结束---->
+
+				<!----left内容开始---->
+				<div class="warp_h_left">
+					<?
+		   			 include_once "left_p_menu.html";
+					 mysql_close($db);
+  					?>
+
+					<a href="" class="warp_h_left_gg"><img
+						src="/jygj/Public/home/img/im113.jpg" width="170" height="207"></a>
+
+				</div>
+				<!----left内容结束---->
+			</div>
+
+		</div>
+		<!----内容结束---->
+
+
+		<!------底部开始------>
+		<?include("sfooter.html");?>
+		<!------底部结束------>
+	</div>
+</body>
+</html>

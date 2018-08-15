@@ -1,0 +1,46 @@
+<!-- $Id: card_list.htm 14216 2008-03-10 02:27:21Z testyang $ -->
+{if $full_page}
+{include file="pageheader.htm"}
+{insert_scripts files="../js/utils.js,listtable.js"}
+{insert_scripts files='utils.js,transport.js,region.js,shopping_flow.js'}
+<script type='text/javascript' src='../js/calendar.php' ></script>
+<link href='../js/calendar/calendar.css' rel='stylesheet' type='text/css' />
+<!-- start goods list -->
+<form method="post" action="role_account_list.php" name="offlinelistForm">
+    <div class="list-div" id="listDiv">
+        {/if}
+        <table cellpadding="3" cellspacing="1">
+            <tr>
+                <th><a href="javascript:listTable.sort('user_id');">编号</a></th>
+                <th><a href="javascript:listTable.sort('reg_time');">注册时间</a></th>
+                <th>会员姓名</th>
+                <th>会员手机号</th>
+                <th>状态</th>
+            </tr>
+            { foreach from=$order_list item=card}
+            <tr>
+                <td align="center">
+                    {$card.user_id}
+                </td>
+                <td align="left">{$card.reg_time}</td>
+                <td align="right">{$card.user_name}({$card.real_name})</td>
+                <td align="right">{$card.mobile_phone}</td>
+                <td align="left">{$card.status}</td>
+
+            </tr>
+            {foreachelse}
+            <tr><td class="no-records" colspan="5">{$lang.no_records}</td></tr>
+            {/foreach}
+        </table>
+
+        <table cellpadding="4" cellspacing="0">
+            <tr>
+                <td align="right">{include file="page.htm"}</td>
+            </tr>
+        </table>
+        {if $full_page}
+    </div>
+</form>
+<!-- end goods list -->
+{include file="pagefooter.htm"}
+{/if}

@@ -1,0 +1,88 @@
+<!-- $Id: shipping_area_list.htm 14216 2008-03-10 02:27:21Z testyang $ -->
+<!DOCTYPE html >
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<title>{$page_title}</title>
+<meta name="Keywords" content="{$keywords}" />
+<meta name="Description" content="{$description}" />
+<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+<link rel="stylesheet" type="text/css" href="themesmobile/default/css/public.css"/>
+<link rel="stylesheet" href="themesmobile/default/css/stores.css">
+<link href="themesmobile/default/css/supp_center.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="themesmobile/default/js/jquery.js"></script>
+	{insert_scripts files='index.js'}
+<link rel="stylesheet" type="text/css" href="themesmobile/default/css/public.css"/>
+<link rel="stylesheet" href="themesmobile/default/css/stores.css">
+<link href="themesmobile/default/css/supp_center.css" rel="stylesheet" type="text/css" />
+</head>
+{insert_scripts files="jquery.json.js,transport.js"}
+<script type="text/javascript" src="admin/js/common.js"></script>
+
+<script type="text/javascript" src="themesmobile/default/js/utils.js"></script>
+<script type="text/javascript" src="themesmobile/default/js/validator.js"></script>
+<script type="text/javascript" src="js/listtable.js"></script>
+<body>
+ 	<header>
+		<div class="tab_nav">
+        <div class="header">
+          <div class="h-left"><a class="sb-back" href="javascript:history.back(-1)" title="返回"></a></div>
+          <div class="h-mid">配送区域列表</div>
+          <div class="h-right">
+            <aside class="top_bar">
+              <div onClick="show_menu();$('#close_btn').addClass('hid');" id="show_more"><a href="javascript:;"></a> </div>
+            </aside>
+          </div>
+        </div>
+      </div>
+      </header>
+    <!-- #BeginLibraryItem "/library/up_menu.lbi" -->
+    <!-- #EndLibraryItem -->
+    <h1>
+		{if $action_link}
+		<span class="action-span"><a href="{$action_link.href}">{$action_link.text}</a></span>
+		{/if}
+	</h1>
+<!-- start shipping area list -->
+<form method="post" action="supplier_m_pei_song_qu_yu.php" name="listForm" onsubmit="return confirm('您确定要删除选定的配送区域吗?')">
+<div class="list-div" id="listDiv">
+ 
+
+<table cellspacing='1' cellpadding='3' id='listTable'>
+  <tr>
+    <th style="width:30%">配送区域名称</th>
+    <th style="width:50%">所辖地区</th>
+    <th style="width:20%">操作</th>
+  </tr>
+
+  {foreach from=$areas item=area}
+  <tr>
+ 
+    <td class="first-cell">
+      <span onclick="listTable.edit(this, 'edit_area', '{$area.shipping_area_id}'); return false;">{$area.shipping_area_name|escape:"html"}</a>
+    </td>
+    <td>{$area.shipping_area_regions}</td>
+    <td align="center">
+      <a href="supplier_m_pei_song_qu_yu.php?act=edit&id={$area.shipping_area_id}">{$lang.edit}</a> | <a href="javascript:;" onclick="listTable.remove({$area.shipping_area_id}, '您确定要删除选定的配送区域吗?', 'remove_area')">删除</a>
+    </td>
+  </tr>
+  {/foreach}
+
+  <tr>
+    <td colspan="4" align="center">
+      <input type="hidden" name="act" value="multi_remove" />
+      <input type="hidden" name="shipping" value="{$smarty.get.shipping}" />
+      <input type="submit" value="{$lang.delete_selected}" disabled="true" id="btnSubmit" class="button" />
+    </td>
+  </tr>
+</table>
+
+ 
+</div>
+</form>
+<!-- end shipping area list -->
+ <!-- #BeginLibraryItem "/library/footer_nav.lbi" --><!-- #EndLibraryItem -->
+</body>
+</html>
+ 

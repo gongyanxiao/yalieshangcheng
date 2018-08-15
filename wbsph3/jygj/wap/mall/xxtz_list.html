@@ -1,0 +1,205 @@
+<?php
+  include "config.php" ;
+?>
+<!DOCTYPE html>
+<html>
+<head lang="en">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>投资记录</title>
+<meta name="keyword" content="<?=_KEYWORD_?>" />
+<meta name="description" content="<?=_DESCRIPTION_?>" />
+<link href="/Public/ico.ico" type="image/x-icon" rel="shortcut icon" />
+<link rel="stylesheet" type="text/css" href="/jygj/Public/wap/css/index.css">
+<script type="text/javascript" src="/jygj/Public/home/js/jquery-1.7.2.js"></script>
+<style>
+li {
+	height: 20px;
+	margin: 1px;
+	padding: 2px;
+}
+
+td {
+	border-bottom: 2px solid #ccc;
+	padding: 0px;
+	margin: 0px;
+}
+</style>
+</head>
+
+
+<body >
+	<div class="warp">
+		<div class="warp_q">
+			<a href="javascript:history.go(-1)"></a> <span>订单记录</span>
+		</div>
+
+		<!------logo结束------>
+		<script>
+			$(function() {
+
+			});
+			function  f1(url){
+				window.location.href=url;
+			}
+		</script>
+		<?php
+include "myphplib/db.php";
+include "myphplib/message.php";
+include "config/check.php";
+include "page.class.php" ;
+date_default_timezone_set("Asia/Shanghai");
+$user=$_COOKIE['ECS']['username'];
+//查询有没有购买订单, 如果没有购买过订单, 那么让用户购买订单
+
+$sql="select * from  xbmall_users where user_name='{$user}'";
+
+
+$userInfo = getRow($sql);
+ 
+
+$sql="select level from xbmall_users where user_name='{$user}'";
+$level = getOne($sql);
+
+
+//查询出配置信息
+$configSQL=" SELECT   a.`value` as first_period, b.`value` as second_period FROM `zt_setting`a
+   JOIN      `zt_setting` b      
+WHERE  a.`name`='first_period' and b.`name`='second_period' ";
+$result = getRow($configSQL);
+$first_period =$result['first_period'];
+$second_period =$result['second_period'];
+
+ $where =" where user='$user' ";
+        //自己是消费者， 或者自己是线下消费的全返受益人
+        $sql = "select ft_state, id,parent_id, user,czje,  date_format(FROM_UNIXTIME(tjrq),'%Y-%m-%d %H:%i') as tjrq ,
+date_format(FROM_UNIXTIME(czrq),'%Y-%m-%d %H:%i') as czrq ,   cj_state,date_format(FROM_UNIXTIME(step_start_rq),'%Y-%m-%d %H:%i') as step_start_rq,
+ step, ktxje,ytxje,yfje,date_format(FROM_UNIXTIME(next_ft_time),'%Y-%m-%d %H:%i') as next_ft_time,type,xxtzzfwf
+,xxtzzcbjz,xxtzzsyjz,xxtzzxfjz,xxtzztxjf  from  zt_xxtz {$where}  ";
+						$num  = getOne("select count(0) from zt_xxtz {$where} ");
+				     	$per = 12;
+						$page_obj=new Page($num,$per);
+ 						$q="{$sql} order by id desc limit ".($page_obj->page-1)*$per.",".$per;
+ 						$r=mysql_query($q);
+						$pagelist=$page_obj->fpage();
+
+ ?>
+
+		<!----内容开始---->
+		<div class="warp_moer">
+			<div class="warp_h">
+				<!----right内容开始---->
+				<div class="warp_h_right">
+					<div style="width: 100%;">
+						<div class="warp_f_div">
+							<a href="xxtz_add.html" style="font-size: 16px"> 添加订单 </a>
+						</div>
+
+						<?php
+					while($data=mysql_fetch_array($r)){
+				?>
+						<table
+							style="width: 100%; margin-bottom: 15px; align-self: center; border-left: 2px solid #ccc; border-right: 2px solid #ccc; border-top: 2px solid #ccc">
+							<tr>
+								<td>编号</td>
+								<td>
+									<?=$data["id"];?>
+								</td>
+							</tr>
+							<tr>
+								<td>前编号</td>
+								<td>
+									<?=$data["parent_id"];?>
+								</td>
+							</tr>
+							<tr>
+								<td>云贝</td>
+								<td style="color: red">
+									<?=$data["czje"];?>
+								</td>
+							</tr>
+							<tr>
+								<td>提交日期</td>
+								<td>
+									<?=$data["tjrq"];?>
+								</td>
+							</tr>
+							<tr>
+								<td>当前阶段</td>
+								<td>第<?=$data["step"];?>阶段
+								</td>
+							</tr>
+							<tr>
+								<td>本阶段开始日期</td>
+								<td>
+									<?=$data["step_start_rq"];?>
+								</td>
+							</tr>
+							<tr>
+								<td>可兑云贝</td>
+								<td style="color: red">
+									<?=$data["xxtzztxjf"];?>
+								</td>
+							</tr>
+							<tr>
+								<td>已兑云贝</td>
+								<td style="color: red">
+									<?=$data["ytxje"];?>
+								</td>
+							</tr>
+							<tr>
+								<td>订单解除时间</td>
+								<td>
+									<?php
+				  					if($data["cj_state"]==1) echo "已出局"; 
+                                      else{
+                                          if($data["ft_state"]==1)
+                                              echo "订单完成";
+                                           else if($data["step"]==1)
+                                              echo $data["next_ft_time"];
+                                      }
+									 
+						  ?>
+								</td>
+							</tr>
+						</table>
+						<?php  } ?>
+
+						<center>
+							<table width="100%" border="0" align="center" cellpadding="0"
+								cellspacing="0" style="text-align: center; margin-bottom: 18%">
+								<tr>
+									<td height="21" colspan="6"><div class="epages"
+											style="margin-top: 0">
+											<?php  echo $pagelist;?>
+										</div></td>
+								</tr>
+							</table>
+						</center>
+					</div>
+
+				</div>
+				<!----right内容结束---->
+
+				<!----left内容开始---->
+				<div class="warp_h_left">
+					<?
+		   			 include_once "left_p_menu.html";
+					 mysql_close($db);
+  					?>
+				</div>
+				<!----left内容结束---->
+			</div>
+
+		</div>
+		<!----内容结束---->
+
+
+		<!------底部开始------>
+		<?include("xxtz_cz_list.html");?>
+		<!------底部结束------>
+	</div>
+</body>
+</html>

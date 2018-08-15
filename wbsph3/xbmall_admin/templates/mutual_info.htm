@@ -1,0 +1,245 @@
+<!-- $Id: article_info.htm 16780 2009-11-09 09:28:30Z sxc_shop $ -->
+<!-- 修改 by www.68ecshop.com 百度编辑器 begin -->
+{include file="pageheader_bd.htm"}
+{insert_scripts files="../js/utils.js,selectzone_bd.js,validator.js"}
+<!-- 修改 by www.68ecshop.com 百度编辑器 end -->
+<!-- start goods form -->
+<div class="tab-div">
+  <div id="tabbar-div">
+    <p>
+      <span class="tab-front"id="general-tab">基本信息</span>
+      <span class="tab-back" id="detail-tab">详细内容</span>
+      <span class="tab-back" id="goods-tab">关联会员</span>
+    </p>
+  </div>
+
+  <div id="tabbody-div">
+    <form  action="mutual.php" method="post" enctype="multipart/form-data" name="theForm" onsubmit="return validate();">
+    <table width="90%" id="general-table">
+      <tr>
+        <td class="narrow-label">互助标题</td>
+        <td><input type="text" id='title' name="title" size ="40" maxlength="60" value="{$mutual.title|escape}" /></td>
+      <tr>
+        <td class="narrow-label">目标互助金额</td>
+        <td><input type="text" id ='target_money'  name="target_money" maxlength="60" value="{$mutual.target_money}" /></td>
+      </tr>
+      <tr>
+        <td class="narrow-label">状态</td>
+        <td>
+	        <label><input type="radio" name="order_status" value="0" {if $mutual.status eq 0}checked{/if}> 未完成 </label>
+	        <label><input type="radio" name="order_status" value="1" {if $mutual.status eq 1}checked{/if}> 已完成 </label>
+        </td>
+      </tr>
+      <tr>
+            <td class="label">标题图</td>
+            <td>
+              <input type="file" name="face_card" size="35" /><br>
+              {if $mutual.images}
+                <img width=200 height=200 src="/{$mutual.images}" />
+              {/if}
+             
+            </td>
+          </tr>
+    </table>
+
+    <table width="90%" id="detail-table" style="display:none">
+     <tr><td>{$FCKeditor}</td></tr>
+    </table>
+
+    <table width="90%" id="goods-table" style="display:none">
+      <!-- 商品搜索 -->
+      <tr>
+      <td colspan="5">
+        <img src="images/icon_search.gif" width="26" height="22" border="0" alt="SEARCH" />
+        <!-- 搜索类型 -->
+        <select name="user_type">
+            <option value="">--搜索条件--</option>
+            <option value="user_name">--会员昵称--</option>
+            <option value="real_name">--真实姓名--</option>
+            <option value="mobile_phone">--手机号码--</option>
+            <option value="card">-身份证号码-</option>
+        </select>
+        <input type="text" name="keyword"  size="30" />
+        <input type="button" value="{$lang.button_search}" onclick="searchGoods()" class="button" />
+      <td>
+      </tr>
+      <tr>
+        <td width="45%" align="center">
+          <select name="source_select" id='source_select' size="20" style="width:90%" onclick="checkuser(this.value)" >
+          </select>
+        </td>
+        <td width="45%" align="center">
+          <span style='font-size:14px' > 关联会员 :</span>   
+          <input type=text readonly="readonly" value='{$mutual.user_desc}' id='user_id_xs' readonly="readonly" name="user_id" size='60' />  
+          <input type=hidden  id='user_id' value='{$mutual.user_id}' name="user_id" />
+        </td>
+        
+      </tr>
+    </table>
+    <div class="button-div">
+      <input type="hidden" name="act" value="{$form_act}" />
+      <input type="hidden" name="id" value="{$mutual.mutual_id}" />
+      <input type="submit" value="{$lang.button_submit}" class="button"  />
+      <input type="reset" value="{$lang.button_reset}" class="button" />
+    </div>
+    </form>
+  </div>
+
+</div>
+<!-- end goods form -->
+<script language="JavaScript">
+
+var articleId = {$article.article_id|default:0};
+var elements  = document.forms['theForm'].elements;
+var sz        = new SelectZone(1, elements['source_select'], elements['target_select'], '');
+
+{literal}
+onload = function()
+{
+  // 开始检查订单
+  startCheckOrder();
+}
+
+function checkuser($id)
+{
+	$user_name = $('#wyb_'+$id).html();
+	$('#user_id_xs').val($user_name);
+	$('#user_id').val($id);
+}
+
+function validate()
+{
+	var $title = $('#title').val();
+	var $target_money = $('#target_money').val();
+	var $user_id = $('#user_id').val();
+	
+	if($title=='')
+	{
+		alert('标题不能为空')
+		return false;
+	}
+	if($target_money=='')
+	{
+		alert('目标金额不能为空')
+		return false;
+	}
+	if($user_id=='')
+	{
+		alert('关联会员不能为空')
+		return false;
+	}
+}
+
+document.getElementById("tabbar-div").onmouseover = function(e)
+{
+    var obj = Utils.srcElement(e);
+
+    if (obj.className == "tab-back")
+    {
+        obj.className = "tab-hover";
+    }
+}
+
+document.getElementById("tabbar-div").onmouseout = function(e)
+{
+    var obj = Utils.srcElement(e);
+
+    if (obj.className == "tab-hover")
+    {
+        obj.className = "tab-back";
+    }
+}
+
+document.getElementById("tabbar-div").onclick = function(e)
+{
+    var obj = Utils.srcElement(e);
+
+    if (obj.className == "tab-front")
+    {
+        return;
+    }
+    else
+    {
+        objTable = obj.id.substring(0, obj.id.lastIndexOf("-")) + "-table";
+
+        var tables = document.getElementsByTagName("table");
+        var spans  = document.getElementsByTagName("span");
+
+        for (i = 0; i < tables.length; i++)
+        {
+            if (tables[i].id == objTable)
+            {
+                tables[i].style.display = (Browser.isIE) ? "block" : "table";
+            }
+            else
+            {
+                tables[i].style.display = "none";
+            }
+        }
+        for (i = 0; spans.length; i++)
+        {
+            if (spans[i].className == "tab-front")
+            {
+                spans[i].className = "tab-back";
+                obj.className = "tab-front";
+                break;
+            }
+        }
+    }
+}
+
+function showNotice(objId)
+{
+    var obj = document.getElementById(objId);
+
+    if (obj)
+    {
+        if (obj.style.display != "block")
+        {
+            obj.style.display = "block";
+        }
+        else
+        {
+            obj.style.display = "none";
+        }
+    }
+}
+
+function searchGoods()
+{
+    var elements  = document.forms['theForm'].elements;
+    var user_type = elements['user_type'].value;
+    var keyword = Utils.trim(elements['keyword'].value);
+
+    // 查询相关会员
+    $.post("mutual.php", { act:'get_goods_list' , user_type: user_type, keyword: keyword },
+    function(data){
+   	   $('#source_select').html(data)
+    });  
+}
+{/literal}
+
+/**
+ * 选取上级分类时判断选定的分类是不是底层分类
+ */
+function catChanged()
+{
+  var obj = document.forms['theForm'].elements['article_cat'];
+
+  cat_type = obj.options[obj.selectedIndex].getAttribute('cat_type');
+  if (cat_type == undefined)
+  {
+    cat_type = 1;
+  }
+
+  if ((obj.selectedIndex > 0) && (cat_type == 2 || cat_type == 4))
+  {
+    alert(not_allow_add);
+    obj.selectedIndex = 0;
+    return false;
+  }
+
+  return true;
+}
+</script>
+{include file="pagefooter.htm"}

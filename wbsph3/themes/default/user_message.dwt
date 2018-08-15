@@ -1,0 +1,126 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="Keywords" content="{$keywords}" />
+<meta name="Description" content="{$description}" />
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+<!-- TemplateBeginEditable name="doctitle" -->
+<title>{$page_title}</title>
+<!-- TemplateEndEditable -->
+<!-- TemplateBeginEditable name="head" -->
+<!-- TemplateEndEditable -->
+<link rel="shortcut icon" href="favicon.ico" />
+<link rel="icon" href="animated_favicon.gif" type="image/gif" />
+<link rel="stylesheet" type="text/css" href="themes/default/css/user.css" />
+<script type="text/javascript" src="themes/default/js/jquery-1.9.1.min.js"></script>
+{insert_scripts files='jquery.json.js,transport.js,json2.js'}
+{* 包含脚本文件 *}
+{insert_scripts files='common.js,user.js'}
+</head>
+<body>
+<!-- #BeginLibraryItem "/library/page_header.lbi" --><!-- #EndLibraryItem -->
+<div class="margin-w1210 clearfix"> <!-- #BeginLibraryItem "/library/ur_here.lbi" --><!-- #EndLibraryItem -->
+  <div class="user-left">  <!-- #BeginLibraryItem "/library/user_menu.lbi" --><!-- #EndLibraryItem --> </div>
+  <div class="user-right"> 
+    <!-- {if $action eq 'messages'} -->
+    <div class="account">
+      <div class="tabmenu">
+              <div style="margin:0 auto;font-size:12px;float:right;margin-top:10px;"><a href="javascript:;" class="main-btn main-btn-large" onclick="setRead(0);" >全部设为已读</a>  <a href="javascript:;" class="main-btn main-btn-large" onclick="delRead(0);" >全部删除</a> </div>
+          </div>
+          <div class="mar_top"  id="con_tab_2">
+            <table width="100%" border="0" cellpadding="5" cellspacing="1" bgcolor="#eeeeee">
+          <tr align="center">
+            <td bgcolor="#ffffff" style="width:120px;">时间</td>
+            <td bgcolor="#ffffff">内容</td>
+            <td bgcolor="#ffffff" style="width:15%;">操作</td>
+          </tr>
+          <!-- {foreach from=$user_messages item=val name=logdb} -->
+          <tr align="center">
+            <td bgcolor="#ffffff">{$val.add_time}</td>
+            <td bgcolor="#ffffff">{$val.content}</td>
+            <td bgcolor="#ffffff">
+                {if $val.is_read eq '0'}
+                <a href="javascript:void(0);" onclick="javascript:setRead({$val.id});">设置为已读</a>
+                {/if}
+                <a href="javascript:void(0);" onclick="javascript:delRead({$val.id});">删除</a>
+            </td>
+          </tr>
+          <!--{foreachelse}-->
+          <tr>
+            <td colspan="8" align="center" bgcolor="#ffffff">{$lang.no_records}</td>
+          </tr>
+          <!-- {/foreach} --> 
+        </table>
+        <!-- #BeginLibraryItem "/library/pages.lbi" --><!-- #EndLibraryItem --> 
+        <script type="text/javascript" language="JavaScript">
+			<!--
+			{literal}
+			function selectPage(sel)
+			{
+			sel.form.submit();
+			}
+			{/literal}
+			//-->
+             function setRead(ids)
+             {
+                 if(confirm("确定设置为已读?"))
+                {
+                     Ajax.call('user.php?act=readmsg', 'ids=' + ids, readMsgCompleted, 'POST', 'JSON');
+                }
+             }
+             function readMsgCompleted(result)
+             {
+                if(result.code*1===1)
+                {
+                    alert("设置成功");
+                    window.location.reload();
+                }
+             }
+             function delRead(ids)
+             {
+                 if(confirm("确定删除当前消息?"))
+                {
+                    Ajax.call('user.php?act=delmsg', 'ids=' + ids, delReadCompleted, 'POST', 'JSON');
+                } 
+             }
+             function delReadCompleted(result)
+             {
+                if(result.code*1===1)
+                {
+                    alert("操作成功");
+                    window.location.reload();
+                }
+             }
+        </script> 
+       </div>
+    </div>
+    <!-- {/if} --> 
+  </div>
+</div>
+<div class="pop-main pop-compare">
+  <div class="pop-header"> <span>温馨提示</span> <a class="pop-close" href="javascript:;" title="关闭"></a> </div>
+  <div class="pop-con"> <i class="pop-icon"></i>
+    <p class="pop-text" style="padding-top: 20px;">您确定要取消该订单吗？取消订单后，不能恢复。</p>
+    <div class="pop-btn"> <a href="javascript:;" class="main-bg-color sure-btn">确定</a><a class="cancel-btn">取消</a><span class="clear"></span></div>
+  </div>
+</div>
+<div class="pop-mask"></div>
+<div class="site-footer">
+  <div class="footer-related"> <!-- #BeginLibraryItem "/library/help.lbi" --><!-- #EndLibraryItem --> <!-- #BeginLibraryItem "/library/page_footer.lbi" --><!-- #EndLibraryItem --> </div>
+</div>
+</body>
+<script type="text/javascript">
+{foreach from=$lang.clips_js item=item key=key}
+var {$key} = "{$item}";
+{/foreach}
+$(function(){
+	$('.cancel-order').click(function(){
+		$('.pop-mask').show();
+		$('.pop-compare').show().css({'top':($(window).height()-$('.pop-compare').height())/2});
+		$('.sure-btn').attr('href',$(this).prev('.none').attr('href'));
+		
+	})	
+})
+</script>
+</html>

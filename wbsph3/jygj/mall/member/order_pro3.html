@@ -1,0 +1,55 @@
+<?php
+ include_once "../config/zt_config.php";
+  include_once "../config/check.php";
+ $db = mysql_connect("$db_host","$db_user","$db_pwd");
+mysql_query("set names $coding"); 
+mysql_select_db("$db_database");
+//更新订单状态
+$yh=$_COOKIE['ECS']['username'];
+$q1="select * from zt_cz  where user='$yh' order by id desc";
+$o=mysql_query($q1);
+$out=mysql_fetch_assoc($o);
+$key ="A1234567890";
+$merchantId="109045511701004";
+	$version ="v1.5";
+	$signType="0";
+	$orderNo=$out["ddbh"];
+	$orderDatetime=$out["czrq"];
+	$queryDatetime=htmlspecialchars($_POST["sj"]);
+  //组签名原串
+	$bufSignSrc = "";
+	$bufSignSrc1 = "";
+	if($merchantId != "")
+	$bufSignSrc = $bufSignSrc."merchantId=".$merchantId."&";
+	$bufSignSrc1 = $bufSignSrc1.$merchantId;
+	if($version != "")
+	$bufSignSrc = $bufSignSrc."version=".$version."&";
+	$bufSignSrc1 = $bufSignSrc1.$version;
+	if($signType != "")
+	$bufSignSrc = $bufSignSrc."signType=".$signType."&";
+	$bufSignSrc1 = $bufSignSrc1.$signType;
+	if($orderNo != "")
+	$bufSignSrc = $bufSignSrc."orderNo=".$orderNo."&";
+	$bufSignSrc1 = $bufSignSrc1.$orderNo;
+	if($orderDatetime != "")
+	$bufSignSrc = $bufSignSrc."orderDatetime=".$orderDatetime."&";
+	$bufSignSrc1 = $bufSignSrc1.$orderDatetime;
+	if($queryDatetime != "")
+	$bufSignSrc = $bufSignSrc."queryDatetime=".$queryDatetime."&";
+	$bufSignSrc1 = $bufSignSrc1.$queryDatetime;
+	if($key != "")
+	//生成签名串			
+	$bufSignSrc = $bufSignSrc."key=".$key;
+	$bufSignSrc1 = $bufSignSrc1.$key;
+	$signMsg = strtoupper(md5('&'.$bufSignSrc1.'&'));
+$bufSignSrc = $bufSignSrc."&signMsg=".$signMsg;
+$p="https://service.allinpay.com/gateway/index.do?".$bufSignSrc;
+$url=file_get_contents(trim($p));
+echo $p;
+$zt=substr($url,-2);
+if($zt=="1&"){
+$sql="update zt_cz set zt='1' where ddbh='$orderNo' and zt='8';";
+mysql_query($sql);
+mysql_close($db);
+}
+?>

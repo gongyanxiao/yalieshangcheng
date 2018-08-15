@@ -1,0 +1,95 @@
+<!DOCTYPE html >
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<title>{$page_title}</title>
+<meta name="Keywords" content="{$keywords}" />
+<meta name="Description" content="{$description}" />
+<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+<link rel="stylesheet" type="text/css" href="themesmobile/default/css/public.css"/>
+<link rel="stylesheet" href="themesmobile/default/css/stores.css">
+<link href="themesmobile/default/css/supp_center.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="themesmobile/default/js/jquery.js"></script>
+	{insert_scripts files='index.js'}
+</head>
+{insert_scripts files="jquery.json.js,transport.js"}
+<script type="text/javascript" src="admin/js/common.js"></script>
+
+<script type="text/javascript" src="themesmobile/default/js/utils.js"></script>
+<script type="text/javascript" src="themesmobile/default/js/validator.js"></script>
+<script type="text/javascript" src="js/listtable.js"></script>
+<body class="bodybj">
+      <header>
+      <div class="tab_nav">
+        <div class="header">
+          <div class="h-left"><a class="sb-back" href="javascript:history.back(-1)" title="返回"></a></div>
+          <div class="h-mid">配送方式</div>
+          <div class="h-right">
+            <aside class="top_bar">
+              <div onClick="show_menu();$('#close_btn').addClass('hid');" id="show_more"><a href="javascript:;"></a> </div>
+            </aside>
+          </div>
+        </div>
+      </div>
+      </header>
+     <!-- #BeginLibraryItem "/library/up_menu.lbi" -->
+    <!-- #EndLibraryItem -->
+ 
+
+		<!-- start payment list -->
+<div class="list-div" id="listDiv">
+{foreach from=$modules item=value}
+{if $value.shiplist}
+<div class="shipping_list">
+<table cellspacing='0' cellpadding='3' class="shipping_list_th">
+  <tr>
+    <th width="15%">配送方式名称</th>
+    <th width="25%">操作</th>
+  </tr>
+</table>
+<table cellspacing='0' cellpadding='3' class="module">
+  {foreach from=$value.shiplist item=module}
+  <tr>
+    <td class="first-cell"  width="15%" align="center">
+      {$module.name}
+    </td>
+ 
+    <td align="center" width="25%">
+      {if $module.install == 1}
+	    <a href="javascript:confirm_redirect('您确定要卸载该配送方式吗？','supplier_m_xian_shang.php?act=uninstall&code={$module.code}')">卸载</a>
+		  {if $module.is_default_show}
+	         <span style="color:red">默认快递</span>
+	          <a href="supplier_m_pei_song_qu_yu.php?act=list&shipping={$module.id}">设置区域</a>
+		  {else}
+		     <a href="javascript:confirm_redirect('设置成功后，前台用户选择的配送方式及所有已经安装的配送方式都将和此配送方式的运费及配送区域同步,您确定要设置吗？','supplier_m_xian_shang.php?act=is_default_show&code={$module.code}');">设为默认快递</a>
+		  {/if}
+      {else}
+         <a href="supplier_m_xian_shang.php?act=install&code={$module.code}">安装</a>
+      {/if}
+    </td>
+  </tr>
+  {/foreach}
+</table>
+</div>
+{/if}
+{/foreach}
+</div>
+ <!-- #BeginLibraryItem "/library/footer_nav.lbi" --><!-- #EndLibraryItem -->
+<!-- end payment list -->
+<script type="Text/Javascript" language="JavaScript">
+ function confirm_redirect(msg, url)
+{	
+  if (confirm(msg))
+  {
+    location.href=url;
+  }
+}
+</script>
+</body>
+</html>
+ 
+ 
+ 
+  
+ 

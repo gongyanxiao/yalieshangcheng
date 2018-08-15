@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    
+    
+    	<?php  
+    		 
+		    include "../../jygj/mall/myphplib/db.php";
+		    include "../../jygj/mall/myphplib/message.php";
+		    include "../../jygj/mall/myphplib/page.php";
+		   
+			//设置暂停报名的抽奖, 可以报名
+              $sql="update  xbmall_goods_activity set is_finished = 0 where is_finished = 2 and  (act_type=6 or act_type=7 )  ";
+		      mysql_query($sql);
+
+            //查询第一个幸运抽奖活动
+             $sql="select * from xbmall_goods_activity where act_type =6 and is_finished=0 order by act_name asc  limit 1 ";
+			 $chou_jiang = getRow($sql);
+	         
+			 if($chou_jiang==null){ //幸运抽奖结束了, 开始现实抽奖
+				 
+ 				  $sql="select * from xbmall_goods_activity where act_type =7 and is_finished=0 order by act_name asc  limit 1 ";
+			      $xian_shi_chou_jiang = getRow($sql);
+			       $sql="select count(0) from xbmall_hd_chou_jiang_bao_ming where act_id ={$xian_shi_chou_jiang['act_id']}";
+                   $can_yu_ren_shu = getOne($sql);
+				   $title="限时抽奖";
+				   $goods_id =  $xian_shi_chou_jiang['goods_id'];
+				   $act_id = $xian_shi_chou_jiang['act_id'];
+			 }else{
+			    $sql="select count(0) from xbmall_hd_chou_jiang_bao_ming where act_id ={$chou_jiang['act_id']}";
+                $can_yu_ren_shu = getOne($sql);
+				 $title="幸运抽奖";
+			    $goods_id = $chou_jiang['goods_id'];
+ 				$act_id = $chou_jiang['act_id'];
+			}
+           
+
+			 $sql="select * from xbmall_goods where goods_id = {$goods_id}";
+ 			 $row = getRow($sql);
+
+ 
+  ?>
+  <title><?PHP  echo   $title.":".$row['goods_name'];?> </title>
+  	<script type="text/javascript" src="style/jquery-1.8.0.js.js"></script>
+</head>
+<style>
+    html, body {
+        height: 100%;
+        overflow: hidden
+    }
+img{ width: 100%;display: block}
+    .prize-box {
+        height: 100%;
+        position: relative
+    }
+
+    .img {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        top: 0;
+        left: 0
+    }
+    .head-img{
+        width: 600px;
+        margin: 0 auto;
+        height:300px ;
+    }
+    .head-img img{ height: 100%}
+    .prize-img {
+        width: 40%;
+        margin: 0 auto
+    }
+    .prize-img img {
+        width: 60%;
+        margin: 0 auto
+    }
+    
+    .prize {
+        width: 80%;
+        left: 10%;
+        bottom: 100px;
+        position: absolute;
+    }
+
+ .prize-btn {
+    width: 15%;
+    height: 100px;
+    line-height: 100px;
+    text-align: center;
+    font-size: 26px;
+    font-weight: bold;
+    float: left;
+    margin-left: 17.5%;
+    margin-right: 17.5%;
+}
+
+    .prize-btn a {
+        display: block;
+        background: rgb(238, 199, 16);
+        margin: 0 auto;
+        color: #f00;
+        text-decoration: none;
+        border-radius: 10px;
+
+    }
+</style>
+<body>
+<div class="prize-box">
+    <div class="img"><img src="style/price_bg.jpg" alt=""></div>
+    <div class="head-img">
+        <img src="style/xy.png" alt="">
+    </div>
+    <?php 
+		if($chou_jiang==null && $xian_shi_chou_jiang ==null){
+			?>
+		 	<div class="prize-img" style="font-size:60px;text-align:center;margin-top:150px;font-weight:bold;color:white;">
+		               抽奖结束
+		    </div>
+    
+			<?php
+		    }else{
+           ?>
+		    
+    <div class="prize-img">
+        <img src="/<?php   echo  $row['original_img']?>" alt="">
+    </div>
+     <div class="prize">
+       <div class="prize-btn"><a id="canYuRenShu">参与人数:<?php  
+          echo  $can_yu_ren_shu;
+       ?></a></div>
+     
+        <div class="prize-btn">
+        <?php  if( $xian_shi_chou_jiang==null){?>
+        <a href="index.html?act_id=<?php  echo  $chou_jiang['act_id'];  ?>">进入抽奖</a>
+         <?php }else{?>
+          <a href="../xian_shi_chou_jiang/index.html?act_id=<?php  echo  $xian_shi_chou_jiang['act_id'];  ?>">进入抽奖</a>
+            <?php }?>
+        </div>
+    	</div>
+      <?php 
+      }
+      ?>
+   
+</div>
+  <script type="text/javascript">
+  
+  $(document).ready(function() { 
+	 
+	  myNumber = setInterval(function () {
+		  getBaoMingRenShu();
+	  }, 800);
+	}); 
+  
+  
+  function  getBaoMingRenShu(){
+	  var url="prize_bao_ming.php";
+	  var params="act_id=<?php echo $act_id;?>";
+	  $.post(url,params,function(data){
+		  $("#canYuRenShu").html("参与人数:"+data);
+	  });
+  }
+  </script>
+
+</body>
+</html>

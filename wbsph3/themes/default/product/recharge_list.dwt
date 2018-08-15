@@ -1,0 +1,28 @@
+  <table width="100%" border="0" cellpadding="10" cellspacing="1" bgcolor="#eeeeee">
+            <tr align="center">
+              <td>充值时间</td>
+              <td>充值金额</td>
+              <td>获得积分数</td>
+              <td>剩余积分数</td>
+              <td>推荐人</td>
+            </tr>
+            <!--{foreach from=$recharge_list item=item}-->
+            <tr>
+              <td align="center">{$item.add_time}</td>
+              <td align="center">{$item.amount}</td>
+              <td align="center">{$item.buy_points}</td>
+              <td align="center">{$item.points}</td>
+              <td align="center">{$item.referee_phone_num}</td>
+            </tr>
+            <!--{/foreach}-->
+          </table>
+  <!-- #BeginLibraryItem "/library/pages.lbi" --><!-- #EndLibraryItem --> 
+          
+          
+ 
+  
+ 
+ 
+ 
+  
+ 

@@ -1,0 +1,331 @@
+<?
+include("config/zt_config.php");
+include("config.php");
+include("config/page.class.php");
+$link = mysqli_connect($db_host,$db_user,$db_pwd,$db_database) or die('Unale to link');
+$link->set_charset('utf8');
+$lmid=htmlspecialchars(trim($_GET['lmid']));
+$noj=htmlspecialchars(trim($_GET['noj']));
+$jifen=htmlspecialchars(trim($_GET['jifen']));
+$title=htmlspecialchars(trim($_POST['title']));
+if(empty($title)) {
+    $title=htmlspecialchars(trim($_GET['title']));
+}
+$aid=htmlspecialchars(trim($_GET['aid']));
+if(empty($aid)) {
+    $aid="a";
+}
+$a=array();
+$sqly="select * from `zt_jifen_sort`";
+$qryy=$link->query($sqly);
+while($ry=$qryy->fetch_array()) {
+	$a[]=$ry[id];
+}
+
+$ss='';
+if(!empty($title)){
+    $ss=" ((spmc like '%".$title."%') or (spjs like '%".$title."%')) and ";
+}
+$c=' and ';
+if($lmid=='s'){
+    $c='';
+} else if(in_array($lmid, $a)){
+    $c.=" fl = ".$lmid;
+} else {
+    header("Location:jf.html".(empty($noj)?'':'?noj=1')); 
+    exit();
+}
+$c1=' and ';
+if(empty($jifen)) {
+    $c1='';
+} elseif ($jifen==1) {
+    $c1.='dhjf<=1000';
+} elseif ($jifen==2) {
+    $c1.='dhjf between 1000 and 2000';
+} elseif ($jifen==3) {
+    $c1.='dhjf between 2000 and 4000';
+} elseif ($jifen==4) {
+    $c1.='dhjf between 4000 and 6000';
+} elseif ($jifen==5) {
+    $c1.='dhjf>6000';
+}
+?>
+<?
+if(empty($noj)) {
+$sql1="SELECT * FROM  `zt_jifen` where ".$ss." sfsj=1 and gngj=0 ".$c.$c1;
+} else {
+$sql1="SELECT * FROM  `zt_jifen` where ".$ss." sfsj=1 and gngj=1 ".$c.$c1;
+}
+
+$qry1=$link->query($sql1);
+$total=$qry1->num_rows;
+$per=24;
+$page_obj=new Page($total,$per);
+$sqla1=$sql1." limit ".($page_obj->page-1)*$per.",".$per;
+$qrya1=$link->query($sqla1);
+$pagelist=$page_obj->fpage(array(0,2,4,5,6,9));
+
+$p=isset($page_obj->page)?$page_obj->page:1;
+$num=($p-1)*$per;
+?>
+<!DOCTYPE html>
+<html>
+<head lang="en">
+   <meta charset="UTF-8">
+        <title><?=empty($noj)?'国内':'国际'?>积分兑换_网络平台_<?=_TITLE_?></title>
+    <meta name="keyword" content="<?=_KEYWORD_?>"/>
+    <meta name="description" content="<?=_DESCRIPTION_?>"/>
+    <link href="/Public//ico.ico" type="image/x-icon" rel="shortcut icon" /> 
+	 <link rel="stylesheet" type="text/css" href="/Public/jifen/css/index.css">
+    <script type="text/javascript" src="/Public//jifen/js/jquery-1.7.2.js"></script>
+
+</head>
+<body>
+
+
+
+
+<div class="warp">
+    <!--最顶部开始-->
+	<?include("jheader.html");?>
+    <!--导航结束-->
+
+   
+
+    <!--内容开始-->
+  <div class="warp_i">
+
+        
+<?
+
+	
+    if(in_array($lmid, $a)){
+    $sqly="select * from `phome_enewsad` where classid=14 and title =(select columname from `zt_jifen_sort` where id=".$lmid.")";
+    $qryy=$link->query($sqly);
+    $ry=$qryy->fetch_array();
+    ?>
+    <img src="<?=$ry['picurl']?>" width="1090" height="321" class="warp_u_img" style="margin:5px">
+<?
+} else {
+
+?>
+    <ul class="warp_u">
+        <li><a href="">首页</a></li>
+        <li><span>></span></li>
+        <li><span>搜索结果</span></li>
+    </ul>
+<?
+}
+?>
+        
+
+        <div class="warp_y" id="warp_y">
+
+            <ul class="select">
+                <li class="select-list">
+                    <dl id="select1">
+                        <dt>积&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;分：</dt>
+                        <?
+                            
+                            if(empty($jifen)) {
+                        ?>
+                            <dd class="select-all selected">
+                        <?
+                            }else {
+                        ?>
+                            <dd>
+                        <?
+                            }
+                        ?>
+                        <?  if(empty($title)) {?>
+                        <a href="jflist.html?lmid=<?=$lmid?><?=empty($noj)?'':'&noj=1'?>">
+                    <?  } else {?>
+                        <a href="jflist.html?lmid=s&title=<?=$title?><?=empty($noj)?'':'&noj=1'?>">
+                    <?  }?>
+                        全部</a></dd>
+                        <dd>|</dd>
+                        <?
+                            if($jifen==1) {
+                        ?>
+                            <dd class="select-all selected">
+                        <?
+                            }else {
+                        ?>
+                            <dd>
+                        <?
+                            }
+                        ?>
+                        <?  if(empty($title)) {?>
+                        <a href="jflist.html?lmid=<?=$lmid?><?=empty($noj)?'':'&noj=1'?>&jifen=1">
+                    <?  } else {?>
+                        <a href="jflist.html?lmid=s&title=<?=$title?><?=empty($noj)?'':'&noj=1'?>&jifen=1">
+                    <?  }?>
+                        1000以下</a></dd>
+                        <dd>|</dd>
+                        <?
+                            if($jifen==2) {
+                        ?>
+                            <dd class="select-all selected">
+                        <?
+                            }else {
+                        ?>
+                            <dd>
+                        <?
+                            }
+                        ?>
+                        <?  if(empty($title)) {?>
+                        <a href="jflist.html?lmid=<?=$lmid?><?=empty($noj)?'':'&noj=1'?>&jifen=2">
+                    <?  } else {?>
+                        <a href="jflist.html?lmid=s&title=<?=$title?><?=empty($noj)?'':'&noj=1'?>&jifen=2">
+                    <?  }?>1000-2000</a></dd>
+                        <dd>|</dd>
+                        <?
+                            if($jifen==3) {
+                        ?>
+                            <dd class="select-all selected">
+                        <?
+                            }else {
+                        ?>
+                            <dd>
+                        <?
+                            }
+                        ?>
+                       <?  if(empty($title)) {?>
+                        <a href="jflist.html?lmid=<?=$lmid?><?=empty($noj)?'':'&noj=1'?>&jifen=3">
+                    <?  } else {?>
+                        <a href="jflist.html?lmid=s&title=<?=$title?><?=empty($noj)?'':'&noj=1'?>&jifen=3">
+                    <?  }?>2000-4000</a></dd>
+                        <dd>|</dd>
+                        <?
+                            if($jifen==4) {
+                        ?>
+                            <dd class="select-all selected">
+                        <?
+                            }else {
+                        ?>
+                            <dd>
+                        <?
+                            }
+                        ?>
+                        <?  if(empty($title)) {?>
+                        <a href="jflist.html?lmid=<?=$lmid?><?=empty($noj)?'':'&noj=1'?>&jifen=4">
+                    <?  } else {?>
+                        <a href="jflist.html?lmid=s&title=<?=$title?><?=empty($noj)?'':'&noj=1'?>&jifen=4">
+                    <?  }?>4000-6000</a></dd>
+                        <dd>|</dd>
+                        <?
+                            if($jifen==5) {
+                        ?>
+                            <dd class="select-all selected">
+                        <?
+                            }else {
+                        ?>
+                            <dd>
+                        <?
+                            }
+                        ?>
+                        <?  if(empty($title)) {?>
+                        <a href="jflist.html?lmid=<?=$lmid?><?=empty($noj)?'':'&noj=1'?>&jifen=5">
+                    <?  } else {?>
+                        <a href="jflist.html?lmid=s&title=<?=$title?><?=empty($noj)?'':'&noj=1'?>&jifen=5">
+                    <?  }?>6000以上</a></dd>
+                    </dl>
+                </li>
+                <li class="select-result">
+                    <dl>
+                        <dt>已选条件：</dt>
+                        <dd class="select-no">&nbsp;
+                        <?
+                            $jifen=htmlspecialchars(trim($_GET['jifen']));
+                            if(empty($jifen)) {
+                        ?>
+                                全部
+                        <?      
+                            } elseif($jifen==1) {
+                        ?>
+                                1000以下
+                        <?
+                            } elseif($jifen==2) {
+                        ?>
+                                1000-2000
+                        <?  
+                            } elseif($jifen==3) {
+                        ?>
+                                2000-4000
+                        <?  
+                            } elseif($jifen==4) {
+                        ?>
+                                4000-6000
+                        <?  
+                            } elseif($jifen==5) {
+                        ?>
+                                6000以上
+                        <?  
+                            }
+                        ?>
+                        
+                                                </dd>
+                    </dl>
+                </li>
+            </ul>
+            <ul class="warp_y_ul" id="warp_y_ul">
+            <?
+            if($total==0) {
+?>
+<center>
+<?
+if(!empty($title)) {
+    echo "查无此产品！";
+} else {
+    echo "此分类尚未发布任何产品，敬请期待！";
+}
+?>
+</center>
+<?
+} else {
+?>
+
+
+            <ul class="warp_y_ul">
+<?
+while($rst1=$qrya1->fetch_array()){     
+?> 
+        
+
+                    <li><a href="jfcontent.html?jfid=<?=$rst1[id];?><?=empty($noj)?'':'&noj=1'?>" title="<?=$rst1[spmc];?>" target="_blank"><img src="<?=strtr($rst1['spslt'],array("../"=>"/mall/"));?>"  style="width: 200px;height: 200px" border="0"/>
+                        <span  style="height:54px;overflow:hidden;"><?=$rst1[spmc];?></span>
+                        <b><?=$rst1[dhjf];?>积分<!-- <i>市场参考价：<?=$rst1[ckj];?></i> --></b>
+                        </a>
+                            
+                        </li>
+                        
+        <?
+        }
+        ?>
+
+</ul>
+                   
+<center>
+
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" style="text-align: center;">
+  <tr>
+    <td height="21"><div class="epages"><?=$pagelist;?></div></td>
+  </tr>
+</table></center> 
+<?
+}
+?>
+            </ul>
+        </div>
+
+
+
+    </div>
+    
+
+
+<?include("jfooter.html");?>
+<?$link->close();?>
+</div>
+</body>
+</html>

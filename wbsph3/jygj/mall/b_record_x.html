@@ -1,0 +1,147 @@
+<?include("config.php");?>
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title><?=_TITLE_?></title>
+    <meta name="keyword" content="<?=_KEYWORD_?>"/>
+    <meta name="description" content="<?=_DESCRIPTION_?>"/>
+
+<link href="/Public/ico.ico" type="image/x-icon" rel="shortcut icon" /> 
+    <link rel="stylesheet" type="text/css" href="/jygj/Public/home/css/index.css">
+	<link rel="stylesheet" type="text/css" href="/jygj/Public/home/css/page.css">
+    <script type="text/javascript" src="/jygj/Public/home/js/jquery-1.7.2.js"></script>
+	<script src="/jygj/Public/home/js/jquery.validate.min.js" type="text/javascript" ></script>
+</head>
+<body >
+<div class="warp">
+    <!------最顶部开始------>
+  <?
+        include("sheader1.html");
+		?>
+  <!------logo结束------>
+<script>
+	$(function(){
+		$(".open_xl").click(function(){
+			$(".xiala").show();
+		})
+		$(".xiala a").click(function(){
+			var xq=$(this).html();
+			$(".open_xl a").html(xq);
+			$(this).parent().hide();
+		})
+	})
+</script>
+    <div class="warp_moer">
+
+        <div class="warp_h">
+            <!----right内容开始---->
+            <div class="warp_h_right" style="width: 989px;">
+
+                <div class="warp_f">
+
+                    <div class="warp_f_div">
+                        <span>消费总额：<i><?php
+						$user=$_COOKIE['ECS']['username'];
+include "config/zt_config.php";
+$db=mysql_connect($db_host,$db_user,$db_pwd);
+mysql_query("SET NAMES $coding"); 
+mysql_select_db($db_database);
+$q1="select sum(jyje) as je2 from zt_orderlist  where ssyh='$user'  order by id desc";
+$qs2=mysql_query($q1);
+$sf2=mysql_fetch_assoc($qs2);
+echo number_format($sf2["je2"]*0.12,2);
+
+						?></i></span>
+                        <b>消费记录</b>
+                    </div>
+
+                    <table border="1" cellspacing="0" cellpadding="0" class="yys_gwc_p">
+                        <tr>
+                            <th width="56">&nbsp;</th>
+                            <th width="144">会员姓名</th>
+                            <th width="261">会员手机号</th>
+							<th width="120">会员消费金额</th>
+							<th width="121">商家扣除金额</th>
+							<th width="239">消费时间</th>
+							
+                        </tr>
+                    </table>
+
+                    <?php
+                            
+//判断登录状态
+$sql="select lx from xbmall_users where user_name='$user'";
+$qs1=mysql_query($sql);
+$sf1=mysql_fetch_assoc($qs1);
+$lx=$sf1["lx"];
+if($lx=="0"){
+echo '<script>location.href="member_login.html";</script>';
+}
+$q="select * from zt_orderlist  where ssyh='$user'  order by id desc";
+$r=mysql_query($q,$db);
+$num=mysql_num_rows($r);
+for($i=0;$i<$num;$i++){
+$data2=mysql_fetch_array($r);
+?>
+<table width="958" border="0" cellpadding="0" cellspacing="0">
+  <tr>
+    <td width="63" height="37" align="center" style="font-family:Arial, Helvetica, sans-serif;color:#F00;border-bottom:1px  solid #CCC;"><label for="checkbox"></label></td>
+    <td width="137" align="center" style="font-family:Arial, Helvetica, sans-serif;color:#F00;border-bottom:1px  solid #CCC;"><?php
+   $mjhyh=$data2["mjhyh"];
+    $sql="select xm,sjhm,lxdh from xbmall_users where user_name='$mjhyh'";
+$qs1=mysql_query($sql);
+$sf1=mysql_fetch_assoc($qs1);
+echo $sf1["xm"];
+    ?></td>
+    <td width="264" align="center" style="border-bottom:1px  solid #CCC;"><?php echo $sf1["sjhm"]?$sf1["sjhm"]:$sf1["lxdh"];?></td>
+    <td width="122" align="center" style="border-bottom:1px  solid #CCC;">¥
+      <?=$data2["jyje"];?></td>
+    <td width="112" align="center" style="border-bottom:1px  solid #CCC;">     <?="<font color='red'>-¥".number_format($data2["jyje"]*0.12,2).'</font>';?></td>
+    <td width="260" align="center" style="border-bottom:1px  solid #CCC;"><?=$data2["ddrq"];?></td>
+    </tr>
+</table>
+<?php
+  }
+  mysql_close($db);
+  ?>  
+						<table border="1" cellspacing="0" cellpadding="0" class="yys_gwc_o">
+							
+							
+
+						</table>
+				
+                    <div class="warp_f_mp">
+                        <!----下一页开始---->
+                       	<!--
+					   <div class="scott"></div>
+                        <!----下一页结束---->
+                    </div>
+
+
+                </div>
+            </div>
+            <!----right内容结束---->
+
+            <!----left内容开始---->
+                       <? include_once "left_menu2.html";?>
+            <!----left内容结束---->
+        </div>
+
+  </div>
+    <!----内容结束---->
+
+    <!------底部开始------>
+
+     <?include("sfooter.html");?>
+
+<div class="warp_e_db"></div>
+
+	
+	
+	
+</div>
+    <!------底部结束------>
+</div>
+</body>
+</html>

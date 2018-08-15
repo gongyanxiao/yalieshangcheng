@@ -1,0 +1,50 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <link href="themesmobile/default/css/supp_center.css" rel="stylesheet" type="text/css" />
+        <div id="container" class="shouye">
+      
+			<form name="formIdentity" action="user.php" method="post"   enctype="multipart/form-data">
+                <input name="iscommit" value="0" type="hidden">
+                <div class="recharge">
+                	 <dl class="re_one">
+                    	<dt><font class="main-color">*</font>充值金额：</dt>
+				        <dd><input name="amount"  class="inputBg" type="text">
+				    	 <div class="required-notice"><i class="notice-icon"></i><span class="notice-text yl_id-notice"></span>
+				    	 </div>
+				    	</dd>
+	                 </dl>
+	                  <dl class="re_one">
+	                    <dt><font class="main-color">*</font>备注：</dt>
+					    <dd><input name="user_note"  class="inputBg" type="text">
+						    <div class="required-notice"><i class="notice-icon"></i><span class="notice-text real_name-notice"></span>
+						    </div>
+					    </dd>
+	                  </dl>
+	                  <dl>
+		                   <dt style="padding-left:2.35%;"><font class="main-color">*</font>充值方式：
+		                   </dt>
+				              <ul style="padding-left:3%;">
+				              <!--{foreach from=$payment_list item=payment}-->
+					              <li style="float:left;padding-right:20px">
+					                  <input type="radio" name="payment_id" onchange="choose_payment(this.value)" 
+					                    value="{$payment.pay_id}"> {$payment.pay_name}
+					              </li>
+					           <!-- {/foreach} -->
+				            </ul>
+	                  </dl>
+		              <dl>
+		                <br>
+		                   <dt style="padding-left:2.35%;"><font class="main-color">*</font>支持的信用卡：
+		                   </dt>
+				            <ul style="padding-left:3%;">
+				                                          (中国银行,华夏银行,光大银行,兴业银行)
+				            </ul>
+	                  </dl>
+	               </div>
+	                <div class="field submit-btn">
+	                        <input type="hidden" name="postToken" value="{$postToken}" />
+	                    	<input name="act" value="chong_zhi_zhi_fu" type="hidden">
+	                        <input name="submit" value="确认" class="btn_big1" type="submit">
+	                 </div>
+              </form>
+  		</div>
+ 

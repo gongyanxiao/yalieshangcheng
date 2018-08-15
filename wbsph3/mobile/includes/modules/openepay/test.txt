@@ -1,0 +1,323 @@
+进入zhifutong
+<form name="form2" action="https://wanshangxing.com/index.php?app=smartepay" method="post">
+		<input type="hidden" name="inputCharset" id="inputCharset" value="1" />
+		<input type="hidden" name="pickupUrl" id="pickupUrl" value="http://www.y.com/mobile/user.php"/>
+		<input type="hidden" name="receiveUrl" id="receiveUrl" value="http://shop.xiangbai315.com/testNotify2.php" />
+		<input type="hidden" name="version" id="version" value="v1.0"/>
+		<input type="hidden" name="language" id="language" value="1" />
+		<input type="hidden" name="signType" id="signType" value="1"/>
+		<input type="hidden" name="merchantId" id="merchantId" value="360849" />
+		<input type="hidden" name="payerName" id="payerName" value="付款人姓名"/>
+		<input type="hidden" name="payerEmail" id="payerEmail" value="付款人联系email" />
+		<input type="hidden" name="payerTelephone" id="payerTelephone" value="15910142205" />
+		<input type="hidden" name="orderNo" id="orderNo" value="121183" />
+		<input type="hidden" name="orderAmount" id="orderAmount" value="100"/>
+		<input type="hidden" name="orderCurrency" id="orderCurrency" value="156" />
+		<input type="hidden" name="orderDatetime" id="orderDatetime" value="20170621170638" />
+		<input type="hidden" name="orderExpireDatetime" id="orderExpireDatetime" value=""/>
+		<input type="hidden" name="productName" id="productName" value="商品" />
+		<input type="hidden" name="productPrice" id="productPrice" value="" />
+		<input type="hidden" name="productNum" id="productNum" value="1"/>
+		<input type="hidden" name="productId" id="productId" value="" />
+		<input type="hidden" name="productDesc" id="productDesc" value="1" />
+		<input type="hidden" name="ext1" id="ext1" value="" />
+		<input type="hidden" name="ext2" id="ext2" value="" />
+		<input type="hidden" name="extTL" id="extTL" value="" />
+		<input type="hidden" name="payType" value="1" />
+		<input type="hidden" name="issuerId" value="" />
+		<input type="hidden" name="signMsg" id="signMsg" value="CABC57091C9BF0E08C64D0A62751F7A2" />
+		<div align="center"><input type="submit" value="确认付款，到开联通支付去啦" align=center/></div>
+	
+	</form>进入zhifutong
+<form name="form2" action="https://wanshangxing.com/index.php?app=smartepay" method="post">
+		<input type="hidden" name="inputCharset" id="inputCharset" value="1" />
+		<input type="hidden" name="pickupUrl" id="pickupUrl" value="http://www.y.com/mobile/user.php"/>
+		<input type="hidden" name="receiveUrl" id="receiveUrl" value="http://shop.xiangbai315.com/testNotify2.php" />
+		<input type="hidden" name="version" id="version" value="v1.0"/>
+		<input type="hidden" name="language" id="language" value="1" />
+		<input type="hidden" name="signType" id="signType" value="1"/>
+		<input type="hidden" name="merchantId" id="merchantId" value="360849" />
+		<input type="hidden" name="payerName" id="payerName" value="付款人姓名"/>
+		<input type="hidden" name="payerEmail" id="payerEmail" value="付款人联系email" />
+		<input type="hidden" name="payerTelephone" id="payerTelephone" value="15910142205" />
+		<input type="hidden" name="orderNo" id="orderNo" value="121185" />
+		<input type="hidden" name="orderAmount" id="orderAmount" value="100"/>
+		<input type="hidden" name="orderCurrency" id="orderCurrency" value="156" />
+		<input type="hidden" name="orderDatetime" id="orderDatetime" value="20170621170638" />
+		<input type="hidden" name="orderExpireDatetime" id="orderExpireDatetime" value=""/>
+		<input type="hidden" name="productName" id="productName" value="商品" />
+		<input type="hidden" name="productPrice" id="productPrice" value="" />
+		<input type="hidden" name="productNum" id="productNum" value="1"/>
+		<input type="hidden" name="productId" id="productId" value="" />
+		<input type="hidden" name="productDesc" id="productDesc" value="1" />
+		<input type="hidden" name="ext1" id="ext1" value="" />
+		<input type="hidden" name="ext2" id="ext2" value="" />
+		<input type="hidden" name="extTL" id="extTL" value="" />
+		<input type="hidden" name="payType" value="1" />
+		<input type="hidden" name="issuerId" value="" />
+		<input type="hidden" name="signMsg" id="signMsg" value="8D581B361306213A1CEAF83BE18D5BDF" />
+		<div align="center"><input type="submit" value="确认付款，到开联通支付去啦" align=center/></div>
+	
+	</form>进入zhifutong
+<form name="form2" action="https://wanshangxing.com/index.php?app=smartepay" method="post">
+		<input type="hidden" name="inputCharset" id="inputCharset" value="1" />
+		<input type="hidden" name="pickupUrl" id="pickupUrl" value="http://www.y.com/mobile/user.php"/>
+		<input type="hidden" name="receiveUrl" id="receiveUrl" value="http://shop.xiangbai315.com/testNotify2.php" />
+		<input type="hidden" name="version" id="version" value="v1.0"/>
+		<input type="hidden" name="language" id="language" value="1" />
+		<input type="hidden" name="signType" id="signType" value="1"/>
+		<input type="hidden" name="merchantId" id="merchantId" value="360849" />
+		<input type="hidden" name="payerName" id="payerName" value="付款人姓名"/>
+		<input type="hidden" name="payerEmail" id="payerEmail" value="付款人联系email" />
+		<input type="hidden" name="payerTelephone" id="payerTelephone" value="15910142205" />
+		<input type="hidden" name="orderNo" id="orderNo" value="121186" />
+		<input type="hidden" name="orderAmount" id="orderAmount" value="100"/>
+		<input type="hidden" name="orderCurrency" id="orderCurrency" value="156" />
+		<input type="hidden" name="orderDatetime" id="orderDatetime" value="20170621170638" />
+		<input type="hidden" name="orderExpireDatetime" id="orderExpireDatetime" value=""/>
+		<input type="hidden" name="productName" id="productName" value="商品" />
+		<input type="hidden" name="productPrice" id="productPrice" value="" />
+		<input type="hidden" name="productNum" id="productNum" value="1"/>
+		<input type="hidden" name="productId" id="productId" value="" />
+		<input type="hidden" name="productDesc" id="productDesc" value="1" />
+		<input type="hidden" name="ext1" id="ext1" value="" />
+		<input type="hidden" name="ext2" id="ext2" value="" />
+		<input type="hidden" name="extTL" id="extTL" value="" />
+		<input type="hidden" name="payType" value="1" />
+		<input type="hidden" name="issuerId" value="" />
+		<input type="hidden" name="signMsg" id="signMsg" value="37CBF6544E11DB7CCFEB4E9A22E3B2C2" />
+		<div align="center"><input type="submit" value="确认付款，到开联通支付去啦" align=center/></div>
+	
+	</form>进入zhifutong
+<form name="form2" action="https://wanshangxing.com/index.php?app=smartepay" method="post">
+		<input type="hidden" name="inputCharset" id="inputCharset" value="1" />
+		<input type="hidden" name="pickupUrl" id="pickupUrl" value="http://www.y.com/mobile/user.php?act=order_detail&order_id=2017071351320"/>
+		<input type="hidden" name="receiveUrl" id="receiveUrl" value="http://shop.xiangbai315.com/testNotify2.php" />
+		<input type="hidden" name="version" id="version" value="v1.0"/>
+		<input type="hidden" name="language" id="language" value="1" />
+		<input type="hidden" name="signType" id="signType" value="1"/>
+		<input type="hidden" name="merchantId" id="merchantId" value="360849" />
+		<input type="hidden" name="payerName" id="payerName" value="付款人姓名"/>
+		<input type="hidden" name="payerEmail" id="payerEmail" value="付款人联系email" />
+		<input type="hidden" name="payerTelephone" id="payerTelephone" value="15910142205" />
+		<input type="hidden" name="orderNo" id="orderNo" value="121188" />
+		<input type="hidden" name="orderAmount" id="orderAmount" value="21300"/>
+		<input type="hidden" name="orderCurrency" id="orderCurrency" value="156" />
+		<input type="hidden" name="orderDatetime" id="orderDatetime" value="20170621170638" />
+		<input type="hidden" name="orderExpireDatetime" id="orderExpireDatetime" value=""/>
+		<input type="hidden" name="productName" id="productName" value="商品" />
+		<input type="hidden" name="productPrice" id="productPrice" value="" />
+		<input type="hidden" name="productNum" id="productNum" value="1"/>
+		<input type="hidden" name="productId" id="productId" value="" />
+		<input type="hidden" name="productDesc" id="productDesc" value="描述省略" />
+		<input type="hidden" name="ext1" id="ext1" value="" />
+		<input type="hidden" name="ext2" id="ext2" value="" />
+		<input type="hidden" name="extTL" id="extTL" value="" />
+		<input type="hidden" name="payType" value="1" />
+		<input type="hidden" name="issuerId" value="" />
+		<input type="hidden" name="signMsg" id="signMsg" value="1DAF11D0164AB50705BF99379FB13BF2" />
+		<div align="center"><input type="submit" value="确认付款，到开联通支付去啦" align=center/></div>
+	
+	</form>进入zhifutong
+<form name="form2" action="https://wanshangxing.com/index.php?app=smartepay" method="post">
+		<input type="hidden" name="inputCharset" id="inputCharset" value="1" />
+		<input type="hidden" name="pickupUrl" id="pickupUrl" value="http://www.y.com/mobile/user.php?act=order_detail&order_id=2017072297487"/>
+		<input type="hidden" name="receiveUrl" id="receiveUrl" value="http://shop.xiangbai315.com/testNotify2.php" />
+		<input type="hidden" name="version" id="version" value="v1.0"/>
+		<input type="hidden" name="language" id="language" value="1" />
+		<input type="hidden" name="signType" id="signType" value="1"/>
+		<input type="hidden" name="merchantId" id="merchantId" value="360849" />
+		<input type="hidden" name="payerName" id="payerName" value="付款人姓名"/>
+		<input type="hidden" name="payerEmail" id="payerEmail" value="付款人联系email" />
+		<input type="hidden" name="payerTelephone" id="payerTelephone" value="15910142205" />
+		<input type="hidden" name="orderNo" id="orderNo" value="121238" />
+		<input type="hidden" name="orderAmount" id="orderAmount" value="1500"/>
+		<input type="hidden" name="orderCurrency" id="orderCurrency" value="156" />
+		<input type="hidden" name="orderDatetime" id="orderDatetime" value="20170621170638" />
+		<input type="hidden" name="orderExpireDatetime" id="orderExpireDatetime" value=""/>
+		<input type="hidden" name="productName" id="productName" value="商品" />
+		<input type="hidden" name="productPrice" id="productPrice" value="" />
+		<input type="hidden" name="productNum" id="productNum" value="1"/>
+		<input type="hidden" name="productId" id="productId" value="" />
+		<input type="hidden" name="productDesc" id="productDesc" value="描述省略" />
+		<input type="hidden" name="ext1" id="ext1" value="" />
+		<input type="hidden" name="ext2" id="ext2" value="" />
+		<input type="hidden" name="extTL" id="extTL" value="" />
+		<input type="hidden" name="payType" value="1" />
+		<input type="hidden" name="issuerId" value="" />
+		<input type="hidden" name="signMsg" id="signMsg" value="FBAFFAF0B097744CCF0DAE9D62C868AE" />
+		<div align="center"><input type="submit" value="确认付款，到开联通支付去啦" align=center/></div>
+	
+	</form>进入zhifutong
+<form name="form2" action="https://wanshangxing.com/index.php?app=smartepay" method="post">
+		<input type="hidden" name="inputCharset" id="inputCharset" value="1" />
+		<input type="hidden" name="pickupUrl" id="pickupUrl" value="http://www.y.com/mobile/user.php?act=order_detail&order_id=2017072247972"/>
+		<input type="hidden" name="receiveUrl" id="receiveUrl" value="http://shop.xiangbai315.com/testNotify2.php" />
+		<input type="hidden" name="version" id="version" value="v1.0"/>
+		<input type="hidden" name="language" id="language" value="1" />
+		<input type="hidden" name="signType" id="signType" value="1"/>
+		<input type="hidden" name="merchantId" id="merchantId" value="360849" />
+		<input type="hidden" name="payerName" id="payerName" value="付款人姓名"/>
+		<input type="hidden" name="payerEmail" id="payerEmail" value="付款人联系email" />
+		<input type="hidden" name="payerTelephone" id="payerTelephone" value="15910142205" />
+		<input type="hidden" name="orderNo" id="orderNo" value="121239" />
+		<input type="hidden" name="orderAmount" id="orderAmount" value="1500"/>
+		<input type="hidden" name="orderCurrency" id="orderCurrency" value="156" />
+		<input type="hidden" name="orderDatetime" id="orderDatetime" value="20170621170638" />
+		<input type="hidden" name="orderExpireDatetime" id="orderExpireDatetime" value=""/>
+		<input type="hidden" name="productName" id="productName" value="商品" />
+		<input type="hidden" name="productPrice" id="productPrice" value="" />
+		<input type="hidden" name="productNum" id="productNum" value="1"/>
+		<input type="hidden" name="productId" id="productId" value="" />
+		<input type="hidden" name="productDesc" id="productDesc" value="描述省略" />
+		<input type="hidden" name="ext1" id="ext1" value="" />
+		<input type="hidden" name="ext2" id="ext2" value="" />
+		<input type="hidden" name="extTL" id="extTL" value="" />
+		<input type="hidden" name="payType" value="1" />
+		<input type="hidden" name="issuerId" value="" />
+		<input type="hidden" name="signMsg" id="signMsg" value="CE044D26DF38C69C8B067EC0DB17E6D9" />
+		<div align="center"><input type="submit" value="确认付款，到开联通支付去啦" align=center/></div>
+	
+	</form>进入zhifutong
+<form name="form2" action="https://wanshangxing.com/index.php?app=smartepay" method="post">
+		<input type="hidden" name="inputCharset" id="inputCharset" value="1" />
+		<input type="hidden" name="pickupUrl" id="pickupUrl" value="http://www.y.com/mobile/user.php?act=order_detail&order_id=158"/>
+		<input type="hidden" name="receiveUrl" id="receiveUrl" value="http://shop.xiangbai315.com/testNotify2.php" />
+		<input type="hidden" name="version" id="version" value="v1.0"/>
+		<input type="hidden" name="language" id="language" value="1" />
+		<input type="hidden" name="signType" id="signType" value="1"/>
+		<input type="hidden" name="merchantId" id="merchantId" value="360849" />
+		<input type="hidden" name="payerName" id="payerName" value="付款人姓名"/>
+		<input type="hidden" name="payerEmail" id="payerEmail" value="付款人联系email" />
+		<input type="hidden" name="payerTelephone" id="payerTelephone" value="15910142205" />
+		<input type="hidden" name="orderNo" id="orderNo" value="121240" />
+		<input type="hidden" name="orderAmount" id="orderAmount" value="1500"/>
+		<input type="hidden" name="orderCurrency" id="orderCurrency" value="156" />
+		<input type="hidden" name="orderDatetime" id="orderDatetime" value="20170621170638" />
+		<input type="hidden" name="orderExpireDatetime" id="orderExpireDatetime" value=""/>
+		<input type="hidden" name="productName" id="productName" value="商品" />
+		<input type="hidden" name="productPrice" id="productPrice" value="" />
+		<input type="hidden" name="productNum" id="productNum" value="1"/>
+		<input type="hidden" name="productId" id="productId" value="" />
+		<input type="hidden" name="productDesc" id="productDesc" value="描述省略" />
+		<input type="hidden" name="ext1" id="ext1" value="" />
+		<input type="hidden" name="ext2" id="ext2" value="" />
+		<input type="hidden" name="extTL" id="extTL" value="" />
+		<input type="hidden" name="payType" value="1" />
+		<input type="hidden" name="issuerId" value="" />
+		<input type="hidden" name="signMsg" id="signMsg" value="61140250B8EA2963D43B53D7899E4D56" />
+		<div align="center"><input type="submit" value="确认付款，到开联通支付去啦" align=center/></div>
+	
+	</form>进入zhifutong
+<form name="form2" action="https://wanshangxing.com/index.php?app=smartepay" method="post">
+		<input type="hidden" name="inputCharset" id="inputCharset" value="1" />
+		<input type="hidden" name="pickupUrl" id="pickupUrl" value="http://www.y.com/mobile/user.php?act=order_detail&order_id=2017072297369"/>
+		<input type="hidden" name="receiveUrl" id="receiveUrl" value="http://shop.xiangbai315.com/testNotify2.php" />
+		<input type="hidden" name="version" id="version" value="v1.0"/>
+		<input type="hidden" name="language" id="language" value="1" />
+		<input type="hidden" name="signType" id="signType" value="1"/>
+		<input type="hidden" name="merchantId" id="merchantId" value="360849" />
+		<input type="hidden" name="payerName" id="payerName" value="付款人姓名"/>
+		<input type="hidden" name="payerEmail" id="payerEmail" value="付款人联系email" />
+		<input type="hidden" name="payerTelephone" id="payerTelephone" value="15910142205" />
+		<input type="hidden" name="orderNo" id="orderNo" value="121241" />
+		<input type="hidden" name="orderAmount" id="orderAmount" value="1500"/>
+		<input type="hidden" name="orderCurrency" id="orderCurrency" value="156" />
+		<input type="hidden" name="orderDatetime" id="orderDatetime" value="20170621170638" />
+		<input type="hidden" name="orderExpireDatetime" id="orderExpireDatetime" value=""/>
+		<input type="hidden" name="productName" id="productName" value="商品" />
+		<input type="hidden" name="productPrice" id="productPrice" value="" />
+		<input type="hidden" name="productNum" id="productNum" value="1"/>
+		<input type="hidden" name="productId" id="productId" value="" />
+		<input type="hidden" name="productDesc" id="productDesc" value="描述省略" />
+		<input type="hidden" name="ext1" id="ext1" value="" />
+		<input type="hidden" name="ext2" id="ext2" value="" />
+		<input type="hidden" name="extTL" id="extTL" value="" />
+		<input type="hidden" name="payType" value="1" />
+		<input type="hidden" name="issuerId" value="" />
+		<input type="hidden" name="signMsg" id="signMsg" value="670AD1C3275661949FCAAAB276640988" />
+		<div align="center"><input type="submit" value="确认付款，到开联通支付去啦" align=center/></div>
+	
+	</form>进入zhifutong
+<form name="form2" action="https://wanshangxing.com/index.php?app=smartepay" method="post">
+		<input type="hidden" name="inputCharset" id="inputCharset" value="1" />
+		<input type="hidden" name="pickupUrl" id="pickupUrl" value="http://www.y.com/mobile/user.php"/>
+		<input type="hidden" name="receiveUrl" id="receiveUrl" value="http://shop.xiangbai315.com/testNotify2.php" />
+		<input type="hidden" name="version" id="version" value="v1.0"/>
+		<input type="hidden" name="language" id="language" value="1" />
+		<input type="hidden" name="signType" id="signType" value="1"/>
+		<input type="hidden" name="merchantId" id="merchantId" value="360849" />
+		<input type="hidden" name="payerName" id="payerName" value="付款人姓名"/>
+		<input type="hidden" name="payerEmail" id="payerEmail" value="付款人联系email" />
+		<input type="hidden" name="payerTelephone" id="payerTelephone" value="15910142205" />
+		<input type="hidden" name="orderNo" id="orderNo" value="121275" />
+		<input type="hidden" name="orderAmount" id="orderAmount" value="100"/>
+		<input type="hidden" name="orderCurrency" id="orderCurrency" value="156" />
+		<input type="hidden" name="orderDatetime" id="orderDatetime" value="20170621170638" />
+		<input type="hidden" name="orderExpireDatetime" id="orderExpireDatetime" value=""/>
+		<input type="hidden" name="productName" id="productName" value="商品" />
+		<input type="hidden" name="productPrice" id="productPrice" value="" />
+		<input type="hidden" name="productNum" id="productNum" value="1"/>
+		<input type="hidden" name="productId" id="productId" value="" />
+		<input type="hidden" name="productDesc" id="productDesc" value="1" />
+		<input type="hidden" name="ext1" id="ext1" value="" />
+		<input type="hidden" name="ext2" id="ext2" value="" />
+		<input type="hidden" name="extTL" id="extTL" value="" />
+		<input type="hidden" name="payType" value="1" />
+		<input type="hidden" name="issuerId" value="" />
+		<input type="hidden" name="signMsg" id="signMsg" value="5B1049C925274E5AF31CB4BAD880844E" />
+		<div align="center"><input type="submit" value="确认付款，到开联通支付去啦" align=center/></div>
+	
+	</form>进入zhifutong
+进入zhifutong
+进入zhifutong
+进入zhifutong
+进入zhifutong
+进入zhifutong
+进入zhifutong
+进入zhifutong
+进入zhifutong
+进入zhifutong
+<form name="form2" action="https://wanshangxing.com/index.php?app=smartepay" method="post">
+		<input type="hidden" name="inputCharset" id="inputCharset" value="1" />
+		<input type="hidden" name="pickupUrl" id="pickupUrl" value="http://www.y.com/mobile/user.php"/>
+		<input type="hidden" name="receiveUrl" id="receiveUrl" value="http://shop.xiangbai315.com/testNotify2.php" />
+		<input type="hidden" name="version" id="version" value="v1.0"/>
+		<input type="hidden" name="language" id="language" value="1" />
+		<input type="hidden" name="signType" id="signType" value="1"/>
+		<input type="hidden" name="merchantId" id="merchantId" value="360849" />
+		<input type="hidden" name="payerName" id="payerName" value="付款人姓名"/>
+		<input type="hidden" name="payerEmail" id="payerEmail" value="付款人联系email" />
+		<input type="hidden" name="payerTelephone" id="payerTelephone" value="15910142205" />
+		<input type="hidden" name="orderNo" id="orderNo" value="121714" />
+		<input type="hidden" name="orderAmount" id="orderAmount" value="100"/>
+		<input type="hidden" name="orderCurrency" id="orderCurrency" value="156" />
+		<input type="hidden" name="orderDatetime" id="orderDatetime" value="20170621170638" />
+		<input type="hidden" name="orderExpireDatetime" id="orderExpireDatetime" value=""/>
+		<input type="hidden" name="productName" id="productName" value="商品" />
+		<input type="hidden" name="productPrice" id="productPrice" value="" />
+		<input type="hidden" name="productNum" id="productNum" value="1"/>
+		<input type="hidden" name="productId" id="productId" value="" />
+		<input type="hidden" name="productDesc" id="productDesc" value="1" />
+		<input type="hidden" name="ext1" id="ext1" value="" />
+		<input type="hidden" name="ext2" id="ext2" value="" />
+		<input type="hidden" name="extTL" id="extTL" value="" />
+		<input type="hidden" name="payType" value="1" />
+		<input type="hidden" name="issuerId" value="" />
+		<input type="hidden" name="signMsg" id="signMsg" value="A41B90F473F40185463108C634ED832C" />
+		<div align="center"><input type="submit" value="确认付款，到开联通支付去啦" align=center/></div>
+	
+	</form>进入zhifutong
+进入zhifutong
+进入zhifutong
+进入zhifutong
+进入zhifutong
+进入zhifutong
+进入zhifutong
+进入zhifutong
+进入zhifutong
+进入zhifutong
+进入zhifutong
+进入zhifutong
+进入zhifutong
+进入zhifutong

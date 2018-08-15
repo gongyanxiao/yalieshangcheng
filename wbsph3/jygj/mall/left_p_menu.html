@@ -1,0 +1,65 @@
+
+  <?php
+     $is_cj=$_COOKIE['is_cj'];
+     if($is_cj){
+  ?>   
+  <div class="warp_h_left_div">
+  	<ul class="warp_h_left_ul">   
+    	<p>超级会员</p>
+  	    <li><a href="my_recommend_list.html">我的推荐</a></li>
+  	    <li><a href="xxtz_dp.html">我的店铺</a></li>
+  	    <li><a href="xxtz_cz.html">充值</a></li>
+  	    <li><a href="xxtz_cz_list.html">充值记录</a></li>
+  		<li><a href="xxtz_list.html">投资管理</a></li>
+		 <li><a href="cash_pro_cj.html">投资提现申请</a></li>
+		 <li><a href="money_cj_list.html">投资提现记录</a></li>
+		 <li><a href="xxtzzs_list.html">赠送记录</a></li>
+  	</ul>
+  	
+		<ul class="warp_h_left_ul">
+			<p>账户中心</p>
+			<li><a href="consumption.html">消费记录</a></li>
+			<li><a href="center.html">积分记录</a></li>
+			<li><a href="chongzhi.html">积分转换</a></li>
+					<li><a href="cash_pro.html">申请提现</a></li>
+			<li><a href="money_list.html">提现记录</a></li>
+			<li><a href="jifenorder.html">兑换记录</a></li>
+		</ul>
+		<ul class="warp_h_left_ul">
+			<p>个人中心</p>
+			<li><a href="information.html">个人信息</a></li>
+			<li><a href="collection.html">我的收藏</a></li>
+			<li><a href="card.html">绑定银行卡</a></li>
+			<li><a href="address.html">收货地址</a></li>
+			<li><a href="orderlist.html?flg=1">我的订单</a></li>
+			<li><a href="exit.html?log=1">退出登录</a></li>
+		</ul>
+	</div>
+  <?php
+      }else{
+  ?>
+<div class="warp_h_left_div">
+		<ul class="warp_h_left_ul">
+			<p>账户中心</p>
+			<li><a href="consumption.html">消费记录</a></li>
+			<li><a href="center.html">积分记录</a></li>
+			<li><a href="chongzhi.html">积分转换</a></li>
+			 <li><a href="cash_pro.html">申请提现</a></li>
+			<li><a href="money_list.html">提现记录</a></li>
+			<li><a href="jifenorder.html">兑换记录</a></li>
+		</ul>
+		<ul class="warp_h_left_ul">
+			<p>个人中心</p>
+			<li><a href="information.html">个人信息</a></li>
+			<li><a href="collection.html">我的收藏</a></li>
+			<li><a href="card.html">绑定银行卡</a></li>
+			<li><a href="address.html">收货地址</a></li>
+			<li><a href="orderlist.html?flg=1">我的订单</a></li>
+		    <li><a href="my_recommend_list.html">我的推荐</a></li>
+			<li><a href="exit.html?log=1">退出登录</a></li>
+		</ul>
+	</div>
+	
+	  <?php
+      }
+  ?>

@@ -1,0 +1,245 @@
+<?
+include("config.php");
+include("../page.class.php");
+$link = mysqli_connect($db_host,$db_user,$db_pwd,$db_database) or die('Unale to link');
+$link->set_charset('utf8');
+$noj=$_GET['noj'];
+if(!empty($noj)) {
+    $noj=1;
+    $ds=" gngj=1 and ";
+} else {
+    $ds=" gngj=0 and ";
+}
+?>
+
+<!DOCTYPE html>
+<html>
+<head lang="en">
+     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+   <title><?=empty($noj)?'国内':'国际'?>积分兑换_网络平台_<?=_TITLE_?></title>
+    <meta name="keyword" content="<?=_KEYWORD_?>"/>
+    <meta name="description" content="<?=_DESCRIPTION_?>"/>
+    <link href="/Public/ico.ico" type="image/x-icon" rel="shortcut icon" /> 
+    <link rel="stylesheet" type="text/css" href="/Public/phone/jifen/css/index.css">
+    <link rel="stylesheet" type="text/css" href="/Public/phone/jifen/css/swiper.min.css">
+    <script type="text/javascript" src="/Public/phone/jifen/js/jquery-1.7.2.js"></script>
+    <script type="text/javascript" src="/Public/phone/jifen/js/swiper.min.js"></script>
+    <link href="/Public/phone/jifen/css/component.css" rel="stylesheet" type="text/css" />
+</head>
+<body style="background: #F2F2F2">
+<div class="warp">
+    <!------头部开始------>
+       <?include("jfheader.html");?>
+    
+    <!------banner开始------>
+    <div id="banner">
+        <div class="swiper-wrapper">
+        <?
+        $sql="select * from `phome_enewsad` where `classid` = 3 order by `adid` desc limit 0,5";
+    $query=$link->query($sql);
+    while($row=$query->fetch_array()) {
+        ?>
+        <div class="swiper-slide" style="background: url(<?=$row[picurl]?>) 55% 0 no-repeat;background-size:740px 265px;width: 440px;height: 265px">
+            </div>
+       <?}?>     
+        </div>
+        <div class="pagination"></div>
+    </div>
+    <!------banner结束------>
+
+    <!------假搜索开始------>
+    <div class="warp_o">
+        <span>请输入您所搜索的商品</span>
+    </div>
+    <!------假搜索结束------>
+
+    <!------内容开始------>
+    <ul class="warp_i">
+   <?   
+                //$x=0;
+                $j=array();
+                $k=array();
+                $sqla="select * from `phome_enewsad` where `classid` = 15 order by `adid` asc";
+                    $qrya=$link->query($sqla);
+                    $total=$qrya->num_rows>=6?6:$qrya->num_rows;
+                    $x=0;
+                    while($x<$total) {
+                        $sql1=$sqla." limit ".$x.",1";
+                        $qry1=$link->query($sql1); 
+                        $rst1=$qry1->fetch_array();
+                        $j[]=$rst1['url'];
+                        $k[]=$rst1['picurl'];
+                        $x++;   
+                    }
+            ?>
+        <li>
+            <table>
+                <tr>
+                    <td rowspan="2" width="50%">
+                        <a href="<?echo($j[0]);?>"><img src="<?echo($k[0]);?>" style='height:100%'></a>
+                    </td>
+                    <td>
+                        <a href="<?echo($j[1]);?>"><img src="<?echo($k[1]);?>" style='height:100%'></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <a href="<?echo($j[2]);?>"><img src="<?echo($k[2]);?>" style='height:100%'></a>
+                    </td>
+                </tr>
+            </table>
+        </li>
+        <li>
+            <table>
+                <tr>
+                    <td rowspan="2" width="50%">
+                        <a href="<?echo($j[3]);?>"><img src="<?echo($k[3]);?>" style='height:100%'></a>
+                    </td>
+                    <td>
+                        <a href="<?echo($j[4]);?>"><img src="<?echo($k[4]);?>" style='height:100%'></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <a href="<?echo($j[5]);?>"><img src="<?echo($k[5]);?>" style='height:100%'></a>
+                    </td>
+                </tr>
+            </table>
+        </li>
+    </ul>
+<script type="text/javascript">
+        $(function() {
+            var x=$(".warp_i table").eq(0).css("width");
+            x=x.substr(0,x.length-2);
+            $(".warp_i table td").eq(0).css("height",0.5*x+"px");
+            $(".warp_i table td").eq(1).css("height",0.25*x+"px");
+            $(".warp_i table td").eq(2).css("height",0.25*x+"px");
+            $(".warp_i table td").eq(3).css("height",0.5*x+"px");
+            $(".warp_i table td").eq(4).css("height",0.25*x+"px");
+            $(".warp_i table td").eq(5).css("height",0.25*x+"px");
+        })
+    </script>
+    
+<?
+        $sql0="select * from `phome_enewsad` where `adid`=46 ";
+    $query0=$link->query($sql0);
+    $row0=$query0->fetch_array(); 
+        ?>
+        <a href="<?=$row0[url]?>" class="warp_i_gg"><img src="<?=$row0[picurl]?>"></a>
+      
+    <div class="content5">
+        <div class="content5_head">
+            <div>
+                <img src="/Public/phone/jifen/img/coin7.png">
+                <span>专属推荐</span>
+            </div>
+        </div>
+        <ul>
+            <?
+    $sqly=$link->query("select * from `zt_jifen` where ".$ds." (`sfxptj`=1 or `sfdh`=1) and `sfsj`=1 order by id desc limit 0,24");
+    while($ry =$sqly->fetch_array()) {
+?>
+                    <li style="">
+                        <a href="jifencontent.html?jfid=<?=$ry['id']?><?=empty($noj)?'':'&noj=1'?>" title="<?=$ry['spmc']?>">
+                            <img src="<?=strtr($ry['spslt'],array("../"=>"/mall/"))?>">
+                            <span><?=mb_substr($ry['spmc'],0,10,'utf-8'); ?></span>
+                            <i><?=$ry['dhjf']?>积分</i>
+                             <!-- <b>市场参考价：<?=$ry['ckj']?></b> -->
+                        </a>
+                    </li>
+                <?
+                    }
+    
+           ?>
+        </ul>
+        <div class="ht10"></div>
+    </div>
+
+    <!------底部开始------>
+    <div class="ht60"></div>
+    <?include("footer.html");?>
+    <!------底部结束------>
+</div>
+
+<!------真搜索开始------>
+<div class="warp_o_div">
+    <h2><span class="close"><img src="/Public/phone/jifen/img/im13.png"></span>关键搜索</h2>
+    <div class="warp_o_div_mp">
+        <ul class="warp_o_div_mo">
+            <li class="thisclass">宝贝</li>
+        </ul>
+        <div class="warp_o_div_mi">
+        <form method="post" action="search1.html<?=empty($noj)?'':'?noj=1'?>">
+            <input type="text" name="title" id="input" autofocus="autofocus" placeholder="请输入关键词" class="warp_o_div_mi_ex"/>
+            <input type="submit" class="warp_o_div_mi_ton" value=""></form>
+        </div>
+
+        <ul class="warp_o_div_mu">
+            <li>
+                <b style="background: url(/Public/phone/jifen/img/im22.png) no-repeat left center;background-size: 14px 14px">热门搜索</b>
+                <a href="#">外套</a>
+                <a href="#">连衣裙</a>
+                <a href="#">运动鞋</a>
+                <a href="#">睡衣</a>
+                <a href="#">外套</a>
+                <a href="#">连衣裙</a>
+                <a href="#">运动鞋</a>
+            </li>
+        </ul>
+    </div>
+</div>
+<script>
+    $(function(){
+        $('.warp_o').click(function(){
+            $('.warp_o_div').show();
+            $('#input').focus();
+        })
+        $('.close').click(function(){
+            $('.warp_o_div').hide();
+        })
+    })
+</script>
+<!------真搜索结束------>
+<script type="text/javascript">
+    window.onload = function() {
+        var mySwiper1 = new Swiper('#header',{
+            freeMode : true,
+            slidesPerView : 'auto',
+        });
+        var mySwiper2 = new Swiper('#banner',{
+            autoplay:5000,
+            visibilityFullFit : true,
+            loop:true,
+            pagination : '.pagination',
+        });
+
+        var tabsSwiper = new Swiper('#tabs-container',{
+            speed:500,
+            onSlideChangeStart: function(){
+                $(".tabs .active").removeClass('active')
+                $(".tabs a").eq(tabsSwiper.activeIndex).addClass('active')
+            }
+        })
+        $(".tabs a").on('touchstart mousedown',function(e){
+            e.preventDefault()
+            $(".tabs .active").removeClass('active')
+            $(this).addClass('active')
+            tabsSwiper.slideTo( $(this).index() )
+        })
+        $(".tabs a").click(function(e){
+            e.preventDefault()
+        })
+
+    }
+</script>
+<script type="text/javascript" src="/Public/phone/jifen/js/modernizr.custom.js"></script>
+<script type="text/javascript" src="/Public/phone/jifen/js/jquery.dlmenu.js"></script>
+</body>
+</html>
+<script type="text/javascript">
+    $(function(){
+        $( '#dl-menu' ).dlmenu();
+    });
+</script><?$link->close();?>

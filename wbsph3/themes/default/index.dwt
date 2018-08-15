@@ -1,0 +1,143 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="Keywords" content="{$keywords}" />
+<meta name="Description" content="{$description}" />
+<meta name="renderer" content="webkit" />
+<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+<!-- TemplateBeginEditable name="doctitle" -->
+<title>{$page_title}</title>
+<!-- TemplateEndEditable -->
+<!-- TemplateBeginEditable name="head" -->
+<!-- TemplateEndEditable -->
+<link rel="shortcut icon" href="favicon.ico" />
+<link rel="icon" href="animated_favicon.gif" type="image/gif" />
+<link rel="alternate" type="application/rss+xml" title="RSS|{$page_title}" href="{$feed_url}" />
+<link rel="stylesheet" type="text/css" href="themes/default/css/index.css" />
+<script type="text/javascript" src="themes/default/js/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="themes/default/js/jump.js"></script>
+<script type="text/javascript" src="themes/default/js/tab.js"></script>
+<script type="text/javascript" src="themes/default/js/jquery-lazyload.js" ></script>
+<script type="text/javascript">
+var compare_no_goods = "{$lang.compare_no_goods}";
+var btn_buy = "{$lang.btn_buy}";
+var is_cancel = "{$lang.is_cancel}";
+var select_spe = "{$lang.select_spe}";
+</script>
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?9e22c00c85e19c8eb2785598bff3aacd";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+{insert_scripts files='jquery.json.js,transport.js'}
+{insert_scripts files='common.js,index.js'}
+</head>
+<body>{insert name='add_url_uid'}
+<script>
+	$(function(){
+		$('.closes').click(function(){
+		$(this).parent('div').fadeOut();
+		})
+	})
+</script>
+<div style='position:fixed; bottom:10px; right:66px; z-index:999; color:#F00; font-weight:bold; text-align:center'>
+	<img src='http://www.xiangbai315.com/images/close.png' class='closes' style='position:absolute; right:-20px; top:-30px; cursor:pointer' />
+	<img src='http://www.xiangbai315.com/images/gongzhonghao_erweima.png' /><br />
+	扫描关注微信公众号<br /><br />
+	<img src='http://www.xiangbai315.com/images/shop_erweima.png' /><br />
+	扫描二维码，手机访问网站<br /><br />
+	<img src='http://www.xiangbai315.com/images/app_erweima.png' /><br />
+	扫描二维码，下载安卓APP
+</div>
+<div style='border-bottom:1px solid #EEE; '>
+<!--
+<a href='http://shop.xiangbai315.com/article.php?id=155' style=' margin:0 auto; width:1200px !important; font-size:14px;display:block'>
+	<marquee id="blink" direction="left" behavior="scroll" scrollamount="2" scrolldelay="0" loop="-1" width="1180"    hspace="10" vspace="10" onmouseover=this.stop() onmouseout=this.start()>
+由于公司系统调整升级，香柏商城已和诺斯贝尔聚元国际强强联合，请所有香柏代理把自已区域的会员在平台做单的额度及提现额度逐一于11月23日上午12点之前上报公司，请各区域代理尽快配合处理，如因个人原因未及时上报，造成不良后果由会员自己承担
+	</marquee>
+</a>-->
+<script language="javascript"> 
+function changeColor(){ 
+var color="#f00|#0f0|#00f|#880|#808|#088|yellow|green|blue|gray"; 
+color=color.split("|"); 
+document.getElementById("blink").style.color=color[parseInt(Math.random() * color.length)]; 
+} 
+setInterval("changeColor()",200); 
+</script>
+</div>
+	<!-- #BeginLibraryItem "/library/page_header_index.lbi" --><!-- #EndLibraryItem -->
+    <div class="banner">
+		<!-- #BeginLibraryItem "/library/index_ad.lbi" --><!-- #EndLibraryItem -->
+        <div class="right-sidebar">
+			{insert name="user_login"}	
+            <div class="proclamation">
+					<ul class="tabs-nav">
+                    	<li>
+							<h4>商城公告</h4>
+						</li> 
+					</ul>
+                    <!-- TemplateBeginEditable name="首页主广告右侧公告" -->
+<!-- #BeginLibraryItem "/library/cat_articles.lbi" --><!-- #EndLibraryItem -->
+<!-- TemplateEndEditable -->
+    <ul class="tabs-nav" style="border-top:1px solid #dedede;">
+                    	<li>
+    <h4>招商入驻</h4>
+</li> 
+					</ul>
+					<div class="tabs-panel">
+						<a href="apply.php" title="申请商家入驻；已提交申请，可查看当前审核状态。" class="store-join-btn" target="_blank">&nbsp;</a>
+						<a href="members" target="_blank" class="store-join-help">
+							<i class="icon-cog"></i>
+							登录商家管理中心
+						</a>
+					</div>
+			</div>
+        </div>
+    </div>
+    <!-- #BeginLibraryItem "/library/index_ad_groups.lbi" --><!-- #EndLibraryItem -->
+    <div class="w1210 index-sale">
+			<!-- #BeginLibraryItem "/library/stores_tab.lbi" --><!-- #EndLibraryItem -->
+			<!-- #BeginLibraryItem "/library/recommend_promotion.lbi" --><!-- #EndLibraryItem -->
+			<!-- #BeginLibraryItem "/library/recommend_hot_sale.lbi" --><!-- #EndLibraryItem -->
+			<!-- #BeginLibraryItem "/library/recommend_hot.lbi" --><!-- #EndLibraryItem -->
+			<!-- #BeginLibraryItem "/library/recommend_best.lbi" --><!-- #EndLibraryItem -->
+			<!-- #BeginLibraryItem "/library/recommend_new.lbi" --><!-- #EndLibraryItem -->					
+	</div>
+    <div class="w1210 floor-list">
+			<div class="floor"></div>
+			<!-- TemplateBeginEditable name="商品分类楼层" -->
+<!-- #BeginLibraryItem "/library/cat_goods.lbi" --><!-- #EndLibraryItem -->
+<!-- #BeginLibraryItem "/library/cat_goods.lbi" --><!-- #EndLibraryItem -->
+<!-- #BeginLibraryItem "/library/cat_goods.lbi" --><!-- #EndLibraryItem -->
+<!-- #BeginLibraryItem "/library/cat_goods.lbi" --><!-- #EndLibraryItem -->
+<!-- #BeginLibraryItem "/library/cat_goods.lbi" --><!-- #EndLibraryItem -->
+<!-- #BeginLibraryItem "/library/cat_goods.lbi" --><!-- #EndLibraryItem -->
+<!-- #BeginLibraryItem "/library/cat_goods.lbi" --><!-- #EndLibraryItem -->
+<!-- #BeginLibraryItem "/library/cat_goods.lbi" --><!-- #EndLibraryItem -->
+<!-- TemplateEndEditable -->
+	</div>
+    <script type="text/javascript" src="themes/default/js/indexPrivate.min.js"></script>
+    <!-- #BeginLibraryItem "/library/right_sidebar.lbi" --><!-- #EndLibraryItem -->
+    <!-- #BeginLibraryItem "/library/page_footer_index.lbi" --><!-- #EndLibraryItem -->
+    <!-- #BeginLibraryItem "/library/arrive_notice.lbi" --><!-- #EndLibraryItem -->
+    <!-- #BeginLibraryItem "/library/left_sidebar.lbi" --><!-- #EndLibraryItem -->
+</body>
+<script type="text/javascript" src="themes/default/js/home_index.js"></script>
+<script type="text/javascript">
+	$(".brand-con").hover(function(){
+		var num = $(this).find("li").length;
+		if(num > 10){
+			$(this).find(".brand-btn").fadeTo('fast',0.4);	
+		}
+	},
+	function(){
+		$(this).find(".brand-btn").fadeTo('fast',0);	
+	})
+
+</script>
+</html>

@@ -1,0 +1,197 @@
+<?include("config.php");?>
+<!DOCTYPE html>
+<html>
+<head lang="en">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>投资记录</title>
+<meta name="keyword" content="<?=_KEYWORD_?>" />
+<meta name="description" content="<?=_DESCRIPTION_?>" />
+<link href="/Public/ico.ico" type="image/x-icon" rel="shortcut icon" />
+<link rel="stylesheet" type="text/css" href="/jygj/Public/wap/css/index.css">
+<script type="text/javascript" src="/jygj/Public/home/js/jquery-1.7.2.js"></script>
+<style>
+.flt_r_div b i {
+	font-style: normal;
+	margin-left: 5px;
+}
+
+td{
+ border-bottom: 1px solid #CCC;
+}
+</style>
+</head>
+
+
+<body >
+	<div class="warp">
+		<!------最顶部开始------>
+		<!------logo结束------>
+		<script>
+			$(function() {
+				$(".open_xl").click(function() {
+					$(".xiala").show();
+				})
+				$(".xiala a").click(function() {
+					var xq = $(this).html();
+					$(".open_xl a").html(xq);
+					$(this).parent().hide();
+				})
+			})
+			
+			function  f1(url){
+				window.location.href=url;
+			}
+		</script>
+		<div class="warp_q">
+			<a href="javascript:history.go(-1)"></a> <span>提现记录</span>
+		</div>
+
+		<!----内容开始---->
+		<div class="warp_moer">
+
+			<div class="warp_h">
+				<!----right内容开始---->
+				<div class="warp_h_right">
+
+					<div class="warp_f">
+
+						<div class="warp_f_div">
+							<span>总共提现：<i> <?php
+include "myphplib/db.php";
+include "config/check.php";
+include "page.class.php" ;
+date_default_timezone_set("Asia/Shanghai");
+$user=$_COOKIE['ECS']['username'];
+ 
+
+
+$sql="select * from xbmall_users where user_name='$user' ";	//超级用户的提现					
+$out=getRow($sql);	
+$sq2="select sum(je) as ze from zt_xxtz_ti_xian  where user='$user'  ";
+$sf2=getRow($sq2);
+echo number_format($sf2['ze'],2);
+									?>
+							</i></span>
+						</div>
+
+						<br> <br>
+						<?php
+					$q="select * from zt_xxtz_ti_xian  where user='$user'   order by date desc";
+$r=mysql_query($q);
+$num=mysql_num_rows($r);
+ $per = 12;
+ $page_obj=new Page($num,$per);
+ $pagelist=$page_obj->fpage();
+for($i=0;$i<$num;$i++){
+$data2=mysql_fetch_array($r);
+?>
+						<table width="100%" border="0" cellpadding="0" cellspacing="0">
+							<tr>
+								<td>提现日期</td>
+								<td    align="left"
+									style="font-family: Arial, Helvetica, sans-serif; color: #F00; border-bottom: 1px solid #CCC;">
+									<?php echo $data2["date"];?>
+								</td>
+							</tr>
+							<tr>
+								<td>提现类型</td>
+								<td   align="left" >
+									<?php 
+							if( $data2['type']==0)echo 'A阶段订单收益';
+							if( $data2['type']==0)echo '推荐收益';
+							if( $data2['type']==2)echo 'B阶段订单收益';
+									?>
+								</td>
+							</tr>
+							
+							<tr>
+								<td>提现金额</td>
+								<td   align="left"
+									>
+									<?php echo $data2["je"];?>
+								</td>
+							</tr>
+							<tr>
+								<td>状态</td>
+								<td   align="left"
+									>
+									<?
+									
+									if($data2["jssh"]=="1"){
+										 if($data2["cwsh"]=="1"){
+										    echo "已打款";
+										  }elseif($data2["cwsh"]=="2") {
+   				 					       echo "已驳回";
+   			  	 					     } else{
+											echo "审核通过, 等待打款";
+										}
+									}else if($data2["jssh"]=="2"){
+										  echo "已驳回";
+									}else{
+										echo "等待处理";
+									};
+									
+							
+					?>
+								</td>
+							</tr>
+							<tr>
+								<td>说明</td>
+								<td  align="left"
+									>
+									<?php echo $data2["sm"];?>
+								</td>
+							</tr>
+						</table>
+						<br/><br/>
+						<?php
+  }
+  ?>
+
+					   <center>
+							<table width="100%" border="0" align="center" cellpadding="0"
+								cellspacing="0" style="text-align: center; margin-bottom:18%">
+								<tr>
+									<td height="21" colspan="6"><div class="epages"
+											style="margin-top: 0">
+											<?php  echo $pagelist;?>
+										</div></td>
+								</tr>
+							</table>
+						</center>
+
+						<div class="warp_f_mp">
+							<!----下一页开始---->
+							<div class="scott"></div>
+							<!----下一页结束---->
+
+						</div>
+
+					</div>
+
+				</div>
+				<!----right内容结束---->
+
+				<!----left内容开始---->
+				<div class="warp_h_left">
+					<?
+	mysql_close($db);
+    ?>
+
+				</div>
+				<!----left内容结束---->
+			</div>
+
+		</div>
+		<!----内容结束---->
+
+		<!------底部开始------>
+
+		<?include("footer_li_cai.html");?>
+		<!------底部结束------>
+	</div>
+</body>
+</html>

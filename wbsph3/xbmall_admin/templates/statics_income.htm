@@ -1,0 +1,262 @@
+{if $full_page}
+{include file="pageheader.htm"}
+{insert_scripts files="../js/utils.js,listtable.js,placeholder.js,utils.js,transport.js,region.js,shopping_flow.js"}
+
+<script type='text/javascript' src='../js/calendar.php' ></script>
+<link href='../js/calendar/calendar.css' rel='stylesheet' type='text/css' />
+<style>
+<!--
+.tongji span{
+ padding-right: 20px;
+}
+-->
+</style>
+<!-- 订单搜索 -->
+<div class="form-div">
+    <form action="javascript:searchOrder()" name="searchForm">
+        <img src="images/icon_search.gif" width="26" height="22" border="0" alt="SEARCH" />
+        <select name="process_type" id="process_type" onchange="checkProcessType();">
+            <option value="">所有类型</option>
+            <option value="0">充值</option>
+            <option value="1">提现</option>
+        </select> 
+         手机号: <input name="mobile_phone" id="mobile_phone" type="text" size="10"> 
+        <select name="province" id="selProvinces_{$sn}"
+			onchange="region.changed(this, 2, 'selCities_{$sn}')"
+			{if !$province_list} style="display: none"{/if}  >
+			<option value="0">-省份-</option>
+			<!-- {foreach from=$province_list item=province} -->
+			<option value="{$province.region_id}"  >{$province.region_name}</option>
+			<!-- {/foreach} -->
+		</select> <select name="city" id="selCities_{$sn}"
+			onchange="region.changed(this, 3, 'selDistricts_{$sn}')"
+			{if !$city_list} style="display: none"{/if}>
+			<option value="0">-城市-</option>
+			<!-- {foreach from=$city_list item=city} -->
+			<option value="{$city.region_id}"  >{$city.region_name}</option>
+			<!-- {/foreach} -->
+		</select> <select name="district" id="selDistricts_{$sn}"
+			{if !$district_list}style="display: none"{/if}>
+			<option value="0">-地区-</option>
+			<!-- {foreach from=$district_list item=district} -->
+			<option value="{$district.region_id}">{$district.region_name}</option>
+			<!-- {/foreach} -->
+		</select> 
+		
+		<select name="type" id="process_type_0" style="display: none;">
+            <option value="">所有类型</option>
+            <option value="0">做单充值</option>
+            <option value="3">大家庭会员充值</option>
+        </select>
+        <select name="type" id="process_type_1" style="display: none;">
+            <option value="">所有类型</option>
+            <option value="0">货款提现</option>
+            <option value="1">基数奖励提现</option>
+            <option value="2">大家庭分红提现</option>
+        </select>
+        开始时间: <input name="start_time" id="start_time" type="text" size="20">
+        <input class="button" type='button' onclick="return showCalendar('start_time', '%Y-%m-%d %H:%M:%S', '24', false, 'start_time');" value="选择">
+        结束时间: <input name="end_time" id="end_time" type="text" size="20">
+        <input class="button" type='button' onclick="return showCalendar('end_time', '%Y-%m-%d %H:%M:%S', '24', false, 'end_time');" value="选择">
+        <input type="submit" value="{$lang.button_search}" class="button" />
+        <!-- <input type="button" value="下载" class="button" onclick="exportSupps()" />  -->
+    </form>
+</div>
+ 
+ 
+    <div class="list-div" id="listDiv">
+        {/if}
+        <div style="line-height: 50px;font-size: 14px;" class="tongji">
+			<table >
+				<tr>
+					<td>做单总金额：<span style="color: red;">{$zuo_dan_zong_e}</span></td>	
+					<td>做单服务费：<span style="color: red;">{$zuo_dan_fu_wu_fei}</span></td>
+					<td>做单货款：<span style="color: red;">{$zuo_dan_huo_kuan}</span></td>
+					<td>线上商家订单总金额：<span style="color: red;">{$xian_shang_shang_jia_zong_e}</span></td>
+					<td>线上商家订单服务费：<span style="color: red;">{$xian_shang_shang_jia_fu_wu_fei}</span></td>
+					<td>线上商家订单货款：<span style="color: red;">{$xian_shang_shang_jia_huo_kuan}</span></td>
+				</tr>
+	 			<tr>
+					 
+				   <td>平台自营订单总额：<span style="color: red; padding-right: 50px">{$filter.tx_money}</span></td>
+				   <td>&nbsp;<span style="color: red; padding-right: 50px">&nbsp;</span></td>
+				  <td>&nbsp;<span style="color: red; padding-right: 50px">&nbsp;</span></td>
+				   <td>&nbsp;<span style="color: red; padding-right: 50px">&nbsp;</span></td>
+				    <td>&nbsp;<span style="color: red; padding-right: 50px">&nbsp;</span></td>
+				   <td>&nbsp;<span style="color: red; padding-right: 50px">&nbsp;</span></td>
+				  
+				</tr>
+				
+				<tr>
+					<td>充值总计人数：<span style="color: red;">{$filter.record_count}</span></td>
+					<td>累计充值金额： <span style="color: red;">{$filter.cz_money}</span></td>
+					<td>累计充值到账金额：<span style="color: red;">{$filter.cz_dao_zhang_money}</span></td>
+					<td>累计提现：<span style="color: red; padding-right: 50px">{$filter.tx_money}</span></td>
+				   <td>&nbsp;<span style="color: red; padding-right: 50px">&nbsp;</span></td>
+				   <td>&nbsp;<span style="color: red; padding-right: 50px">&nbsp;</span></td>
+				  <td>&nbsp;<span style="color: red; padding-right: 50px">&nbsp;</span></td>
+				</tr>
+				 <tr>
+					<td>红包发放人数：<span style="color: red;">{$hong_bao_fa_fang_ren_shu}</span></td>
+					<td>红包领取人数： <span style="color: red;">{$hong_bao_ling_qu_ren_shu}</span></td>
+					<td>赠送积分总额：<span style="color: red;">{$hong_bao_fa_fang_ji_fen}</span></td>
+					<td>领走积分额：<span style="color: red; padding-right: 50px">{$hong_bao_ling_qu}</span></td>
+				    <td>未领积分额<span style="color: red; padding-right: 50px">{$hong_bao_fa_fang_wei_ling_ji_fen};</span></td>
+				   <td>&nbsp;<span style="color: red; padding-right: 50px">&nbsp;</span></td>
+				  <td>&nbsp;<span style="color: red; padding-right: 50px">&nbsp;</span></td>
+				</tr>	
+				 <tr>
+					<td>新增分红权：<span style="color: red;">{$zeng_song_quan_zeng_jia}</span></td>
+					<td>减少分红权： <span style="color: red;">{$zeng_song_quan_jian_shao}</span></td>
+					<td>合计：<span style="color: red;">{$zeng_song_quan_he_ji}</span></td>
+					<td>&nbsp;<span style="color: red; padding-right: 50px"> </span></td>
+				    <td>&nbsp;<span style="color: red; padding-right: 50px">&nbsp;</span></td>
+				   <td>&nbsp;<span style="color: red; padding-right: 50px">&nbsp;</span></td>
+				  <td>&nbsp;<span style="color: red; padding-right: 50px">&nbsp;</span></td>
+				</tr>			
+			</table>
+			
+			<br><br>
+			<table >
+				
+			 	<tr>
+			 	    <td>昨日消费额：<span style="color: red;">{$zuo_ri_xiao_fei}</span></td>
+ 	 				<td>昨日赠送积分总额：<span style="color: red;">{$zuo_ri_zeng_song_ji_fen}</span></td>
+ 	 			    <td>昨日分红权增加：<span style="color: red;">{$zuo_ri_zeng_song_quan_zeng_jia}</span>减少：<span style="color: red;">{$zuo_ri_zeng_song_quan_jian_shao}</span></td>
+ 	 				
+ 	 				<td>昨日线下订单总额：<span style="color: red;">制作中</span></td>
+ 	 		        <td>昨日做单总额：<span style="color: red;">{$zuo_ri_zuo_dan}</span></td>
+ 	 		        <td>昨日自营订单总额：<span style="color: red;">制作中</span></td>  
+ 	 		        	 		       
+				</tr>
+				<tr >
+				   <td>昨日红包领取人数:<span style="color: red; padding-right: 50px">{$zuo_ri_hong_bao_ling_qu_ren_shu}</span>发放人数:<span style="color: red; padding-right: 50px">{$zuo_ri_hong_bao_fa_fang_ren_shu}</span></td>
+				   <td>昨日红包领取积分数:<span style="color: red; padding-right: 50px"> {$zuo_ri_hong_bao_ling_qu}</span></td>
+				  <td>&nbsp;<span style="color: red; padding-right: 50px">&nbsp;</span></td>
+				    <td>昨日会员注册量：<span style="color: red;">制作中</span></td>
+ 	 		        <td>昨日大家庭会员增加数量：<span style="color: red;">制作中</span></td>
+ 	 		        <td>昨日大家庭代理增加数量：<span style="color: red;">制作中</span></td>
+				</tr>
+				<tr >
+			 		<td title="不受查询条件影响">历史累计赠送积分：<span style="color: red;">{$zsq.give_points}</span></td>
+ 	 				<td title="不受查询条件影响">历史自营总金额：<span style="color: red;">制作中</span></td>	
+ 	 				<td title="不受查询条件影响">历史分红权总数(从成立到现在)：<span style="color: red;">{$zsq.zong_zsq}</span></td>
+					<td title="不受查询条件影响">现有分红权总数：<span style="color: red;">{$zsq.zsq}</span></td>
+					<td title="不受查询条件影响">历史累计消费金额：<span style="color: red;">{$zsq.consum_money}</span></td>
+					 <td>&nbsp;<span style="color: red; padding-right: 50px">&nbsp;</span></td>
+				</tr>
+									
+			</table>
+		</div>
+        <table cellpadding="3" cellspacing="1" >
+            <tr>
+                <th>编号</th>
+                <th>会员</th>
+                <th>创建时间</th>
+                <th>支付时间/提现时间</th>
+                <th>类型</th>
+                <th>金额</th>
+            </tr>
+            { foreach from=$order_list item=card}
+            <tr>
+                <td align="center">
+                    {$card.id}
+                </td>
+                <td align="center">{$card.mobile_phone}<br/>(真实姓名：{$card.real_name})	
+                {if $card.user_type==0}正常会员{/if}
+                {if $card.user_type==1}虚拟用户{/if}
+                {if $card.user_type==2}河北穆总{/if}
+                {if $card.user_type==3}后付费用户{/if}</td>
+                <td align="center">{$card.add_time}</td>
+                <td align="center">{$card.paid_time}</td>
+                <th align="center">{if $card.process_type eq '0'}充值<span style="color:red;">({if $card.type eq 0}做单充值{else}加入香柏大家庭{/if})</span>{else}提现<span style="color:red;">({if $card.type eq 0}货款提现{elseif $card.type eq 1}基数奖励提现{else}大家庭分红提现{/if})</span>{/if}</th>
+                <td align="center">{$card.amount}{if $card.type != 0 and  $card.user_type==3 or $card.user_type==1}未到账{/if}</td>
+            </tr>
+            {foreachelse}
+            <tr><td class="no-records" colspan="6">{$lang.no_records}</td></tr>
+            {/foreach}
+        </table>
+       <!-- 分页 -->
+		<table id="page-table" cellspacing="0">
+		  <tr>
+		    <td align="right" nowrap="true">
+		    {include file="page.htm"}
+		    </td>
+		  </tr>
+		</table>
+        {if $full_page}
+
+    </div>
+ 
+<script language="javascript">
+    function checkProcessType()
+    {
+        $("#process_type_0,#process_type_1").hide();
+        $("#process_type_0,#process_type_1").val('');
+        var process_type=$("#process_type").val();
+        if(process_type!=='')
+        {
+            $("#process_type_"+process_type).show();
+        }
+    }
+    listTable.recordCount = {$record_count};
+    listTable.pageCount = {$page_count};
+    {foreach from=$filter item=item key=key}
+    listTable.filter.{$key} = '{$item}';
+    {/foreach}
+    onload = function ()
+    {
+        // 开始检查订单
+        startCheckOrder();
+    }
+    /**
+     * 搜索订单
+     */
+    function searchOrder()
+    {
+    	
+        listTable.filter['start_time'] = document.forms['searchForm'].elements['start_time'].value;
+        listTable.filter['end_time'] = document.forms['searchForm'].elements['end_time'].value;
+        listTable.filter['process_type'] = document.forms['searchForm'].elements['process_type'].value;
+        listTable.filter['province'] = document.forms['searchForm'].elements['province'].value;
+        listTable.filter['city'] = document.forms['searchForm'].elements['city'].value;
+        listTable.filter['district'] = document.forms['searchForm'].elements['district'].value;
+        listTable.filter['mobile_phone'] = document.forms['searchForm'].elements['mobile_phone'].value;
+        var process_type=$("#process_type").val();
+        if(process_type!=='')
+        {
+            if(process_type*1==0)
+            {
+                listTable.filter['type'] = $("#process_type_0").val();
+            }
+            else
+            {
+                listTable.filter['type'] = $("#process_type_1").val();
+            }
+        }
+        listTable.filter['page'] = 1;
+        listTable.loadList();
+    }
+    function check()
+    {
+        var snArray = new Array();
+        var eles = document.forms['listForm'].elements;
+        for (var i = 0; i < eles.length; i++)
+        {
+            if (eles[i].tagName == 'INPUT' && eles[i].type == 'checkbox' && eles[i].checked && eles[i].value != 'on')
+            {
+                snArray.push(eles[i].value);
+            }
+        }
+        if (snArray.length == 0)
+        {
+            return false;
+        } else
+        {
+            eles['order_id'].value = snArray.toString();
+            return true;
+        }
+    }
+</script>
+{include file="pagefooter.htm"}
+{/if}

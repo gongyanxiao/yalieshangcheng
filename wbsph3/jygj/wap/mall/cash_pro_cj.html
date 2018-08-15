@@ -1,0 +1,224 @@
+<?
+include("config.php");
+ include_once "myphplib/db.php";
+ include_once "myphplib/message.php";
+ include_once "config/check.php";
+
+session_start(); 
+$_SESSION['uniqid'] = md5(uniqid('jygj',true));
+?>
+<!DOCTYPE html>
+<html>
+<head lang="en">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>投资</title>
+<meta name="keyword" content="<?=_KEYWORD_?>" />
+<meta name="description" content="<?=_DESCRIPTION_?>" />
+<link href="/Public/ico.ico" type="image/x-icon" rel="shortcut icon" />
+
+<link rel="stylesheet" type="text/css"
+	href="/jygj/Public/wap/css/index.css">
+<script type="text/javascript"
+	src="/jygj/Public/home/js/jquery-1.7.2.js"></script>
+
+<script type="text/javascript">
+<!--
+	//提交到后台查询
+	function tj(type) {
+		if (type == 0) {
+			var money = document.myform.money0.value;
+		} else if (type == 1){
+			var money = document.myform.money1.value;
+		} else if (type == 2){
+			var money = document.myform.money2.value;
+		}
+
+		var yzm = "";// document.myform.yzm.value;
+		var session = document.myform.session.value;
+		var dataString = 'type=' + type + '&money=' + money + '&yzm=' + yzm
+				+ '&session=' + session;
+		$.ajax({
+			type : "POST",
+			url : "member/cash_pro_cj.php",
+			data : dataString,
+			cache : false,
+			success : function(html) {
+				$("#jygj").html(html);
+				refresh();
+			}
+		});
+	}
+
+	var InterValObj;
+	var count = 60; //间隔函数，1秒执行
+	var curCount;//当前剩余秒数	
+	function duanxin() {
+		curCount = count;
+		//设置button效果，开始计时
+		$("#hqyzm").attr("disabled", "true");
+		$("#hqyzm").val(curCount + "重发验证码");
+		InterValObj = window.setInterval(SetRemainTime, 1000); //启动计时器，1秒执行一次
+		var yzm = document.myform.yzm.value;
+		var money = document.myform.money.value;
+		var dataString = 'money=' + money + '&yzm=' + yzm;
+		$.ajax({
+			type : "POST",
+			url : "member/f_txyzm_send.html",
+			data : dataString,
+			cache : false,
+			success : function(html) {
+				$("#jygj").html(html);
+			}
+		});
+
+	}
+	function SetRemainTime() {
+		if (curCount == 0) {
+			window.clearInterval(InterValObj);//停止计时器
+			$("#hqyzm").removeAttr("disabled");//启用按钮
+			$("#hqyzm").val("重新发送");
+		} else {
+			curCount--;
+			$("#hqyzm").val(curCount + "重发验证码");
+		}
+	}
+//-->
+</script>
+<style>
+span {
+	word-break: break-all;
+	width: auto;
+	display: block;
+	white-space: wrap;
+	word-wrap: break-word;
+}
+
+body, a,   div, span, td, th, input, select {
+	overflow-x: hidden;
+	overflow-y: auto;
+	word-break: break-all;
+}
+
+</style>
+</head>
+<body style="min-width:200px; background:#f5f5f5;">
+
+	<div class="warp_q">
+		<a href="javascript:history.go(-1)"></a> <span>收益申请</span>
+	</div>
+
+	<?php
+	
+//判断会员类型
+$user=$_COOKIE['ECS']['username'];
+$sql="select lx,jf from xbmall_users where user_name='$user'";
+$sf1=getRow($sql);
+$lx=$sf1["lx"];
+if($lx=="1"){
+echo '<script>location.href="member_login.html";</script>';
+}
+ 
+
+
+$jing_tai_jin_e = 0; //静态可收益金额
+$sql1="select xxtzztxjf , tui_jian_shou_yi from xbmall_users where user_name='$user'  ";
+$ss=getRow($sql1);
+if($ss['xxtzztxjf']>=100){
+$jing_tai_jin_e =  floor($ss['xxtzztxjf']/100)*100?floor($ss['xxtzztxjf']/100)*100:0;
+} 
+
+
+$jing_tai_jin_e_b = 0; //b阶段静态可收益金额
+$sql1="select xxtzztxjf_b   from xbmall_users where user_name='$user'  ";
+$ss=getRow($sql1);
+if($ss['xxtzztxjf_b']>=100){
+$jing_tai_jin_e_b =  floor($ss['xxtzztxjf_b']/100)*100?floor($ss['xxtzztxjf_b']/100)*100:0;
+} 
+
+
+
+
+
+$dong_tai_jin_e = 0; //动态可收益金额
+$sql1="select xxtzztxjf , tui_jian_shou_yi from xbmall_users where user_name='$user' ";
+	$ss=getRow($sql1);
+   $dong_tai_jin_e= floor($ss['tui_jian_shou_yi']/100)*100?floor($ss['tui_jian_shou_yi']/100)*100:0;  ;
+  
+
+
+
+?>
+
+
+<style>
+    .case_tx{ display:block; width:100%} 
+	.case_tx tbody{ display:block; width:100%}
+    .case_tx tr{ width:100%;display:block; }
+	.case_tx td{ width:28%; float:left;text-align:center; border:1px #ccc solid;padding:1%; border-radius:8px;margin-top:20px}
+	.case_tx td+td{margin-left:10px}
+	.case_tx td span{ font-size:10px;}
+	.case_tx td h1{ font-size:18px;}
+	.case_tx td b{ font-size:14px;}
+	.case_tx td input[type=button]{ background:red; color:#fff;width:50%;text-align:center; line-height:20px}
+	.case_tx td input[type=text]{ border:1px #ccc solid; width:80%}
+</style>
+
+	<div style="padding:20px 15px;">
+		<div style="font-size: 12px;word-break: break-all;">
+			<span><b>收益说明：</b></span> <span>1.订单分润收益每笔须是100的倍数！,最低收益金额500元</span> 
+			<span>2.每日可收益一次（周末、法定节假日除外，到账时间T+1）</span>
+		</div>
+		<form method="post" id="myform" name="myform"
+			enctype='multipart/form-data'>
+			<input type="hidden" name="session" value="<?=$_SESSION['uniqid'];?>">
+			<table class="case_tx">
+				<tr>
+					<td><span><h1>A阶段</h1>订单收益<br>可收益：<br><b><?php  echo $jing_tai_jin_e; ?></b> 元</span></td>
+					<td><span><h1>B阶段</h1>订单收益<br>可收益：<br><b><?php  echo $jing_tai_jin_e_b; ?></b>元</span></td>
+					<td><span><h1>推荐</h1>收益<br>可收益：<br><b><?php echo $dong_tai_jin_e ; ?></b>元</span></td>
+				</tr>
+				<tr>
+					<td><span><h1>A阶段</h1>订单收益<br>收益金额：</span><h2><input
+						type="text" size="8" class="tx_o_ex" id="money0" name="money"></h2>
+					<h3><input name="button" type="button" class="tx_o_ton"
+						onClick="tj(0);" value="提交"></h3></td>
+		
+					<td><span><h1>B阶段</h1>订单收益<br>收益金额：</span><h2><input
+						type="text" size="8" class="tx_o_ex" id="money2" name="money"><h2>
+					<h3><input name="button" type="button" class="tx_o_ton"
+						onClick="tj(2);"  value="提交"></h3></td>
+				
+					<td><span><h1>推荐</h1>收益<br>收益金额：</span><h2><input
+						type="text" size="8" class="tx_o_ex" id="money1" name="money"></h2>
+					<h3><input name="button" type="button" class="tx_o_ton"
+						onClick="tj(1);" value="提交"></h3></td>
+			
+					
+				</tr>
+
+				<tr style="display:none">
+					<td><span style="color: red; display:none" id="jygj"> </span> </td>
+				</tr>
+				<!-- 												<tr> -->
+				<!-- 													<td><span>验证码：</span></td> -->
+				<!-- 													<td><input name="yzm" type="text" class="tx_o_ex" -->
+				<!-- 														id="verify" style="width: 60px; height: 27px;"> <input -->
+				<!-- 														name="button" type="button" class="tx_o_ex" id="hqyzm" -->
+				<!-- 														style="width: 92px; height: 30px; padding: 0" -->
+				<!-- 														onclick="duanxin();" value="获取验证码"></td> -->
+				<!-- 												</tr> -->
+
+			</table>
+		</form>
+	</div>
+
+	<!----内容结束---->
+	<!------底部开始------>
+	<?include("footer_li_cai.html");?>
+
+	<!------底部结束------>
+</body>
+</html>

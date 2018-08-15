@@ -1,0 +1,115 @@
+<?
+include("config/zt_config.php");
+include("config.php");
+$link = mysqli_connect($db_host,$db_user,$db_pwd,$db_database) or die('Unale to link');
+$link->set_charset('utf8');
+$noj=htmlspecialchars(trim($_GET['noj']));
+if(!empty($noj)) {
+    $noj=1;
+    $ds=" gngj=1 and ";
+} else {
+    $ds=" gngj=0 and ";
+}
+?>
+<!DOCTYPE html>
+<html>
+<head lang="en">
+   <meta charset="UTF-8">
+    <title><?=empty($noj)?'国内':'国际'?>积分兑换_网络平台_<?=_TITLE_?></title>
+    <meta name="keyword" content="<?=_KEYWORD_?>"/>
+    <meta name="description" content="<?=_DESCRIPTION_?>"/>
+    <link href="/Public//ico.ico" type="image/x-icon" rel="shortcut icon" /> 
+    <link rel="stylesheet" type="text/css" href="/Public/jifen/css/index.css">
+    <script type="text/javascript" src="/Public//jifen/js/jquery-1.7.2.js"></script>
+</head>
+<body>
+
+
+
+
+<div class="warp">
+    <!--------最顶部开始-------->
+	<?include("jheader.html");?>
+    <!--------导航结束-------->
+
+    <!--------banner开始-------->
+    <div class="flexslider">
+        <ul class="slides">
+
+        <?
+	$sqly=$link->query("select * from `phome_enewsad` where `classid` = 3 order by `adid` desc limit 0,5");
+	while ($ry=$sqly->fetch_array()){
+?>
+	<li style="background:url(<?=$ry[picurl]?>) 50% 0 no-repeat;"><a href="<?=$ry[url]?>"></a></li>
+<?
+	}
+?> 
+        </ul>
+    </div>
+    <script type="text/javascript" src="/Public//jifen/js/jquery.flexslider-min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('.flexslider').flexslider({
+                directionNav: true,
+                pauseOnAction: false
+            });
+        });
+    </script>
+    <!--------banner结束-------->
+
+    <!--------内容开始-------->
+    <div class="warp_i">
+        
+        <div class="warp_i_mft">
+            <div class="warp_i_mft_p">
+           <!--  <a href="#">更多商品&gt;</a> -->
+                <span><b>新品推荐</b>聚元国际自营商品 优良品质安全放心</span>
+            </div>
+            <ul class="warp_i_mft_o">
+                <?
+	$sqly=$link->query("select * from `zt_jifen` where ".$ds." `sfxptj`=1 and `sfsj`=1 order by id desc limit 0,8");
+	while($ry = $ry=$sqly->fetch_array()) {
+?>
+   <li><a href="jfcontent.html?jfid=<?=$ry['id']?><?=empty($noj)?'':'&noj=1'?>" title="<?=$ry['spmc']?>" target="_blank"><img src="<?=strtr($ry['spslt'],array("../"=>"/mall/"))?>"  style="width: 265px;height:212px" border="0"/><span style="height: 54px;overflow: hidden;"><?=$ry['spmc']?></span>
+						<b><?=$ry['dhjf']?>积分<!-- <i>市场参考价：<?=$ry['ckj']?></i> --></b></a></li>
+<?		
+	}
+?>
+            
+            </ul>
+        </div>
+        
+          <?
+	$sqly=$link->query("select * from `phome_enewsad` where `adid` = 11");
+	$ry = $ry=$sqly->fetch_array();
+?>
+<a href="<?=$ry[url]?>"><img src="<?=$ry[picurl]?>"></a>
+        <div class="warp_i_mft">
+            <div class="warp_i_mft_p">
+            <!-- <a href="#">更多商品&gt;</a> -->
+                <span><b>兑换商品</b>聚元国际自营商品 优良品质安全放心</span>
+            </div>
+            <ul class="warp_i_mft_o">
+			 <?
+	$sqly=$link->query("select * from `zt_jifen` where  ".$ds." `sfdh`=1 and `sfsj`=1 order by id desc limit 0,8");
+	while($ry = $ry=$sqly->fetch_array()) {
+?>
+   <li><a href="jfcontent.html?jfid=<?=$ry['id']?><?=empty($noj)?'':'&noj=1'?>" title="<?=$ry['spmc']?>" target="_blank"><img src="<?=strtr($ry['spslt'],array("../"=>"/mall/"))?>"  style="width: 265px;height:212px" border="0"/><span style="height: 54px;overflow: hidden;"><?=$ry['spmc']?></span>
+						<b><?=$ry['dhjf']?>积分<!-- <i>市场参考价：<?=$ry['ckj']?></i> --></b></a></li>
+<?		
+	}
+?>
+            </ul>
+        </div>
+
+
+    </div>
+    <!--------内容结束-------->
+
+    <!--------底部开始-------->
+<?include("jfooter.html");?>
+    <!--------底部结束-------->
+<?$link->close();?>
+</div>
+</body>
+</html>

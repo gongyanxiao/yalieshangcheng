@@ -1,0 +1,99 @@
+<form name="theForm" action="order.php?act=step_post&step=edit_goods&order_id={$order_id}&step_act={$step_act}" method="post">
+<div class="list-div">
+<table cellpadding="3" cellspacing="1">
+  <tr>
+    <th scope="col">{$lang.goods_name}</th>
+    <th scope="col">{$lang.goods_sn}</th>
+    <th scope="col">{$lang.goods_price}</th>
+	<th scope="col">手机专享价格</th>
+    <th scope="col">{$lang.goods_number}</th>
+    <th scope="col">{$lang.goods_attr}</th>
+    <th scope="col">{$lang.subtotal}</th>
+    <th scope="col">{$lang.handler}</th>
+  </tr>
+  {foreach from=$goods_list item=goods name="goods"}
+  <tr>
+    <td>
+    {if $goods.goods_id gt 0 && $goods.extension_code neq 'package_buy'}
+    <a href="#" onclick="getGoodsInfo({$goods.goods_id});">{$goods.goods_name}</a>
+    {elseif $goods.goods_id gt 0 && $goods.extension_code eq 'package_buy'}
+    {$goods.goods_name}
+    {/if}
+    </td>
+    <td>{$goods.goods_sn}<input name="rec_id[]" type="hidden" value="{$goods.rec_id}" /></td>
+    <td><input name="goods_price[]" type="text" style="text-align:right" value="{$goods.goods_price}" size="10" />
+        <input name="goods_id[]" type="hidden" style="text-align:right" value="{$goods.goods_id}" size="10" /></td>
+	<!--  //手机专享价格 app  -->
+	<td><input name="exclusive[]" type="text" style="text-align:right" value="{$goods.exclusive}" size="10" />
+	 <!--  //手机专享价格 app  -->
+    <td><input name="goods_number[]" type="text" style="text-align:right" value="{$goods.goods_number}" size="6" /></td>
+    <td><textarea name="goods_attr[]" cols="30" rows="{$goods.rows}">{$goods.goods_attr}</textarea></td>
+    <td align="right">{$goods.subtotal}</td>
+    <td><a href="javascript:confirm_redirect(confirm_drop, 'order.php?act=process&func=drop_order_goods&rec_id={$goods.rec_id}&step_act={$step_act}&order_id={$order_id}')">{$lang.drop}</a></td>
+  </tr>
+  {/foreach}
+  <tr>
+    <td colspan="4"><span class="require-field">{$lang.price_note}</span></td>
+    <td align="right"><strong>{$lang.label_total}</strong></td>
+    <td align="right">{$goods_amount}</td>
+    <td>{if $smarty.foreach.goods.total > 0}<input name="edit_goods" type="submit" value="{$lang.update_goods}" />{/if}
+    <input name="goods_count" type="hidden" value="{$smarty.foreach.goods.total}" /></td>
+  </tr>
+</table>
+</div>
+</form>
+
+<form name="goodsForm" action="order.php?act=step_post&step=add_goods&order_id={$order_id}&step_act={$step_act}" method="post" onsubmit="return addToOrder()">
+<p>
+  {$lang.search_goods}
+  <input type="text" name="keyword" value="" />
+  <input type="button" name="search" value="{$lang.button_search}" onclick="searchGoods();" />
+  <select name="goodslist" onchange="getGoodsInfo(this.value)"></select>
+</p>
+<div class="list-div">
+<table cellpadding="3" cellspacing="1">
+  <tr>
+    <th width="100">{$lang.goods_name}</th>
+    <td id="goods_name">&nbsp;</td>
+  </tr>
+  <tr>
+    <th>{$lang.goods_sn}</th>
+    <td id="goods_sn">&nbsp;</td>
+  </tr>
+  <tr>
+    <th>{$lang.category}</th>
+    <td id="goods_cat">&nbsp;</td>
+  </tr>
+  <tr>
+    <th>{$lang.brand}</th>
+    <td id="goods_brand">&nbsp;</td>
+  </tr>
+  <tr>
+    <th>{$lang.goods_price}</th>
+    <td id="add_price">&nbsp;</td>
+  </tr>
+  <tr>
+  <!--  //手机专享价格 app  -->
+    <th>手机专享价格</th>
+    <td id="add_exclusive">&nbsp;</td>
+  </tr>
+  <tr>
+    <th>{$lang.goods_attr}<input type="hidden" name="spec_count" value="0" /></th>
+    <td id="goods_attr">&nbsp;</td>
+  </tr>
+  <tr>
+    <th>{$lang.goods_number}</th>
+    <td><input name="add_number" type="text" value="1" size="10"></td>
+  </tr>
+  <tr>
+    <td colspan="2" align="center"><input name="add_goods" type="submit" value="{$lang.add_to_order}" /></td>
+  </tr>
+</table>
+</div>
+</form>
+<form action="order.php?act=step_post&step=goods&order_id={$order_id}&step_act={$step_act}" method="post" onsubmit="return checkGoods()">
+  <p align="center">
+    <input name="{if $step_act eq 'add'}next{else}finish{/if}" type="submit" class="button" value="{if $step_act eq 'add'}{$lang.button_next}{else}{$lang.button_submit}{/if}" />
+    <input type="button" value="{$lang.button_cancel}" class="button" onclick="location.href='order.php?act=process&func=cancel_order&order_id={$order_id}&step_act={$step_act}'" />
+  </p>
+</form>

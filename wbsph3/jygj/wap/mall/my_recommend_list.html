@@ -1,0 +1,224 @@
+<?php
+  include "config.php" ;
+  include "page.class.php" ;
+ 
+?>
+<!DOCTYPE html>
+<html>
+<head lang="en">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<meta content="no-cache,must-revalidate" http-equiv="Cache-Control">
+<meta content="no-cache" http-equiv="pragma">
+<meta content="0" http-equiv="expires">
+<meta content="telephone=no, address=no" name="format-detection">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style"
+	content="black-translucent">
+<meta http-equiv="pragma" content="no-cache">
+<meta http-equiv="cache-control" content="no-cache">
+<meta http-equiv="expires" content="0">
+<title><?=_TITLE_?></title>
+<meta name="keyword" content="<?=_KEYWORD_?>" />
+<meta name="description" content="<?=_DESCRIPTION_?>" />
+<link href="/Public/ico.ico" type="image/x-icon" rel="shortcut icon" />
+<script type="text/javascript"
+	src="/jygj/Public/home/js/jquery-1.7.2.js"></script>
+<link rel="stylesheet" type="text/css"
+	href="/jygj/Public/wap/css/index.css">
+<script type="text/javascript" src="/jygj/Public/js/clipboard.min.js"></script>
+</head>
+
+
+<body>
+	<div class="warp">
+
+		<div class="warp_q">
+			<a href="javascript:history.go(-1)"></a> <span>我的推荐</span>
+		</div>
+		<!------最顶部开始------>
+		<!------logo结束------>
+		<script>
+			$(function() {
+				$(".open_xl").click(function() {
+					$(".xiala").show();
+				});
+				$(".xiala a").click(function() {
+					var xq = $(this).html();
+					$(".open_xl a").html(xq);
+					$(this).parent().hide();
+				});
+				var clipboard = new Clipboard('.btn');
+				clipboard.on('success', function(e) {
+					console.log(e);
+					alert("复制成功！")
+				});
+				clipboard.on('error', function(e) {
+					console.log(e);
+					alert("复制失败！请手动复制")
+				});
+			});
+			
+			function kaiTongDianPu(user){
+				var url="xxtz_add.php?type=2&dianPuUser="+user;
+				$.post(url,"",function(data){
+					alert(data);
+					window.location.reload(); 
+				});
+			}
+			
+			function  f1(url){
+				window.location.href=url;
+			}
+		</script>
+
+
+		<?php
+include "myphplib/db.php";
+include "myphplib/message.php";
+include "config/check.php";
+date_default_timezone_set("Asia/Shanghai");
+$user=$_COOKIE['ECS']['username'];
+$parent_id = $_REQUEST['parent_id'];
+if(isset($parent_id)){
+  	$sql="select * from  xbmall_users where user_id='{$parent_id}'";
+	$tuiJianRen = getRow($sql);
+}else{//推荐人是登录者
+	$sql="select * from  xbmall_users where user_name='{$user}'";
+	$tuiJianRen = getRow($sql);
+	$parent_id = $tuiJianRen['user_id'];
+}
+
+ 
+
+ 
+ 
+ ?>
+
+		<!----内容开始---->
+		<div class="warp_moer">
+
+			<div class="warp_h">
+				<!----right内容开始---->
+				<div class="warp_h_right">
+
+					<div class="warp_f" style="align-content: center;">
+						我的推荐码<img style="margin-left: 24%; width: 50%; height: 50%" alt=""
+							src="../../mall/erweima_png.php?data=http://sph.xiangbai315.com/mobile/register.php?re_num=<?php echo  $user ?>">
+						我的推荐链接<input type="text" size="60" id="recommendLink"
+							value="http://sph.xiangbai315.com/mobile/register.php?re_num=<?php echo  $user ?>">
+						<button class="btn" data-clipboard-target="#recommendLink">复制</button>
+
+
+						<?php
+                       
+                        $where =" parent_id='{$parent_id}'";
+						$num  = getCount("xbmall_users", $where);
+				     	$per = 12;
+						$page_obj=new Page($num,$per);
+ 						$q="select * from xbmall_users  where  ".$where." order by user_id desc limit ".($page_obj->page-1)*$per.",".$per;
+ 						$r=mysql_query($q,$db);
+						$pagelist=$page_obj->fpage();
+					while($data2=mysql_fetch_array($r)){
+				?>
+
+						<table border="1" class="warp_f_th" style="margin-bottom:50px">
+							<tr>
+								<td width="174" align="center">推荐人</td>
+								<td align="center"
+									style="font-family: Arial, Helvetica, sans-serif; color: #F00; ">
+									<?=$tuiJianRen['real_name'];?>
+								</td>
+							</tr>
+							<tr>
+								<td width="174" align="center">注册日期</td>
+								<td align="center"
+									style="font-family: Arial, Helvetica, sans-serif; color: #F00; ">
+									<?=$data2["zcrq"];?>
+								</td>
+							</tr>
+							<tr>
+								<td width="174" align="center">用户</td>
+								<td align="center" style="">
+									<?=$data2["user_name"];?>
+								</td>
+							</tr>
+							<tr>
+								<td width="174" align="center">姓名</td>
+								<td align="center" style="">
+									<?=$data2["real_name"];?>
+								</td>
+							</tr>
+							<tr>
+								<td width="174" align="center">单数</td>
+								<td align="center" style="">
+									<? 
+									  $sql="select count(0) from  zt_xxtz where user={$data2['user_name']} and cj_state=0";
+							    	   $dan_shu = getOne($sql); 
+								 	  echo  $dan_shu;
+									 ?>
+								</td>
+							</tr>
+							
+							<tr>
+								<td width="174" align="center">直推人数</td>
+								<td align="center" style="">
+									<?=$data2["user_name"];?>
+								</td>
+							</tr>
+							<tr>
+								<td align="center" colspan="2" style="">
+									<?php
+								  if($data2["is_dian_pu"]==0){
+                                    ?> <a href="javascript:void(0)"
+									onclick="kaiTongDianPu(	'<?=$data2["user_name"];?>')">为他开通店铺</a>
+									<?php } else{echo "已开通店铺";}?> <a
+									href="?parent_id=<?php  echo $data2['user_id'];?>">推荐<?php  
+                                  $sql="select count(0) from  xbmall_users where parent_id={$data2['user_id']}";
+							      $recommend_num = getOne($sql); 
+								  echo  $recommend_num;
+                                  ?>人
+								</a>
+								</td>
+							</tr>
+						</table>
+						<?php  } ?>
+
+
+
+						<center>
+							<table width="100%" border="0" align="center" cellpadding="0"
+								cellspacing="0" style="text-align: center;">
+								<tr>
+									<td height="21" colspan="6"><div class="epages"
+											style="margin-top: 0">
+											<?php  echo $pagelist;?>
+										</div></td>
+								</tr>
+							</table>
+						</center>
+					</div>
+
+				</div>
+				<!----right内容结束---->
+
+				<!----left内容开始---->
+				<div class="warp_h_left">
+					<?
+					 mysql_close($db);
+  					?>
+
+				</div>
+				<!----left内容结束---->
+			</div>
+
+		</div>
+		<!----内容结束---->
+		<!------底部开始------>
+		<?include("footer_li_cai.html");?>
+		<!------底部结束------>
+	</div>
+</body>
+</html>

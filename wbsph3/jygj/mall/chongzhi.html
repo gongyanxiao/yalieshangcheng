@@ -1,0 +1,204 @@
+<?include("config.php");?>
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title><?=_TITLE_?></title>
+    <meta name="keyword" content="<?=_KEYWORD_?>"/>
+    <meta name="description" content="<?=_DESCRIPTION_?>"/>
+    <link href="/Public/ico.ico" type="image/x-icon" rel="shortcut icon" /> 
+	
+    <link rel="stylesheet" type="text/css" href="/jygj/Public/home/css/index.css"/>
+    <script type="text/javascript" src="/jygj/Public/home/js/jquery-1.7.2.js"></script>
+    <script type="text/javascript" src="/jygj/Public/home/js/jquery.validate.min.js"></script>
+	      <script type="text/javascript" src="js/jquery.min.js"></script>
+
+    <script type="text/javascript">
+<!--
+//提交到后台查询
+function tj(){	
+ $(".abc").attr({"disabled":"disabled"});
+var je=document.myform.je.value;
+var dataString='je='+je;
+ $.ajax({  
+type: "POST",  
+url: "member/chongzhi_pro.php",  
+data:dataString,  
+cache:false,  
+success:function(html){  
+$("#jygj").html(html);
+refresh();
+}
+});
+}
+//-->
+</script>
+
+</head>
+<div id="jygj"></div>
+<body >
+<div class="warp">
+    <!------最顶部开始------><!------logo结束------>
+<script>
+	$(function(){
+		$(".open_xl").click(function(){
+			$(".xiala").show();
+		})
+		$(".xiala a").click(function(){
+			var xq=$(this).html();
+			$(".open_xl a").html(xq);
+			$(this).parent().hide();
+		})
+	})
+</script>
+
+<!------导航开始------>
+ <?
+        include("sheader1.html");
+		?>
+<!------导航结束------>
+<?php
+	 include_once "config/check.php";
+        include_once "config/zt_config.php";
+        $db = mysql_connect("$db_host","$db_user","$db_pwd");
+mysql_query("set names $coding"); 
+mysql_select_db("$db_database");
+//判断会员类型
+$yh=$_COOKIE['ECS']['username'];
+$sql="select lx,jf from xbmall_users where user_name='$yh'";
+$qs1=mysql_query($sql);
+$sf1=mysql_fetch_assoc($qs1);
+$lx=$sf1["lx"];
+if($lx=="1"){
+
+header("location:member_login.html");
+}
+//读取积分
+$jf=$sf1["jf"];
+?>
+
+    <!----内容开始---->
+    <div class="warp_moer">
+
+        <div class="warp_h">
+            <!----right内容开始---->
+            <div class="warp_moer">
+		
+        <div class="warp_m">
+            <!----right内容开始---->
+            <div class="warp_m_right" style="padding:23px;width:929px; background-color:#FFF;">
+				<div class="warp_f_div"><b>积分转换</b></div>
+                <div class="warp_m_right_div">
+							<form method="post" id="myform" name="myform"  enctype='multipart/form-data'>	
+                    <table class="warp_n">
+						<tr>
+                            <td><span style="display: block;padding-top: 22px">可提现积分：</span></td>
+                            <td ><input type="text" id="xing" value="<?php echo $jf?$jf:0;?>"   class="warp_n_ex" disabled/></td>
+								
+                        </tr>
+						
+                         <tr>
+                            <td width="100"><span style="display: block;padding-top: 22px">转换积分：</span></td>
+                            <td><input type="text"  class="warp_n_ex" id="je" name="je" style="width: 169px;float: left"><input type="button" class="abc" value="转换" onClick="tj();" style="width: 80px;height: 37px;border: 0;background: #A27114;float: left; font-family: '宋体';font-size: 14px;border-radius: 5px;color: #FFF;margin: 22px 0 0 20px;cursor:pointer;
+"/></td>
+                        </tr>
+                        
+                    </table>
+				
+				</form>
+				
+				<div style="width: 386px;overflow: hidden;margin: auto;padding-bottom: 40px">
+				   <span style="display: block;line-height: 22px;color: #FF0000;">提现积分转换成消费积分后将不再能转换回提现积分。</span>
+				</div>
+				
+                </div>
+
+            </div>
+            <!----right内容结束---->
+
+            <!----left内容开始---->
+            <div class="warp_h_left">
+	<?
+    include_once "left_p_menu.html";
+    ?>
+
+	<a href="" class="warp_h_left_gg"><img src="/jygj/Public/home/img/im113.jpg" width="170" height="207"></a>
+	
+</div>
+            <!----left内容结束---->
+        </div>
+
+    </div>
+            <!----right内容结束---->
+
+            <!----left内容开始---->
+            	
+
+            <!----left内容结束---->
+        </div>
+
+    </div>
+    <!----内容结束---->
+
+    <!------底部开始------>
+	   <?include("sfooter.html");?>
+  <script type="text/javascript">
+$(function(){
+	var $qqServer = $('.qqserver');
+	var $qqserverFold = $('.qqserver_fold');
+	var $qqserverUnfold = $('.qqserver_arrow');
+	$qqserverFold.click(function(){
+		$qqserverFold.hide();
+		$qqServer.addClass('unfold');
+	});
+	$qqserverUnfold.click(function(){
+		$qqServer.removeClass('unfold');
+		$qqserverFold.show();
+	});
+	//窗体宽度小鱼1024像素时不显示客服QQ
+	function resizeQQserver(){
+		$qqServer[document.documentElement.clientWidth < 1024 ? 'hide':'show']();
+	}
+	$(window).bind("load resize",function(){
+		resizeQQserver();
+	});
+});
+</script><!------底部结束------>
+<script>
+$(".warp_d_ton").click(function()
+{
+	var name = $("#name").val();
+	var phone = $("#phone").val();
+	var email = $("#email").val();
+	
+	if(name==''){
+			alert('姓名不能为空!')
+			return false
+	}else{
+		var rel = /^[\u4e00-\uf900]{2,4}$/
+		if(!rel.test(name)){
+			alert('请输入正确的姓名!');
+			return false
+		}else{
+			var rel = /^[0-9]{11}$/
+			if(!rel.test(phone)){
+				alert('请输入正确的手机号!');
+				return false
+			}else{
+				var rel = /^(\w)+(\.\w+)*@(\w)+((\.\w+)+)$/;
+				if(!rel.test(email)){
+					alert('请输入正确的邮箱!');
+					return false
+				}else{
+					$('#form').submit()	
+				}
+			}			
+		}
+	}
+	
+})
+
+</script>
+</div>
+</body>
+</html>

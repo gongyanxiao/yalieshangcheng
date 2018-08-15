@@ -1,0 +1,416 @@
+<?  
+ include("config.php");
+$link = mysqli_connect($db_host,$db_user,$db_pwd,$db_database) or die('Unale to link');
+$link->set_charset('utf8');
+$jfid=htmlspecialchars(trim($_GET['jfid']));
+$a=array();
+$sqly="select * from `zt_jifen`";
+$qryy=$link->query($sqly);
+while($ry=$qryy->fetch_array()) {
+    $a[]=$ry[id];
+}
+if(empty($jfid)||!in_array($jfid, $a)){
+    header("Location:../error.html"); 
+    exit;
+}
+session_start(); 
+$_SESSION['uniqid'] = md5(uniqid('jygj',true));
+?>
+<!DOCTYPE html>
+<html>
+<head lang="en">
+	<meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+        <title>积分兑换_网络平台_<?=_TITLE_?></title>
+    <meta name="keyword" content="<?=_KEYWORD_?>"/>
+    <meta name="description" content="<?=_DESCRIPTION_?>"/>
+    <link href="/Public/ico.ico" type="image/x-icon" rel="shortcut icon" /> 
+    <link rel="stylesheet" type="text/css" href="/Public/phone/jifen/css/index.css">
+	<link rel="stylesheet" type="text/css" href="/Public/phone/jifen/css/swiper.min.css">
+    <script type="text/javascript" src="/Public/phone/jifen/js/jquery-1.7.2.js"></script>
+	<script type="text/javascript" src="/Public/phone/jifen/js/swiper.min.js"></script>
+
+</head>
+<body>
+<div class="warp"><div id="bcc" style="display: none;width: 100%;height: 1000%;background-color: rgba(177,177,177,0.5);z-index: 99;position: absolute;"></div>
+    <!------头部开始------>
+    <div class="warp_t">
+
+        <div class="warp_t_p">
+            <a href="javascript:history.go(-1);"></a>
+        </div>
+
+        <div class="warp_t_o">
+            <ul>
+                <li class="thisclass"><a href="javascript:;">商品</a></li>
+                <li><a href="javascript:;">详情</a></li>
+            </ul>
+        </div>
+
+        
+
+       <div class="warp_t_u">
+            <!--<div class="warp_t_u_lp">
+                <h2></h2>
+            </div>
+             <ul>
+                <li>
+                    <a href="#">
+                        <span class="warp_t_u_1"></span>
+                        <i>首页</i>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <span class="warp_t_u_2"></span>
+                        <i>分类</i>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <span class="warp_t_u_3"></span>
+                        <i>购物车</i>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <span class="warp_t_u_4"></span>
+                        <i>我的</i>
+                    </a>
+                </li>
+            </ul>
+        </div>-->
+
+    </div>
+</div> <?
+                $sql="select * from `zt_jifen` where id=".$jfid;
+                $qry=$link->query($sql);
+                $r=$qry->fetch_array();
+            ?>
+ 
+    <!------头部结束------>
+
+    <ul class="warp_t_qh">
+        <li class="warp_t_qh_li">
+            <!------banner开始------>
+            <!--<img src="/Public/phone/jifen/img/im12.jpg">-->
+			<div id="banner">
+				<div class="swiper-wrapper">
+               <?
+
+                            $arr = explode(",",$r['dt']);
+                            $al=count($arr);
+                            for($i=0;$i<$al;$i++) {
+                            ?>
+                <div class="swiper-slide" style="width:100%;">
+                    <img src="<?=strtr($arr[$i],array('../'=>'/mall/'));?>"/>
+                </div>
+                            <?
+                            }
+                            ?>
+                    
+					</div>
+				<div class="pagination"></div>
+			</div>
+			<script type="text/javascript">
+                $(function() {
+                    var x=$(".swiper-wrapper div").eq(0).css("width");
+                    x=x.substr(0,x.length-2);
+                    $(".swiper-wrapper div").css("height",0.8*x+"px");
+                })
+            </script>
+            <!------banner结束------>
+
+            <!------内容开始------>
+           
+            <div class="warp_r">
+                <div class="warp_r_mp">
+                    <h3><?=$r[spmc]?></h3>
+                </div>
+
+                <div class="warp_w">
+                    <span>兑换所需：</span>
+                    <b><?=$r[dhjf]?>积分</b>
+                </div>
+                <div class="warp_w">
+                    <span>库存：</span>
+                    <b><?=$r[kc]?>件</b>
+                </div>
+
+                <div class="warp_q">
+                    <h3>购买数量</h3>
+                        <div style="border: 1px solid #ddd9da;overflow: hidden;width: 102px;margin: 10px 0 0 3%">
+						<input type="button" id="but2" value="" onclick="show2()" style="width:30px; height:30px; float:left;border-bottom: 0;border-right: 1px solid #C8C6C6;;border-top: 0;border-left: 0;background: url(/Public/phone/jifen/img/im36.png) no-repeat center">
+						<input type="text" id="setNum" value="1" style="float:left; width:40px; height:32px;border-bottom: 0;border-right: 1px solid #C8C6C6;;border-top: 0;border-left: 0;background: #FFffff;font-family: '微软雅黑';font-size: 20px;color: #666666;text-align: center" readonly="true">
+						<input type="button" id="but1" value="" onclick="show1()" style="width: 30px; height:30px; float:left;border-bottom: 0;border-right: 0;border-top: 0;border-left: 0;background: url(/Public/phone/jifen/img/im37.png) no-repeat center">
+					</div>
+                   
+                </div>
+            </div>
+            <div class="ht60"></div>
+            <!------内容结束------>
+        </li>
+
+        <li class="warp_t_qh_li" style="display: none">
+            <div class="warp_t_qh_li_div">
+                <img src="<?=strtr($r['spslt'],array("../"=>"/mall/"));?>">
+            </div>
+			
+            <div class="warp_t_qh_li_dmp">
+                <h2 class="warp_t_qh_li_dmp_h2">
+                    <span></span>
+                    <b>详情</b>
+                </h2>
+                <ul class="warp_t_qh_li_dmp_ul">
+                    <?=stripslashes($r[spjs])?></ul>
+            </div>
+			<div class="warp_t_qh_li_dmp">
+                <h2 class="warp_t_qh_li_dmp_h2">
+                    <span></span>
+                    <b>规格</b>
+                </h2>
+                <ul class="warp_t_qh_li_dmp_ul">
+                         <?=stripslashes($r[spgg])?>           </ul>
+            </div>
+			<div class="warp_t_qh_li_dmp">
+                <h2 class="warp_t_qh_li_dmp_h2">
+                    <span></span>
+                    <b>服务</b>
+                </h2>
+                <ul class="warp_t_qh_li_dmp_ul">
+                       <?=stripslashes($r[spfw])?>             </ul>
+            </div>
+        </li>
+    </ul>
+
+    <!------底部开始------>
+    <div class="ht60"></div>
+    <div class="ljgm">
+    <?
+    $adhfl=array("6","7");
+    if(in_array($r[fl],$adhfl)){
+    ?>
+
+<?
+    }
+    ?>
+        <button type="button" onclick='duihuan(39)'>立即兑换</button>
+    </div>
+
+	<?
+    $xfjf='';
+    $xo='';
+    $xo1='';
+    if(!empty($_COOKIE['ECS']['username'])){
+    $queryl=$link->query("select * from xbmall_users where user_name='".$_COOKIE['ECS']['username']."'"); 
+    $rl=$queryl->fetch_array(); 
+    $xo=$rl['lx']; 
+    $xfjf=$rl[xfjf];
+    $query2=$link->query("select * from zt_shdz where user='".$_COOKIE['ECS']['username']."' order by sfmr desc"); 
+    
+    $xo1=$query2->num_rows;
+
+?><input type="hidden" id="xo1" value="a<?=$xo1?>"/>
+<input type="hidden" id="xo" value="b<?=$xo?>"/>
+            <form action="dh.php" method="post" id="form" enctype='multipart/form-data' style="position: relative;">
+
+<?}?><input type="hidden" name="session" value="<?=$_SESSION['uniqid'];?>">
+            <input type="hidden" id="mid" name="mid" value="<?=$_COOKIE['ECS']['username']?>"/>
+            <input type="hidden" id="ujf" name='ujf' value="<?=$xfjf?>"/>
+            <input type="hidden" id="price" name="price" value="<?=$r[dhjf]?>"/>
+            <input type="hidden" id="kc" name="kc" value="<?=$r[kc]?>"/>
+            <input type="hidden" id="num" name="num" value=""/>
+            <input type="hidden" id="jfid" name="jfid" value="<?=$jfid?>"/>
+            <input type="hidden" id="gid" name="gid" value="39"/>
+            <?if($xo1>0) {?>
+                <div style="display: none;" id="shxx">
+                <table style="border:2px solid #aaa;z-index: 999;background-color: #fff;width: 100%;margin:0 auto;position: fixed;padding-top: 10px;top: 20%;" cellpadding="5">
+                    <tr>
+                        <td colspan="2" align="center">请选择收货地址：</td>
+                    </tr>
+                <tr>
+                    <td width="15%" align="center">请选择</td>
+                    <td  align="center">收货信息详情</td>
+                </tr>
+             <?while($r2=$query2->fetch_array()) {?>
+                <tr>
+                    <td align="center"><input type="radio" name="shxx" id='xxdz' class="xxdz" value="<?=$r2[id]?>" <?=$r2[sfmr]==1?'checked="checked"':''?>/></td>
+                    <td>
+                    <table>
+                    <tr>
+                        <td align="center">收货人</td>
+                        <td align="center"><?=$r2[shr]?></td>
+                    </tr>
+                    <tr>
+                        <td width="15%" align="center">联系电话</td>
+                        <td align="center"><?=$r2[lxdh]?></td>
+                    </tr>
+                    <tr>
+                        <td width="65%" align="center">收货地址</td>
+                        <td align="center"><?=$r2[xxdz]?></td>
+                    </tr>
+                    </table>
+                    </td>
+                </tr>
+             <?}?>
+                    <tr>
+                        <td colspan="4" align="center">
+                        <input type="submit" value="确定" style="margin-right:25%" onclick="tj()">
+                        <input type="button" value="取消" onclick="location.reload(true) ">
+                        </td>
+                    </tr>
+                </table>
+                </div>
+            <?}?>
+
+            </form>
+        </div>
+        <script>
+        
+            function duihuan(id){
+                if (confirm("确认兑换？")) {
+               
+            
+                    var num = $("#setNum").val();
+                    var mid =$("#mid").val()
+                    var jf = $("#ujf").val()
+                    var price= $("#price").val();
+                    var xo= $("#xo").val();
+                    var xo1= $("#xo1").val();
+                    if(mid==''){
+                        alert('请登录')
+                        location.href="login.html";return false;
+                    }
+                    if((num*price)>jf){
+                        alert("积分不足，请充值，可用可提现积分充值");return false;
+                    }
+                    if(xo1=='a0'){
+                        alert('请完善收货地址');
+                        if(xo=='b0') {
+                            location.href="/mall/address.html";
+                        } else if(xo=='b1') {
+                            location.href="/mall/b_address.html";
+                        }
+                        
+                        return false;
+                    }
+                    $("#num").attr("value",num);
+                    $("#bcc").css("display","block");
+                    $("#shxx").css("display","block");
+                    $(".xxdz").eq(0).prop("checked",true);
+                }
+            }
+
+            function tj() {
+                $("#form").submit();
+            }
+        </script>
+    <!------底部结束------>
+</div>
+<script>
+    function show1(){
+         var kc = parseInt(document.getElementById("kc").value);
+        var getNum = parseInt(document.getElementById("setNum").value);
+        if(getNum <kc){
+            document.getElementById("setNum").value = getNum + 1;
+        }else{
+            alert("库存不足");
+        }
+    }
+    function show2(){
+        var getNum = parseInt(document.getElementById("setNum").value);
+        if(getNum > 1){
+            document.getElementById("setNum").value = getNum - 1;
+        }else{
+            alert("不可以小于1");
+        }
+    }
+</script>
+<script type="text/javascript">
+    function handleScroll(){
+        document.getElementByIdx_x("menu").style.top = (document.body.offsetHeight*0.87 + document.body.scrollTop) +"px";
+    }
+    function pop(){
+        var toogle = document.getElementByIdx_x("menu").childNodes[1];
+        if(toogle.style.visibility == "" || toogle.style.visibility == "hidden"){
+            toogle.style.visibility = "visible";
+        }else{
+            toogle.style.visibility = "hidden";
+        }
+    }
+    function init(){
+        document.body.onscroll="handleScroll()";
+        document.body.onload="handleScroll()";
+        document.getElementByIdx_x("menu").onmouseover=pop;
+        document.getElementByIdx_x("menu").onmouseout=pop;
+    }
+    window.onload=init;
+</script>
+
+<script>
+    $(function(){
+        $(".warp_t_i_bae").click(function(){
+            if($(this).attr('kg')=='on'){
+                $(".warp_t_u").show()
+                $(this).attr('kg','off')
+            }else{
+                $(".warp_t_u").hide()
+                $(this).attr('kg','on')
+            }
+        })
+    })
+</script>
+<script language="javascript" type="text/javascript">
+    $(document).ready(function(){
+        $('.warp_t_o ul li').click(function(){
+            $('.warp_t_qh_li').hide();
+            $('.warp_t_qh_li').eq($(this).index()).show()
+        });
+    });
+</script>
+<!----------------------------点击变色开始-------------------------->
+<script>
+    $(function(){
+        var cotrs = $(".warp_t_o ul li");
+        cotrs.click(function(){
+            $(this).addClass("thisclass").siblings().removeClass("thisclass");
+        });
+    });
+</script>
+<!----------------------------点击变色结束-------------------------->
+<script type="text/javascript">
+    window.onload = function() {
+        var mySwiper1 = new Swiper('#header',{
+            freeMode : true,
+            slidesPerView : 'auto',
+        });
+        var mySwiper2 = new Swiper('#banner',{
+            autoplay:5000,
+            visibilityFullFit : true,
+            loop:true,
+            pagination : '.pagination',
+        });
+
+        var tabsSwiper = new Swiper('#tabs-container',{
+            speed:500,
+            onSlideChangeStart: function(){
+                $(".tabs .active").removeClass('active')
+                $(".tabs a").eq(tabsSwiper.activeIndex).addClass('active')
+            }
+        })
+        $(".tabs a").on('touchstart mousedown',function(e){
+            e.preventDefault()
+            $(".tabs .active").removeClass('active')
+            $(this).addClass('active')
+            tabsSwiper.slideTo( $(this).index() )
+        })
+        $(".tabs a").click(function(e){
+            e.preventDefault()
+        })
+
+    }
+</script>
+
+</body>
+</html><?$link->close();?>

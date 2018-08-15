@@ -1,0 +1,68 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		     <meta charset="UTF-8"/>
+			 <meta name="viewport" content="width=device-width">
+				<title>{$page_title}</title>
+				<meta name="Keywords" content="{$keywords}" />
+				<meta name="Description" content="{$description}" />
+				<meta name="viewport"
+					content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+				<link rel="stylesheet" type="text/css"
+					href="themesmobile/default/css/public.css?v={$smarty.now}" />
+				<link rel="stylesheet" type="text/css"
+					href="themesmobile/default/css/index.css?v={$smarty.now}" />
+				<script type="text/javascript"
+					src="themesmobile/default/js/jquery.js"></script>
+				<script type="text/javascript"
+					src="themesmobile/default/js/TouchSlide.1.1.js"></script>
+				<script type="text/javascript"
+					src="themesmobile/default/js/jquery.more.js"></script>
+				<script type="text/javascript"
+					src="themesmobile/default/js/jquery.cookie.js"></script>
+				<script type="text/javascript"
+					src="themesmobile/default/js/mobile.js"></script>
+               <link rel="stylesheet" href="themesmobile/default/css/my.css">
+</head>
+<body>
+<div class="header">
+			<header class="header" style=" position:fixed; top:0">
+  <div class="tab_nav">
+      <div class="h-left"><a class="sb-back" href="javascript:history.back(-1)" title="返回"></a></div>
+      <div class="h-mid">我的邀请</div>
+      <div class="h-right">
+        <aside class="top_bar">
+          <div onClick="show_menu();$('#close_btn').addClass('hid');" id="show_more"><a href="javascript:;"></a> </div>
+        </aside>
+      </div>
+  </div>
+</header>
+<!-- #BeginLibraryItem "/library/up_menu.lbi" --><!-- #EndLibraryItem --> <!--弹出菜单-->
+		</div>
+
+<div class="container">
+    <div class="invite-link">
+        <dl>
+            <dt><img src="erweima_png.php?data=http://yl77777999.xiangbai315.com/mobile/user.php?pid={$user.user_id}" width="50%" alt=""></dt>
+            <dd><input type="text" id="link-text" value="http://yl77777999.xiangbai315.com/mobile/user.php?pid={$user.user_id}"></dd>
+            <dd>
+                <button id="js-copy-text">复制链接</button>
+            </dd>
+        </dl>
+    </div>
+</div>
+<script src="js/jquery-1.11.1.min.js"></script>
+<script>
+    $("#js-copy-text").click(function () {
+        var text = $("#link-text");
+        text.select();
+        document.execCommand('copy', false);
+    });
+</script>
+
+
+<div style="position: fixed;bottom: 0" class="footer">
+
+<!-- #BeginLibraryItem "/library/footer_nav.lbi" --> <!-- #EndLibraryItem --> </div>
+</body>
+</html>

@@ -1,0 +1,71 @@
+<form name="theForm" action="order.php?act=step_post&step={$step}&order_id={$order_id}&step_act={$step_act}" method="post">
+<div class="list-div">
+<table cellpadding="3" cellspacing="1">
+  <tr>
+    <th width="120">{$lang.label_goods_amount}</th>
+    <td width="150">{$order.formated_goods_amount}</td>
+  <th width="120">{$lang.label_discount}</th>
+    <td><input name="discount" type="text" id="discount" value="{$order.discount}" size="15" /></td>
+  </tr>
+  <tr>
+    <th>{$lang.label_tax}</th>
+    <td><input name="tax" type="text" id="tax" value="{$order.tax}" size="15" /></td>
+    <th>{$lang.label_order_amount}</th>
+    <td>{$order.formated_total_fee}</td>
+  </tr>
+  <tr>
+    <th>{$lang.label_shipping_fee}</th>
+    <td>{if $exist_real_goods}<input name="shipping_fee" type="text" value="{$order.shipping_fee}" size="15">{else}0{/if}</td>
+  <th width="120">{$lang.label_money_paid}</th>
+    <td>{$order.formated_money_paid} </td>
+  </tr>
+  <tr>
+    <th>{$lang.label_insure_fee}</th>
+    <td>{if $exist_real_goods}<input name="insure_fee" type="text" value="{$order.insure_fee}" size="15">{else}0{/if}</td>
+  <th>{$lang.label_surplus}</th>
+    <td>{if $order.user_id >0}
+        <input name="surplus" type="text" value="{$order.surplus}" size="15">
+  {/if} {$lang.available_surplus}{$available_user_money|default:0}</td>
+  </tr>
+  <tr>
+    <th>{$lang.label_pay_fee}</th>
+    <td><input name="pay_fee" type="text" value="{$order.pay_fee}" size="15"></td>
+  <th>{$lang.label_integral}</th>
+    <td>{if $order.user_id > 0}
+        <input name="integral" type="text" value="{$order.integral}" size="15">
+  {/if} {$lang.available_integral}{$available_pay_points|default:0}</td>
+  </tr>
+  <tr>
+    <th>{$lang.label_pack_fee}</th>
+    <td>{if $exist_real_goods}
+      <input name="pack_fee" type="text" value="{$order.pack_fee}" size="15">
+      {else}0{/if}</td>
+    <th>{$lang.label_bonus}</th>
+    <td>
+      <select name="bonus_id">
+        <option value="0" {if $order.bonus_id eq 0}selected{/if}>{$lang.select_please}</option>
+
+          {foreach from=$available_bonus item=bonus}
+
+        <option value="{$bonus.bonus_id}" {if $order.bonus_id eq $bonus.bonus_id}selected{/if} money="{$bonus.type_money}">{$bonus.type_name} - {$bonus.type_money}</option>
+
+          {/foreach}
+
+      </select>    </td>
+  </tr>
+  <tr>
+    <th>{$lang.label_card_fee}</th>
+    <td>{if $exist_real_goods}
+      <input name="card_fee" type="text" value="{$order.card_fee}" size="15">
+      {else}0{/if}</td>
+    <th>{if $order.order_amount >= 0} {$lang.label_money_dues} {else} {$lang.label_money_refund} {/if}</th>
+    <td>{$order.formated_order_amount}</td>
+  </tr>
+</table>
+</div>
+  <p align="center">
+    {if $step_act eq "add"}<input type="button" value="{$lang.button_prev}" class="button" onclick="history.back()" />{/if}
+    <input name="finish" type="submit" class="button" value="{$lang.button_finish}" />
+    <input type="button" value="{$lang.button_cancel}" class="button" onclick="location.href='order.php?act=process&func=cancel_order&order_id={$order_id}&step_act={$step_act}'" />
+  </p>
+</form>

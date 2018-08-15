@@ -1,0 +1,291 @@
+<?include("config.php");
+    include_once "config/check.php";
+?>
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title><?=_TITLE_?></title>
+    <meta name="keyword" content="<?=_KEYWORD_?>"/>
+    <meta name="description" content="<?=_DESCRIPTION_?>"/>
+
+
+    <link href="/Public/ico.ico" type="image/x-icon" rel="shortcut icon" /> 
+    <link rel="stylesheet" type="text/css" href="/jygj/Public/home/css/index.css"/>
+    <script type="text/javascript" src="/jygj/Public/home/js/jquery-1.7.2.js"></script>
+	<link rel="stylesheet" type="text/css" href="/jygj/Public/home/css/page.css">
+    <script type="text/javascript" src="/jygj/Public/home/js/jquery.validate.min.js"></script>
+   
+	<link rel="stylesheet" type="text/css" href="/jygj/Public/home/css/page.css">
+</head>
+<body >
+<div class="warp">
+    <!------最顶部开始------>
+  <?
+        include("sheader1.html");
+		?>
+  <!------logo结束------>
+<script>
+	$(function(){
+		$(".open_xl").click(function(){
+			$(".xiala").show();
+		})
+		$(".xiala a").click(function(){
+			var xq=$(this).html();
+			$(".open_xl a").html(xq);
+			$(this).parent().hide();
+		})
+	})
+</script>
+
+<!------导航开始------><!------导航结束------>
+    <!------导航结束------>
+
+
+    <!----内容开始---->
+    <div class="warp_moer">
+
+        <div class="warp_h">
+            <!----right内容开始---->
+            <div class="warp_h_right">
+
+                <div class="warp_f">
+
+                    <div class="warp_f_div">
+                        <b>我的订单</b>
+                    </div>
+
+					<style>
+					.yyw_xq_i li.current a{color:#005CAE}
+					</style>
+                    <ul class="yyw_xq_i">
+						
+                        <li ><a href="/member/orderlist.html?flg=0">待付款</a></li>
+                        <li class=" current"><a href="/member/orderlist.html?flg=1">待确认收货</a></li>
+						<!--<li><a href="#">待评价（<i class="yyw_xq_i_i">1</i>）</a></li>-->
+                    </ul>
+
+                    <table border="1" cellspacing="0" cellpadding="0" class="yys_gwc_p">
+                        <tr>
+                            <th width="470">商品名称</th>
+                            <th width="131">订单金额</th>
+                            <th width="133">数量</th>
+                            <th width="130">状态</th>
+                            <th>操作</th>
+                        </tr>
+                    </table>
+
+                    <ul class="yyw_xq_u">
+						
+
+                        
+
+                    </ul>
+
+                    <div class="warp_f_mp">
+                        <!----下一页开始---->
+                        <div class="scott"></div>
+                        <!----下一页结束---->
+                        <!--<div class="warp_f_mp_div">
+                            <label style="padding-left: 5px">
+                                <input type="checkbox" name="btn1"  id="btn1" value="全选" onClick="checkalltrue()">
+                                <span>全选</span>
+                            </label>
+                            <a href="#">删除</a>
+                        </div>-->
+            
+			</div>
+		<script>	
+		function del_order(id){
+			 var con = confirm('确定删除所选商品吗？')
+			if(con){
+						
+			
+					id=id;
+					$.ajax({
+								//提交数据的类型 POST GET
+								type:"POST",
+								//提交的网址
+								url:"/member/del_order.html",
+								//提交的数据
+								data:{id:id},
+								//返回数据的格式
+								datatype: "json",//"xml", "html", "script", "json", "jsonp", "text".
+								//成功返回之后调用的函数 	
+								success:function(data){
+									if(data==1){
+									alert('删除成功');
+									window.location.reload()
+								   }else if(data==2){
+								   
+									alert('删除失败');
+									
+								   }
+									
+								  
+								}   ,
+							//调用出错执行的函数
+								error: function(){
+									//请求出错处理
+								}         
+						});	
+				}		
+			}
+			
+			function qian(id){
+			 var con = confirm('确定签收吗？')
+			if(con){
+						
+			
+					id=id;
+					$.ajax({
+								//提交数据的类型 POST GET
+								type:"POST",
+								//提交的网址
+								url:"/member/qian_order.html",
+								//提交的数据
+								data:{id:id},
+								//返回数据的格式
+								datatype: "json",//"xml", "html", "script", "json", "jsonp", "text".
+								//成功返回之后调用的函数 	
+								success:function(data){
+									if(data==1){
+									alert('感谢您选择聚升');
+									window.location.reload()
+								   }else if(data==2){
+								   
+									alert('签收失败');
+									
+								   }
+									
+								  
+								}   ,
+							//调用出错执行的函数
+								error: function(){
+									//请求出错处理
+								}         
+						});	
+				}		
+			}
+			</script>	
+				
+                </div>
+            </div>
+            <!----right内容结束---->
+
+            <!----left内容开始---->
+            <div class="warp_h_left">
+	<?
+    include_once "left_p_menu.html";
+    ?>
+
+	<a href="" class="warp_h_left_gg"><img src="/jygj/Public/home/img/im113.jpg" width="170" height="207"></a>
+	
+</div>
+            <!----left内容结束---->
+        </div>
+
+  </div>
+    <!----内容结束---->
+	<input type="hidden" id="orderid" />
+    <!------底部开始------>
+
+   <?include("sfooter.html");?>
+
+<div class="warp_e_db"></div>
+
+
+
+<script type="text/javascript">
+$(function(){
+	var $qqServer = $('.qqserver');
+	var $qqserverFold = $('.qqserver_fold');
+	var $qqserverUnfold = $('.qqserver_arrow');
+	$qqserverFold.click(function(){
+		$qqserverFold.hide();
+		$qqServer.addClass('unfold');
+	});
+	$qqserverUnfold.click(function(){
+		$qqServer.removeClass('unfold');
+		$qqserverFold.show();
+	});
+	//窗体宽度小鱼1024像素时不显示客服QQ
+	function resizeQQserver(){
+		$qqServer[document.documentElement.clientWidth < 1024 ? 'hide':'show']();
+	}
+	$(window).bind("load resize",function(){
+		resizeQQserver();
+	});
+});
+</script>
+<div class="qqserver">
+
+	<div class="qqserver_fold">
+		<div></div>
+	</div>
+	
+	<div class="qqserver-body" style="display: block;">
+		<div class="qqserver-header">
+			<div></div>
+			<span class="qqserver_arrow"></span>
+		</div>
+	
+	</div>
+	
+</div>
+    <!------底部结束------>
+  <script>
+				function chong(){
+					id= $("#orderid").val();
+					a = $('input[name="radiu"]:checked').val();
+					if(a==1){
+						location.href="/entity/mem_order.html?id="+id;
+						
+					}else if(a==2){
+						$("#form").attr("action","/entity/jiesuan.html?zhifu=2").submit()
+					
+					}
+				}
+			
+			</script>
+  <script>
+	function pay(id){
+	 $(".zfs_p").show();
+	 id=id
+	
+	 $("#orderid").attr('value',id);
+	}
+</script>
+<script>
+    $(function(){
+	   
+        $(".zfs_o").click(function(){
+            $(".zfs_p").hide();
+        })
+    });
+</script>
+</div>
+<style>
+.zfs_i_ul_div input{display:none}
+.zfs_i_ul_div label{display: block;overflow: hidden;height: 75px}
+</style>
+<div class="zfs_p">
+  <div class="zfs_p_mor">
+    <div class="zfs_o">
+            <a href="#"></a>
+      </div>
+    </div>
+</div>
+<!----------------------------点击变色开始-------------------------->
+<script>
+    $(function(){
+        var cotrs = $(".zfs_i_ul li");
+        cotrs.click(function(){
+            $(this).addClass("thisclass").siblings().removeClass("thisclass");
+			
+        });
+    });
+</script>
+
+</body>
+</html>

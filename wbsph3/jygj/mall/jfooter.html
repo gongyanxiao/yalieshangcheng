@@ -1,0 +1,99 @@
+ <div class="warp_e">
+	<div class="warp_e_more">
+
+		
+
+		<div class="warp_e_div">
+			<? 	
+	   				include("config/zt_config.php");
+					$link = mysqli_connect($db_host,$db_user,$db_pwd,$db_database) or die('Unale to link');
+    				$link->set_charset('utf8');
+		   			$arr=array(36,37,38,39,40);
+			   		$arrlength=count($arr);
+			   		for($x=0;$x<$arrlength;$x++)
+					{ $id=$arr[$x];
+					$sqla="select * from phome_enewsclass where classid = ".$id;
+					$querya=$link->query($sqla);
+					$rowa=$querya->fetch_array();
+				?>
+				<ul>
+				<p style="background: url(/jygj/Public/home/images/im<?=$id-28?>.png) no-repeat left center;background-position: 40px"><?=$rowa['classname']?></p>
+	
+             	<?       $queryb=$link->query("select * from phome_ecms_news where classid = $id order by id asc limit 0,6"); 
+			    	while ($r=$queryb->fetch_array()){ 	
+			    ?>
+			    		<li><a href="wzcontent.html?pid=<?=$r[id]?>"><?=mb_substr($r[title],0,16,'utf-8'); ?></a></li>
+			    <?
+			    	}
+                ?>
+             
+				</ul>
+				<?
+					
+					}
+mysqli_close($link);
+				?>    		
+
+				</div>
+
+	</div>
+</div>
+
+<div class="warp_e_db">
+	<div style="width: 1200px;background: #444444;overflow: hidden;margin: auto;padding: 15px 0">
+		<span>版权所有：<a href="/">安徽诺斯贝尔电子商务有限公司</a>&nbsp;&nbsp;&nbsp;皖ICP备17000434号&nbsp;&nbsp;&nbsp;</span> <span>技术支持：<a href="http://www.zt315.cn/" target="_blank">中天科技</a></span>
+		
+		<style>
+		.zj_p{width: 438px;overflow: hidden;margin: auto;padding: 20px 0}
+		.zj_p ul{width: 500px;overflow: hidden}
+		.zj_p ul li{width: 100px;overflow: hidden;float: left;margin-right: 12px}
+		.zj_p ul li img{display: block;width: 100px; height: 40px}
+		</style>
+		
+	</div>
+	
+</div>
+<script type="text/javascript">
+$(function(){
+	var $qqServer = $('.qqserver');
+	var $qqserverFold = $('.qqserver_fold');
+	var $qqserverUnfold = $('.qqserver_arrow');
+	$qqserverFold.click(function(){
+		$qqserverFold.hide();
+		$qqServer.addClass('unfold');
+	});
+	$qqserverUnfold.click(function(){
+		$qqServer.removeClass('unfold');
+		$qqserverFold.show();
+	});
+	//窗体宽度小鱼1024像素时不显示客服QQ
+	function resizeQQserver(){
+		$qqServer[document.documentElement.clientWidth < 1024 ? 'hide':'show']();
+	}
+	$(window).bind("load resize",function(){
+		resizeQQserver();
+	});
+});
+</script>
+<div class="qqserver">
+
+	<div class="qqserver_fold">
+		<div></div>
+	</div>
+	
+	<div class="qqserver-body" style="display: block;">
+		<div class="qqserver-header">
+			<div></div>
+			<span class="qqserver_arrow"></span>
+		</div>
+		<ul><!-- 将#改成qq号 -->
+			<li><a href="http://wpa.qq.com/msgrd?v=3&amp;uin=3558406530&amp;site=qq&amp;menu=yes" target="_blank"><div>客服咨询</div></a></li>
+			<li><a href="http://wpa.qq.com/msgrd?v=3&amp;uin=3558463196&amp;site=qq&amp;menu=yes" target="_blank"><div>客服咨询</div></a></li>
+			<li><a href="http://wpa.qq.com/msgrd?v=3&amp;uin=3406799420&amp;site=qq&amp;menu=yes" target="_blank"><div>推广合作</div></a></li>
+		</ul>
+		<div class="qqserver-footer">
+			<a class="text-primary" href="#" target="_blank">联系电话：<br>400-9922-831</a>
+		</div>
+	</div>
+	
+</div>

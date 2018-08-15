@@ -1,0 +1,312 @@
+<!DOCTYPE html >
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<title>{$page_title}</title>
+<meta name="Keywords" content="{$keywords}" />
+<meta name="Description" content="{$description}" />
+<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+<link rel="stylesheet" type="text/css" href="themesmobile/default/css/public.css"/>
+<link rel="stylesheet" type="text/css" href="themesmobile/default/css/user.css"/> 
+<script type="text/javascript" src="themesmobile/default/js/jquery.js"></script>
+<script type="text/javascript" src="themesmobile/default/js/jquery.more.js"></script>
+{insert_scripts files='jquery.json.js,transport.js'}
+{insert_scripts files='common.js,utils.js','shopping_flow.js'}
+{if $action eq 'offline_detail'}
+<script type="text/javascript">
+
+function check_user_mobile()
+{
+    var frm = document.forms['formIdentity'];
+    var user_id = frm.elements['user_id'].value;
+    if (user_id.length === 0) {
+        $('form[name=formIdentity]').find('.people-user_id-notice').html('会员手机号不能为空').parents('.required-notice').css('visibility', 'visible');
+        //alert('真实姓名不能为空');
+        frm.elements['iscommit'].value = 0;
+    } else {
+        $('form[name=formIdentity]').find('.people-user_id-notice').html('').parents('.required-notice').css('visibility', 'hidden');
+    }
+    Ajax.call('user.php?act=checkuser', 'mobile=' + user_id, return_offline_detail_user, 'POST', 'JSON', false);
+}
+function check_order_amt()
+{
+    var frm = document.forms['formIdentity'];
+    var order_amt = frm.elements['order_amt'].value;
+    if (order_amt.length === 0) {
+        $('form[name=formIdentity]').find('.people-order_amt-notice').html('消费金额不能为空').parents('.required-notice').css('visibility', 'visible');
+        //alert('真实姓名不能为空');
+        frm.elements['iscommit'].value = 0;
+    } else {
+        if (!isPriceNumber(order_amt))
+        {
+            $('form[name=formIdentity]').find('.people-order_amt-notice').html('消费金额不合法').parents('.required-notice').css('visibility', 'visible');
+            //alert('真实姓名不能为空');
+            frm.elements['iscommit'].value = 0;
+        } else
+        {
+            frm.elements['order_bdf'].value = parseFloat(order_amt * 0.1).toFixed(2);
+            $('form[name=formIdentity]').find('.people-order_amt-notice').html('').parents('.required-notice').css('visibility', 'hidden');
+            Ajax.call('user.php?act=checkje', 'amount=' + order_amt, return_offline_detail_je, 'POST', 'JSON', false);
+        }
+    }
+}
+var isloadding=false;
+function offline_detail() {
+    if(isloadding===true)
+    {
+        alert("报单提交中,请等待......");
+        return false;
+    }
+     $('form[name=formIdentity]').find('.main-btn').removeAttr("disabled");
+    var frm = document.forms['formIdentity'];
+    var user_id = frm.elements['user_id'].value;
+    if (user_id.length === 0) {
+        $('form[name=formIdentity]').find('.people-user_id-notice').html('会员手机号不能为空').parents('.required-notice').css('visibility', 'visible');
+        //alert('真实姓名不能为空');
+        frm.elements['iscommit'].value = 0;
+    } else {
+        $('form[name=formIdentity]').find('.people-user_id-notice').html('').parents('.required-notice').css('visibility', 'hidden');
+    }
+    Ajax.call('user.php?act=checkuser', 'mobile=' + user_id, return_offline_detail_user, 'POST', 'JSON', false);
+    var good_name = frm.elements['good_name'].value;
+    if (good_name.length === 0) {
+        $('form[name=formIdentity]').find('.people-good_name-notice').html('商品名称不能为空').parents('.required-notice').css('visibility', 'visible');
+        //alert('身份证号不能为空！');
+        frm.elements['iscommit'].value = 0;
+    } else {
+        $('form[name=formIdentity]').find('.people-good_name-notice').html('').parents('.required-notice').css('visibility', 'hidden');
+    }
+    var order_amt = frm.elements['order_amt'].value;
+    if (order_amt.length === 0) {
+        $('form[name=formIdentity]').find('.people-order_amt-notice').html('消费金额不能为空').parents('.required-notice').css('visibility', 'visible');
+        //alert('真实姓名不能为空');
+        frm.elements['iscommit'].value = 0;
+    } else {
+        if (!isPriceNumber(order_amt))
+        {
+            $('form[name=formIdentity]').find('.people-order_amt-notice').html('消费金额不合法').parents('.required-notice').css('visibility', 'visible');
+            //alert('真实姓名不能为空');
+            frm.elements['iscommit'].value = 0;
+        } else
+        {
+            frm.elements['order_bdf'].value = parseFloat(order_amt * 0.1).toFixed(2);
+            $('form[name=formIdentity]').find('.people-order_amt-notice').html('').parents('.required-notice').css('visibility', 'hidden');
+            Ajax.call('user.php?act=checkje', 'amount=' + order_amt, return_offline_detail_je, 'POST', 'JSON', false);
+            if (frm.elements['iscommit'].value * 1 === 1)
+            {
+                $('form[name=formIdentity]').find('.main-btn').css("disabled","disabled");
+                return true;
+            }
+        }
+    }
+    if (frm.elements['iscommit'].value * 1 === 0)
+    {
+        return false;
+    }
+    isloadding=true;
+    return true;
+}
+function isPriceNumber(_keyword) {
+    if (_keyword == "0" || _keyword == "0." || _keyword == "0.0" || _keyword == "0.00") {
+        _keyword = "0";
+        return false;
+    } else {
+        var index = _keyword.indexOf("0");
+        var length = _keyword.length;
+        if (index === 0 && length > 1) {/*0开头的数字串*/
+            var reg = /^[0]{1}[.]{1}[0-9]$/;
+            if (!reg.test(_keyword)) {
+                return false;
+            } else {
+                return true;
+            }
+        } else {/*非0开头的数字*/
+            var reg = /^[1-9]{1}[0-9]{0,10}$/;
+            if (!reg.test(_keyword)) {
+                return false;
+            } else {
+                return true;
+            }
+        }
+        return false;
+    }
+}
+function return_offline_detail_user(result)
+{
+    var frm = document.forms['formIdentity'];
+    if (result.code * 1 === 0)
+    {
+        $('form[name=formIdentity]').find('.people-user_id-notice').html(result.message).parents('.required-notice').css('visibility', 'visible');
+        frm.elements['iscommit'].value = 0;
+    } else
+    {
+        $('form[name=formIdentity]').find('.people-user_id-notice').html('用户id:'+result.user_id+",手机号:"+result.mobile_phone+",会员名称:"+result.user_name).parents('.required-notice').css('visibility', 'visible');
+    }
+}
+function return_offline_detail_je(result)
+{
+    var frm = document.forms['formIdentity'];
+    if (result.code * 1 === 0)
+    {
+        $('form[name=formIdentity]').find('.people-order_bdf-notice').html(result.message).parents('.required-notice').css('visibility', 'visible');
+        frm.elements['iscommit'].value = 0;
+    } else
+    {
+        $('form[name=formIdentity]').find('.people-order_bdf-notice').html('').parents('.required-notice').css('visibility', 'hidden');
+        frm.elements['iscommit'].value = 1;
+    }
+}
+
+</script>
+{/if}
+</head>
+<body class="body_bj">
+      <header>
+      <div class="tab_nav">
+        <div class="header">
+          <div class="h-left"><a class="sb-back" href="javascript:history.back(-1)" title="返回"></a></div>
+          <div class="h-mid">{if $action eq 'offline_detail'}线下报单{elseif  $action eq 'offline'}线下报单列表{elseif  $action eq 'offline_order'}线下订单{elseif $action eq 'order_static'}订单统计{elseif $action eq 'supplier_static'}商家统计{elseif $action eq 'messages'}我的消息{elseif $action eq 'account_deposit'}在线充值{elseif $action eq 'account_raply'}积分提现{elseif $action eq 'account_log'}申请记录{elseif $action eq 'account_detail'}账户明细{elseif $action eq 'act_account' or $action eq 'pay' or $action eq 'account_manage'}资金管理{elseif $action eq 'address_list'}管理收货地址{elseif $action eq 'address'}收货地址编辑{elseif $action eq 'vc_login'}储值卡充值{/if}</div>
+          <div class="h-right">
+            <aside class="top_bar">
+              <div onClick="show_menu();$('#close_btn').addClass('hid');" id="show_more"><a href="javascript:;"></a> </div>
+            </aside>
+          </div>
+        </div>
+      </div>
+      </header>
+       	<!-- #BeginLibraryItem "/library/up_menu.lbi" --><!-- #EndLibraryItem --> <!--弹出菜单-->
+<div id="tbh5v0">
+		{if  $action eq 'offline_detail'}
+			
+<h2 class="vc_title"><a href="user.php?act=offline" style="float:right;color:red;padding-right:10px;">查看线下报单</a></h2>
+<form name="formIdentity" action="user.php" method="post" onsubmit="return offline_detail();" enctype="multipart/form-data">
+                <input name="iscommit" value="0" type="hidden">
+                <div class="recharge">
+                {if $suppliers}
+                    <dl class="re_one">
+                    <dt><font class="main-color">*</font>报单人：</dt>
+		    <dd><select name="member_id" style="height:28px;">
+                    {foreach from=$suppliers item=supp_item key=supp_key}
+                    <option value="{$supp_item.member_id}">{$supp_item.supplier_name}</option>
+                    {/foreach}
+                    </select>
+		    </dd>
+                 </dl>
+                  {/if}
+                 <dl class="re_one">
+                    <dt><font class="main-color">*</font>会员手机号：</dt>
+		    <dd><input name="user_id" class="inputBg" onchange="check_user_mobile();" type="text">
+		    <div class="required-notice"><i class="notice-icon"></i><span class="notice-text people-user_id-notice"></span></div></dd>
+                 </dl>
+                  <dl class="re_one">
+                    <dt><font class="main-color">*</font>商品名称：</dt>
+		    <dd><input name="good_name" class="inputBg" type="text">
+		    <div class="required-notice"><i class="notice-icon"></i><span class="notice-text people-good_name-notice"></span></div></dd>
+                    </dl>
+                  <dl class="re_one">
+                    <dt><font class="main-color">*</font>消费金额：</dt>
+		    <dd><input name="order_amt" class="inputBg" onchange="check_order_amt();" type="text">
+		    <div class="required-notice"><i class="notice-icon"></i><span class="notice-text people-order_amt-notice"></span></div></dd>
+                 </dl>
+                   <dl class="re_one">
+                    <dt><font class="main-color">*</font>服务费：</dt>
+		    <dd><input name="order_bdf" readonly="readonly" class="inputBg" type="text">
+		    <div class="required-notice"><i class="notice-icon"></i><span class="notice-text people-order_bdf-notice"></span></div></dd>
+                 </dl>
+                    <dl class="re_one">
+                    <dt><font class="main-color"></font>上传发票：</dt>
+                   <dd>
+                      <input name="fp_url" onchange="view(this,'fp_url')" type="file">
+                      <br>
+		      <img src="/themes/default/images/fp.png" class="face_img" id="fp_url" width="250" height="168">
+		      <div class="required-notice"><i class="notice-icon"></i><span class="notice-text people-card-notice"></span></div></dd>
+                  </dl>
+                  <script type="text/javascript">
+function view(obj,id){
+    var src="";
+    if(document.all){
+        obj.select();
+        src = document.selection.createRange().text;
+        document.selection.empty();
+    }else{
+        var file=obj.files[0];
+        src=window.createObjectURL&&window.createObjectURL(file)||window.URL&&window.URL.createObjectURL(file)||window.webkitURL && window.webkitURL.createObjectURL(file);
+    }
+    document.getElementById(id).src=src;
+}
+</script>
+                   <dl class="re_one">
+                    <dt><font class="main-color"></font>上传商品清单：</dt>
+                    <dd>
+                      <input name="good_url" onchange="view(this,'good_url')" type="file">
+                      <br>
+                      <img src="/themes/default/images/qd.png" class="face_img" id="good_url" width="250" height="168">
+                      <div class="required-notice"><i class="notice-icon"></i><span class="notice-text people-card-notice"></span></div>
+                    </dd>
+                     </dl> 
+               
+               </div>
+   <div class="field submit-btn">
+                    	<input name="act" value="save_offline" type="hidden">
+                        <input name="submit" value="确认" class="btn_big1" type="submit">
+                 </div>
+              </form>
+		{/if}
+
+		{if $action eq 'offline'}
+		{include file='library/offline.lbi'}
+		{/if}
+		{if $action eq 'offline_order'}
+		{include file='library/offline_order.lbi'}
+		{/if}
+		{if $action eq 'order_static'}
+		{include file='library/user_order_static.lbi'}
+		{/if}
+		{if $action eq 'supplier_static'}
+		{include file='library/user_supplier_static.lbi'}
+		{/if}
+
+		{if $action eq 'messages'}
+		{include file='library/user_messages.lbi'}
+		{/if}
+		{if $action eq "account_manage"}
+			{include file='library/user_account.lbi'}
+		{/if}
+		{if $action eq "act_account"}
+			{include file='library/user_account_recharge.lbi'}
+		{/if}
+                {if $action eq "account_deposit"}
+                        {include file='library/user_account_recharge.lbi'}
+                {/if}
+                {if $action eq "account_raply"}
+                        {include file='library/user_account_withdraw.lbi'}
+                {/if}
+                {if $action eq "account_detail"}
+                        {include file='library/user_account_list.lbi'}
+                {/if}
+                {if $action eq "account_log"}
+                        {include file='library/user_account_detail.lbi'}
+                {/if}
+		{if $action eq "vc_login"}
+		{include file='library/user_vclogin.lbi'}
+		{/if}
+                {if $action eq 'my_comment'}{include file='library/user_comments.lbi'}{/if}
+        {if $action eq 'address'}{include file='library/user_address.lbi'}{/if}
+
+</div>
+
+<script language="javascript">
+$(function(){ 
+$('input[type=text],input[type=password]').bind({ 
+focus:function(){ 
+ $(".global-nav").css("display",'none'); 
+}, 
+blur:function(){ 
+ $(".global-nav").css("display",'flex'); 
+} 
+}); 
+}) 
+</script>
+</body>
+</html>

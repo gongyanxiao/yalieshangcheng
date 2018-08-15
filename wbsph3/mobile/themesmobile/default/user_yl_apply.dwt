@@ -1,0 +1,137 @@
+<!DOCTYPE html >
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<title>{$page_title}</title>
+<meta name="Keywords" content="{$keywords}" />
+<meta name="Description" content="{$description}" />
+<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+<link rel="stylesheet" type="text/css" href="themesmobile/default/css/public.css"/>
+<link rel="stylesheet" type="text/css" href="themesmobile/default/css/user.css"/> 
+<script type="text/javascript" src="themesmobile/default/js/jquery.js"></script>
+<script type="text/javascript" src="themesmobile/default/js/jquery.more.js"></script>
+{insert_scripts files='jquery.json.js,transport.js'}
+{insert_scripts files='common.js,utils.js','shopping_flow.js'}
+{if $action eq 'yl_apply'}
+<script type="text/javascript">
+var isloadding=false;
+function offline_detail() {
+    if(isloadding===true)
+    {
+        alert("报单提交中,请等待......");
+        return false;
+    }
+     $('form[name=formIdentity]').find('.main-btn').removeAttr("disabled");
+    var frm = document.forms['formIdentity'];
+    var yl_id = frm.elements['yl_id'].value;
+    frm.elements['iscommit'].value =1;
+    if (yl_id.length === 0) {
+        $('form[name=formIdentity]').find('.yl_id-notice').html('养老金不能为空').parents('.required-notice').css('visibility', 'visible'); 
+        frm.elements['iscommit'].value = 0;
+    } else {
+        $('form[name=formIdentity]').find('.yl_id-notice').html('').parents('.required-notice').css('visibility', 'hidden');
+    }
+    var real_name = frm.elements['real_name'].value;
+    if (real_name.length === 0) {
+        $('form[name=formIdentity]').find('.real_name-notice').html('真实姓名不能为空').parents('.required-notice').css('visibility', 'visible'); 
+        frm.elements['iscommit'].value = 0;
+    } else {
+        $('form[name=formIdentity]').find('.real_name-notice').html('').parents('.required-notice').css('visibility', 'hidden');
+    }
+    var idcard = frm.elements['idcard'].value;
+    if (idcard.length === 0) {
+        $('form[name=formIdentity]').find('.idcard-notice').html('身份证号不能为空').parents('.required-notice').css('visibility', 'visible'); 
+        frm.elements['iscommit'].value = 0;
+    } else {
+        $('form[name=formIdentity]').find('.idcard-notice').html('').parents('.required-notice').css('visibility', 'hidden');
+    }
+    var mobile_phone = frm.elements['mobile_phone'].value;
+    if (mobile_phone.length === 0) {
+        $('form[name=formIdentity]').find('.mobile_phone-notice').html('手机号不能为空').parents('.required-notice').css('visibility', 'visible'); 
+        frm.elements['iscommit'].value = 0;
+    } else {
+        $('form[name=formIdentity]').find('.mobile_phone-notice').html('').parents('.required-notice').css('visibility', 'hidden');
+    }
+   
+    if (frm.elements['iscommit'].value * 1 === 0)
+    {
+        return false;
+    }
+    isloadding=true;
+    return true;
+}
+</script>
+{/if}
+</head>
+<body>
+      <header>
+      <div class="tab_nav">
+        <div class="header">
+          <div class="h-left"><a class="sb-back" href="javascript:history.back(-1)" title="返回"></a></div>
+          <div class="h-mid">{if $action eq 'yl_apply'}养老申请{else}养老申请列表{/if}</div>
+          <div class="h-right">
+            <aside class="top_bar">
+              <div onClick="show_menu();$('#close_btn').addClass('hid');" id="show_more"><a href="javascript:;"></a> </div>
+            </aside>
+          </div>
+        </div>
+      </div>
+      </header>
+       	<!-- #BeginLibraryItem "/library/up_menu.lbi" --><!-- #EndLibraryItem --> <!--弹出菜单-->
+<div id="tbh5v0">
+		{if  $action eq 'yl_apply'}
+<h2 class="vc_title"><a href="user.php?act=yl_list" style="float:right;color:red;padding-right:10px;">养老申请列表</a></h2>
+<form name="formIdentity" action="user.php" method="post" onsubmit="return offline_detail();" enctype="multipart/form-data">
+                <input name="iscommit" value="0" type="hidden">
+                <div class="recharge">
+                 <dl class="re_one">
+                    <dt><font class="main-color">*</font>养老金：</dt>
+		    <dd> <select name="yl_id">
+                {foreach from=$pension_infos item=item}
+                <option value='{$item.id}'>{$item.pension_name}({$item.money})</option>
+                {/foreach}
+                </select>
+		    <div class="required-notice"><i class="notice-icon"></i><span class="notice-text yl_id-notice"></span></div></dd>
+                 </dl>
+                  <dl class="re_one">
+                    <dt><font class="main-color">*</font>真实姓名：</dt>
+		    <dd><input name="real_name" value="{$userinfos.real_name}" class="inputBg" type="text">
+		    <div class="required-notice"><i class="notice-icon"></i><span class="notice-text real_name-notice"></span></div></dd>
+                    </dl>
+                  <dl class="re_one">
+                    <dt><font class="main-color">*</font>身份证号：</dt>
+		    <dd><input name="idcard" value="{$userinfos.card}" class="inputBg"  type="text">
+		    <div class="required-notice"><i class="notice-icon"></i><span class="notice-text idcard-notice"></span></div></dd>
+                 </dl>
+                   <dl class="re_one">
+                    <dt><font class="main-color">*</font>手机号：</dt>
+		    <dd><input name="mobile_phone" value="{$userinfos.mobile_phone}" class="inputBg" type="text">
+		    <div class="required-notice"><i class="notice-icon"></i><span class="notice-text mobile_phone-notice"></span></div></dd>
+                 </dl>
+               </div>
+                <div class="field submit-btn">
+                        <input type="hidden" name="postToken" value="{$postToken}" />
+                    	<input name="act" value="act_yl_apply" type="hidden">
+                        <input name="submit" value="确认" class="btn_big1" type="submit">
+                 </div>
+              </form>
+		{/if}
+		{if $action eq 'yl_list'}
+		{include file='library/yl_list.lbi'}
+		{/if}
+</div>
+<script language="javascript">
+$(function(){ 
+$('input[type=text],input[type=password]').bind({ 
+focus:function(){ 
+ $(".global-nav").css("display",'none'); 
+}, 
+blur:function(){ 
+ $(".global-nav").css("display",'flex'); 
+} 
+}); 
+}) 
+</script>
+</body>
+</html>

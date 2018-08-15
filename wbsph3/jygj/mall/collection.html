@@ -1,0 +1,204 @@
+<?
+header("Content-type:text/html;charset=utf-8");
+include("config/zt_config.php");
+include("config.php");
+include("config/page.class.php");
+$link = mysqli_connect($db_host,$db_user,$db_pwd,$db_database) or die('Unale to link');
+$link->set_charset('utf8');
+$query1=$link->query("select * from xbmall_users where user_name='".$_COOKIE['ECS']['username']."'"); 
+$r1=$query1->fetch_array();
+$query2='';
+if($r1['lx']==1) {
+$query2=$link->query("select * from zt_shopinfo where userid=".$r1['id']); 
+} else {
+$query2=$link->query("select * from zt_memberinfo where userid=".$r1['id']); 	
+}
+$r2=$query2->fetch_array(); 
+$cpids=strtr($r2['sc'],array("|"=>","));
+$sql1="SELECT * FROM  `zt_goods` where id in (".$cpids.")";
+$qry1=$link->query($sql1);
+$total=$qry1->num_rows;
+$per=24;
+$page_obj=new Page($total,$per);
+$sqla1=$sql1." limit ".($page_obj->page-1)*$per.",".$per;
+$qrya1=$link->query($sqla1);
+$pagelist=$page_obj->fpage(array(0,2,4,5,6,9));
+
+$p=isset($page_obj->page)?$page_obj->page:1;
+$num=($p-1)*$per;
+?>
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title><?=_TITLE_?></title>
+    <meta name="keyword" content="<?=_KEYWORD_?>"/>
+    <meta name="description" content="<?=_DESCRIPTION_?>"/>
+    <link href="/Public/ico.ico" type="image/x-icon" rel="shortcut icon" /> 	
+    <link rel="stylesheet" type="text/css" href="/jygj/Public/home/css/index.css">
+    <script type="text/javascript" src="/jygj/Public/home/js/jquery-1.7.2.js"></script>
+    <style type="text/css">
+        table .epages b{margin-top:0px;}
+    </style>
+
+</head>
+<body >
+<div class="warp">
+    <!------最顶部开始------>
+  <?
+        include("sheader1.html");
+		?>
+  <!------logo结束------>
+<script>
+	$(function(){
+		$(".open_xl").click(function(){
+			$(".xiala").show();
+		})
+		$(".xiala a").click(function(){
+			var xq=$(this).html();
+			$(".open_xl a").html(xq);
+			$(this).parent().hide();
+		})
+	})
+</script>
+
+<!------导航开始------><!------导航结束------>
+<div id="jsgj"></div>
+
+    <!----内容开始---->
+  <div class="warp_moer">
+
+        <div class="warp_h">
+            <!----right内容开始---->
+            <div class="warp_h_right">
+
+                <div class="warp_f">
+
+                    <div class="warp_f_div">
+                        <b>我的收藏</b>
+                    </div>
+
+                    <table border="1" cellspacing="0" cellpadding="0" class="warp_f_th">
+                        <tr>
+                            <th width="660">商品</th>
+                            <th width="85">单价</th>
+                            <th>操作</th>
+                        </tr>
+                    </table>
+
+                    <table border="1" cellspacing="0" cellpadding="0" class="warp_f_ble" id="warp_f_ble">
+                        				<?                    
+if($total==0) {
+    echo "<center>您尚未收藏任何产品！</center>";
+} else {
+?>
+        
+<?
+while($rst1=$qrya1->fetch_array()){		
+?> 
+		<tr>
+
+<td width="660"><a href="cpcontent.html?cpid=<?=$rst1[id];?>" title="<?=$rst1[spmc];?>" style="color:#666;"><?=$rst1[spmc];?></a></td>
+						
+							<td width="85"><i>￥</i><?=$rst1[spjg];?></td>
+<td><?if($rst1[sfsj]==1) {?>
+								<center><button onclick="sc_qx(<?=$rst1[id]?>)" style="background-color: #00459A;color: #fff">取消收藏</button></center>
+		<?} else {?>
+<center><span style="top: 2%;width: 90%;left: 5%;">该商品已经下架，是否</span><button onclick="sc_qx(<?=$rst1[id]?>)" style="background-color: #f00;color: #fff">取消收藏</button></center>
+							<?}?></td></tr>
+                       
+		<?
+	    }
+	    ?>
+
+
+<tr height="22">  <td colspan="3">               
+<center>
+
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" style="text-align: center;">
+  <tr>
+    <td height="21"><div class="epages"><?=$pagelist;?></div></td>
+  </tr>
+</table>
+
+</center> </td> </tr>
+<?
+}
+?>	
+                    </table>
+    <script>
+                        function sc_qx(id)
+                        {
+                            if(confirm("您确认取消收藏吗？"))
+                            {
+                                $.post("/goods/collection_qx.html",{id:id },function (data){
+                                    location.href = location.href;
+                                })
+                            }
+                        }
+                        </script>
+                    <div class="warp_f_mp">
+                        <!----下一页开始---->
+                        <div class="warp_f_mp_xia">
+                      </div>
+                        <!----下一页结束---->
+                        
+                    </div>
+
+                </div>
+
+
+            </div>
+            <!----right内容结束---->
+
+            <!----left内容开始---->
+            <div class="warp_h_left">
+	<?
+    include_once "left_p_menu.html";
+    ?>
+
+	<a href="" class="warp_h_left_gg"><img src="/jygj/Public/home/img/im113.jpg" width="170" height="207"></a>
+	
+</div>
+            <!----left内容结束---->
+        </div>
+
+    </div>
+    <!----内容结束---->
+
+    <!------底部开始------>
+
+  <div class="warp_e_db"></div>
+
+
+
+
+	</div>
+	
+</div>
+<?include("sfooter.html");?>
+    <!------底部结束------>
+     <script src="js/jquery.min.js"></script>
+<script type="text/javascript">
+
+function sc_qx(id){
+var con = confirm('确定取消收藏所选商品吗？')
+            if(con){
+var dataString='id='+id;
+$.ajax({
+type: "POST",  
+url: "del_sc.php",  
+data:dataString,  
+cache:false,  
+success:function(html){  
+$("#jsgj").html(html);
+ }
+ })
+ }
+
+}
+
+</script>
+</div>
+</body>
+</html>

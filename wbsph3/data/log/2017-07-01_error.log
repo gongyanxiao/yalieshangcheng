@@ -1,0 +1,31 @@
+发生错误：<table border="1" style="" align="center"><tr><td style="padding: 10px;">消息</td><td style="padding: 10px;">MySQL Query Error</td></tr><tr><td style="padding: 10px;">SQL</td><td style="padding: 10px;">SELECT SUM(b.order_amt) AS integral,
+			'线下积分订单',
+			u.real_name,
+			u.mobile_phone,
+			u.user_id as user_id FROM `xiangbai`.`xbmall_order_bd` as a JOIN `xiangbai`.`xbmall_users` u  ON a.user_id = u.user_id  and  type =1 </td></tr><tr><td style="padding: 10px;">错误</td><td style="padding: 10px;">Unknown column 'b.order_amt' in 'field list'</td></tr><tr><td style="padding: 10px;">代码</td><td style="padding: 10px;">1054</td></tr></table>
+发生错误：<table border="1" style="" align="center"><tr><td style="padding: 10px;">消息</td><td style="padding: 10px;">MySQL Query Error</td></tr><tr><td style="padding: 10px;">SQL</td><td style="padding: 10px;">SELECT SUM(a.integral) AS integral,
+			'线上积分订单',
+			u.real_name,
+			u.mobile_phone,
+			u.user_id as user_id FROM `xiangbai`.`xbmall_order_info` as a JOIN `xiangbai`.`xbmall_users` u  ON a.user_id = u.user_id 
+            where a.integral>0   union  SELECT SUM(b.order_amt) AS integral,
+			'线下积分订单',
+			u.real_name,
+			u.mobile_phone,
+			u.user_id as user_id FROM `xiangbai`.`xbmall_order_bd` as a JOIN `xiangbai`.`xbmall_users` u  ON a.user_id = u.user_id
+            where  type =1  </td></tr><tr><td style="padding: 10px;">错误</td><td style="padding: 10px;">Unknown column 'b.order_amt' in 'field list'</td></tr><tr><td style="padding: 10px;">代码</td><td style="padding: 10px;">1054</td></tr></table>
+发生错误：<table border="1" style="" align="center"><tr><td style="padding: 10px;">消息</td><td style="padding: 10px;">MySQL Query Error</td></tr><tr><td style="padding: 10px;">SQL</td><td style="padding: 10px;">SELECT SUM(a.integral) AS integral,
+			'线上积分订单',
+			u.real_name,
+			u.mobile_phone,
+			u.user_id as user_id FROM `xiangbai`.`xbmall_order_info` as a JOIN `xiangbai`.`xbmall_users` u  ON a.user_id = u.user_id 
+            where a.integral>0   union  SELECT SUM(b.order_amt) AS integral,
+			'线下积分订单',
+			u.real_name,
+			u.mobile_phone,
+			u.user_id as user_id FROM `xiangbai`.`xbmall_order_bd` as a JOIN `xiangbai`.`xbmall_users` u  ON a.user_id = u.user_id
+            where  type =1  </td></tr><tr><td style="padding: 10px;">错误</td><td style="padding: 10px;">Unknown column 'b.order_amt' in 'field list'</td></tr><tr><td style="padding: 10px;">代码</td><td style="padding: 10px;">1054</td></tr></table>
+发生错误：<table border="1" style="" align="center"><tr><td style="padding: 10px;">消息</td><td style="padding: 10px;">MySQL Query Error</td></tr><tr><td style="padding: 10px;">SQL</td><td style="padding: 10px;">SELECT count(0) as num    from  `xiangbai`.`xbmall_users` where 1  and u.real_name like '%周英杰%' </td></tr><tr><td style="padding: 10px;">错误</td><td style="padding: 10px;">Unknown column 'u.real_name' in 'where clause'</td></tr><tr><td style="padding: 10px;">代码</td><td style="padding: 10px;">1054</td></tr></table>
+发生错误：<table border="1" style="" align="center"><tr><td style="padding: 10px;">消息</td><td style="padding: 10px;">MySQL Query Error</td></tr><tr><td style="padding: 10px;">SQL</td><td style="padding: 10px;">SELECT count(0) as num    from  `xiangbai`.`xbmall_users` where 1  and u.real_name like '%周英杰%' </td></tr><tr><td style="padding: 10px;">错误</td><td style="padding: 10px;">Unknown column 'u.real_name' in 'where clause'</td></tr><tr><td style="padding: 10px;">代码</td><td style="padding: 10px;">1054</td></tr></table>
+发生错误：<table border="1" style="" align="center"><tr><td style="padding: 10px;">消息</td><td style="padding: 10px;">MySQL Query Error</td></tr><tr><td style="padding: 10px;">SQL</td><td style="padding: 10px;">SELECT count(0) as num    from  `xiangbai`.`xbmall_users` where 1  and u.real_name like '%周英杰%' </td></tr><tr><td style="padding: 10px;">错误</td><td style="padding: 10px;">Unknown column 'u.real_name' in 'where clause'</td></tr><tr><td style="padding: 10px;">代码</td><td style="padding: 10px;">1054</td></tr></table>
+发生错误：<table border="1" style="" align="center"><tr><td style="padding: 10px;">消息</td><td style="padding: 10px;">MySQL Query Error</td></tr><tr><td style="padding: 10px;">SQL</td><td style="padding: 10px;">SELECT count(0) as num    from  `xiangbai`.`xbmall_users` where 1  and u.real_name like '%周英杰%' </td></tr><tr><td style="padding: 10px;">错误</td><td style="padding: 10px;">Unknown column 'u.real_name' in 'where clause'</td></tr><tr><td style="padding: 10px;">代码</td><td style="padding: 10px;">1054</td></tr></table>

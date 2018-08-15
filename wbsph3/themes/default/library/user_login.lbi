@@ -1,0 +1,58 @@
+{if !$userid }
+<div class="login-form panel margin-top-10" id="member-login-dialog">
+			<div class="panel-heading">
+				<h5 class="panel-title">用户登录</h5>
+				<a href="/register.php" class="more txt-red">立即注册</a>
+			</div>
+			<div class="panel-body">
+				<form class="form"  name="formLogin"  action="user.php?XDEBUG_SESSION_START=ECLIPSE_DBGP" method="post" onSubmit="return user_login(1)">
+                                 <div class="msg-wrap">
+                    <div class="msg-error">
+                        <i class="msg-icon"></i><span id="msg-error-text" class="msg-error-text"></span>
+                    </div>
+                </div>
+					<div class="form-group">
+						<input type="text" autocomplete="off" class="form-control input-sm" id="username" name="username" placeholder="会员账号">
+					</div>
+					<div class="form-group">
+						<input type="password" autocomplete="off" class="form-control input-sm" id="password" name="password"  placeholder="密码">
+					</div>
+                                        <div class="form-group">
+						<input type="password" autocomplete="off" class="form-control input-sm" id="pay_password" name="pay_password"  placeholder="二级密码">
+					</div>
+                                        {if $enabled_captcha}
+                                        <div class="item item-authcode clearfix" id="o-authcode">
+                	<div class="item-detail fl">
+                    	<i class="icon"></i>
+                        <input type="text" id="authcode" name="captcha" class="text text-1" tabindex="3"/>
+                    </div>
+                    <label class="img fl"> <img src="captcha.php?is_login=1&{$rand}" alt="captcha" style="vertical-align: middle;cursor: pointer;" onClick="this.src='captcha.php?is_login=1&'+Math.random()" /> </label>
+                </div>
+                                        {/if}
+					<div class="form-group">
+                                            <input type="hidden" name="act" value="act_login" />
+                  <input type="hidden" name="back_act" value="{$back_act}" />
+                  <input type="submit" name="submit" class="btn btn-danger btn-sm btn-block btn-img btn-entry" id="loginsubmit" value="立即登录" />
+					</div>
+				</form>
+			</div>
+</div>
+{else}
+<div class="user-have-login" style="margin-top:20px;">
+                                	<div class="user-pic" style="text-align:center;">
+                                        <div class="user-pic-mask"></div>
+                                        <!--{if $userinfo.headimg}-->
+                                        <a href="user.php"><img src="{$userinfo.headimg}" style="width:120px;" /></a>
+                                        <!--{else}-->
+                                        <img src="themes/default/images/people.gif" />
+                                        <!--{/if}-->
+                                    </div>
+                                    <div class="user-info" style="margin:0 auto;padding-left:60px;height:20px;line-height:20px;text-algin:center;">
+                                    	<a href="user.php"><p style="text-algin:center;">{$userinfo.user_name}</p></a>
+                                    </div>
+                                </div>
+                                <p  style="border-bottom:1px solid #dedede;padding-left:20px;">
+                                	<a class="btn order-btn" href="user.php?act=order_list">订单中心</a>
+									<a class="btn account-btn" href="user.php?act=account_detail">帐户中心</a>
+                                </p>
+{/if}

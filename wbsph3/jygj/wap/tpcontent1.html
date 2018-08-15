@@ -1,0 +1,137 @@
+<?  
+    include("conn.php");
+    $ma=array(1,5,8,7);
+    $pid = htmlspecialchars(trim($_GET['tpid']));
+    $sqla="select * from phome_ecms_news where id = ".$pid;
+    $querya=mysql_query($sqla);
+    $rowa=mysql_fetch_array($querya);
+    $mid=$rowa;
+    if(empty($rowa)) {
+        $sqlh="select * from phome_ecms_video where id = ".$pid;
+        $queryh=mysql_query($sqlh);
+        $rowh=mysql_fetch_array($queryh);
+        $mid=$rowh;
+    }
+    if(!in_array($mid[classid],$ma)){
+        //重定向浏览器 
+        header("Location:../error.html"); 
+        //确保重定向后，后续代码不会被执行 
+        exit;
+    }
+    if($mid[isurl]==1) {
+        header("Location:$mid[titleurl]"); 
+        //确保重定向后，后续代码不会被执行 
+        exit;
+    }
+    $sql="select * from phome_ecms_shop where id=".$pid;
+    $query=mysql_query($sql);
+    $row=mysql_fetch_array($query);
+    $sqlb="select * from phome_ecms_news_data_1 where id=".$pid;
+    $queryb=mysql_query($sqlb);
+    $rowb=mysql_fetch_array($queryb);
+    $sqlc="select * from `phome_enewsclass` where classid=".$mid[classid];
+    $queryc=mysql_query($sqlc);
+    $rowc=mysql_fetch_array($queryc);
+?>
+<!DOCTYPE html>
+<html>
+<head lang="en">
+     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <title><?=$connarr['pagetitle']?></title>
+    <meta name="keyword" content="<?=$connarr['pagekey']?>"/>
+    <meta name="description" content="<?=$connarr['pagedes']?>"/>
+    <link href="/Public/ico.ico" type="image/x-icon" rel="shortcut icon" /> 
+    <link rel="stylesheet" type="text/css" href="/css/index.css">
+    <link rel="stylesheet" type="text/css" href="/css/swiper.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/component.css">
+    <script type="text/javascript" src="/js/jquery-1.7.2.js"></script>
+    <script type="text/javascript" src="/js/swiper.min.js"></script>
+    <script type="text/javascript" src="/js/modernizr.custom.js"></script>
+    <script type="text/javascript" src="/js/jquery.dlmenu.js"></script>
+</head>
+<body>
+
+<div class="warp">
+    <!--------头部开始-------->
+    <?include("wheader.html");?>
+    <!--------头部结束-------->
+
+    <!--------内容开始-------->
+    <div class="warp_y">
+
+        <div class="warp_y_mor">
+            <div class="warp_y_mor_iv">
+                <span><?=$rowc['classname']?></span>
+            </div>
+        </div>
+
+        <div class="warp_w">
+         
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+	<?php
+
+if($mid[video]<>""){
+?>
+
+
+
+    
+
+
+<div id="a1" style="margin: 10px auto;width: 695px;"></div>
+<script type="text/javascript" src="/ckplayer/ckplayer.js" charset="utf-8"></script>
+<script type="text/javascript">
+    var flashvars={
+        f:'/video/<?=$mid[video]?>.flv',
+        c:0
+    };
+    var params={bgcolor:'#FFF',allowFullScreen:true,allowScriptAccess:'always',wmode:'transparent'};
+    var video=['/video/<?=$mid[video]?>.mp4->video/mp4'];
+    CKobject.embed('/ckplayer/ckplayer.swf','a1','ckplayer_a1','50%','100%',false,flashvars,video,params);
+</script>
+
+
+<?
+}
+?>
+</tr>
+<tr>
+<td id="text"><?=stripslashes($rowb[newstext]);?></td>
+</tr>
+</table>
+<?
+@mysql_close($conn);
+?>
+          </div>
+
+<script type="text/javascript">
+    var w=$('#text img').css('width');
+    var sw=screen.availWidth;
+    w=w.substr(0,w.length-2);
+    if(w>sw){
+        $('#text img').css('width',sw+'px');
+        $('#text img').css('height','auto');
+    }
+</script>
+
+    </div>
+
+    <!--------内容结束-------->
+
+    <!--------底部开始-------->
+    <?include("wfooter.html");?> 
+    <!--------底部结束-------->
+</div>
+
+
+<script type="text/javascript">
+    $(function(){
+        $( '#dl-menu' ).dlmenu();
+    });
+</script>
+
+</body>
+</html>

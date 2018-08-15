@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="renderer" content="webkit">
+  
+    <link rel="stylesheet" href="css/index.css">
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/jquery.SuperSlide.2.1.1.js"></script>
+ <script type="text/javascript">
+ 
+ 
+ 
+ <?php  
+		    include "../../jygj/mall/myphplib/db.php";
+		    include "../../jygj/mall/myphplib/message.php";
+		    include "../../jygj/mall/myphplib/page.php";
+		    $act_id = $_REQUEST['act_id'];
+		    
+		     //进入抽奖页面时, 暂停报名
+		      $sql="update  xbmall_goods_activity set is_finished = 2 where act_id ={$act_id} ";
+		      mysql_query($sql);
+		      
+		      
+		      
+		    $sql="select * from  xbmall_goods_activity  where act_id={$act_id}";
+		    $goods_activity = getRow($sql);
+		    $ext_info = unserialize($goods_activity['ext_info']);
+	        $goods_activity = array_merge($goods_activity, $ext_info);
+	        
+	        
+		    echo "var num ={$goods_activity['num']};";
+ 		//查询报名
+ 		    $sql="select user_name,real_name from  xbmall_hd_chou_jiang_bao_ming where act_id={$act_id}";
+ 		    $res = mysql_query($sql);
+ 	        
+ 		   $jsArr = "var total = [";
+	        while ($row = mysql_fetch_array($res))
+	        {   
+	        	$jsArr.="{'name':'".$row['real_name']."','phone':'".$row['user_name']."'},";
+	            $i++;
+	        }
+	        if($i>1){
+	        	$jsArr =  substr($jsArr,0,-1);
+	        }
+	        $jsArr .= "];";
+		   echo  $jsArr;
+		   
+?>
+
+function  zhong_jiang(){
+	 var userNames ="";
+	$(".prize_list ul").find("li" ).each(function(obj){
+		userNames = userNames + $(this).text().split("_")[1]+",";
+	 }) ;
+
+	//上传中奖信息
+  	var url =   "index.php";
+	var params =  "act_id=<?php echo $act_id;?>&user_names="+userNames;
+		$.post(url,params, function(data) {
+		     if(data!=0){
+		    	 alert("中奖结果未保存");
+		     }	 
+
+		});
+  }
+ 
+ </script>
+   <title>限时抽奖:<?php  echo  $goods_activity['goods_name'];?></title>
+   
+   
+</head>
+<body>
+<div class="wrap">
+ 
+    <div class="prize_con">
+        <p class="prize_grade"><span>开始抽奖</span> <i></i></p>
+        <div class="prize_list vetically">
+            <ul class="list" id="list">
+           
+                <li><?php echo  $row['real_name']."_".$row['user_name'];?></li>
+           
+            </ul>
+        </div>
+        <p class="start"><img src="images/prize_start.png" alt=""></p>
+        <!-- 文件保存格式 value="" -->
+        <input type="text" name="filename" id="filename" value="中奖名单.html" style="display:none;"/>
+        <!-- .csv后缀 -->
+        <button id="saveBtn">保存名单</button>
+        <div class="next">
+         <a href="../xing_yun_chou_jiang/prize.html">下一轮</a>
+         </div>
+    </div>
+
+</div>
+<input type="hidden" value="0" id="prize_btn">
+<script type="text/javascript">
+    jQuery(".prize_list").slide({
+        mainCell: ".list",
+        autoPage: true,
+        effect: "top",
+        autoPlay: true,
+        scroll: 10,
+        vis: 10,
+        easing:"easeOutCirc",
+        delayTime: 1000,
+        pnLoop: false,
+        mouseOverStop: true
+    });
+</script>
+<script type="text/javascript" src="js/blob.js"></script>
+<script type="text/javascript" src="js/filesaver.js"></script>
+<script type="text/javascript" src="js/index.js"></script>
+</body>
+</html>

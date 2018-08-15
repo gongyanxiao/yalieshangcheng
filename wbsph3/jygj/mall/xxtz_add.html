@@ -1,0 +1,158 @@
+<?php
+  include "config.php" ;
+ 
+?>
+<!DOCTYPE html>
+<html>
+<head lang="en">
+<meta charset="UTF-8">
+<title><?=_TITLE_?></title>
+<meta name="keyword" content="<?=_KEYWORD_?>" />
+<meta name="description" content="<?=_DESCRIPTION_?>" />
+<link href="/Public/ico.ico" type="image/x-icon" rel="shortcut icon" />
+<link rel="stylesheet" type="text/css" href="/jygj/Public/home/css/page.css">
+<link rel="stylesheet" type="text/css" href="/jygj/Public/home/css/index.css" />
+<script type="text/javascript" src="/jygj/Public/home/js/jquery-1.7.2.js"></script>
+<script type="text/javascript" src="/Public/js/jquery.flexslider-min.js"></script>
+
+</head>
+
+
+<body >
+	<div class="warp">
+		<!------最顶部开始------>
+		<!------logo结束------>
+		<script>
+			$(function() {
+
+			});
+		</script>
+
+		<!------导航开始------>
+		<?
+        include("sheader1.html");
+		?>
+		<!------导航结束------>
+		<?php
+include "myphplib/db.php";
+include "config/check.php";
+date_default_timezone_set("Asia/Shanghai");
+$user=$_COOKIE['ECS']['username'];
+ 
+//调取用户的银行卡号
+$sql="select yhkh from zt_bind_bank where ssyh='$user'";
+$yhkh=getRow($sql);
+ $sql=" select * from  xbmall_users where user_name='$user'";
+$userInfo =  getRow($sql);
+session_start();
+$_SESSION["addXXFT"]="1";
+
+ ?>
+
+		<!----内容开始---->
+		<div class="warp_moer">
+
+			<div class="warp_h">
+				<!----right内容开始---->
+				<div class="warp_h_right">
+
+					<div class="warp_f"  >
+						<form action="xxtz_add.php">
+							<table border="1" cellspacing="0" cellpadding="0" 
+								class="warp_f_th">
+								<tr>
+									<td align="center">今天最多可以投/复投:</td>
+									<td colspan ="2" align="left"><?php  echo  todayInvestC($user)?> 元(账户余额<?php echo $userInfo['xxtzztxjf']+$userInfo['dian_pu_zi_jin']+$userInfo['tui_jian_shou_yi'] ?>元)</td>
+								</tr>
+								<tr>
+									<td align="center">投资金额(3600的整数倍)</td>
+									<td align="left"><input type="text" size="8"  name="czje" id="czje" value="3600">元
+									</td>
+								</tr>
+								<tr>
+								    <td align="center">&nbsp;</td>
+									<td align="left" ><button type="submit" onclick="return beforeSubmit()" style="width:150px">提交</button></td>
+								</tr>
+							</table>
+						</form>
+					</div>
+
+				</div>
+				<!----right内容结束---->
+
+				<!----left内容开始---->
+				<div class="warp_h_left">
+					<?
+		   			 include_once "left_p_menu.html";
+					 mysql_close($db);
+  					?>
+					<a href="" class="warp_h_left_gg"><img
+						src="/jygj/Public/home/img/im113.jpg" width="170" height="207"></a>
+				</div>
+				<!----left内容结束---->
+			</div>
+
+		</div>
+		<!----内容结束---->
+        <script>
+          function  beforeSubmit(){
+        	    if($("#czje").val()%3600!=0){
+        	    	alert("充值金额必须是3600的整数倍");
+        	    	return false;
+        	    }  
+           	     var msg = "您真的确定要投资"+$("#czje").val()+"？\n\n请确认！"; 
+           	     if (window.confirm(msg)){ 
+           	       return true; 
+           	     }else{ 
+           	       return false; 
+           	     } 
+          }
+        
+        </script>
+
+		<!------底部开始------>
+		<?include("sfooter.html");?>
+		<!------底部结束------>
+	</div>
+</body>
+</html>
+
+<?php  
+function  todayInvestC($operateUser){
+   /**
+	 * 今日 ,  本周,   本月
+	 */
+	$now = time();//提交时间
+	$day = $now - 3600*24;
+	$week = $now - 3600*24*7;
+	$month = $now - 3600*24*30;
+	
+	//今天已经投资了多少
+	$sql="select count(0) from  zt_xxtz where    user='{$operateUser}' and  cj_state=0 and  tjrq   between  $day and  $now  ";
+	$dayC = getOne($sql);
+	
+	//7天内的投资份数
+	$sql="select count(0) from  zt_xxtz where    user='{$operateUser}' and cj_state=0 and tjrq   between  $week and  $now  ";
+	$weekC = getOne($sql);
+	/**
+	 * 30天内的投资份数
+	 */
+	$sql="select count(0) from  zt_xxtz where    user='{$operateUser}' and cj_state=0  and tjrq   between  $month and  $now  ";
+	$monthC = getOne($sql);
+	
+	$monthC = 50-$monthC;
+	$weekC = 20-$weekC;
+	$dayC =  10-$dayC;
+	$min = $monthC;
+	if($min>$weekC){
+		$min = $weekC;
+	}
+	if($min>$dayC){
+		$min = $dayC;
+	}
+	return  $min*3600;
+
+}
+?>
+ 
+ 

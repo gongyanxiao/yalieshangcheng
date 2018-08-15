@@ -1,0 +1,52 @@
+<?php
+error_reporting(0);
+$referer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : NULL;
+$host = $_SERVER['HTTP_HOST'];
+if(substr($referer,7,strlen($host)) != $host){
+ echo '非法操作';
+exit();
+}
+header("Content-type: text/html; charset=utf-8"); 
+include "../config/zt_config.php";
+include "../config/zt_class.php";
+$db=mysql_connect($db_host,$db_user,$db_pwd);
+mysql_query("SET NAMES $coding"); 
+mysql_select_db($db_database);
+$yzm=htmlspecialchars($_POST["yzm"]);
+$pass1=htmlspecialchars(trim($_POST["pass1"]));
+$pass2=htmlspecialchars(trim($_POST["pass2"]));
+$yhm=htmlspecialchars(trim($_POST["user"]));
+$dx=$_COOKIE['yzm'];
+$user=$_COOKIE['user'];
+if($yhm<>$user){
+	echo '<script>alert("请确认您输入的用户名是否正确!")</script>';
+	exit();
+}
+if($pass1==""){
+	echo '<script>alert("密码不能为空!")</script>';
+	exit();
+}
+if($pass2==""){
+echo '<script>alert("确认密码不能为空!")</script>';
+	exit();
+}
+if($dx<>$yzm){
+	echo '<script>alert("短信验证码不正确!")</script>';
+	exit();
+}
+
+if($pass1==$pass2){
+function do_hash($pass1){
+$salt = 'zocabef88332342949fdsafagfdgv43532ju76jMfasdfa2349203408242042';   
+return md5($pass1.$salt); 
+}
+$mm1=do_hash($pass1);
+$query="update  xbmall_users  set pass='$mm1' where user='$yhm';";
+$re=mysql_query($query,$db);
+if($re){
+echo '<script>alert("【聚元国际】提醒您：密码已修改请牢记!");</script>';
+echo '<script>'.'location.href="../mall/member_login.html";</script>';
+exit();
+}
+}
+?>

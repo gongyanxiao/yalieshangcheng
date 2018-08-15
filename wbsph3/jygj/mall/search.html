@@ -1,0 +1,205 @@
+<?
+include("config/zt_config.php");
+include("config.php");
+$link = mysqli_connect($db_host,$db_user,$db_pwd,$db_database) or die('Unale to link');
+$link->set_charset('utf8');
+$type=htmlspecialchars(trim($_GET['type']));
+$title=htmlspecialchars(trim($_POST['title']));
+$ord = htmlspecialchars(trim($_GET['ord']));
+
+$aid=htmlspecialchars(trim($_GET['aid']));
+$bid=htmlspecialchars(trim($_GET['bid']));
+if(empty($bid)) {
+	$bid="a";
+}
+?>
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>搜索_网络平台_<?=_TITLE_?></title>
+    <meta name="keyword" content="<?=_KEYWORD_?>"/>
+    <meta name="description" content="<?=_DESCRIPTION_?>"/>
+    <link href="/Public/ico.ico" type="image/x-icon" rel="shortcut icon" /> 
+    <link rel="stylesheet" type="text/css" href="/jygj/Public/home/css/index.css">
+    <script type="text/javascript" src="/jygj/Public/home/js/jquery-1.7.2.js"></script>
+ <script type="text/javascript" src="/js/index.js"></script>
+</head>
+<body >
+
+<input type="hidden" value="" id="title">
+<div class="warp">
+
+<!------导航结束------>
+<?
+include("sheader.html");
+?>
+
+    <!----内容开始---->
+    <div class="warp_moer">
+        <? 			
+			$sqla="SELECT * FROM  `zt_ad` where type=5 order by id desc limit 0,1";
+	        $qrya=$link->query($sqla);
+	        $rst1=$qrya->fetch_array();
+	    ?>
+              
+<a href='<?=$rst1['url']?>' target=_blank><img src='<?=strtr($rst1['tpurl'],array("../"=>"/mall/"));?>' border=0 width='1200' height='99' alt=''></a>
+
+        <ul class="warp_k">
+        	<li><span><a href="/">首页</a></span></li><li><span>&gt;</span></li><li><span><a title="搜索结果">搜索结果</a></span></li>
+        
+            </ul>
+
+        <div class="warp_j">
+            <div class="warp_j_right">
+                <div class="warp_j_right_div">
+               
+                <?
+                	 if($type==2) {
+                ?>
+                   <ul class="fix_k_fl">
+                        <li>
+                            <select name="location_p" id="location_p" class="fix_k">
+                                
+                            </select>
+                            
+                        </li>
+                        <li>
+                            <select name="location_c" id="location_c" class="fix_k">
+                            
+                            </select>
+
+                        </li>
+                         <li>
+                            <select name="location_a" id="location_a" class="fix_k">
+                            
+                            </select>
+
+                        </li>
+                        
+                      <script language="javascript" type="text/javascript"> 
+                            $(document).ready(function(){ 
+                            $('#location_a').change(function(){
+                            var title="<?=$title?>";
+                            //alert($(this).children('option:selected').val()); 
+                            var p1=$(this).children('option:selected').val();//这就是selected的值 
+                            window.location.href="search.html?type=2&aid="+p1;//页面跳转并传参 
+                            }) 
+                            }) 
+                        </script>
+                        <script src="/jygj/Public/home/js/region_select.js"></script>
+                        <script type="text/javascript">
+                                new PCAS('location_p', 'location_c', 'location_a', '不限', '不限', '不限');
+                        </script>
+                     <script type="text/javascript">
+                        function f1(url){
+                            var xhr=new XMLHttpRequest();
+                            xhr.onreadystatechange=function() {
+                                //console.log(xhr.readyState);
+                                if(xhr.readyState==4&&xhr.status==200){
+                                    document.getElementById("warp_j_right_cp").innerHTML=xhr.responseText;
+                                }
+                            }
+                            xhr.open("get",url);
+                            xhr.send(null);
+                        }
+                        window.onload=function() {
+                            var url="abslist.html?x=1<?=empty($aid)?'':'&aid='.$aid;?><?=empty($title)?'':'&title='.$title;?>";
+                            f1(url);
+                        }
+                     </script>
+                    </ul>             
+                 <?
+                 	} else {
+                 ?>
+                    <ul class="warp_j_right_ul">
+                    <?	if(empty($ord)) {?>
+			        	<li class="current">
+					<?	} else {?>
+						<li>
+					<?	}?>
+                       <span><a href="search.html?type=1&lmid=1&title=<?=$title?>">默认</a></span></li>
+                    <?	if($ord==1) {?>
+			        	<li class="current">
+					<?	} else {?>
+						<li>
+					<?	}?><a href="search.html?type=1&lmid=1&ord=1&title=<?=$title?>">销量<i></i></a></li>
+                     <?	if($ord==2) {?>
+			        	<li class="current">
+					<?	} else {?>
+						<li>
+					<?	}?><a href="search.html?type=1&lmid=1&ord=2&title=<?=$title?>">价格<i></i></a></li>
+
+
+                     <script type="text/javascript">
+                        function f1(url){
+                            var xhr=new XMLHttpRequest();
+                            xhr.onreadystatechange=function() {
+                                //console.log(xhr.readyState);
+                                if(xhr.readyState==4&&xhr.status==200){
+                                    document.getElementById("warp_j_right_cp").innerHTML=xhr.responseText;
+                                }
+                            }
+                            xhr.open("get",url);
+                            xhr.send(null);
+                        }
+                        window.onload=function() {
+                            var url="acplist.html?lmid=1&ord=<?=$_GET['ord'];?>&title=<?=$title?>";
+                            f1(url);
+                        }
+                     </script>
+                    </ul>
+
+				<?
+                 }
+                 ?>
+                </div>
+                
+                <div class="warp_j_right_cp" id="warp_j_right_cp">
+
+                    <!----下一页结束---->
+                </div>
+
+            </div>
+            <div class="warp_j_left">
+                <h1 class="warp_j_left_h1">热销商品</h1>
+
+                <ul class="warp_j_left_ul">
+                <?
+					$sqla="SELECT * FROM  `zt_goods` where sfsj=1 order by jfgm desc limit 0,6";
+					
+                    $qrya=$link->query($sqla);
+                    while($rsta=$qrya->fetch_array()){
+                ?>
+                	<li><a href="cpcontent.html?cpid=<?=$rsta[id]?>" title="<?=$rsta[spmc]?>" target="_blank"><img src="<?=strtr($rsta['spslt'],array("../"=>"/mall/"));?>"  style="width: 147px;height: 147px" border="0"/>
+						<span><?=$rsta[spmc]?></span>
+						<b>￥<?=$rsta[spjg]?></b>
+						</a>
+							
+                        </li>
+                <?	
+            		}
+                ?>
+					
+				</ul>
+            </div>
+        </div>
+
+       <div style="width: 100%;height: 20px;clear: both;"></div>
+           <? 
+                    $sqla="SELECT * FROM  `zt_ad` where type=6 order by id desc limit 0,1";
+                    $qrya=$link->query($sqla);
+                    $rst1=$qrya->fetch_array();
+                ?>
+              
+<a href='<?=$rst1['url']?>' target=_blank><img src='<?=strtr($rst1['tpurl'],array("../"=>"/mall/"));?>' border=0 width='1200' height='99' alt=''></a>
+      <div style="width: 100%;height: 20px;clear: both;"></div>
+
+		
+    </div>
+    <!----内容结束---->
+ <?include("sfooter.html");?>
+</div>
+</body>
+</html>
+<?$link->close();?>

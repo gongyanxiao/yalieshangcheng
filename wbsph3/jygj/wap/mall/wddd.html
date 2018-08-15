@@ -1,0 +1,109 @@
+<?
+include("config.php");?>
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <title>注册_<?=_TITLE_?></title>
+    <meta name="keyword" content="<?=_KEYWORD_?>"/>
+    <meta name="description" content="<?=_DESCRIPTION_?>"/>
+    <link href="/Public/ico.ico" type="image/x-icon" rel="shortcut icon" /> 
+	
+    <link rel="stylesheet" type="text/css" href="/jygj/Public/wap/css/index.css">
+    <script type="text/javascript" src="/jygj/Public/home/js/jquery-1.js"></script>
+</head>
+<body style="background: #F6F6F6">
+<div class="warp">
+
+    <div class="warp_q">
+        <a href="/Wap/member/center.html" ></a>
+        <span>我的订单</span>
+    </div>
+
+    <ul class="flt_p_home">
+        <li class=" current"><a href="/Wap/member/orderlist.html" >全部</a></li>
+        <li ><a href="/Wap/member/orderlist.html?act=1">待付款</a></li>
+        <li ><a href="/Wap/member/orderlist.html?act=2">待收货</a></li>
+        <li ><a href="/Wap/member/orderlist.html?act=3">已收货</a></li>
+    </ul>
+
+    <ul class="flt_p">
+	    </ul>
+
+	<div class="ht60"></div>
+	<div class="ht10"></div>
+    <div class="flt_o">
+        <label class="flt_o_le" onclick="check_all()">
+            <input type="checkbox" class="check_all">
+            <span>全选</span>
+        </label>
+        <a href="#" class="flt_o_sc">删除</a>
+    </div>
+    <script>
+        $(function(){
+            $("input[type='checkbox']").click(function(){
+                if($(this).is(':checked')){
+                    $(this).addClass('add');
+                }else{
+                    $(this).removeClass('add');
+                }
+            });
+
+        })
+        function check_all()
+        {
+            var vt = $(".check_all").is(':checked');
+            $(".cart_select").prop('checked',vt);
+            if(vt){
+                $(".cart_select").addClass('add');
+                $(".check_all").parent().addClass('add');
+            }else{
+                $(".cart_select").removeClass('add');
+                $(".check_all").parent().removeClass('add');
+            }
+
+        }
+		function qian(id){
+			 var con = confirm('确定签收吗？')
+			if(con){
+						
+			
+					id=id;
+					$.ajax({
+								//提交数据的类型 POST GET
+								type:"POST",
+								//提交的网址
+								url:"/Wap/member/qian_order.html",
+								//提交的数据
+								data:{id:id},
+								//返回数据的格式
+								datatype: "json",//"xml", "html", "script", "json", "jsonp", "text".
+								//成功返回之后调用的函数 	
+								success:function(data){
+									if(data==1){
+									alert('感谢您选择聚升');
+									window.location.reload()
+								   }else if(data==2){
+								   
+									alert('签收失败');
+									
+								   }
+									
+								  
+								}   ,
+							//调用出错执行的函数
+								error: function(){
+									//请求出错处理
+								}         
+						});	
+				}		
+			}
+			</script>	
+
+    </script>
+
+</div>
+</body>
+</html>

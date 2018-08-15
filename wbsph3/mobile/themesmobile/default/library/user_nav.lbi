@@ -1,0 +1,56 @@
+ <script type="text/javascript" src="/js/jquery.cookie.js"></script>
+ <script type="text/javascript" src="js/layer/layer.js" ></script>
+  
+
+<div class="user_com">
+<!--top-->
+<div class="com_top border_bottm">
+<em>{if $headimgurl neq ''}<img src="{$headimgurl}">{else}<img src="themesmobile/default/images/user/user68.jpg">{/if}</em>
+<i>{$rank_name}</i>
+<dl >
+<dt  ><a style="width:100px;" href="user.php?act=profile">银行卡</a> <a style="width:100px;" href="user.php?act=identity">实名认证</a></dt>
+<dd><span>{$info.username}</span><a style="font-size: 16px;color: white" href="erweima_png.php?data=<?php echo $this->_var['user_id'];?>">收款</a> </dd>
+</dl>
+<!--
+<ul>
+<li class="bain"><a href="user.php?act=order_list" ><span>{$order_count.all}</span>我的订单</a></li>
+<li class="bain"><a href="user.php?act=collection_list"><span>{$collect_count}</span>我的收藏</a></li>
+<li style=" border:0"><a href="user.php?act=my_comment"><span>{$comment_count}</span>我的评价</a></li>
+</ul>
+-->
+</div>
+<!--我的钱包
+<div class="Assets" >
+<dl><a><dt><strong><b>我的资产</b></strong></dt></a></dl>
+ {insert name='member_info1'}
+</div>-->
+<!--我的订单-->
+<div class="Order">
+<dl><a href="user.php?act=order_list"><dt><strong>全部订单</strong><span>查看全部订单</span></dt></a></dl>
+<ul>
+<li><a href="user.php?act=order_list&composite_status=100"><em class="ordem2"><i>{$order_count.await_pay}</i></em><span>待付款</span></a></li>
+<li><a href="user.php?act=order_list&composite_status=101"><em class="ordem3"><i>{$order_count.await_ship}</i></em><span>待发货</span></a></li>
+<li><a href="user.php?act=order_list&composite_status=105" ><em class="ordem1"><i>{$order_count.await_receipt}</i></em><span>待收货</span></a></li>
+<li><a href="user.php?act=order_list&composite_status=102"><em class="ordem4"><i>{$order_count.finished}</i></em><span>已完成</span></a></li>
+</ul>
+</div>
+
+<!--菜单-->
+<div class="Wallet main_top">
+<a href="user.php?act=identity"><em class="Icon4"></em><dl class="border_bottm"><dt>实名认证</dt><dd>查看/提交实名认证</dd></dl></a>
+<a href="user.php?act=offline_order"><em class="Icon12"></em><dl class="border_bottm"><dt>线下订单</dt><dd>查看线下订单记录</dd></dl></a>
+ 
+<a href="user.php?act=address_list"><em class="Icon3"></em><dl class="border_bottm"><dt>收货地址</dt><dd>添加/修改</dd></dl></a>
+<!--<a href="user.php?act=affiliate"><em class="Icon4"></em><dl class="border_bottm"><dt>我的推荐</dt><dd>&nbsp;</dd></dl></a>-->
+<a href="user.php?act=my_comment"><em class="Icon1"></em><dl class="border_bottm"><dt>评价/晒单</dt><dd>查看评价/晒单</dd></dl></a>
+<a href="user.php?act=collection_list"><em class="Icon2"></em><dl class="border_bottm"><dt>我的收藏</dt><dd>商品收藏/店铺收藏</dd></dl></a>
+<a href="user.php?act=message_list"><em class="Icon5"></em><dl class="border_bottm"><dt>我的留言</dt><dd>&nbsp;</dd></dl></a>
+
+
+</div>
+<div class="Wallet main_top">
+<a href="javascript:void(0)" onClick="window.location.href='user.php?act=logout'" ><em class="Icon6"></em><dl><dt>注销登录</dt></dl></a>
+</div>
+</div>
+
+		

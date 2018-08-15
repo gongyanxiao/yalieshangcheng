@@ -1,0 +1,78 @@
+﻿<?
+include("config.php");?>
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<meta content="no-cache,must-revalidate" http-equiv="Cache-Control">
+<meta content="no-cache" http-equiv="pragma">
+<meta content="0" http-equiv="expires">
+<meta content="telephone=no, address=no" name="format-detection">
+<meta name="apple-mobile-web-app-capable" content="yes"> 
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta http-equiv="pragma" content="no-cache">
+<meta http-equiv="cache-control" content="no-cache">
+<meta http-equiv="expires" content="0">   
+    <title>消费记录_<?=_TITLE_?></title>
+    <meta name="keyword" content="<?=_KEYWORD_?>"/>
+    <meta name="description" content="<?=_DESCRIPTION_?>"/>
+    <link href="/Public/ico.ico" type="image/x-icon" rel="shortcut icon" /> 
+	
+    <link rel="stylesheet" type="text/css" href="/jygj/Public/wap/css/index.css">
+    <script type="text/javascript" src="/jygj/Public/home/js/jquery-1.js"></script>
+	<script src="/jygj/Public/home/js/echarts.js"></script>
+    <script src="/jygj/Public/home/js/dark.js"></script>
+</head>
+<body style="background: #EEEEEE">
+<div class="warp">
+	<div class="warp_q">
+        <a href="/wap/mall/center.html"></a>
+        <span>消费记录</span>
+    </div>
+    <!------内容开始------>
+    <div class="warp_m_right_div" style="width: 100%;height: 500%;" id="main5" ></div>
+					
+    <ul class="warp_l_ul">
+      <div class="ktp_t">
+        <table width="296">
+          <tr>
+            <th width="33.33%" ><b >订单号</b></th>
+            <th width="33.33%"><b>交易时间</b></th>
+            <th width="33.33%"><b >交易金额</b></th>
+          </tr>
+        </table>
+        <?php
+$user=$_COOKIE['ECS']['username'];
+$db=mysql_connect($db_host,$db_user,$db_pwd);
+mysql_query("SET NAMES $coding"); 
+mysql_select_db($db_database);
+$q="select * from zt_orderlist  where mjhyh='$user'  order by id desc";
+$r=mysql_query($q,$db);
+$num=mysql_num_rows($r);
+for($i=0;$i<$num;$i++){
+$data2=mysql_fetch_array($r);
+?>
+<table width="296" border="0" cellpadding="0" cellspacing="0">
+  <tr>
+    <td width="66" height="37" align="center" style="font-family:Arial, Helvetica, sans-serif;color:#F00;border-bottom:1px  solid #CCC;"><?=$data2["ddbh"];?></td>
+    <td width="154" align="center" style="border-bottom:1px  solid #CCC;"><?=$data2["ddrq"];?></td>
+    <td width="76" align="left" style="border-bottom:1px  solid #CCC;">¥ <?=$data2["jyje"];?></td>
+    </tr>
+</table>
+<?php
+  }
+  mysql_close($db);
+  ?>  
+      </div>
+    </ul>
+    <!------内容结束------>
+
+
+
+
+
+</div>
+</body>
+</html>

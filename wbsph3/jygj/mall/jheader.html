@@ -1,0 +1,113 @@
+    <?$noj=htmlspecialchars(trim($_GET['noj']));?>
+    <div class="warp_p">
+        <div class="warp_p_mor">
+            <ul class="warp_p_ul">
+                <li>
+                    <div class="warp_p_ul_p" style="width: auto;">
+					 <?php
+            if(htmlspecialchars(trim($_GET['log']))=='1'){
+            include_once "config/zt_class.php";
+            zt_cookie("xbmall_users1",'',time()+1209600,"/"); 
+            header("location:/mall");
+            }
+			if(!empty($_COOKIE['ECS']['username'])){
+				echo '<a href="/mall/exit.html?log=1" style="padding-left:20px;" onclick="log();">[退出]</a>';
+				}else{?>
+            <a href="member_login.html">[登陆]</a><a href="reg_cj.html">[注册]</a>
+						<?
+                        }
+                        ?>
+                       
+                    </div>
+                </li>
+                <li><span class="warp_p_ul_o">|</span></li>
+                <li>
+                    <a href="/mall/" class="warp_p_ul_i">商城入口</a>
+                </li>
+                <li><span class="warp_p_ul_o">|</span></li>
+                <li>
+                    <div class="warp_p_ul_u">
+                        <span class="warp_p_ul_u_sp">聚元国际</span>
+                        <div class="warp_p_ul_y">
+                            <img src="/Uploads/20161119/582fbf8526bdf.png" width="80" height="80">
+                        </div>
+                    </div>
+                </li>
+            </ul>
+
+            <span class="warp_p_sp">欢迎：<?=empty($_COOKIE['ECS']['username'])?'':$_COOKIE['ECS']['username']?> 来到聚元国际积分商城  </span>
+        </div>
+    </div>
+    <!--------最顶部结束-------->
+
+    <!--------导航开始-------->
+    <div class="warp_o">
+        <div class="warp_o_div">
+
+            <div class="warp_o_mor">
+                <div class="warp_o_mor_p">
+				<form action="jflist.html?lmid=s<?=empty($noj)?'':'&noj=1'?>" method="post" id="form1">
+                    <input type="text" placeholder="聚元国际积分兑换"  name="title" class="warp_o_mor_p_ex">
+                    <input type="button" onclick="sou()" class="warp_o_mor_p_ton">
+				</form>	
+				<script>
+				function sou(){
+					
+					$("#form1").submit()
+				}
+				</script>
+                    <div class="warp_o_mor_p_div">
+
+                    </div>
+                </div>
+                <img src="/images/logo.png" width="224" height="88" class="warp_o_mor_logo">
+            </div>
+
+            <ul class="warp_o_ul">
+                             
+<?
+include("config/zt_config.php");
+$link = mysqli_connect($db_host,$db_user,$db_pwd,$db_database) or die('Unale to link');
+$link->set_charset('utf8');
+	   				$lmid =htmlspecialchars(trim($_GET['lmid']));	
+	   				$queryb=$link->query("select * from zt_jifen_sort where item1 = 1 order by id asc limit 0,5"); 
+			    	if(empty($lmid)) {
+					?>
+						<li class="current">
+						<a href="jf.html<?=empty($noj)?'':'?noj=1'?>">首页</a>
+					<?
+					} else {
+					?>
+						<li>
+						<a href="jf.html<?=empty($noj)?'':'?noj=1'?>">首页</a>
+					<?
+					}
+					?>
+					<?
+					while($r=$queryb->fetch_array()) {
+						if($lmid==$r[id]) {
+					?>
+						<li class="current">
+					<?
+						} else {
+					?>
+						<li>
+					<?
+						}
+					?>
+						<a href="jflist.html?lmid=<?=$r['id']?><?=empty($noj)?'':'&noj=1'?>"><?=$r['columname']?></a>
+						</li>
+					<?
+			    	}
+					?>
+						
+					
+					
+					  
+					       
+                <li><a href="wzcontent.html?pid=196">常见问题</a></li>
+				<li><a href="/mall/">返回商城</a></li>
+            </ul>
+
+        </div>
+    </div>

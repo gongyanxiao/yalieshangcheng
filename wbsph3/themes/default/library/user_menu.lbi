@@ -1,0 +1,64 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<div class="navList">
+      <div class="func func1 clearfix">
+        <p class="title"><i></i><span>会员中心</span></p>
+       
+        
+        
+         <a class="item" href="/jygj/mall/my_recommend_list.html"><span>我的推荐</span><i></i></a> 
+  	    <a class="item" href="/jygj/mall/xxtz_dp.html"><span>我的店铺</span><i></i></a> 
+  	    <a class="item" href="/jygj/mall/xxtz_cz.html"><span>充值</span><i></i></a>
+  	    <a class="item" href="/jygj/mall/xxtz_cz_list.html"><span>充值记录</span><i></i></a> 
+  		<a class="item" href="/jygj/mall/xxtz_list.html"><span>投资管理</span><i></i></a>
+		 <a class="item" href="/jygj/mall/cash_pro_cj.html"><span>投资提现申请</span><i></i></a>
+		 <a class="item" href="/jygj/mall/money_cj_list.html"><span>投资提现记录</span><i></i></a>
+		 <a class="item" href="/jygj/mall/xxtzzs_list.html"><span>赠送记录</span><i></i></a>
+		 
+		 
+		  <a href="user.php?act=bigfamily" class="item {if $action eq 'bigfamily'}curs{/if}"><span>香柏大家庭</span><i></i></a> 
+        
+        {if $info.is_bigfamily}
+          <a href="user.php?act=product_center" class="item"  ><span>产品报单中心</span><i></i></a> 
+        {/if}
+        
+        {if $supplierUserId}
+          <a href="members/index.php" class="item" target="_blank" ><span>商家中心</span><i></i></a> 
+        {/if}
+        <a href="user.php" class="item {if $action eq 'default'}curs{/if}"><span>账户概况</span><i></i></a> 
+        <a href="user.php?act=profile" class="item {if $action eq 'profile'}curs{/if}"><span>用户信息</span><i></i></a>
+        <a href="security.php" class="item {if $is_security eq 'true'}curs{/if}"><span>账户安全</span><i></i></a>    
+        <a href="user.php?act=address_list" class="item {if $action eq 'address_list'}curs{/if}"><span>收货地址</span><i></i></a>
+        <a href="user.php?act=account_detail" class="item {if $action eq 'account_detail'}curs{/if}"><span>积分明细</span><i></i></a>
+        <a href="user.php?act=loan" class="item {if $action eq 'loan'}curs{/if}"><span>积分贷款</span><i></i></a>
+        <a style="display:none;" href="user.php?act=bonus" class="item {if $action eq 'bonus'}curs{/if}"><span>{$lang.label_bonus}</span><i></i></a>
+        <!--{if $show_transform_points}--> 
+        <a href="user.php?act=transform_points" class="item {if $action eq 'transform_points'}curs{/if}"><span>{$lang.label_transform_points}</span><i></i></a>
+        <!--{/if}--> 
+	<a style="display:none;" href="user.php?act=vc_login" class="item {if $action eq 'vc_login'}curs{/if}">储值卡充值<i></i></a>
+         <!-- {if $cfg.recommend_set_open eq 1} -->
+        <a href="user.php?act=affiliate" class="item {if $action eq 'affiliate'}curs{/if}"><span>{$lang.label_affiliate}</span><i></i></a>
+        <!--{/if}--> 
+      </div>
+      <div class="func func4 clearfix">
+        <p class="title"><i></i><span>养老金</span></p>
+        <a href="user.php?act=yl_list" class="item {if $action eq 'yl_list'|| $action eq 'yl_apply'}curs{/if}"><span>养老申请</span><i></i></a> 
+        <a href="user.php?act=account_detail&account_type=yl_points" class="item {if $action eq 'account_detail' }curs{/if}"><span>养老积分</span><i></i></a> 
+      </div>
+      <div class="func func2 clearfix">
+        <p class="title"><i></i><span>交易中心</span></p>
+        <a href="user.php?act=order_list" class="item {if $action eq 'order_list'|| $action eq 'order_detail'}curs{/if}" ><span>我的订单</span><i></i></a> 
+        <a href="user.php?act=back_list" class="item {if $action eq 'back_list' || $action eq 'back_order_detail'}curs{/if}"><span>退款/退货及维修</span><i></i></a> 
+        <a href="user.php?act=my_comment" class="item {if $action eq 'my_comment'}curs{/if}"><span>商品评价/晒单</span><i></i></a> 
+        <a href="user.php?act=collection_list" class="item {if $action eq 'collection_list'}curs{/if}"><span>商品收藏</span><i></i></a> 
+        <a href="user.php?act=follow_shop" class="item {if $action eq 'follow_shop'}curs{/if}" title="关注的店铺"><span>店铺关注</span><i></i></a> 
+         <a href="apply.php" class="item"><span>我的商家</span><i></i></a>
+         <a href="user.php?act=message_list" class="item {if $action eq 'message_list'}curs{/if}"><span>我的留言</span><i></i></a> 
+        <a href="user.php?act=messages" class="item {if $action eq 'messages'}curs{/if}"><span>我的消息</span><i></i></a>
+      </div>
+     <!-- <div class="func func3 clearfix">
+        <p class="title"><i></i><span>爱心互助</span></p>
+        <a href="user.php?act=mutual" class="item {if $action eq 'mutual_it'}curs{/if}"><span>爱心互助</span><i></i></a> 
+        <a href="user.php?act=insure" class="item {if $action eq 'insure'}curs{/if}"><span>我的投保</span><i></i></a> 
+      </div>-->
+      
+</div>

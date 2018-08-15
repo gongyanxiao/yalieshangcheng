@@ -1,0 +1,94 @@
+<?
+include("config.php");?>
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <title>积分转换_<?=_TITLE_?></title>
+    <meta name="keyword" content="<?=_KEYWORD_?>"/>
+    <meta name="description" content="<?=_DESCRIPTION_?>"/>
+    <link href="/Public/ico.ico" type="image/x-icon" rel="shortcut icon" /> 
+	
+    <link rel="stylesheet" type="text/css" href="/jygj/Public/wap/css/index.css">
+    <script type="text/javascript" src="/jygj/Public/home/js/jquery-1.js"></script>
+	<style>
+	.ktp_y{height: auto}
+	</style>
+	   <script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript">
+<!--
+//提交到后台查询
+function tj(){	
+ $(".warp_h_ton").attr({"disabled":"disabled"});
+var je=document.myform.je.value;
+var dataString='je='+je;
+ $.ajax({  
+type: "POST",  
+url: "member/chongzhi_pro.php",  
+data:dataString,  
+cache:false,  
+success:function(html){  
+$("#jygj").html(html);
+refresh();
+}
+});
+}
+//-->
+</script>
+</head>
+<body>
+<div id="jygj"></div>
+<div class="warp">
+	<div class="warp_q">
+        <a href="/wap/mall/center.html"></a>
+        <span>积分转换</span>
+    </div>
+		<form method="post" id="myform" name="myform"  enctype='multipart/form-data'>
+    <div class="ktp_u">
+        <ul class="ktp_y">
+            <li>
+                <b><?php
+	 include_once "config/check.php";
+        include_once "config/zt_config.php";
+        $db = mysql_connect("$db_host","$db_user","$db_pwd");
+mysql_query("set names $coding"); 
+mysql_select_db("$db_database");
+//判断会员类型
+$yh=$_COOKIE['ECS']['username'];
+$sql="select lx,jf from xbmall_users where user_name='$yh'";
+$qs1=mysql_query($sql);
+$sf1=mysql_fetch_assoc($qs1);
+$lx=$sf1["lx"];
+if($lx=="1"){
+echo '<script>location.href="login.html";</script>';
+}
+//读取积分
+$jf=$sf1["jf"]?$sf1["jf"]:0;
+echo $jf;
+?>元</b>
+                <span>可提现积分</span>
+            </li>
+            <li style="padding: 3% 0">
+                <b><input type="text" class="warp_h_ex" id="je" name="je"  style="margin: 0"></b>
+                <span>转换积分</span>
+            </li>
+        </ul>
+    </div>
+	
+	<div style="overflow: hidden; padding: 6% 3% 1% 3%;">
+		<span style="display: block;color: #FF0000">提现积分转换成消费积分后将不再能转换回提现积分。</span>
+	</div>
+	
+    <input type="button" value="转换" onClick="tj()" class="warp_h_ton" style="display: block;margin: 5% auto;width: 94%">
+	</form>
+</div>
+
+<div class="ht60"></div>
+<div class="footer">
+	<?include"footer.html";?>
+</div>
+
+</body>
+</html>

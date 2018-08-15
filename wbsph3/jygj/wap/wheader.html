@@ -1,0 +1,38 @@
+ <div class="warp_p">
+
+        <div id="dl-menu" class="dl-menuwrapper" >
+            <button id="dl-menu-button"></button>
+            <ul class="dl-menu">
+                <?  
+					include("conn.php");
+		   			$arr=array(2,1,3,4,9,5,6,8,7,11);
+			   		$arrlength=count($arr);
+			   		for($x=0;$x<$arrlength;$x++)
+					{ $id=$arr[$x];
+		   			$sqld=mysql_query("select * from `phome_enewsclass` where classid = ".$id);
+		   			$row=mysql_fetch_array($sqld);
+					if($id==9) {
+				?><li class='li1'>
+				<a href="/wap/mall/wap-shop.html"><?=$row[classname]?></a>
+					
+						
+				<?
+					} else {
+				?><li class='li1'>
+					<a href="/wap/lm.html?lmid=<?=$id?>"><?=$row[classname]?></a>
+					
+						
+				<?
+					} 
+				?>
+				  </li>
+				<?
+					
+					}
+				?>   
+            </ul>
+        </div>
+ <?@mysql_close($conn);?>
+        <a href="/wap/wap.html" class="warp_p_logo"><img src="/img/logo1.png"></a>
+
+    </div>

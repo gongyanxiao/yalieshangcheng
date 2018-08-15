@@ -1,0 +1,89 @@
+<!DOCTYPE html >
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<title>{$page_title}</title>
+<meta name="Keywords" content="{$keywords}" />
+<meta name="Description" content="{$description}" />
+<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+<link rel="stylesheet" type="text/css" href="themesmobile/default/css/public.css"/>
+<link rel="stylesheet" href="themesmobile/default/css/stores.css">
+<script type="text/javascript" src="themesmobile/default/js/jquery.js"></script>
+{insert_scripts files='index.js'}
+</head>
+<body class="bodybj">
+      <header>
+      <div class="tab_nav">
+        <div class="header">
+          <div class="h-left"><a class="sb-back" href="javascript:history.back(-1)" title="返回"></a></div>
+          <div class="h-mid">线上订单列表</div>
+          <div class="h-right">
+            <aside class="top_bar">
+              <div onClick="show_menu();$('#close_btn').addClass('hid');" id="show_more"><a href="javascript:;"></a> </div>
+            </aside>
+          </div>
+        </div>
+      </div>
+      </header>
+     <!-- #BeginLibraryItem "/library/up_menu.lbi" -->
+    <!-- #EndLibraryItem -->
+ {if $act eq 'invoice_list'}
+	<!---列表--->
+	  { foreach from=$order_list item=order}
+		<section class="rzs_info">
+			<dl>
+				<dt> 
+					<p>收货人:{$order.consignee}({$order.address})</p>
+					<p>下单时间:{$order.formatted_add_time}</p>
+					<p>总金额:{$order.total_fee}
+					 <p> <a href="?act=edit&order_id={$order.order_id}&step=invoice&step_detail=info" >详情</a>
+		           		<a href="javascript:listTable.remove({$order.order_sn}, remove_invoice_confirm, 'remove_invoice');" >删除</a>
+					</p>
+				 </dt>
+			</dl>
+		</section>
+	  {/foreach}
+ {/if}
+ 
+  {if $act eq ''}
+	<!---列表--->
+	  { foreach from=$order_list item=order}
+		<section class="rzs_info">
+			<dl>
+				<dt> 
+					<p>收货人:{$order.consignee}({$order.address})</p>
+					<p>下单时间:{$order.formatted_add_time}</p>
+					<p>总金额:{$order.total_fee}
+					 <p> 
+					  <a href="supplier_m_xian_shang_ding_dan.php?act=info&order_id={$order.order_id}">详情</a>
+					     {if $order.can_remove}
+					    	 <br /><a href="javascript:;" onclick="listTable.remove({$order.order_id}, remove_confirm, 'remove_order')">删除</a>
+					     {/if}
+					     {if $order.tuihuan}
+					    	 <br /><span style="color:#F00">(有退款/退货或维修申请)</span>
+					     {/if}
+					</p>
+				 </dt>
+			</dl>
+		</section>
+	  {/foreach}
+ {/if}
+ 
+<!--翻页-->
+<!-- #BeginLibraryItem "/library/pages.lbi" --><!-- #EndLibraryItem -->
+<!---footer--->
+<!-- #BeginLibraryItem "/library/footer_nav.lbi" --><!-- #EndLibraryItem -->
+<!---返回顶部-->
+<script>
+function goTop(){
+	$('html,body').animate({'scrollTop':0},600);
+}
+</script>
+<a href="javascript:goTop();" class="gotop"><img src="themesmobile/default/images/topup.png"></a> 
+ 
+<script src="themesmobile/default/js/slider.js" type="text/javascript"></script>
+
+ 
+</body>
+</html>

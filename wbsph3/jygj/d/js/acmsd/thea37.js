@@ -1,0 +1,1 @@
+document.write("<a href='/e/public/ClickAd?adid=37' target=_blank><img src='/d/file/p/2017-05-05/73a6e637c864964b3e45cbd3505dd67b.jpg' border=0 width='1090' height='321' alt=''></a>");

@@ -1,0 +1,85 @@
+{if $full_page}
+<!-- $Id: user_account_list.htm 17030 2010-02-08 09:39:33Z sxc_shop $ -->
+{include file="pageheader.htm"}
+{insert_scripts files="../js/utils.js,listtable.js"}
+<div class="form-div">
+  <form action="javascript:searchUser()" name="searchForm">
+    <img src="images/icon_search.gif" width="25" height="22" border="0" alt="SEARCH" />
+    {$lang.user_name} <input type="text" name="keyword" size="20" />
+      <input type="submit" value="{$lang.button_search}" class="button" />
+  </form>
+</div>
+
+<form method="POST" action="" name="listForm">
+<!-- start user_deposit list -->
+<div class="list-div" id="listDiv">
+{/if}
+<table cellpadding="3" cellspacing="1">
+  <tr>
+    <th><a href="javascript:listTable.sort('blacklist_id', 'DESC'); ">编号</a>{$sort_user_name}</th>
+    <th><a href="javascript:listTable.sort('user_name', 'DESC'); ">手机号</a>{$sort_add_time}</th>
+    <th><a href="javascript:listTable.sort('limit_desc', 'DESC'); ">加黑描述</a>{$sort_process_type}</th>
+    <th><a href="javascript:listTable.sort('add_time', 'DESC'); ">时间</a>{$sort_amount}</th>
+    <th><a href="javascript:listTable.sort('rows', 'DESC'); ">入屋次数</a>{$black_rows}</th>
+    <th><a href="javascript:listTable.sort('is_remove', 'DESC'); ">状态</a></th>
+    <th>{$lang.handler}</th>
+  </tr>
+  {foreach from=$list item=item}
+  <tr>
+    <td>{$item.blacklist_id}</td>
+    <td align="center"><a href="users.php?act=list&keywords={$item.user_name}">{$item.user_name}</a></td>
+    <td align="center">{$item.limit_desc}</td>
+    <td align="center">{$item.add_time}</td>
+    <td align="center">{$item.rows}</td>
+    <td align="center">{if $item.is_remove eq 1}<b style="color:#F83D35;">冻结中</b>{else}<b style="color:#2F9507;">已解冻</b>{/if}</td>
+    <td align="center">
+	    <a href="javascript:;" onclick="listTable.remove({$item.blacklist_id}, '您确定要将他放出来吗？')" title="{$lang.drop}" ><img src="images/icon_drop.gif" border="0" height="16" width="16" /></a>
+      <!--<a href="user_blacklist.php?act=dark_room&user_id={$item.user_id}" title="{$lang.black_num}"><img src="images/icon_view.gif" border="0" height="16" width="16" /></a>-->
+    </td>
+  </tr>
+  {foreachelse}
+  <tr>
+    <td class="no-records" colspan="8">{$lang.no_records}</td>
+  </tr>
+  {/foreach}
+
+<table id="page-table" cellspacing="0">
+<tr>
+  <td>&nbsp;</td>
+  <td align="right" nowrap="true">
+  {include file="page.htm"}
+  </td>
+</tr>
+</table>
+{if $full_page}
+</div>
+<!-- end user_deposit list -->
+</form>
+
+<script type="text/javascript" language="JavaScript">
+listTable.recordCount = {$record_count};
+listTable.pageCount = {$page_count};
+{foreach from=$filter item=item key=key}
+listTable.filter.{$key} = '{$item}';
+{/foreach}
+{literal}
+<!--
+
+onload = function()
+{
+    // 瀵拷顬婂Λ锟界叀鐠併垹宕�    startCheckOrder();
+}
+/**
+ * 閹兼粎鍌ㄩ悽銊﹀煕
+ */
+function searchUser()
+{
+    listTable.filter['keywords'] = Utils.trim(document.forms['searchForm'].elements['keyword'].value);
+    listTable.filter['page'] = 1;
+    listTable.loadList();
+}
+//-->
+</script>
+{/literal}
+{include file="pagefooter.htm"}
+{/if}

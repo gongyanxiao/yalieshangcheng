@@ -1,0 +1,46 @@
+<div class="warp_p">
+			
+		<?
+		if(!empty($_COOKIE['ECS']['username'])){
+		?>
+		<a href="exit.html?log=1" class="warp_p_1">[退出]</a>
+		<?}else{?>
+        <a href="/wap/mall/login.html" class="warp_p_1">登录</a>
+		<?}?>
+	<a href="/" class="warp_p_2"><img src="/img/logo.png"></a>
+	<div class="warp_p_div">
+		<span>搜索商品</span>
+	</div>
+</div>
+
+<!------搜索开始------>
+<div class="warp_t">
+	<div class="warp_t_div">
+	<form action="search.html?type=1" method="post" id="form1" >
+		<input value="搜索" class="warp_t_div_ton" type="submit">
+		<a href="javascript:history.Go(-1);" class="warp_t_div_a"></a>
+		<input name="title" id="input" autofocus="autofocus" placeholder="请输入商品名称" class="warp_t_div_ex" type="text">
+	</form>
+	</div>
+
+	<!-- <ul class="warp_t_ul">
+		<li>
+			<b style="background: url(/img/im18.png) no-repeat left center;background-size: 16px 16px">热门搜索</b>
+			<a href="#">无印良品乳液</a><a href="#">劳尼亚项链</a><a href="#">羽绒服</a>		</li>
+	</ul> -->
+
+	<div class="warp_t_xian"></div>
+
+</div>
+<script>
+	$(function(){
+		$('.warp_p_div').click(function(){
+			$('.warp_t').show();
+			$('#input').focus();
+		})
+		$('.warp_t_div_a').click(function(){
+			$('.warp_t').hide();
+		})
+	})
+</script>
+<!------搜索结束------>

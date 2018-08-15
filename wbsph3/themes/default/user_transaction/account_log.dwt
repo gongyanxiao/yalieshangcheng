@@ -1,0 +1,37 @@
+		<table width="100%" border="0" cellpadding="10" cellspacing="1" bgcolor="#eeeeee">
+            <tr align="center">
+              <td>{$lang.process_time}</td>
+              <td>{$lang.surplus_pro_type}</td>
+              <td>{$ctypename1}</td>
+              <td>手续费</td>
+               <td>应打款</td>
+              <td>{$lang.process_notic}</td>
+              <td>{$lang.admin_notic}</td>
+              <td>{$lang.is_paid}</td>
+              <td>{$lang.handle}</td>
+            </tr>
+            <!--{foreach from=$account_log item=item}-->
+            <tr>
+              <td align="center">{$item.add_time}</td>
+              <td align="center">{$item.type}</td>
+              <td align="center">{$item.amount}</td>
+              <td align="center">{$item.fee}</td>
+              <td align="center">{$item.real_amount}</td>
+              <td align="center">{$item.short_user_note}</td>
+              <td align="center">{$item.short_admin_note}</td>
+              <td align="center">{$item.pay_status}</td>
+              <td align="center">{$item.handle} 
+                <!-- {if ($item.is_paid eq 0 && $item.process_type eq 1) || $item.handle} --> 
+                <a href="user.php?act=cancel&id={$item.id}" onclick="if (!confirm('{$lang.confirm_remove_account}')) return false;">{$lang.is_cancel}</a> 
+                <!-- {/if} --></td>
+            </tr>
+            <!--{/foreach}-->
+            <tr style="display:none;">
+              <td colspan="7" align="right">您当前消费的金额为：{$surplus_amount}</td>
+            </tr>
+            <!--资金管理余额-->
+            <tr style="display:none;">
+              <td colspan="7" align="right">{$lang.current_surplus}￥{$surplus_yue}</td>
+            </tr>
+          </table>
+          <!-- #BeginLibraryItem "/library/pages.lbi" --><!-- #EndLibraryItem --> 

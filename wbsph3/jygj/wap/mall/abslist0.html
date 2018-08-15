@@ -1,0 +1,78 @@
+<?	
+header("content-type:text/html;charset:utf-8");
+include("config.php");
+include("../page.class.php");
+$link = mysqli_connect($db_host,$db_user,$db_pwd,$db_database) or die('Unale to link');
+$link->set_charset('utf8');
+
+$aid=htmlspecialchars(trim($_GET['aid']));
+$title = htmlspecialchars(trim($_GET['title']));
+$ss='';
+$qc=" user not in('15385654166','18895321197','15988152863','18356089352','18355047875') and ";
+if(!empty($title)){
+	$ss=" (dpmc like '%".$title."%') and ";
+}
+$sql1='';
+if(trim($aid)=="a") {
+$sql1="SELECT * FROM  `xbmall_users` where ".$qc.$ss." state=0 and lx=1 ";
+} else {
+$sql1="SELECT * FROM  `xbmall_users` where ".$qc.$ss." state=0 and lx=1 and (c='".$aid."' or xxdz like '%".$aid."%')";
+}
+
+$qry1=$link->query($sql1);
+$total=$qry1->num_rows;
+$per=24;
+$page_obj=new Page($total,$per);
+$sqla1=$sql1." limit ".($page_obj->page-1)*$per.",".$per;
+$qrya1=$link->query($sqla1);
+$pagelist=$page_obj->fpage(array(0,2,4,5,6,9));
+$p=isset($page_obj->page)?$page_obj->page:1;
+$num=($p-1)*$per;
+if($total==0) {
+if(!empty($title)) {
+	echo "<center>查无此商家！</center>";
+} else {
+	echo "<center>此城市还未有商家入驻，敬请期待！</center>";
+}
+} else {
+?>
+<ul class="sj_i">
+<?
+while($rst1=$qrya1->fetch_array()){		
+	$sql2="SELECT * FROM  `zt_shopinfo` where userid=".$rst1[id];
+	$qry2=$link->query($sql2);
+	$rst2=$qry2->fetch_array();
+	$num2=$qry2->num_rows;
+	$tx="/mall/";
+	if($num2==0) {
+		$tx="/images/logoa.png";
+	} else {
+		$tx.=$rst2["tx"];
+	}
+?> 
+	
+<li>
+	<a href="bscontent.html?bsid=<?=$rst1[id];?>">
+		<img src="<?=$tx;?>" style="height: 220px">
+	   	<span><?=$rst1[dpmc];?></span>
+	</a>
+</li>  
+<?
+}
+?>
+</ul>
+
+<center>
+
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" style="text-align: center;">
+  <tr>
+    <td height="21"><div class="epages"><?=$pagelist;?></div></td>
+  </tr>
+</table>
+</center> 
+<?
+}
+?>
+
+<?$link->close();?>
+        

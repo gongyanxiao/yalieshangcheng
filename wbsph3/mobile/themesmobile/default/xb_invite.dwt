@@ -1,0 +1,135 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		     <meta charset="UTF-8"/>
+			 <meta name="viewport" content="width=device-width">
+				<title>{$page_title}</title>
+				<meta name="Keywords" content="{$keywords}" />
+				<meta name="Description" content="{$description}" />
+				<meta name="viewport"
+					content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+				<link rel="stylesheet" type="text/css"
+					href="themesmobile/default/css/public.css?v={$smarty.now}" />
+				<link rel="stylesheet" type="text/css"
+					href="themesmobile/default/css/index.css?v={$smarty.now}" />
+				<script type="text/javascript"
+					src="themesmobile/default/js/jquery.js"></script>
+				<script type="text/javascript"
+					src="themesmobile/default/js/TouchSlide.1.1.js"></script>
+				<script type="text/javascript"
+					src="themesmobile/default/js/jquery.more.js"></script>
+				<script type="text/javascript"
+					src="themesmobile/default/js/jquery.cookie.js"></script>
+				<script type="text/javascript"
+					src="themesmobile/default/js/mobile.js"></script>
+				<script type="text/javascript"
+					src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>	
+					
+					
+					
+					<script>
+<!--         wx.config({ -->
+<!--             debug: false, -->
+<!--             appId: "{$signPackage.appId}", -->
+<!--             timestamp: "{$signPackage.timestamp}", -->
+<!--             nonceStr: "{$signPackage.nonceStr}", -->
+<!--             signature: "{$signPackage.signature}", -->
+<!--             jsApiList: [ -->
+<!--               // 所有要调用的 API 都要加到这个列表中 -->
+<!--                 'onMenuShareAppMessage', 'onMenuShareTimeline','onMenuShareQQ' -->
+<!--             ] -->
+<!--         }); -->
+
+<!--         wx.error(function(res){ -->
+<!--           alert("config信息验证失败"); -->
+<!--       // config信息验证失败会执行error函数，如签名过期导致验证失败，具体错误信息可以打开config的debug模式查看，也可以在返回的res参数中查看，对于SPA可以在这里更新签名。 -->
+<!-- }); -->
+
+function fenXiang(){
+	    alert("分享");
+	    var iconUrl = 'http://'+location.host+'/images/icon-200yuan.png';
+       //分享到朋友圈
+        wx.onMenuShareTimeline({
+         title: '一言不合就发红包，金蛛送您200元红包！',
+         link: "http://yl77777999.xiangbai315.com/mobile/register.php?re_num={$user.user_name}", // 分享链接
+         imgUrl: iconUrl
+        });
+
+}
+        
+    </script>
+    
+     
+					
+               <link rel="stylesheet" href="themesmobile/default/css/my.css">
+</head>
+<body>
+<div class="header">
+	 <header class="header" style=" position:fixed; top:0">
+	  <div class="tab_nav">
+	      <div class="h-left"><a class="sb-back" href="javascript:history.back(-1)" title="返回"></a></div>
+	      <div class="h-mid">我的邀请</div>
+	      <div class="h-right">
+	        <aside class="top_bar">
+	          <div onClick="show_menu();$('#close_btn').addClass('hid');" id="show_more"><a href="javascript:;"></a> </div>
+	        </aside>
+	      </div>
+	  </div>
+</header>
+<!-- #BeginLibraryItem "/library/up_menu.lbi" --><!-- #EndLibraryItem --> <!--弹出菜单-->
+ </div>
+<div class="container">
+    <div class="my-purse">
+      {if $user.level==1}
+       <a href="">
+            <dl class="clearfix" style="margin-top: 40px;">
+                <dt><i class="withdraw"></i></dt>
+                <dd style="background:url('')"><h1>我的级别</h1>
+                <span style="float:right">代理</span>
+                </dd>
+            </dl>
+        </a>
+      {/if}
+       
+        
+        <a href="xb_user.php?act=to_invite">
+            <dl class="clearfix">
+                <dt><i class="recharge"></i></dt>
+                <dd><h1>邀请好友注册</h1></dd>
+            </dl>
+        </a>
+        <a href="javascript:void(0)" onclick="fenXiang()">
+            <dl class="clearfix">
+                <dt><i class="withdraw"></i></dt>
+                <dd><h1>分享注册</h1></dd>
+            </dl>
+        </a>
+        
+        <a href="">
+            <dl class="clearfix" style="margin-top: 40px;">
+                <dt><i class="withdraw"></i></dt>
+                <dd style="background:url('')"><h1>收益总额</h1>
+                <span style="float:right">{$user.user_money}元</span>
+                </dd>
+            </dl>
+        </a>
+        
+        <a href="xb_user.php?act=syjl">
+            <dl class="clearfix"  >
+                <dt><i class="withdraw"></i></dt>
+                <dd><h1>收益记录</h1></dd>
+            </dl>
+        </a>
+        <a href="xb_invite.php">
+            <dl class="clearfix">
+                <dt><i class="withdraw"></i></dt>
+                <dd><h1>邀请列表</h1></dd>
+            </dl>
+        </a>
+    </div>
+</div>
+<div style="position: fixed;bottom: 0" class="footer">
+
+<!-- #BeginLibraryItem "/library/footer_nav.lbi" --> <!-- #EndLibraryItem --> </div>
+</body>
+</html>

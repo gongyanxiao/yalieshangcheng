@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>支付订单</title>
+<style>
+body {
+	text-align: center
+}
+
+div {
+	margin: 0 auto;
+	width: 600px;
+	height: 100px;
+}
+
+td {
+	padding-bottom: 20px;
+}
+</style>
+</head>
+<body>
+	<form action="0000.php">
+		<input type="hidden" name="act" value="chong_zhi">
+		<div>
+			<table>
+			    <tr>
+					<td>手机号</td>
+					<td><input type="text" name="mobile_phone" value=""></td>
+				</tr> 
+				<tr>
+					<td>交易金额</td>
+					<td><input type="text" name="amount" value="1000"></td>
+				</tr>
+				   
+				<tr>
+					<td><input type="submit" value="提交"></td>
+				</tr>
+			</table>
+		</div>
+	</form>
+</body>
+</html>

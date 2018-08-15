@@ -1,0 +1,18 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<div class="detail_m">
+<dl>
+<h2><span>{$account_log_item.type}</span><em>{$account_log_item.add_time}</em></h2>
+<dt><em>{$lang.money}：</em><span>{$account_log_item.amount}</span></dt>
+<dt><em>手续费：</em><span>{$account_log_item.fee}</span></dt>
+<dt><em>应打款：</em><span>{$account_log_item.real_amount}</span></dt>
+<dd>
+<p>{$lang.process_notic}：{$account_log_item.short_user_note}</p>
+<p>{$lang.admin_notic}：{$account_log_item.short_admin_note}</p>
+</dd>
+<dd>
+<span>{$lang.is_paid}：{$account_log_item.pay_status}</span>
+ <!-- {if ($account_log_item.is_paid eq 0 && $account_log_item.process_type eq 1) || $account_log_item.handle} --> 
+<a href="user.php?act=cancel&id={$account_log_item.id}" onclick="if (!confirm('{$lang.confirm_remove_account}')) return false;" style="color:#666">{$lang.is_cancel}</a>{/if}
+</dd>
+</dl>
+</div>

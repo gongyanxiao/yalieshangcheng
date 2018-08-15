@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<buildpath>
+	<buildpathentry kind="src" path="e"/>
+	<buildpathentry kind="src" path="editor/1/ueditor/php"/>
+	<buildpathentry kind="src" path="editor/umeditor/php"/>
+	<buildpathentry kind="src" path="js"/>
+	<buildpathentry kind="src" path="mall"/>
+	<buildpathentry kind="src" path="search/keyword"/>
+	<buildpathentry kind="src" path="tpay"/>
+	<buildpathentry kind="src" path="wap"/>
+	<buildpathentry kind="src" path="wpay"/>
+	<buildpathentry kind="con" path="org.eclipse.php.core.LANGUAGE"/>
+</buildpath>

@@ -1,0 +1,490 @@
+<?
+include("config/zt_config.php");
+include("config.php");
+$link = mysqli_connect($db_host,$db_user,$db_pwd,$db_database) or die('Unale to link');
+$link->set_charset('utf8');
+$cpid=htmlspecialchars(trim($_GET['cpid']));
+$n=array();
+$sqln="SELECT * FROM  `zt_goods` where sfsj=1";
+$qryn=$link->query($sqln);
+while($rstn=$qryn->fetch_array()) {
+	$n[]=$rstn["id"];
+}
+if(!in_array($cpid, $n)) {
+	header("Location:error.html"); 
+    exit;
+}
+
+$sql="SELECT * FROM  `zt_goods` where id=".$cpid;
+$qry=$link->query($sql);
+$rst=$qry->fetch_array();
+$lmid=$rst["fl"];
+?>
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title><?=$rst[spmc]?>_网络平台_<?=_TITLE_?></title>
+    <meta name="keyword" content="<?=_KEYWORD_?>"/>
+    <meta name="description" content="<?=_DESCRIPTION_?>"/>
+    <link href="/Public/ico.ico" type="image/x-icon" rel="shortcut icon" /> 
+	
+     <link rel="stylesheet" type="text/css" href="/jygj/Public/home/css/index.css">
+    <script type="text/javascript" src="/jygj/Public/home/js/jquery-1.7.2.js"></script>
+    <script language="javascript" type="text/javascript">
+        $(document).ready(function(){
+            $('.warp_l_right_p li').click(function(){
+                $('.warp_l_right_li').hide();
+                $('.warp_l_right_li').eq($(this).index()).show()
+            });
+        });
+    </script>
+    <script language="javascript" type="text/javascript">
+        $(document).ready(function(){
+            $('.gd_content li').click(function(){
+                $('.warp_l_right_li').hide();
+                $('.warp_l_right_li').eq($(this).index()).show()
+            });
+        });
+    </script>
+    <style type="text/css">
+        .warp_t_right_mp_but {
+    width: 168px;
+    height: 50px;
+    border: 1px solid #B4A078;
+    color: #B4A078;
+    background: #F5F3EF;
+    font-family: '微软雅黑';
+    font-size: 20px;
+    border-radius: 2px;
+    display: block;
+    float: left;
+    margin-right: 14px;
+}
+    </style>
+</head>
+<body>
+
+
+<div class="warp">
+<?include("sheader.html");?>
+    <!----内容开始---->
+    <div class="warp_moer">
+
+        <ul class="warp_w">
+			<? 
+			$sqla="SELECT * FROM  `zt_goods_sort` where id=".$lmid;
+            $qrya=$link->query($sqla);
+            $rsta=$qrya->fetch_array();
+
+			$sqlb="SELECT * FROM  `zt_goods_sort` where id=(SELECT item2 FROM  `zt_goods_sort` where id=".$lmid.")";
+			$qryb=$link->query($sqlb);
+            $rstb=$qryb->fetch_array();
+            $myb=$rstb[id];
+            $sqlc="SELECT * FROM  `zt_goods_sort` where id=(SELECT item1 FROM  `zt_goods_sort` where id=".$rstb[id].")";
+			$qryc=$link->query($sqlc);
+            $rstc=$qryc->fetch_array();
+		?>
+				 <li><span><a href="cplist.html?lmid=<?=$rstc[id]?>"  title="<?=$rstc[columname]?>"><?=$rstc[columname]?></a></span></li><li><span>&gt;</span></li><li><span><a href="cplist.html?lmid=<?=$rstc[id]?>"  title="<?=$rstc[columname]?>"><?=$rstc[columname]?></a></span></li><li><span>&gt;</span></li><li><span><a href="cplist.html?lmid=<?=$rstb[id]?>"  title="<?=$rstb[columname]?>"><?=$rstb[columname]?></a></span></li><li><span>&gt;</span></li><li><span><a href="cplist.html?lmid=<?=$rsta[id]?>"  title="<?=$rsta[columname]?>"><?=$rsta[columname]?></a></span></li>
+		
+        </ul>
+<script type="text/javascript">
+	$(function() {
+		$(".warp_w li").eq(0).css("display","none");
+		$(".warp_w li").eq(1).css("display","none");
+		$(".warp_w li").eq(2).css("font-size","18px");
+	})
+</script>
+        <div class="warp_q">
+
+            <div class="warp_q_right">
+                <h1><?=$rst[spmc]?></h1>
+                <span class="warp_q_right_sp"><?=$rst[jjms]?></span>
+				<input type="hidden" id="uid" value="" />
+				<input type="hidden" id="utype" value="" />
+                <div class="warp_q_right_div">
+                    <b><i>￥</i><?=$rst[spjg]?></b>
+                    <span>市场价：<del><?=$rst[scjg]?></del></span>
+                </div>
+                <ul class="warp_q_right_ul">
+                    <li><span>商品编号：</span><span><?=$rst[spbh]?></span></li>
+                </ul>
+               <div class="warp_t_right_mp">
+                    <input type="button" value="收藏商品" onclick='duihuan(39)' class="warp_t_right_mp_but">
+                    <!--<input type="button" value="加入购物车" class="warp_t_right_mp_ton">-->
+                </div>
+				<?  
+$xo=''; 
+$xo1='';    
+if(!empty($_COOKIE['ECS']['username'])){
+    $queryl=$link->query("select * from xbmall_users where user_name='".$_COOKIE['ECS']['username']."'"); 
+    $rl=$queryl->fetch_array(); 
+    $xo=$rl['lx'];      
+    if($xo==0) {
+$query2=$link->query("select * from zt_memberinfo where userid=".$rl['id']); 
+    $r2=$query2->fetch_array(); 
+    $xo1=$query2->num_rows;
+    ?>
+<form action="information_do.php?type=<?=$xo1?>" method="post" id="form" enctype='multipart/form-data'>
+<?} else {
+$query2=$link->query("select * from zt_shopinfo where userid=".$rl['id']); 
+    $r2=$query2->fetch_array(); 
+    $xo1=$query2->num_rows;
+?>
+<form action="upinfo_do.php?type=<?=$xo1?>" method="post" id="form" enctype='multipart/form-data'>
+<?}}?>
+            <input type="hidden" id="mid" value="<?=$_COOKIE['ECS']['username']?>"/>
+            <input type="hidden" id="ujf" value=""/>
+            <input type="hidden" id="price" value="0.00"/>
+            <input type="hidden" id="cpid" name="cpid" value="<?=$cpid?>"/>
+            <input type="hidden" id="num" name="num" value=""/>
+            <input type="hidden" id="num" name="gid" value="39"/>
+            </form>
+<script>
+        
+            function duihuan(id){
+                if (confirm("确认收藏？")) {
+               
+            
+                    var num = $("#setNum").val();
+                    var jf = $("#ujf").val();
+                    var price= $("#price").val();
+                   var mid =$("#mid").val();
+                    if(mid==''){
+                        alert('请登录')
+                        location.href="/mall/member_login.html";return false;
+                    } 
+                    /*if((num*price)>jf){
+                    
+                        alert("积分不足，请充值，可用可提现积分充值");return false;
+                    }
+                    $("#num").attr("value",num);*/
+                    $("#form").submit();
+                    
+                }
+            }
+        </script>
+				            </div>
+
+            <div class="warp_left" style="width: 352px;overflow: visible">
+
+                <div class="preview">
+                    <div id="vertical" class="bigImg">
+                        
+                        <div style="display:none;" id="winSelector"></div>
+                    </div><!--bigImg end-->
+                    <div class="smallImg">
+                        <div class="scrollbutton smallImgUp disabled"></div>
+                        <div id="imageMenu">
+                            <ul>
+                            <?
+                            $arr = explode(",",$rst['dt']);
+                            $al=count($arr);
+                            for($i=0;$i<$al;$i++) {
+                            ?>
+                            <li>
+   <img src="<?=strtr($arr[$i],array("../"=>"/mall/"));?>" alt='' width='52' height='52'/>
+     </li>
+                            <?
+                            }
+                            ?>
+								
+
+      </ul>
+                        </div>
+                        <div class="scrollbutton smallImgDown"></div>
+                    </div><!--smallImg end-->
+                    <div id="bigView" style="display:none;"><img width="580" height="580" alt="" src="" /></div>
+                </div>
+               <script type="text/javascript">
+                	$(function() {
+                		var con=$(".smallImg #imageMenu ul li").eq(0).html();
+                		$("#vertical").append(con);
+                		$("#vertical img").css("width","350px");
+                		$("#vertical img").css("height","350px");
+                		$("#vertical img").addClass("midimg");
+                	})
+                </script>
+                <!--preview end-->
+                <script type="text/javascript">
+                    $(document).ready(function(){
+                        // 图片上下滚动
+                        var count = $("#imageMenu li").length - 5; /* 显示 6 个 li标签内容 */
+                        var interval = $("#imageMenu li:first").width();
+                        var curIndex = 0;
+
+                        $('.scrollbutton').click(function(){
+                            if( $(this).hasClass('disabled') ) return false;
+
+                            if ($(this).hasClass('smallImgUp')) --curIndex;
+                            else ++curIndex;
+
+                            $('.scrollbutton').removeClass('disabled');
+                            if (curIndex == 0) $('.smallImgUp').addClass('disabled');
+                            if (curIndex == count-1) $('.smallImgDown').addClass('disabled');
+
+                            $("#imageMenu ul").stop(false, true).animate({"marginLeft" : -curIndex*interval + "px"}, 600);
+                        });
+                        // 解决 ie6 select框 问题
+                        $.fn.decorateIframe = function(options) {
+                            if ($.browser.msie && $.browser.version < 7) {
+                                var opts = $.extend({}, $.fn.decorateIframe.defaults, options);
+                                $(this).each(function() {
+                                    var $myThis = $(this);
+                                    //创建一个IFRAME
+                                    var divIframe = $("<iframe />");
+                                    divIframe.attr("id", opts.iframeId);
+                                    divIframe.css("position", "absolute");
+                                    divIframe.css("display", "none");
+                                    divIframe.css("display", "block");
+                                    divIframe.css("z-index", opts.iframeZIndex);
+                                    divIframe.css("border");
+                                    divIframe.css("top", "0");
+                                    divIframe.css("left", "0");
+                                    if (opts.width == 0) {
+                                        divIframe.css("width", $myThis.width() + parseInt($myThis.css("padding")) * 2 + "px");
+                                    }
+                                    if (opts.height == 0) {
+                                        divIframe.css("height", $myThis.height() + parseInt($myThis.css("padding")) * 2 + "px");
+                                    }
+                                    divIframe.css("filter", "mask(color=#fff)");
+                                    $myThis.append(divIframe);
+                                });
+                            }
+                        }
+                        $.fn.decorateIframe.defaults = {
+                            iframeId: "decorateIframe1",
+                            iframeZIndex: -1,
+                            width: 0,
+                            height: 0
+                        }
+                        //放大镜视窗
+                        $("#bigView").decorateIframe();
+                        //点击到中图
+                        var midChangeHandler = null;
+
+                        $("#imageMenu li img").bind("click", function(){
+                            if ($(this).attr("id") != "onlickImg") {
+                                midChange($(this).attr("src").replace("small", "mid"));
+                                $("#imageMenu li").removeAttr("id");
+                                $(this).parent().attr("id", "onlickImg");
+                            }
+                        }).bind("mouseover", function(){
+                                    if ($(this).attr("id") != "onlickImg") {
+                                        window.clearTimeout(midChangeHandler);
+                                        midChange($(this).attr("src").replace("small", "mid"));
+                                        $(this).css({ "border": "1px solid #00418F" });
+                                    }
+                                }).bind("mouseout", function(){
+                                    if($(this).attr("id") != "onlickImg"){
+                                        $(this).removeAttr("style");
+                                        midChangeHandler = window.setTimeout(function(){
+                                            midChange($("#onlickImg img").attr("src").replace("small", "mid"));
+                                        }, 1000);
+                                    }
+                                });
+                        function midChange(src) {
+                            $(".midimg").attr("src", src).load(function() {
+                                changeViewImg();
+                            });
+                        }
+                        //大视窗看图
+                        function mouseover(e) {
+                            if ($("#winSelector").css("display") == "none") {
+                                $("#winSelector,#bigView").show();
+                            }
+                            $("#winSelector").css(fixedPosition(e));
+                            e.stopPropagation();
+                        }
+                        function mouseOut(e) {
+                            if ($("#winSelector").css("display") != "none") {
+                                $("#winSelector,#bigView").hide();
+                            }
+                            e.stopPropagation();
+                        }
+                        $(".midimg").mouseover(mouseover); //中图事件
+                        $(".midimg,#winSelector").mousemove(mouseover).mouseout(mouseOut); //选择器事件
+
+                        var $divWidth = $("#winSelector").width(); //选择器宽度
+                        var $divHeight = $("#winSelector").height(); //选择器高度
+                        var $imgWidth = $(".midimg").width(); //中图宽度
+                        var $imgHeight = $(".midimg").height(); //中图高度
+                        var $viewImgWidth = $viewImgHeight = $height = null; //IE加载后才能得到 大图宽度 大图高度 大图视窗高度
+
+                        function changeViewImg() {
+                            $("#bigView img").attr("src", $(".midimg").attr("src").replace("mid", "big"));
+                        }
+                        changeViewImg();
+                        $("#bigView").scrollLeft(0).scrollTop(0);
+                        function fixedPosition(e) {
+                            if (e == null) {
+                                return;
+                            }
+                            var $imgLeft = $(".midimg").offset().left; //中图左边距
+                            var $imgTop = $(".midimg").offset().top; //中图上边距
+                            X = e.pageX - $imgLeft - $divWidth / 2; //selector顶点坐标 X
+                            Y = e.pageY - $imgTop - $divHeight / 2; //selector顶点坐标 Y
+                            X = X < 0 ? 0 : X;
+                            Y = Y < 0 ? 0 : Y;
+                            X = X + $divWidth > $imgWidth ? $imgWidth - $divWidth : X;
+                            Y = Y + $divHeight > $imgHeight ? $imgHeight - $divHeight : Y;
+
+                            if ($viewImgWidth == null) {
+                                $viewImgWidth = $("#bigView img").outerWidth();
+                                $viewImgHeight = $("#bigView img").height();
+                                if ($viewImgWidth < 200 || $viewImgHeight < 200) {
+                                    $viewImgWidth = $viewImgHeight = 822;
+                                }
+                                $height = $divHeight * $viewImgHeight / $imgHeight;
+                                $("#bigView").width($divWidth * $viewImgWidth / $imgWidth);
+                                $("#bigView").height($height);
+                            }
+                            var scrollX = X * $viewImgWidth / $imgWidth;
+                            var scrollY = Y * $viewImgHeight / $imgHeight;
+                            $("#bigView img").css({ "left": scrollX * -1, "top": scrollY * -1 });
+                            $("#bigView").css({ "top": 0, "left": 354});
+
+                            return { left: X, top: Y };
+                        }
+                    });
+                </script>
+            </div>
+        </div>
+
+        <div class="guding">
+            <div class="gd_content">
+                <div class="gd_logo">
+                    <a href="javascript;void(0)"><img src="/jygj/Public/home/img/logo.png" style="height: 45px"></a>
+                </div>
+                <ul>
+                    <li class="thisclass"><span>商品介绍</span></li>
+                    <li><span>规格及包装</span></li>
+                    <li><span>售后服务</span></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="warp_l">
+            
+            <div class="warp_l_right">
+                <ul class="warp_l_right_p">
+                    <li class="thisclass"><span>商品介绍</span></li>
+                    <li><span>规格及包装</span></li>
+                    <li><span>售后服务</span></li>
+                </ul>
+                
+                <ul class="warp_l_right_o">
+                    <li class="warp_l_right_li">
+                                <?=stripslashes($rst[spjs])?>          </li>
+                    <li class="warp_l_right_li" style="display: none">
+                                 <?=stripslashes($rst[ggjbz])?>      </li>
+                    <li class="warp_l_right_li" style="display: none">
+                                <?=stripslashes($rst[ssfw])?>   </li>
+                </ul>
+                
+            </div>
+            
+            <div class="warp_l_left">
+				
+
+                <div class="warp_l_left_div">
+                    <ul class="warp_l_left_div_mp">
+                        <li><span>相关分类</span></li>
+                    </ul>
+                    <ul class="warp_l_left_div_mo">
+
+	<?
+	$sql="SELECT * FROM  `zt_goods_sort` where item3=3 and item2=".$myb;
+	$qry=$link->query($sql);
+	while ($rst=$qry->fetch_array()) {
+	?>
+	<li><a href="cplist.html?lmid=<?=$rst[id]?>">· <?=$rst[columname]?></a></li>
+	<?	
+	}
+    ?>
+
+
+				</ul>
+                </div>
+
+                <div class="warp_l_left_dmt">
+                    <p class="warp_l_left_dmt_p">其他用户正在看的商品</p>
+                    <ul class="warp_l_left_dmt_ul">
+                   <?
+                    $sqlx="SELECT * FROM  `zt_goods` where fl=".$lmid." order by jfgm desc limit 0,6";
+                    $qryx=$link->query($sqlx);
+                    while($rstx=$qryx->fetch_array()){
+                ?>
+                	<li>
+    						
+    						<a href="cpcontent.html?cpid=<?=$rstx[id]?>" title="<?=$rstx[spmc]?>">
+    						<img src="<?=strtr($rstx['spslt'],array("../"=>"/mall/"));?>" width="150" height="150">
+    						<span><?=$rstx[spmc]?></span>
+    						<b>￥<?=$rstx[spjg]?></b>
+    						</a>
+    					</li>
+                <?	
+            		}
+                ?>
+
+						 </ul>
+                </div>
+
+            </div>
+            
+        </div>
+
+    </div>
+	<div class="ht30"></div>
+    <!----内容结束---->
+<script>
+    $(document).ready(function(){
+        $(document).scroll(function(){
+            var scroll_top=$(document).scrollTop();
+
+            if(scroll_top>=720){$(".guding").css("display","block");}
+            else{$(".guding").css("display","none");}
+        })
+    })
+</script>
+    <!------底部开始------>
+<?include("sfooter.html");?>
+    <!------底部结束------>
+</div>
+<!----------------------------点击变色开始-------------------------->
+<script>
+    $(function(){
+        var cotrs = $(".warp_l_right_p li");
+        cotrs.click(function(){
+            var v1=$(this).index();
+
+            $(this).addClass("thisclass").siblings().removeClass("thisclass");
+            $(".gd_content li:eq("+v1+")").addClass("thisclass").siblings().removeClass("thisclass");
+        });
+    });
+</script>
+<!----------------------------点击变色结束-------------------------->
+<script>
+    $(function(){
+        var cotrs = $(".gd_content li");
+        cotrs.click(function(){
+            var v2=$(this).index();
+            $(this).addClass("thisclass").siblings().removeClass("thisclass");
+            $(".warp_l_right_p li:eq("+v2+")").addClass("thisclass").siblings().removeClass("thisclass");
+        });
+    });
+</script>
+
+</body>
+</html>
+<script type="text/javascript">
+    var w=$('.warp_l_right_li img').css('width');
+    //var sw=screen.availWidth;
+    var sw=960;
+    w=w.substr(0,w.length-2);
+    if(w>sw){
+        $('.warp_l_right_li img').css('width',sw+'px');
+        $('.warp_l_right_li img').css('height','auto');
+    }
+</script>
+<?$link->close();?>

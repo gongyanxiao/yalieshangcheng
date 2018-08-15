@@ -1,0 +1,291 @@
+<!DOCTYPE html >
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<title>{$page_title}</title>
+<meta name="Keywords" content="{$keywords}" />
+<meta name="Description" content="{$description}" />
+<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+<link rel="stylesheet" type="text/css" href="themesmobile/default/css/public.css" />
+<link rel="stylesheet" type="text/css" href="themesmobile/default/css/index.css" />
+<script type="text/javascript" src="themesmobile/default/js/TouchSlide.1.1.js"></script>
+<style>
+#DY_site_name {
+  display: none
+}
+
+.scrollimg .hd {
+  bottom: 0; position: absolute; text-align: center; width: 100%;
+}
+
+.scrollimg .hd li {
+  background: #fff none repeat scroll 0 0; border-radius: 0.8em;
+  box-shadow: 0 0 1px #ccc; display: inline-block; height: 0.4em;
+  margin: 0 0.4em; opacity: 0.6; overflow: hidden; text-indent: -100px;
+  width: 0.4em;
+}
+
+.scrollimg .hd li.on {
+  background: #e71f19 none repeat scroll 0 0; box-shadow: 0 0 2px #ccc;
+  opacity: 0.9;
+}
+
+.scrollimg {
+  margin: 0 auto; overflow: hidden; position: relative;
+}
+</style>
+</head>
+<body>
+    {insert name='share'}{insert name='add_url_uid'}
+    <div class="body_bj">
+        <!--网站头部-->
+        <header id="header">
+            <!-- #BeginLibraryItem "/library/page_header.lbi" -->
+            <!-- #EndLibraryItem -->
+        </header>
+
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <style>
+.scrollimg {
+  position: relative; overflow: hidden; margin: 0px auto;
+  /* 设置焦点图最大宽度 */
+}
+
+.scrollimg .hd {
+  position: absolute; bottom: 0px; text-align: center; width: 100%;
+}
+
+.scrollimg .hd li {
+  display: inline-block; width: .4em; height: .4em; margin: 0 .4em;
+  -webkit-border-radius: .8em; -moz-border-radius: .8em;
+  -ms-border-radius: .8em; -o-border-radius: .8em; border-radius: .8em;
+  background: #FFF; filter: alpha(Opacity = 60); opacity: .6;
+  box-shadow: 0 0 1px #ccc; text-indent: -100px; overflow: hidden;
+}
+
+.scrollimg .hd li.on {
+  filter: alpha(Opacity = 90); opacity: .9; background: #E71F19;
+  box-shadow: 0 0 2px #ccc;
+}
+
+.scrollimg .bd {
+  position: relative; z-index: 0;
+}
+
+.scrollimg .bd li {
+  position: relative; text-align: center;
+}
+
+.scrollimg .bd li img {
+  background: url(../../../mobile/themesmobile/default/images/loading.gif)
+    center center no-repeat; vertical-align: top; width: 100%;
+  /* 图片宽度100%，达到自适应效果 */
+}
+
+.scrollimg .bd li a {
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+} /* 去掉链接触摸高亮 */
+.scrollimg .bd li .tit {
+  display: block; width: 100%; position: absolute; bottom: 0;
+  text-indent: 10px; height: 28px; line-height: 28px;
+  background: url(images/focusBg.png) repeat-x; color: #fff;
+  text-align: left;
+}
+
+.rxyl_good_con {
+  width: 100%; overflow: hidden; text-align: center; background: #f7f8fa
+}
+
+.rxyl_good_con h2 {
+  font-size: 40px; color: #000
+}
+
+.rxyl_good_con h3 {
+  font-size: 30px; color: #ccc; font-weight: normal;
+}
+
+.rxyl_good_co {
+  width: 100%; overflow: hidden;
+}
+
+.rxyl_good_co dl {
+  margin: 0 0 50px 25px; text-align: center; max-width: 420px; width: 85%;
+  border: #ccc 1px solid; font-family: "微软雅黑"; float: left;
+  background: #fff; position: relative; text-align: center;
+  max-width: 420px; width: 85%;
+}
+
+.rxyl_good_co dl dt {
+  margin: 0px; text-align: center;
+}
+
+.rxyl_good_co dl dt img {
+  width: 100%
+}
+
+.rxyl_good_co dl dd {
+  font-size: 20px; color: #f00;
+}
+
+.rxyl_good_co dl dd p {
+  width: 100%; font-size: 14px; color: #444; line-height: 30px;
+}
+
+.rxyl_good_co dl dd h4 {
+  height: 47px; line-height: 47px; text-align: center; font-size: 14px;
+  color: #fff; background: #f00; position: absolute; bottom: 0; left: 0;
+  width: 100%;
+}
+.rxyl_rela_con { padding:10px;text-align: left;width: 90%; margin: 20px auto 50px; overflow: hidden; }
+.rxyl_rela_con h2 { font-size: 20px; color: #575757; text-align: center; margin: 20px auto; }
+.rxyl_rela_con p { font-size: 14px; color: #444; line-height: 30px; text-indent: 2em; color: #acacac }
+</style>
+        <div id="scrollimg" class="scrollimg">
+
+            <div class="bd">
+                <ul>
+                    <li style="display: table-cell; vertical-align: top; width: 361px;"><a><img src="themesmobile/default/images/658-332.png" width="100%"></a></li>
+                </ul>
+            </div>
+
+            <div class="hd">
+                <ul></ul>
+            </div>
+        </div>
+        <script type="text/javascript">
+                TouchSlide({
+                    slideCell:"#scrollimg",
+                    titCell:".hd ul", //开启自动分页 autoPage:true ，此时设置 titCell 为导航元素包裹层
+                    mainCell:".bd ul", 
+                    effect:"leftLoop", 
+                    autoPage:true,//自动分页
+                    autoPlay:true //自动播放
+                });
+            </script>
+        <div class="rxyl_good_con">
+            <a name='yanglaohaochu'></a>
+            <h4>消费养老的好处</h4>
+            <h5>CONSUMPTION PENSION MODEL</h5>
+            <div class="rxyl_good_co">
+                <dl>
+                    <dt>
+                        <img src="/themes/default/yanglao/images/rxyl1_26.jpg" />
+                    </dt>
+                    <dd>
+                        <p>安全投资</p>
+                        <p>运营模式简单</p>
+                        <p>可复制</p>
+                        <p>持续拥有</p>
+                        <p>
+                            <br>&nbsp;
+                        </p>
+                        <h4>儒孝养老对合作伙伴的好处</h4>
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>
+                        <img src="/themes/default/yanglao/images/rxyl1_28.jpg" />
+                    </dt>
+                    <dd>
+                        <p>积攒养老金(消费赚取养老金)</p>
+                        <p>省钱消费(打折优惠)</p>
+                        <p>省心消费(一卡全国通用和便民支付)</p>
+                        <p>获赠保险(5-40万交通意外保险) 一年超低价团购(享受低价优惠)</p>
+                        <p>
+                            <br>&nbsp;
+                        </p>
+                        <h4>儒孝养老对消费者的好处</h4>
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>
+                        <img src="/themes/default/yanglao/images/rxyl1_30.jpg" />
+                    </dt>
+                    <dd>
+                        <p>增加新客户,锁定老客户</p>
+                        <p>增加额外收入,有机会帮您付房租</p>
+                        <p>持续有收益.成就行业NO.1</p>
+                        <p>赠送高附加值广告及系列培训</p>
+                        <p>
+                            <br>&nbsp;
+                        </p>
+                        <h4>儒孝养老对商家的好处</h4>
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>
+                        <img src="/themes/default/yanglao/images/rxyl1_32.jpg" />
+                    </dt>
+                    <dd>
+                        <p>为养老破解难题</p>
+                        <p>为当地政府慈善筹集资金</p>
+                        <p>增加地方税收收入</p>
+                        <p>按地级城市50万到100万人享受消费养老服务,就为当地老百姓每年补充商业保险基金几十亿元,有力补充当地养老金的不足</p>
+                        <p>
+                            <br>&nbsp;
+                        </p>
+                        <h4>儒孝养老对政府的好处</h4>
+                    </dd>
+                </dl>
+            </div>
+        </div>
+        <div class="rxyl_good_con">
+            <a name='yanglaohaochu'></a>
+            <h4>养老动态</h4>
+            <h5>养老市场未来消费或超百万亿</h5>
+            <div class="rxyl_rela_con">
+                <p>随着我国人口结构呈现老龄化状态，有关养老、养生、医疗健康等问题越来越受到重视。业内人士指出，在此背景下，国家出台政策指引，高层密切关注养老服务业发展，有利于缓解老龄化中国所面临的发展与民生的双重压力，并极大地促进养老产业发展。</p>
+                <p>银河证券首席策略师孙建波表示，当前是以40岁上下的人为主，未来60岁以上的深口占比会超过30%，这是我们看到的中国的人口的结构变迁，可是我要强调一点，人口变迁尤其是老龄化并不带来经济的转变，因为我们的经济不再是挖矿和种粮食，不再是简单的体力劳动，我们的经济正在向着更多的高级脑力劳动转变，我们的专业和科技服务在上升，这时候老龄化并不是一个经济的负担，它带来的是什么？是消费方向的变化。老龄化会带动大健康和医药产业的发展。老龄化带来了新的消费结构，经济的发展将不再依靠简单的体力劳动，专业和科技服务在上升，企业应以新消费结构为方向来布局。</p>
+                <p>全国政协社会和法制委员会副主任张世平指出，从经济上看，我国是全球老龄产业市场潜力最大的国家，潜能目前并未完全释放， 她指出，包括养老产业的健康服务业产值目前仅占GDP的5%，美国这一比例为17.6%，“银发经济”是未来经济增长的重要引擎，据预测2014-2050年中国老年人的消费潜力将从4万亿左右增至106万亿。</p>
+            </div>
+        </div>
+
+
+        <!-- #BeginLibraryItem "/library/footer_nav.lbi" -->
+        <!-- #EndLibraryItem -->
+        <!---返回顶部-->
+        <script type="text/javascript" src="themesmobile/default/js/jquery.js"></script>
+        {insert_scripts files='jquery.json.js,transport.js'}
+        <script type="text/javascript" src="themesmobile/default/js/touchslider.dev.js"></script>
+        <script type="text/javascript" src="themesmobile/default/js/jquery.more.js"></script>
+        {insert_scripts files='common.js'}
+        <script type="text/javascript">
+        var url = 'index_bestgoods.php?act=ajax';
+        $(function(){
+        	$('#J_ItemList').more({'address': url});
+        });
+        
+        </script>
+        <script>
+        function goTop(){
+        	$('html,body').animate({'scrollTop':0},600);
+        }
+        </script>
+        <a href="javascript:goTop();" class="gotop"><img src="themesmobile/default/images/topup.png"></a>
+        <script type="Text/Javascript" language="JavaScript">
+
+        {literal}
+        function selectPage(sel)
+        {
+           sel.form.submit();
+        }
+        {/literal}
+        
+        </script>
+        <script type="text/javascript">
+        {foreach from=$lang.compare_js item=item key=key}
+        {if $key neq 'button_compare'}
+        var {$key} = "{$item}";
+        {else}
+        var button_compare = "";
+        {/if}
+        {/foreach}
+        var compare_no_goods = "{$lang.compare_no_goods}";
+        var btn_buy = "{$lang.btn_buy}";
+        var is_cancel = "{$lang.is_cancel}";
+        var select_spe = "{$lang.select_spe}";
+        </script>
+    </div>
+</body>
+</html>

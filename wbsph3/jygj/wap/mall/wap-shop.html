@@ -1,0 +1,401 @@
+﻿<?  
+include("config.php");
+
+function ztjq($str, $from, $len){ 
+$a="#^(?:[\x00-\x7F]|[\xC0-\xFF][\x80-\xBF]+){0,'.$from.'}";
+$b="'((?:[\x00-\x7F]|[\xC0-\xFF][\x80-\xBF]+){0,'.$len.'}).*#s'";
+return preg_replace($a.$b,'$1',$str); 
+}
+$link = mysqli_connect($db_host,$db_user,$db_pwd,$db_database) or die('Unale to link');
+$link->set_charset('utf8');
+$sqla="select * from `phome_enewsad` where `classid` = 2 order by `adid` desc limit 0,5";
+$qrya=$link->query($sqla);
+$i=0;
+?>
+<!DOCTYPE html>
+<html><head lang="en">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta content="no-cache,must-revalidate" http-equiv="Cache-Control">
+<meta content="no-cache" http-equiv="pragma">
+<meta content="0" http-equiv="expires">
+<meta content="telephone=no, address=no" name="format-detection">
+<meta name="apple-mobile-web-app-capable" content="yes"> 
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta http-equiv="pragma" content="no-cache">
+<meta http-equiv="cache-control" content="no-cache">
+<meta http-equiv="expires" content="0">   
+   <title>网络平台_<?=_TITLE_?></title>
+    <meta name="keyword" content="<?=_KEYWORD_?>"/>
+    <meta name="description" content="<?=_DESCRIPTION_?>"/>
+    <link href="/Public/ico.ico" type="image/x-icon" rel="shortcut icon" /> 
+	
+    <link rel="stylesheet" type="text/css" href="/css/wap/index.css">
+    <link rel="stylesheet" type="text/css" href="/css/wap/swiper.css">
+    <script type="text/javascript" src="/js/jquery-1.js"></script>
+    <script type="text/javascript" src="/js/swiper.js"></script>
+</head>
+<body>
+<div class="warp">
+    <!------头部开始------>
+   <?include("header.html");?>
+    <!------头部结束------>
+
+    <!------banner开始------>
+    <div id="banner" class="swiper-container-horizontal">
+        <div class="swiper-wrapper" style="transform: translate3d(-1920px, 0px, 0px); transition-duration: 0ms;">
+	        
+            <?
+            while($rst1=$qrya->fetch_array()) {
+            ?>
+            <div class="swiper-slide" data-swiper-slide-index="<?=$i?>" style="background:url(<?=$rst1['picurl'];?>) 50% 0 no-repeat;background-size:auto 315px;width:640px;height: 315px;">
+            </div>
+            <?
+            $i++;
+            }
+            ?>
+            
+            </div>
+        </div>
+    </div>
+    <!------banner结束------>
+
+    <!------导航开始------>
+    <ul class="warp_o">
+		<li>
+            <a href="/wap/mall/bslist.html?aid=a">
+                <img src="/img/im15.png">
+                <span>商家联盟</span>
+            </a>
+        </li>
+        <li>
+            <a href="/wap/mall/cplist.html?lmid=1">
+                <img src="/img/im10.png">
+                <span>产品列表</span>
+            </a>
+        </li>
+		<li>
+            <a href="jifen.html?noj=1">
+                <img src="/img/im12.png">
+                <span>国际特色</span>
+            </a>
+        </li>
+		<li>
+            <a href="jifen.html">
+                <img src="/img/im13.png">
+                <span>国内特色</span>
+            </a>
+        </li>
+        <li>
+            <a href="articlelist.html?lmid=36">
+                <img src="/img/im7.png">
+                <span>帮助中心</span>
+            </a>
+        </li>
+		<li>
+            <a href="../lm.html?lmid=11">
+                <img src="/img/im6.png">
+                <span>联系我们</span>
+            </a>
+        </li>
+        <li>
+            <a href="http://jsguoji.cn/wap/mall/articlelist.html?lmid=70">
+                <img src="/img/im8.png">
+                <span>特色旅游</span>
+            </a>
+        </li>
+        <li>
+            <a href="../wap.html">
+                <img src="/img/im9.png">
+                <span>集团网站</span>
+            </a>
+        </li>
+		<li>
+            <?       
+                    if(!empty($_COOKIE['ECS']['username'])){
+                    $queryl=$link->query("select * from xbmall_users where user_name='".$_COOKIE['ECS']['username']."'"); 
+                    $rl=$queryl->fetch_array(); 
+                    if($rl['lx']==0) {
+                    ?>
+                    <a href="center.html">
+                    <?
+                    } else {
+                    ?>
+                    <a href="b_center.html">
+                    <?
+                    }   } else {
+                    ?>
+                    <a href="login.html">
+                    <?
+                    }
+                    ?>
+                <img src="/img/im_6.png">
+                <span>用户中心</span>
+            </a>
+        </li>
+        <li>
+            <a href="/wap/mall/articlelist.html?lmid=44">
+                <img src="/img/im11.png">
+                <span>网站公告</span>
+            </a>
+        </li>
+        
+       <!-- <li>
+            <a href="#">
+                <img src="/jygj/Public/wap/img/im13.png">
+                <span>新闻中心</span>
+            </a>
+        </li>
+        <li>
+            <a href="/Wap/article/index/id/25.html">
+                <img src="/jygj/Public/wap/img/im14.png">
+                <span>联系我们</span>
+            </a>
+        </li>-->
+        
+    </ul>
+    <!------导航结束------>
+
+    <!------猜你喜欢开始------>
+     <div class="warp_i">
+        <div class="warp_i_div">
+            <span>猜你喜欢</span>
+        </div>
+<?  
+    
+                        $sql="SELECT * FROM  `zt_goods` where cnxh=1 and sfsj=1 order by fbsj desc limit 0,20";
+                        $qry=$link->query($sql);
+                      
+                    ?>
+        <div id="pic_list_1" class="scroll_horizontal">
+            <a class="next"></a>
+            <a class="prev"></a>
+            <div class="box" style="position: relative">
+                <div class="box_s" style="position: absolute">
+                    <ul class="list">
+                    <?
+        		  while($rst=$qry->fetch_array()) {
+        			
+        	?>
+                        <li >
+                             <a href="cpcontent.html?cpid=<?=$rst[id]?>" title="<?=$rst[spmc]?>">
+                             	<img src="<?=strtr($rst['spslt'],array("../"=>"/mall/"));?>">
+                                <span><?=mb_substr($rst[spmc],0,10,'utf-8');?></span>
+                                <b>￥<?=$rst[spjg];?></b>
+                            </a>
+                        </li>
+                   <?
+               		}
+                   ?>
+                     	 </ul>
+                </div>
+            </div>
+            <script type="text/javascript">
+        $(function() {
+            var x=$(".box").css("width");
+            x=x.substr(0,x.length-2);
+            $(".box .box_s .list li img").css("height",0.4*x+"px");
+        })
+    </script>
+        </div>
+
+
+    </div>
+    <!------猜你喜欢结束------>
+
+    <!------广告图开始------>
+    <table class="warp_u">
+        <tbody>
+        	<?	
+        		//$x=0;
+        		$j=array();
+        		$k=array();
+                $sqla="select * from `phome_enewsad` where `classid` = 4 order by `adid` asc";
+                    $qrya=$link->query($sqla);
+                    $total=$qrya->num_rows>=4?4:$qrya->num_rows;
+                    $x=0;
+                    while($x<$total) {
+                        $sql1=$sqla." limit ".$x.",1";
+                        $qry1=$link->query($sql1); 
+                        $rst1=$qry1->fetch_array();
+                        $j[]=$rst1['url'];
+                        $k[]=$rst1['picurl'];
+                        $x++;   
+                    }
+        	?>
+        <tr>
+            <td rowspan="2" width="50%">
+                <a href="<?echo($j[0]);?>"><img src="<?echo($k[0]);?>"></a>
+            </td>
+            <td width="25%">
+                <a href="<?echo($j[1]);?>"><img src="<?echo($k[1]);?>"></a>
+            </td>
+            <td width="25%">
+                <a href="<?echo($j[2]);?>"><img src="<?echo($k[2]);?>"></a>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <a href="<?echo($j[3]);?>"><img src="<?echo($k[3]);?>"></a>
+            </td>
+        </tr>
+    </tbody></table>
+    <script type="text/javascript">
+    	$(function() {
+			var x=$(".warp_u td").eq(1).css("width");
+			x=x.substr(0,x.length-2);
+            $(".warp_u td").css("height",x+"px");
+			$(".warp_u td").eq(0).css("height",2*x+"px");
+    	})
+    </script>
+    <!------广告图结束------>
+
+    <!------列表开始------>
+    <div class="warp_y_div">
+        <ul class="warp_y">
+        <?
+            $sqlb="select * from `zt_goods` where `fl` in (select id from `zt_goods_sort` where item2 in (select id from `zt_goods_sort` where item1=3 and item2=2) and item3=3) and `sftj` = 1 and sfsj=1 order by `id` desc limit 0,4";
+            $qryb=$link->query($sqlb);
+            while($rstb=$qryb->fetch_array()) {
+
+				?>
+					<li style="height: 168.7px;">
+						<a href="cpcontent.html?cpid=<?=$rstb[id]?>">
+	                        <img src="<?=strtr($rstb['spslt'],array("../"=>"/mall/"));?>">
+	                        <span><?=$rstb[spmc]?></span>
+	                    	<b>￥<?=$rstb[spjg];?></b>
+	                    </a>
+                    </li>
+				<?
+					}
+				?>	
+                <?
+                	 $sqlb="select * from `zt_goods` where `fl` in (select id from `zt_goods_sort` where item2 in (select id from `zt_goods_sort` where item1=9 and item2=2) and item3=3) and `sftj` = 1  and sfsj=1 order by `id` desc limit 0,4";
+            $qryb=$link->query($sqlb);
+            while($rstb=$qryb->fetch_array()) {
+				?>
+					<li style="height: 168.7px;">
+                        <a href="cpcontent.html?cpid=<?=$rstb[id]?>">
+                            <img src="<?=strtr($rstb['spslt'],array("../"=>"/mall/"));?>">
+                            <span><?=$rstb[spmc]?></span>
+                            <b>￥<?=$rstb[spjg];?></b>
+                        </a>
+                    </li>
+				<?
+					}
+				?>	
+				<?
+                
+            $sqlb="select * from `zt_goods` where `fl` in (select id from `zt_goods_sort` where item2 in (select id from `zt_goods_sort` where item1=15 and item2=2) and item3=3) and `sftj` = 1  and sfsj=1 order by `id` desc limit 0,4";
+            $qryb=$link->query($sqlb);
+            while($rstb=$qryb->fetch_array()) {
+				?>
+					<li style="height: 168.7px;">
+                        <a href="cpcontent.html?cpid=<?=$rstb[id]?>">
+                            <img src="<?=strtr($rstb['spslt'],array("../"=>"/mall/"));?>">
+                            <span><?=$rstb[spmc]?></span>
+                            <b>￥<?=$rstb[spjg];?></b>
+                        </a>
+                    </li>
+				<?
+					}
+				?>	
+
+                     </ul>
+    </div>
+    <!------列表结束------>
+
+    <!------底部开始------>
+    <div class="ht60"></div>
+<?include("footer.html");?>
+    <!------底部结束------>
+</div>
+
+
+
+
+<script type="text/javascript">
+    window.onload = function() {
+        var mySwiper1 = new Swiper('#header',{
+            freeMode : true,
+            slidesPerView : 'auto',
+        });
+        var mySwiper2 = new Swiper('#banner',{
+            autoplay:5000,
+            visibilityFullFit : true,
+            loop:true,
+            pagination : '.pagination',
+        });
+
+        var tabsSwiper = new Swiper('#tabs-container',{
+            speed:500,
+            onSlideChangeStart: function(){
+                $(".tabs .active").removeClass('active')
+                $(".tabs a").eq(tabsSwiper.activeIndex).addClass('active')
+            }
+        })
+        $(".tabs a").on('touchstart mousedown',function(e){
+            e.preventDefault()
+            $(".tabs .active").removeClass('active')
+            $(this).addClass('active')
+            tabsSwiper.slideTo( $(this).index() )
+        })
+        $(".tabs a").click(function(e){
+            e.preventDefault()
+        })
+
+    }
+</script>
+
+
+<script>
+    $(function(){
+        var v1=$(".box").width()
+
+        var v2=v1/2;//li宽度
+        var v9=v2+50
+        $(".scroll_horizontal .list li").width(v2)
+        $(".scroll_horizontal .list li").height(v9)
+        var v3=$(".list").children("li").length;//li个数
+        var v4=v2*(v3);//list宽
+        $(".box").height(v9)
+        $(".list").width(v4);
+        var v5=$(".box_s").html()
+        $(".box_s").append(v5)
+        var d1=0;
+        var v6=v2*v3
+        $(".next").click(function(){
+            d3=d1-d1*2
+            if(d3==v6){
+                d1=0
+                $(".box_s").css({left:+d1})
+            }
+            d1=d1-v2;
+            $(".box_s").animate({left:+d1},200)
+        })
+        $(".prev").click(function(){
+            d4=d1
+            if(d4==0){
+                d1=0-v4
+                $(".box_s").css({left:+d1})
+            }
+            d1=d1+v2;
+            $(".box_s").animate({left:+d1},200)
+        })
+        function flash_title()
+        {
+            d3=d1-d1*2
+            if(d3==v6){
+                d1=0
+                $(".box_s").css({left:+d1})
+            }
+            d1=d1-v2;
+            $(".box_s").animate({left:+d1},200)
+
+        }
+        //定时闪动title开发环境下先注释
+        setInterval(flash_title,5000);
+    })
+</script></body></html>

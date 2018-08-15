@@ -1,0 +1,103 @@
+<!DOCTYPE html >
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<title>{$page_title}</title>
+<meta name="Keywords" content="{$keywords}" />
+<meta name="Description" content="{$description}" />
+<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+<link rel="stylesheet" type="text/css" href="themesmobile/default/css/public.css"/>
+<link rel="stylesheet" href="themesmobile/default/css/stores.css">
+<link href="themesmobile/default/css/supp_center.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="themesmobile/default/js/jquery.js"></script>
+	{insert_scripts files='index.js'}
+</head>
+{insert_scripts files="jquery.json.js,transport.js"}
+<script type="text/javascript" src="admin/js/common.js"></script>
+
+<script type="text/javascript" src="themesmobile/default/js/utils.js"></script>
+<script type="text/javascript" src="themesmobile/default/js/validator.js"></script>
+<script type="text/javascript" src="js/listtable.js"></script>
+<body class="bodybj">
+      <header>
+      <div class="tab_nav">
+        <div class="header">
+          <div class="h-left"><a class="sb-back" href="javascript:history.back(-1)" title="返回"></a></div>
+          <div class="h-mid">货款励积分兑换记录</div>
+          <div class="h-right">
+            <aside class="top_bar">
+              <div onClick="show_menu();$('#close_btn').addClass('hid');" id="show_more"><a href="javascript:;"></a> </div>
+            </aside>
+          </div>
+        </div>
+      </div>
+      </header>
+     <!-- #BeginLibraryItem "/library/up_menu.lbi" -->
+    <!-- #EndLibraryItem -->
+ 
+ 
+ 
+ 
+
+<!-- start goods list
+<div class="form-div">
+  <form action="javascript:searchOrder()" name="searchForm">
+    <img src="images/icon_search.gif" width="26" height="22" border="0" alt="SEARCH" />
+    <input name="start_time" id="start_time" type="text" size="10" readonly="readonly" placeholder="开始时间" >
+    <input class="button" type="button" id="start_time_btn" onclick="return showCalendar('start_time', '%Y-%m-%d %H:%M', '24', false, 'start_time_btn');" value="选择">
+     <input name="end_time" id="end_time" type="text" size="10" readonly="readonly" placeholder="结束时间" >
+    <input class="button" type="button" id="end_time_btn" onclick="return showCalendar('end_time', '%Y-%m-%d %H:%M', '24', false, 'end_time_btn');" value="选择">
+    <input type="submit" value="{$lang.button_search}" class="button" />
+  </form>
+</div> -->
+<form method="post" action="role_exchange.php?act=query" name="listForm">
+    <div class="list-div" id="listDiv">
+  
+		{foreach from=$account_list item=item name=item}
+			<section class="rzs_info">
+				<dl>
+					<dt><strong></strong>
+						 <p>提现时间:{$item.add_time}</p>
+			              <p>积分数:{$item.amount}</p>
+			              <p>用户备注:{$item.user_note}</p>
+			              <p>管理员备注:{$item.admin_note}</p>
+			             <p>状态:{if $card.is_paid eq 0}未处理{else}已完成{/if}</p>
+			             <p>{$item.handle} 
+			             </p>
+                
+					 </dt>
+				</dl>
+			</section>
+		    {foreachelse}
+                <dl>
+					<dt><strong>没有记录</strong>
+					 </dt>
+				</dl>
+            {/foreach}
+		 
+         
+    </div>
+</form>
+ 
+ <!--翻页-->
+ <!-- #BeginLibraryItem "/library/pages.lbi" --><!-- #EndLibraryItem -->
+
+ <!-- #BeginLibraryItem "/library/footer_nav.lbi" --><!-- #EndLibraryItem -->
+<!-- end payment list -->
+<script type="Text/Javascript" language="JavaScript">
+ function confirm_redirect(msg, url)
+{	
+  if (confirm(msg))
+  {
+    location.href=url;
+  }
+}
+</script>
+</body>
+</html>
+ 
+ 
+ 
+  
+ 

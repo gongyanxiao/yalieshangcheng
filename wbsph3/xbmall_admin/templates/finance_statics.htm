@@ -1,0 +1,166 @@
+{if $full_page}
+{include file="pageheader.htm"}
+{insert_scripts files="../js/utils.js,listtable.js"}
+<script type='text/javascript' src='../js/calendar.php' ></script>
+<link href='../js/calendar/calendar.css' rel='stylesheet' type='text/css' />
+<!-- 订单搜索 -->
+<div class="form-div">
+    <form action="javascript:searchOrder()" name="searchForm">
+        <img src="images/icon_search.gif" width="26" height="22" border="0" alt="SEARCH" />
+        <select name="process_type" id="process_type" onchange="checkProcessType();">
+            <option value="">所有类型</option>
+            <option value="0">充值</option>
+            <option value="1">提现</option>
+        </select>
+        手机号:
+        <input name="phone_num" id="phone_num" type="text" size="10">
+         
+        <select name="type" id="process_type_0" style="display: none;">
+            <option value="">所有类型</option>
+            <option value="0">做单充值</option>
+            <option value="3">大家庭会员充值</option>
+            <option value="5">产品报单中心充值</option>
+        </select>
+        <select name="type" id="process_type_1" style="display: none;">
+            <option value="">所有类型</option>
+           <option value="0" >货款提现</option>
+            <option value="1" >基数奖励提现</option>
+            <option value="2" >大家庭分红提现</option>
+            <option value="3" >分红积分提现</option>
+            <option value="5" >产品积分提现</option>
+            <option value="9" >分享奖励积分提现</option>
+        </select>
+        开始时间: <input name="start_time" id="start_time" type="text" size="20">
+        <input class="button" type='button' onclick="return showCalendar('start_time', '%Y-%m-%d %H:%M:%S', '24', false, 'start_time');" value="选择">
+        结束时间: <input name="end_time" id="end_time" type="text" size="20">
+        <input class="button" type='button' onclick="return showCalendar('end_time', '%Y-%m-%d %H:%M:%S', '24', false, 'end_time');" value="选择">
+        <input type="submit" value="{$lang.button_search}" class="button" />
+        <!-- <input type="button" value="下载" class="button" onclick="exportSupps()" />  -->
+    </form>
+</div>
+<!-- start goods list -->
+<form method="post" action="role_offline_man.php" name="offlinelistForm">
+    <div class="list-div" id="listDiv">
+        {/if}
+        <div style="height: 50px;line-height: 50px;font-size: 14px;">
+            总计：<span style="color:red;">{$filter.record_count}</span>
+            累计充值：<span style="color:red;">{$filter.cz_money}</span>
+            累计提现：<span style="color:red;">{$filter.tx_money}</span>
+        </div>
+        <table cellpadding="3" cellspacing="1">
+            <tr>
+                <th>编号</th>
+                <th>会员</th>
+                <th>创建时间</th>
+                <th>支付时间/提现时间</th>
+                <th>类型</th>
+                <th>金额</th>
+            </tr>
+            { foreach from=$order_list item=card}
+            <tr>
+                <td align="center">
+                    {$card.id}
+                </td>
+                <td align="center">{$card.mobile_phone}<br/>(真实姓名：{$card.real_name})</td>
+                <td align="center">{$card.add_time}</td>
+                <td align="center">{$card.paid_time}</td>
+                <th align="center">{if $card.process_type eq '0'}充值<span style="color:red;">
+                ({if $card.type eq 0}做单充值{/if}
+                {if  $card.type eq 3 }加入香柏大家庭{/if}
+                {if  $card.type eq 5 }产品报单中心{/if})
+                </span>
+                {else}提现<span style="color:red;">(
+                {if $card.type eq 0}货款提现
+                {elseif $card.type eq 1}基数奖励提现
+                {elseif $card.type eq 2}大家庭分红提现
+                {elseif $card.type eq 3}消费分红积分提现
+                {elseif $card.type eq 5}产品积分提现
+                {elseif $card.type eq 9}分享奖励积分提现
+                {/if})</span>{/if}</th>
+                <td align="center">{$card.amount}</td>
+            </tr>
+            {foreachelse}
+            <tr><td class="no-records" colspan="6">{$lang.no_records}</td></tr>
+            {/foreach}
+        </table>
+       <!-- 分页 -->
+<table id="page-table" cellspacing="0">
+  <tr>
+    <td align="right" nowrap="true">
+    {include file="page.htm"}
+    </td>
+  </tr>
+</table>
+        {if $full_page}
+
+    </div>
+</form>
+<script language="javascript">
+    function checkProcessType()
+    {
+        $("#process_type_0,#process_type_1").hide();
+        $("#process_type_0,#process_type_1").val('');
+        var process_type=$("#process_type").val();
+        if(process_type!=='')
+        {
+            $("#process_type_"+process_type).show();
+        }
+    }
+    listTable.recordCount = {$record_count};
+    listTable.pageCount = {$page_count};
+    {foreach from=$filter item=item key=key}
+    listTable.filter.{$key} = '{$item}';
+    {/foreach}
+    onload = function ()
+    {
+        // 开始检查订单
+        startCheckOrder();
+    }
+    /**
+     * 搜索订单
+     */
+    function searchOrder()
+    {
+        listTable.filter['start_time'] = document.forms['searchForm'].elements['start_time'].value;
+        listTable.filter['end_time'] = document.forms['searchForm'].elements['end_time'].value;
+        listTable.filter['process_type'] = document.forms['searchForm'].elements['process_type'].value;
+        listTable.filter['phone_num'] = document.forms['searchForm'].elements['phone_num'].value;
+        
+        var process_type=$("#process_type").val();
+        if(process_type!=='')
+        {
+            if(process_type*1==0)
+            {
+                listTable.filter['type'] = $("#process_type_0").val();
+            }
+            else
+            {
+                listTable.filter['type'] = $("#process_type_1").val();
+            }
+        }
+        listTable.filter['page'] = 1;
+        listTable.loadList();
+    }
+    function check()
+    {
+        var snArray = new Array();
+        var eles = document.forms['listForm'].elements;
+        for (var i = 0; i < eles.length; i++)
+        {
+            if (eles[i].tagName == 'INPUT' && eles[i].type == 'checkbox' && eles[i].checked && eles[i].value != 'on')
+            {
+                snArray.push(eles[i].value);
+            }
+        }
+        if (snArray.length == 0)
+        {
+            return false;
+        } else
+        {
+            eles['order_id'].value = snArray.toString();
+            return true;
+        }
+    }
+</script>
+{include file="pagefooter.htm"}
+{/if}

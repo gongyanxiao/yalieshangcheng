@@ -1,0 +1,199 @@
+<?
+include("config.php");
+session_start(); 
+$_SESSION['uniqid1'] = md5(uniqid('jygj',true));
+?>
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title><?=_TITLE_?></title>
+    <meta name="keyword" content="<?=_KEYWORD_?>"/>
+    <meta name="description" content="<?=_DESCRIPTION_?>"/>
+
+    <link href="/Public/ico.ico" type="image/x-icon" rel="shortcut icon" /> 
+	
+    <link rel="stylesheet" type="text/css" href="/jygj/Public/home/css/index.css"/>
+    <script type="text/javascript" src="/jygj/Public/home/js/jquery-1.7.2.js"></script>
+	<script type="text/javascript" src="/Public/js/jquery.flexslider-min.js"></script>
+	 <script type="text/javascript" src="js/jquery.min.js"></script>
+
+    <script type="text/javascript">
+<!--
+//提交到后台查询
+function tj(){	
+var money=document.myform.money.value;
+var yzm=document.myform.yzm.value;
+var session=document.myform.session.value;
+var dataString='money='+money+'&yzm='+yzm+'&session='+session;
+ $.ajax({  
+type: "POST",  
+url: "member/b_cash_pro.html",  
+data:dataString,  
+cache:false,  
+success:function(html){  
+$("#jygj").html(html);
+refresh();
+}
+});
+}
+
+var InterValObj; 
+var count = 60; //间隔函数，1秒执行
+var curCount;//当前剩余秒数	
+function duanxin(){
+ curCount = count;
+//设置button效果，开始计时
+$("#hqyzm").attr("disabled", "true");
+$("#hqyzm").val(curCount + "重发验证码");
+InterValObj = window.setInterval(SetRemainTime, 1000); //启动计时器，1秒执行一次
+var yzm=document.myform.yzm.value;
+var money=document.myform.money.value;
+var dataString='money='+money+'&yzm='+yzm;
+ $.ajax({  
+type: "POST",  
+url: "member/f_txyzm_send.html",  
+data:dataString,  
+cache:false,  
+success:function(html){  
+$("#jygj").html(html);
+}  
+}); 
+		
+	}
+		function SetRemainTime() {
+						if (curCount == 0) {                
+							window.clearInterval(InterValObj);//停止计时器
+							$("#hqyzm").removeAttr("disabled");//启用按钮
+							$("#hqyzm").val("重新发送");
+						}
+						else {
+							curCount--;
+							$("#hqyzm").val(curCount + "重发验证码");
+						}
+					}
+//-->
+</script>
+</head>
+<body >
+<div id="jygj"></div>
+<div class="warp">
+    <!------最顶部开始------>
+  <?
+        include("sheader1.html");
+		?>
+  <!------logo结束------>
+<script>
+	$(function(){
+		$(".open_xl").click(function(){
+			$(".xiala").show();
+		})
+		$(".xiala a").click(function(){
+			var xq=$(this).html();
+			$(".open_xl a").html(xq);
+			$(this).parent().hide();
+		})
+	})
+</script>
+
+<!------导航开始------><!------导航结束------>
+
+
+    <!----内容开始---->
+    <div class="warp_moer">
+
+        <div class="warp_h">
+            <!----right内容开始---->
+            <div class="warp_h_right" style="width: 969px;">
+
+                <div class="warp_f">
+
+                    <div class="warp_f_div">
+                        <b>我要提现</b>
+                    </div>
+
+                    <div class="tx_p">
+                        <span>银行提现说明：</span>
+                        <span>1.每笔必须大于100元！</span>
+                        <span>2.48小时内到账！</span>
+						<span>3.上次提现到帐后的7个工作日后方可再次提现</span>
+						
+                    </div>
+
+                    <table width="876" class="tx_o">
+                       
+                        <tr>
+                            <td width="632" align="left">可提现：</td>
+                            <td width="232"><b id="yue"><?php
+							include "config/zt_config.php";
+							include "config/check.php";
+date_default_timezone_set("Asia/Shanghai");
+$user=$_COOKIE['ECS']['username'];
+$db=mysql_connect($db_host,$db_user,$db_pwd);
+mysql_query("SET NAMES $coding"); 
+mysql_select_db($db_database);
+$sql1="select jf,lx from xbmall_users where user_name='$user' order by id desc";
+	$q1=mysql_query($sql1);
+	$ss=mysql_fetch_assoc($q1);
+	$lx=$ss["lx"];
+if($lx=="0"){
+echo '<script>location.href="member_login.html";</script>';
+}
+if(floor($ss['jf']/100)>=1){
+	echo floor($ss['jf']/100)*100?floor($ss['jf']/100)*100:0;
+					}else{
+					echo '0';
+					}		?>元&nbsp;</b><?php
+$sql2="select date,ck from zt_b_cash_record where user='$user' order by id desc";
+	$q2=mysql_query($sql2);
+	$ss2=mysql_fetch_assoc($q2);
+$date=date("Y-m-d H:i:s");
+$day=(strtotime($date)-strtotime($ss2["date"]))/60/60/24;
+$ck=$ss2["ck"];
+
+if($day<=7&&$ck!='3'){
+
+	print("<script language='javascript'>alert('上次提现到帐后的7个工作日后方可再次提现!');</script>");
+		exit();
+
+}elseif($day<'1' and $ck=='3') {
+		print("<script language='javascript'>alert('提现被驳回后的24小时方可再次提现!');</script>");
+		exit();
+}
+
+	 ?></td>
+                        </tr>
+				<form method="post" id="myform" name="myform"  enctype='multipart/form-data'>
+	<input type="hidden" name="session" value="<?=$_SESSION['uniqid1'];?>">	
+                        <tr>
+                            <td align="left" style="width:120px;">提现金额：</td>
+                            <td><input type="text" class="tx_o_ex" id="money" name="money" ></td>
+                        </tr>
+					
+						<tr>
+                            <td align="left">验证码：</td>
+							<td>
+								<input name="yzm" type="text" class="tx_o_ex" id="verify" style="width:60px;height: 27px;" >
+			<input type="button" class="tx_o_ex" id="hqyzm"   onclick="duanxin();" value="获取验证码" style="width: 92px;height: 30px;padding: 0">							</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2"><input type="button" onClick="tj();" value="确认提交" class="tx_o_ton"></td>
+                        </tr>	</form>
+                  </table>
+				
+                </div> 
+
+
+            </div>
+          
+                     <? include_once "left_menu2.html";?>
+            <!----left内容结束---->
+        </div>
+
+  </div>
+ 
+	<?include("sfooter.html");?>
+  
+</div>
+</body>
+</html>

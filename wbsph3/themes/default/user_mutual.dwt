@@ -1,0 +1,415 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="Keywords" content="{$keywords}" />
+<meta name="Description" content="{$description}" />
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+<!-- TemplateBeginEditable name="doctitle" -->
+<title>{$page_title}</title>
+<!-- TemplateEndEditable -->
+<!-- TemplateBeginEditable name="head" -->
+<!-- TemplateEndEditable -->
+<link rel="shortcut icon" href="favicon.ico" />
+<link rel="icon" href="animated_favicon.gif" type="image/gif" />
+<link rel="stylesheet" type="text/css" href="themes/default/css/user.css" />
+<script type="text/javascript" src="themes/default/js/jquery-1.9.1.min.js"></script>
+{insert_scripts files='jquery.json.js,transport.js,json2.js'} {* 包含脚本文件 *} {insert_scripts files='common.js,user.js'}
+</head>
+<body>
+    <!-- #BeginLibraryItem "/library/page_header.lbi" -->
+    <!-- #EndLibraryItem -->
+    <div class="margin-w1210 clearfix">
+        <!-- #BeginLibraryItem "/library/ur_here.lbi" -->
+        <!-- #EndLibraryItem -->
+        <div class="user-left">
+            <!-- #BeginLibraryItem "/library/user_menu.lbi" -->
+            <!-- #EndLibraryItem -->
+        </div>
+        <div class="user-right">
+            <!-- 爱心互助 start-->
+            <!--{if $action eq 'mutual_it'} -->
+            <div class="account">
+                <div class="tabmenu">
+                    <ul class="tab pngFix">
+                        <li class="first active">我互助的人</li>
+                        <li class="normal">
+                            <a href="user.php?act=mutual&types=1" style="color: #333;">互助我的人</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="mar_top" id="con_tab_2">
+                    <table width="100%" border="0" cellpadding="5" cellspacing="1" bgcolor="#eeeeee">
+                        <tr align="center">
+                            <td bgcolor="#ffffff">订单编号</td>
+                            <td bgcolor="#ffffff">项目标题</td>
+                            <td bgcolor="#ffffff">互助金额</td>
+                            <!-- <td bgcolor="#ffffff">留言</td> -->
+                            <td bgcolor="#ffffff">操作</td>
+                        </tr>
+                        <!-- {foreach from=$mutual_list item=val name=logdb} -->
+                        <tr align="center">
+                            <td bgcolor="#ffffff">{$val.order_sn}</td>
+                            <td bgcolor="#ffffff">{$val.title}</td>
+                            <td bgcolor="#ffffff">{$val.mutual_money}</td>
+                            <!-- <td style="width: 30%" bgcolor="#ffffff">{$val.content}</td> -->
+                            <td bgcolor="#ffffff">
+                                <a href='user.php?act=mutual_detail&order_id={$val.order_id}'>详情</a>
+                            </td>
+                        </tr>
+                        <!--{foreachelse}-->
+                        <tr>
+                            <td colspan="7" align="center" bgcolor="#ffffff">{$lang.no_records}</td>
+                        </tr>
+                        <!-- {/foreach} -->
+                    </table>
+                    <!-- #BeginLibraryItem "/library/pages.lbi" -->
+                    <!-- #EndLibraryItem -->
+                </div>
+            </div>
+            <!--{/if} -->
+            <!--{if $action eq 'mutual_me'} -->
+            <div class="account">
+                <div class="tabmenu">
+                    <ul class="tab pngFix">
+                        <li class="first">
+                            <a href="user.php?act=mutual&types=0" style="color: #333;">我互助的人</a>
+                        </li>
+                        <li class="normal active">互助我的人</li>
+                    </ul>
+                </div>
+                <div class="mar_top" id="con_tab_2">
+                    <table width="100%" border="0" cellpadding="5" cellspacing="1" bgcolor="#eeeeee">
+                        <tr align="center">
+                            <td bgcolor="#ffffff">订单编号</td>
+                            <td bgcolor="#ffffff">助人姓名</td>
+                            <td bgcolor="#ffffff">互助金额</td>
+                            <td bgcolor="#ffffff">留言</td>
+                        </tr>
+                        <!-- {foreach from=$mutual_list item=val name=logdb} -->
+                        <tr align="center">
+                            <td bgcolor="#ffffff">{$val.order_sn}</td>
+                            <td bgcolor="#ffffff">{$val.user_name}</td>
+                            <td bgcolor="#ffffff">{$val.mutual_money}</td>
+                            <td style="width: 30%" bgcolor="#ffffff">{$val.content}</td>
+                        </tr>
+                        <!--{foreachelse}-->
+                        <tr>
+                            <td colspan="7" align="center" bgcolor="#ffffff">{$lang.no_records}</td>
+                        </tr>
+                        <!-- {/foreach} -->
+                    </table>
+                    <!-- #BeginLibraryItem "/library/pages.lbi" -->
+                    <!-- #EndLibraryItem -->
+                </div>
+            </div>
+            <!--{/if} -->
+            <!--{if $action eq 'insure'}   我的投保-->
+            <div class="account">
+                <div class="tabmenu">
+                    <ul class="tab pngFix">
+                        <li class="normal active">我的投保</li>
+                    </ul>
+                </div>
+                <div class="mar_top" id="con_tab_2">
+                    <table width="100%" border="0" cellpadding="5" cellspacing="1" bgcolor="#eeeeee">
+                        <tr align="center">
+                            <td bgcolor="#ffffff">投保编号</td>
+                            <td bgcolor="#ffffff">投保姓名</td>
+                            <td bgcolor="#ffffff">投保额</td>
+                            <td bgcolor="#ffffff">支付金额</td>
+                            <td bgcolor="#ffffff">状态</td>
+                        </tr>
+                        {if $insure_info}
+                        <tr align="center">
+                            <td bgcolor="#ffffff">{$insure_info.order_sn}</td>
+                            <td bgcolor="#ffffff">{$insure_info.consignee}</td>
+                            <td bgcolor="#ffffff">{$insure_info.insure_baoe}</td>
+                            <td bgcolor="#ffffff">{$insure_info.insure_money}</td>
+                            <td bgcolor="#ffffff">{$insure_info.order_s}</td>
+                        </tr>
+                        {else}
+                        <tr>
+                            <td colspan="7" align="center" bgcolor="#ffffff">您还没有投保</td>
+                        </tr>
+                        {/if}
+                    </table>
+                    <!-- 
+                    {if $insure_info.order_status eq 0}
+                      {$pay_online}
+                      
+
+                      <script>
+                               function run(){
+                      
+                                 $.get("user.php?act=paylog_now&id={$log_ids}",function(data){
+                                       if(data==1){
+                                          window.location="user.php?act=insure";
+                                       }
+                                   }); 
+                                 
+                               }
+                               window.setInterval("run()",5000) ;
+                      </script>
+                      
+                    {/if} -->
+                </div>
+            </div>
+            <!--{/if} -->
+            <!--{if $action eq 'mutual_detail'}   爱心互助详情-->
+            <div class="box">
+                <div class="tabmenu">
+                    <ul class="tab pngFix">
+                        <li class="first active">互助信息</li>
+                    </ul>
+                </div>
+                <table cellspacing="1" cellpadding="10" bgcolor="#eeeeee" border="0" width="100%">
+                    <tbody>
+                        <tr>
+                            <th bgcolor="#ffffff" align="center" width="32%">互助编号</th>
+                            <th bgcolor="#ffffff" align="center" width="13%">互助项目</th>
+                            <th bgcolor="#ffffff" align="center" width="17%">付款状态</th>
+                            <th bgcolor="#ffffff" align="center" width="15%">互助金额</th>
+                        </tr>
+                        <tr>
+                            <td bgcolor="#ffffff" align="center">{$order_info.order_sn}</td>
+                            <td bgcolor="#ffffff" align="center">{$order_info.title}</td>
+                            <td bgcolor="#ffffff" align="center">{$order_info.order_desc}</td>
+                            <td bgcolor="#ffffff" align="center">{$order_info.mutual_money}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="8" bgcolor="#ffffff" align="right">总价: ￥{$order_info.mutual_money}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="blank"></div>
+                <div class="tabmenu">
+                    <ul class="tab pngFix">
+                        <li class="first active">订单状态</li>
+                    </ul>
+                </div>
+                <table class="order_detail" cellspacing="1" cellpadding="10" bgcolor="#eeeeee" border="0" width="100%">
+                    <tbody>
+                        <tr>
+                            <td bgcolor="#ffffff" align="right" width="15%">互助编号：</td>
+                            <td bgcolor="#ffffff" align="left">{$order_info.order_sn}</td>
+                        </tr>
+                        <tr>
+                            <td bgcolor="#ffffff" align="right">状态：</td>
+                            <td bgcolor="#ffffff" align="left">{$order_info.order_desc}</td>
+                        </tr>
+                        <tr>
+                            <td bgcolor="#ffffff" align="right">付款状态：</td>
+                            <td bgcolor="#ffffff" align="left">{$pay_online}</td>
+                        </tr>
+                         <script>
+                               function run(){
+                      
+                                 $.get("user.php?act=paylog_now&id={$log_ids}",function(data){
+                                       if(data==1){
+                                          window.location="user.php?act=mutual";
+                                       }
+                                   }); 
+                                 
+                               }
+                               window.setInterval("run()",5000) ;
+                      </script>
+                    </tbody>
+                </table>
+                <br>
+                    <div class="blank"></div>
+                <div class="tabmenu">
+                    <ul class="tab pngFix">
+                        <li class="first active">支付方式</li>
+                    </ul>
+                </div>
+                <table cellspacing="1" cellpadding="10" bgcolor="#eeeeee" border="0" width="100%">
+                    <tbody>
+                        <tr>
+                            <td bgcolor="#ffffff" align="right">
+                                <!--{if $payment_list}-->
+                                <form name="payment" method="post" action="user.php?act=mutual_detail&order_id={$order_info.order_id}">
+                                    {$lang.change_payment}:
+                                    <select name="pay_id" onchange="choose_payment(this.value)">
+                                        <!--{foreach from=$payment_list item=payment}-->
+                                        <option value="{$payment.pay_id}">{$payment.pay_name}({$lang.pay_fee}:{$payment.format_pay_fee})</option>
+                                        <!--{/foreach}-->
+                                    </select>
+                                    <div class="payment_subbox" id="payment_subbox" style="display: none">
+                                    </div>
+                                    <input type="submit" name="Submit" class="main-btn main-btn-large" value="{$lang.button_submit}" />
+                                </form>
+                                <script>
+                
+                function choose_payment(pay_id)
+                {
+                    if(pay_id == 'alipay_bank')
+                    {   
+                        document.getElementById('payment_subbox').style.display = 'block';
+                    }
+                    else
+                    {
+                        document.getElementById('payment_subbox').style.display = 'none';
+                    }
+                    
+                }
+                </script>
+                                <!--{/if}-->
+                                <script>
+                
+                function choose_payment(pay_id)
+                {
+                    if(pay_id == 'alipay_bank')
+                    {   
+                        document.getElementById('payment_subbox').style.display = 'block';
+                    }
+                    else
+                    {
+                        document.getElementById('payment_subbox').style.display = 'none';
+                    }
+                    
+                }
+                </script>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="blank"></div>
+            </div>
+            <!--{/if} -->
+            <!-- 爱心互助  end-->
+            
+            
+            <!--{if $action eq 'bigfamily_r'}  香柏大家庭-->
+            <!-- #BeginLibraryItem "/user_mutual_bigfamily_r.lbi" -->  <!-- #EndLibraryItem -->
+            <!--{/if} -->
+            
+            
+            <!-- 香柏大家庭 -->
+            <!--{if $action eq 'bigfamily'}  香柏大家庭-->
+               <!-- #BeginLibraryItem "/user_mutual_bigfamily.lbi" -->  <!-- #EndLibraryItem -->
+            <!--{/if} -->
+            
+            
+            
+            <!--{if $action eq 'bigfamily_d'}  香柏大家庭-->
+            <div class="account">
+                <div class="tabmenu">
+                    <ul class="tab pngFix">
+                        <li class="first active">支付金额</li>
+                    </ul>
+                </div>
+                <div class="user-right">
+                    <div class="box">
+                      {$pay_online}
+          {if $pay_online}
+              <script>
+                       function run(){
+							
+                    	   $.get("user.php?act=check_djt",function(data){
+                               if(data==1){
+                                  window.location="user.php?act=bigfamily";
+                               }
+                           }); 
+                    	   
+                       }
+                       window.setInterval("run()",5000) ;
+              </script>
+            {/if}
+                    </div>
+                </div>
+            </div>
+            <!--{/if} -->
+            
+            <!--{if $action eq 'djtfh_points_desc'}  香柏大家庭 分红明细-->
+	            <style>
+				.xbtal td {
+					background: #fff none repeat scroll 0 0;
+				}
+				</style>
+	            <div class="account">
+	                <div class="tabmenu">
+	                    <ul class="tab pngFix">
+	                        <a href='user.php?act=bigfamily'><li class="first">家庭信息</li></a>
+	                        <li class="first active">分红奖励明细</li>
+	                    </ul>
+	                </div>
+	                <div class="user-right">
+	                    <table class='xbtal' width="100%" border="0" cellpadding="10" cellspacing="1" bgcolor="#eeeeee">
+	                        <tr align="center">
+	                            <td>{$lang.process_time}</td>
+	                            <td>{$lang.surplus_pro_type}</td>
+	                            <td>积分</td>
+	                            <td>{$lang.change_desc}</td>
+	                        </tr>
+	                        <!--{foreach from=$account_log item=item}-->
+	                        <tr>
+	                            <td align="center">{$item.change_time}</td>
+	                            <td align="center">{$item.type}</td>
+	                            <td align="center">{$item.djtfh_points}</td>
+	                            <td title="{$item.change_desc}">&nbsp;&nbsp;{$item.short_change_desc}</td>
+	                        </tr>
+	                        <!--{/foreach}-->
+	                        <!--会员分红的余额 -->
+	                        <tr>
+	                            <td colspan="4" align="center">
+	                                <div align="right">当前:{$user_info.djtfh_points}</div>
+	                            </td>
+	                        </tr>
+	                    </table>
+	                    <!-- #BeginLibraryItem "/library/pages.lbi" -->
+	                    <!-- #EndLibraryItem -->
+	                </div>
+	            </div>
+            <!--{/if} -->
+            
+            
+            <!--{if $action eq 'djtfh_raply'}  香柏大家庭 分红提现-->
+	             <!-- #BeginLibraryItem "/ti_xian/djtfh_ti_xian.lbi" -->
+	                    <!-- #EndLibraryItem -->
+            <!--{/if} -->
+             <!--{if $action eq 'xffh_raply'} 消费分红积分提现-->
+	             <!-- #BeginLibraryItem "/ti_xian/xffh_ti_xian.lbi" -->
+	                    <!-- #EndLibraryItem -->
+            <!--{/if} -->
+            <!-- 香柏大家庭 分红信息 end-->
+        </div>
+    </div>
+    <div class="pop-main pop-compare">
+        <div class="pop-header">
+            <span>温馨提示</span>
+            <a class="pop-close" href="javascript:;" title="关闭"></a>
+        </div>
+        <div class="pop-con">
+            <i class="pop-icon"></i>
+            <p class="pop-text" style="padding-top: 20px;">您确定要取消该订单吗？取消订单后，不能恢复。</p>
+            <div class="pop-btn">
+                <a href="javascript:;" class="main-bg-color sure-btn">确定</a><a class="cancel-btn">取消</a>
+                <span class="clear"></span>
+            </div>
+        </div>
+    </div>
+    <div class="pop-mask"></div>
+    <div class="site-footer">
+        <div class="footer-related">
+            <!-- #BeginLibraryItem "/library/help.lbi" -->
+            <!-- #EndLibraryItem -->
+            <!-- #BeginLibraryItem "/library/page_footer.lbi" -->
+            <!-- #EndLibraryItem -->
+        </div>
+    </div>
+</body>
+<script type="text/javascript">
+{foreach from=$lang.clips_js item=item key=key}
+var {$key} = "{$item}";
+{/foreach}
+$(function(){
+	$('.cancel-order').click(function(){
+		$('.pop-mask').show();
+		$('.pop-compare').show().css({'top':($(window).height()-$('.pop-compare').height())/2});
+		$('.sure-btn').attr('href',$(this).prev('.none').attr('href'));
+		
+	})	
+})
+</script>
+</html>

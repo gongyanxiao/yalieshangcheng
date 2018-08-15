@@ -1,0 +1,37 @@
+.citieslist{font-weight:700;border-top:1px solid #ddd;}
+.choosecities{border:1px solid #ddd;box-shadow:0 0 1px #d3ebee;background:#fff;padding-bottom:60px}
+.choosecities a:hover{text-decoration:none;cursor: pointer;}.city_list{padding:2px;border-bottom:1px #E5E5E5 solid}
+.city_list a{margin:0 17px 0 0;display:inline-block;*display:inline;zoom:1;font-size:14px;}
+.city_list h3,.city_list p{display:inline-block;vertical-align:top;zoom:1}
+.city_list a:hover{text-decoration:none;}
+.city_list h3{*display:inline}
+.city_list p{*display:inline;width:840px}
+.city_province{border-bottom:1px #eee solid;padding:16px 20px;}
+.city_province h2{display:inline-block;font-size:20px;vertical-align:middle;padding:0 20px 0 0;margin:0 20px 0 0;border-right:1px #ddd solid}
+.city_province h2 a{font-size:30px;vertical-align:middle}
+.city_province h2 span{vertical-align:middle;margin:0 4px 0 0}
+.city_province form{display:inline-block;vertical-align:middle}
+.city_province .label{font-weight:700;vertical-align:middle;font-size:14px;}
+.citieslist h2{display:inline-block;*display:inline;zoom:1;height:32px;margin:20px 20px 12px;padding:0 14px;line-height:30px;border-radius:0;background:#E31939;position:relative;color:#fff;}
+.citieslist h2 span{float:none;display:block;position:absolute;top:32px;left:20px;width:0;height:0;line-height:0;font-size:0;border-style:solid;border-width:6px;border-color:#E31939 #fff #fff}
+.citieslist li,.citieslist p{border-top:1px #fff solid;border-bottom:1px #fff solid}
+.citieslist p{padding:6px 10px 6px 30px}
+.citieslist .label{display:inline-block;width:30px;height:30px;vertical-align:top;border:1px solid #ddd;margin-right:5px;*display:inline;zoom:1;border-radius:0;color:#666;line-height:24px}
+.citieslist .label strong{display:block;width:28px;height:28px;text-align:center;background:#eee;border:1px solid #F7F7F7;border-radius:0;font-size:16px}
+.citieslist span{display:inline-block;width:880px;vertical-align:top;*display:inline;zoom:1}
+.citieslist span i{color:#CCC;font-style:normal;margin:0 3px}
+.citieslist .hover{border-color:#E5E5E5}.citieslist .hover p{background:#F7F7F7}
+.citieslist .hover .label{border-color:#E31939}
+.citieslist .hover .label strong{background:#E31939;color:#fff;border-color:#E31939}
+.citieslist a{display:inline-block;*display:inline;zoom:1;height:20px;padding:0 2px 1px;margin:5px 10px;border-radius:0;line-height:20px;font-size:14px;}
+.citieslist a:hover{background:#E31939;border-radius:2px;color:#fff}
+.city-subscription{padding:20px;border-top:1px #E5E5E5 solid}
+.f-text{border:1px solid #ddd;border-radius:2px 0 0 2px;font-size:12px;height:18px;line-height:18px;background:#fff;outline:0}
+.cc-search-suggest,.widget-autocomplete{border:1px solid #ddd}
+.widget-autocomplete .widget-autocomplete-list .current,.widget-autocomplete .widget-autocomplete-list .current .extra{background-color:#d3ebee;color:#333}
+.cc-search-suggest{position:absolute;top:20;left:600;z-index:51;background:#fff}
+.cc-search-suggest__item{width:184px;padding:3px}
+.cc-search-suggest__item a{display:inline-block;color:#333;width:100%}
+.cc-search-suggest__item:hover{color:#2db3a6}
+.cc-search-suggest__item--over{background-color:#eee}
+.confirm-city-btn{background-color: #E31939;background-size: 100%;padding: 1px 8px 0; font-size: 12px; color: #fff;font-weight: 400; -webkit-font-smoothing: initial;display: inline-block;vertical-align: middle;padding: 7px 20px 6px;font-size: 14px;font-weight: 700;-webkit-font-smoothing: antialiased;line-height: 1.5;letter-spacing: .1em;text-align: center;text-decoration: none;border-width: 0 0 1px;border-style: solid;background-repeat: repeat-x;-moz-border-radius: 2px;-webkit-border-radius: 2px;border-radius: 2px;-moz-user-select: -moz-none;-ms-user-select: none;-webkit-user-select: none;user-select: none;cursor: pointer;}

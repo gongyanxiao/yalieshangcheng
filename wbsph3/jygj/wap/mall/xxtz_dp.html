@@ -1,0 +1,179 @@
+<?php
+  include "config.php" ;
+  include "page.class.php" ;
+ 
+?>
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<meta content="no-cache,must-revalidate" http-equiv="Cache-Control">
+<meta content="no-cache" http-equiv="pragma">
+<meta content="0" http-equiv="expires">
+<meta content="telephone=no, address=no" name="format-detection">
+<meta name="apple-mobile-web-app-capable" content="yes"> 
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta http-equiv="pragma" content="no-cache">
+<meta http-equiv="cache-control" content="no-cache">
+<meta http-equiv="expires" content="0">   
+    <title><?=_TITLE_?></title>
+    <meta name="keyword" content="<?=_KEYWORD_?>"/>
+    <meta name="description" content="<?=_DESCRIPTION_?>"/>
+    <link href="/Public/ico.ico" type="image/x-icon" rel="shortcut icon" /> 
+	<script type="text/javascript" src="/jygj/Public/home/js/jquery-1.7.2.js"></script>
+    <link rel="stylesheet" type="text/css" href="/jygj/Public/wap/css/index.css">
+</head>
+
+
+<body >
+	<div class="warp">
+		<script>
+			$(function() {
+
+			});
+		</script>
+		<?php
+include "myphplib/db.php";
+include "myphplib/message.php";
+include "config/check.php";
+date_default_timezone_set("Asia/Shanghai");
+$user=$_COOKIE['ECS']['username'];
+
+    require_once "../../../mobile/wxjs/jssdk.php";
+	$ret =  getRow("SELECT  *  FROM xbmall_weixin_config ");
+	$jssdk = new JSSDK($appid=$ret['appid'], $ret['appsecret']);
+	$signPackage = $jssdk->GetSignPackage();
+
+
+ 
+$sql="select * from  xbmall_users where user_name='{$user}'";
+$userInfo = getRow($sql);
+
+ 
+//投资和复投的已分金额,  可提现金额, 已提现金额
+$sql="select sum(je) as ytxje from  zt_xxtz_ti_xian where user='{$user}'";
+$rowJE =getRow($sql);
+
+$rowJE['ytxje'] = round($rowJE['ytxje'],2); 
+
+function  getShenFen($level){
+    if($level==1){
+        return "初级代理";
+    }else if($level==2){
+        return "中级代理";
+    }else if($level==3){
+        return "高级代理";
+    }else if($level==4){
+        return "运营中心";
+    }else if($level==5){
+        return "懂事";
+    }
+    return  "会员";
+}
+
+
+
+$sql="select count(0) from  zt_xxtz where user='{$user}' and cj_state=0 and step=1  ";
+$aCount =getOne($sql);
+$sql="select count(0) from  zt_xxtz where user='{$user}' and cj_state=0 and step=2  ";
+$bCount =getOne($sql);
+
+
+
+//投资的次数
+$sql="select count(0)  from  zt_xxtz where user='{$user}'   ";
+$tzcs =getOne($sql);
+ 
+
+$sql="SELECT
+	SUM(a.tui_jian_shou_yi) as shou_yi,a.zsrq
+FROM
+	`zt_xxtzzs` a
+WHERE
+	a.type = 1
+AND a. USER = '{$user}'
+GROUP BY
+	a.`user`,
+	a.zsrq
+ORDER BY
+	a.zsrq DESC
+LIMIT 0,1";
+$tui_jian_shou_yi =getRow($sql);
+ $tui_jian_shou_yi['zsrq'] = str_replace("00:00:00","日",$tui_jian_shou_yi['zsrq']);
+
+
+$sql="SELECT
+	SUM(a.xxtzztxjf) as shou_yi ,SUM(a.xxtzztxjf_b) as shou_yi_b ,a.zsrq
+FROM
+	`zt_xxtzzs` a
+WHERE
+	a.type = 3
+AND a. USER = '{$user}'
+GROUP BY
+	a.`user`,
+	a.zsrq
+ORDER BY
+	a.zsrq DESC
+LIMIT 0,1";
+$jing_tai_shou_yi =getRow($sql);
+$jing_tai_shou_yi['zsrq'] = str_replace("00:00:00","日",$jing_tai_shou_yi['zsrq']);
+
+$sql="select date_format(FROM_UNIXTIME(a.next_ft_time ),'%Y-%m-%d %H:%i') as chu_ju_ri, a.num  from (select  MIN(next_ft_time) as   next_ft_time, count(0) as num  from  zt_xxtz   where step=1 and ft_state=0 and  cj_state=0 and user='{$user}' group by  next_ft_time) a";
+$chu_ju_ri = getRow($sql);
+
+
+ ?>
+
+    <div class="warp_q" style="text-align: center;font-size: 18px">
+        <a href="javascript:history.go(-1)"></a>
+                <span>我的订单</span>  
+    </div>
+
+   <ul class="warp_l_ul" style="font-size:18px;border: 2px solid #CCC;width:100%;background:url('/jygj/Public/images/背景.png')" >
+	   <li style="text-align: center"><span style="text-align: center;background-color: red;cursor:pointer;" onclick="window.location.href='xxtz_add.html'">添加订单</span>
+	   <span style="text-align: center;background-color: red;cursor:pointer;" onclick="window.location.href='xxtz_add.html'">扫一扫</span>
+	   </li>
+    </ul>
+   
+   <ul class="warp_l_ul" style="font-size:18px;border: 2px solid #CCC;background:url('/jygj/Public/images/背景.png')"  >
+        <li>订单资金:<font color="red"><?=$userInfo["dian_pu_zi_jin"];?></font> </li>
+        <li>推荐收益:<font color="red"><?=$userInfo["tui_jian_shou_yi"];?></font></li>
+        <li>A阶段分润收益:<font color="red"><?=$userInfo["xxtzztxjf"];?></font></li>
+        <li>B阶段分润收益:<font color="red"><?=$userInfo["xxtzztxjf_b"];?></font></li>
+        <li>消费云贝:<font color="red"><?=$userInfo["pay_points"];?></font>(剩余<?php echo round($userInfo["pay_points"],2);?>)</li>
+        <li>待消费云贝:<font color="red"><?=$userInfo["dai_xfyb"];?></font>(剩余<?php echo round($userInfo["dai_xfyb"],2);?>)</li>
+        
+        <li>公益云贝:<font color="red"><?=$userInfo["xxtzzsyjz"];?></font></li>
+        <li>储备云贝:<font color="red"><?=$userInfo["xxtzzcbjz"];?></font></li>
+	    <li>可收益云贝:<font color="red"><?php echo $userInfo["xxtzztxjf"]+$userInfo["xxtzztxjf_b"]+$userInfo["tui_jian_shou_yi"];?></font></li>
+	    <li>已收益云贝:<font color="red"><?php    echo $rowJE["ytxje"]; ?></font></li>
+	    <li>上次分润收益:<font color="red"><?php    echo $jing_tai_shou_yi['zsrq'].":".($jing_tai_shou_yi['shou_yi']+$jing_tai_shou_yi['shou_yi_b']); ?></font></li>
+	    <li>上次推荐收益:<font color="red"><?php    echo $tui_jian_shou_yi['zsrq'].":".$tui_jian_shou_yi['shou_yi']; ?></font></li>
+	    <li>投资单数:<?php    echo $tzcs; ?></li>
+	    <li>订单出局日:<?php   echo $chu_ju_ri['chu_ju_ri']; ?>(单数<?php  echo   $chu_ju_ri['num']; ?>)</li>
+	    <!-- <li ><span style="text-align: center;background-color: #ff3333;cursor:pointer;" onclick="window.location.href='xxtz_ji_fen_zhuan_huan.html'">转消费云贝</span></li> -->
+	    
+    </ul>
+    
+       
+   <ul class="warp_l_ul" style="font-size:18px;border: 2px solid #CCC;background:url('/jygj/Public/images/背景.png')" >
+	    <li>A阶段单数:<?php echo $aCount; ?>单</li>
+	    <li>B阶段单数:<?php echo $bCount; ?>单</li>
+	    <li>当前级别:<?php echo getShenFen($userInfo["level"]);?></li>
+	   
+    </ul>
+    
+ 
+					<?
+					 mysql_close($db);
+  					?>
+
+					 
+  <div class="ht60"></div>
+      <?include("footer_li_cai.html");?>
+	 
+	</div>
+</body>
+</html>

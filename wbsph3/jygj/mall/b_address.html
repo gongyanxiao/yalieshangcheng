@@ -1,0 +1,212 @@
+<?
+header("content-type:text/html;charset:utf-8");
+include("config/zt_config.php");
+include("config.php");
+$link = mysqli_connect($db_host,$db_user,$db_pwd,$db_database) or die('Unale to link');
+$link->set_charset('utf8');
+$user=htmlspecialchars(trim($_COOKIE['ECS']['username']));
+session_start(); 
+$_SESSION['uniqid'] = md5(uniqid('jygj',true));
+?>
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title><?=_TITLE_?></title>
+    <meta name="keyword" content="<?=_KEYWORD_?>"/>
+    <meta name="description" content="<?=_DESCRIPTION_?>"/>
+
+<link href="/Public/ico.ico" type="image/x-icon" rel="shortcut icon" /> 
+    <link rel="stylesheet" type="text/css" href="/jygj/Public/home/css/index.css"/>
+    <script type="text/javascript" src="/jygj/Public/home/js/jquery-1.7.2.js"></script>
+	<link rel="stylesheet" type="text/css" href="/jygj/Public/home/css/page.css">
+    <script type="text/javascript" src="/jygj/Public/home/js/jquery.validate.min.js"></script>
+    <style type="text/css">
+       .yyls_o a{ display: inline-block;
+width: 80px;
+color: #fff;
+background: #1250A3;
+height: 22px;
+line-height: 22px;}
+.dsa{float: left;
+height: 28px;
+line-height: 28px;
+color: #f00;
+font-size: 14px;
+padding-left: 18px;
+letter-spacing: 1px;}
+    </style>
+
+</head>
+<body >
+<div class="warp"> 
+    <!------最顶部开始------>
+  <?
+        include("sheader1.html");
+		?>
+  <!------logo结束------>
+<script>
+	$(function(){
+		$(".open_xl").click(function(){
+			$(".xiala").show();
+		})
+		$(".xiala a").click(function(){
+			var xq=$(this).html();
+			$(".open_xl a").html(xq);
+			$(this).parent().hide();
+		})
+	})
+</script>
+
+<!------导航开始------><!------导航结束------>
+    <!------导航结束------>
+
+
+    <!----内容开始---->
+  <div class="warp_moer">
+
+        <div class="warp_h">
+            <!----right内容开始---->
+            <div class="warp_h_right" style=" width: 966px;">
+
+                <div class="warp_f">
+
+                    <div class="warp_f_div">
+                        <b>收货地址</b><p class="dsa">请务必填写正确信息，否则扣除积分后果自负
+</p>
+                    </div>
+				 <form id="form" name= "myform" method ="post" action="shdz1.php">
+                 <input type="hidden" name="xbmall_users1" value="<?=$_COOKIE['ECS']['username'];?>">
+                 <input type="hidden" name="session" value="<?=$_SESSION['uniqid'];?>">
+                    <table class="yyls_p">
+                        <tr>
+                            <td width="70">
+                                <span class="yyls_p_sp">收货人：</span>
+                            </td>
+                            <td>
+                                <input type="text" placeholder="收货人" class="yyls_p_ex" name="shr" id="title" value="">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span class="yyls_p_sp">收货地址：</span>
+                            </td>
+                            <td>
+                                <div class="info">
+                                    <select id="s_province" name="a"></select>  
+                                    <select id="s_city" name="b" ></select>  
+                                    <select id="s_county" name="c"></select>
+                                    <script class="resources library" src="/jygj/Public/home/js/area.js" type="text/javascript"></script>
+                                    <script type="text/javascript">_init_area();</script>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span class="yyls_p_sp">详细地址：</span>
+                            </td>
+                            <td>
+                                <input type="text" placeholder="详细地址" class="yyls_p_tt" name="xxdz" id="other" value="">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><span class="yyls_p_sp">联系电话：</span></td>
+                            <td>
+                                <input type="text" placeholder="手机号码" class="yyls_p_ex" name="lxdh" id="phone" value="">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>
+                                <div class="yyls_p_div">
+                                
+                                    <input type="checkbox"  name="sfmr" value="1"/>
+                               
+                                    <span>设置为默认收货地址</span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>
+                                <input type="button" onclick="ti()" value="保存" class="yyls_p_but">
+                            </td>
+                        </tr>
+                    </table>
+				  </form>
+					<script>
+						function ti(){
+						
+							var name= $("#titile").val()
+							var tel = $("#phone").val();
+							var ohter= $("#other").val();
+							if(name==''){
+							
+								alert('姓名不能为空');
+								return false;
+							}
+							if(tel==''){
+							
+								alert('联系方式不能为空');
+								return false;
+							}
+							if(other==''){
+							
+								alert('详细地址不能为空');
+								return false;
+							}
+							if("<?=$user?>"==''){
+								alert('请登录');
+								return false;
+							}
+							$("#form").submit()
+						}
+					
+					</script>
+                    <table border="1" cellspacing="0" cellpadding="0" class="yyls_o">
+                        <tr>
+                            <th width="100" align="center"><span>收货人</span></th>
+                            <th width="480" align="left" style="padding-left: 30px"><span>收货地址</span></th>
+							<th width="120" align="center">是否默认</th>
+                            <th width="110" align="center"><span>联系电话</span></th>
+                            <th width="250" align="center"><span>操作</span></th>
+                        </tr>
+                   
+					    <?
+                        $sql2="select * from zt_shdz where user='$user' order by sfmr desc";
+                        $qry2=$link->query($sql2);
+                        while($r2=$qry2->fetch_array()) {?>
+                        <tr style="height: 30px;">
+                            <td width="100" align="center"><span><?=$r2[shr]?></span></td>
+                            <td width="480" align="left" style="padding-left: 30px"><span><?=$r2[xxdz]?></span></td>
+                            <td width="120" align="center"><?=$r2[sfmr]==1?'√':'×'?></td>
+                            <td width="110" align="center"><span><?=$r2[lxdh]?></span></td>
+                            <td width="250" align="center"><span><a href="b_address1.html?id=<?=$r2[id]?>&type=1">编辑</a> | <a href="shdz1.php?id=<?=$r2[id]?>&type=0">删除</a></span></td> 
+                        </tr>
+                        <?}?>
+                   </table>
+					
+					<div class="scott"></div>
+
+                </div>
+
+
+            </div>
+            <!----right内容结束---->
+
+            <!----left内容开始---->
+                       <? include_once "left_menu2.html";?>
+            <!----left内容结束---->
+        </div>
+
+    </div>
+    <!----内容结束---->
+
+    <!------底部开始------>
+  <?include("sfooter.html");?>
+	
+</div>
+    <!------底部结束------>
+</div>
+</body>
+</html><?$link->close();?>

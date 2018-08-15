@@ -1,0 +1,320 @@
+<?
+include("config/zt_config.php");
+include("config.php");
+include("config/page.class.php");
+$link = mysqli_connect($db_host,$db_user,$db_pwd,$db_database) or die('Unale to link');
+$link->set_charset('utf8');
+$lmid=htmlspecialchars(trim($_GET['lmid']));
+$ord = htmlspecialchars(trim($_GET['ord']));
+$flid = htmlspecialchars(trim($_GET['flid']));
+$n=array();
+$title=htmlspecialchars(trim($_POST['title']));
+if(empty($title)) {
+	$title=htmlspecialchars(trim($_GET['title']));
+}
+$sqlm="SELECT * FROM  `zt_goods_sort` where id=".$lmid;
+$qrym=$link->query($sqlm);
+$rstm=$qrym->fetch_array();
+$am=array();
+$bm=array();
+if($rstm['item2']==2) {
+    $sqlm1="SELECT * FROM  `zt_goods_sort` where item2=".$lmid;
+    $qrym1=$link->query($sqlm1);
+    while($rstm1=$qrym1->fetch_array()) {
+        $am[]=$rstm1['id'];
+    }
+    $am=implode("|",$am);
+    $lmid = strtr($am,array("|"=>","));
+    
+}
+if($rstm['item1']==1) {
+    $sqlm1="SELECT * FROM  `zt_goods_sort` where item1=".$lmid;
+    $qrym1=$link->query($sqlm1);
+    while($rstm1=$qrym1->fetch_array()) {
+        $am[]=$rstm1['id'];
+    }
+    $am=implode("|",$am);
+    $lmid = strtr($am,array("|"=>","));
+    $sqlm2="SELECT * FROM  `zt_goods_sort` where item2 in (".$lmid.")";
+    $qrym2=$link->query($sqlm2);
+    while($rstm2=$qrym2->fetch_array()) {
+        $bm[]=$rstm2['id'];
+    }
+    $bm=implode("|",$bm);
+    $lmid = strtr($bm,array("|"=>","));
+    
+}
+$ss='';
+if(!empty($title)){
+    $ss=" ((spmc like '%".$title."%') or (spjs like '%".$title."%')) and ";
+}
+$ord = htmlspecialchars(trim($_GET['ord']));
+$nflid = htmlspecialchars(trim($_GET['nflid']));
+if(!empty($nflid)&&$nflid<>'') {
+    $nflid = strtr($nflid,array("|"=>","));
+}
+$ajf=array(1,2);
+if(!in_array($ord, $ajf)&&!empty($ord)) {
+    header("Location:error.html"); 
+    exit();
+}
+$c1='';
+if(empty($ord)) {
+    $c1='order by sftj desc ,id desc';
+} elseif ($ord==1) {
+    $c1.='order by jfgm desc';
+} elseif ($ord==2) {
+    $c1.='order by spjg desc';
+} 
+?>
+<?
+if($lmid ==1) {
+$sql1="SELECT * FROM  `zt_goods` where ".$ss." sfsj=1 ".$c1;
+} else {
+$sql1="SELECT * FROM  `zt_goods` where ".$ss." sfsj=1 and fl in (".$lmid.") ".$c1;
+}
+$qry1=$link->query($sql1);
+$total=$qry1->num_rows;
+$per=24;
+$page_obj=new Page($total,$per);
+$sqla1=$sql1." limit ".($page_obj->page-1)*$per.",".$per;
+$qrya1=$link->query($sqla1);
+$pagelist=$page_obj->fpage(array(0,2,4,5,6,9));
+
+$p=isset($page_obj->page)?$page_obj->page:1;
+$num=($p-1)*$per;
+?>
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title><?=$rstm[columname]?>_网络平台_<?=_TITLE_?></title>
+    <meta name="keyword" content="<?=_KEYWORD_?>"/>
+    <meta name="description" content="<?=_DESCRIPTION_?>"/>
+    <link href="/Public/ico.ico" type="image/x-icon" rel="shortcut icon" /> 
+    <link rel="stylesheet" type="text/css" href="/jygj/Public/home/css/index.css">
+    <script type="text/javascript" src="/jygj/Public/home/js/jquery-1.7.2.js"></script>
+ <script type="text/javascript" src="/js/index.js"></script>
+</head>
+<body >
+
+
+<div class="warp">
+
+<!------导航结束------>
+<?
+include("sheader.html");
+?>
+
+    <!----内容开始---->
+    <div class="warp_moer">
+        <?            
+            $sqla="select * from `phome_enewsad` where `classid` = 9 order by `adid` asc limit 0,1";
+            $qrya=$link->query($sqla);
+            $rst1=$qrya->fetch_array();
+        ?>
+              
+<a href='<?=$rst1['url']?>' target=_blank><img src='<?=$rst1['picurl']?>' border=0 width='1200' height='99' alt=''></a>
+
+        <ul class="warp_k">
+        <? 
+			$flid=array();
+			if($lmid<>1) {
+			$sqla="SELECT * FROM  `zt_goods_sort` where id=".$lmid;
+            $qrya=$link->query($sqla);
+            $rsta=$qrya->fetch_array();
+            if($rsta[item1]==1) {
+        ?>
+            	<li><span><a href="/">首页</a></span></li><li><span>&gt;</span></li><li><span><a href="cplist.html?lmid=<?=$rsta[id]?>"  title="<?=$rsta[columname]?>"><?=$rsta[columname]?></a></span></li>
+       	<?	
+       		$sqlx="select id from `zt_goods_sort` where item2 in (select id from `zt_goods_sort` where item1=".$lmid." and item2=2) and item3=3";
+       		$qryx=$link->query($sqlx);
+            while($rstx=$qryx->fetch_array()) {
+            	$flid[]=$rstx[id];
+            }
+
+       		} elseif($rsta[item2]==2) {
+       		$sqlb="SELECT * FROM  `zt_goods_sort` where id=(SELECT item1 FROM  `zt_goods_sort` where id=".$lmid.")";
+       		$qryb=$link->query($sqlb);
+            $rstb=$qryb->fetch_array();
+       	?>
+            <li><span><a href="/">首页</a></span></li><li><span>&gt;</span></li><li><span><a href="cplist.html?lmid=<?=$rstb[id]?>"  title="<?=$rstb[columname]?>"><?=$rstb[columname]?></a></span></li><li><span>&gt;</span></li><li><span><a href="cplist.html?lmid=<?=$rsta[id]?>"  title="<?=$rsta[columname]?>"><?=$rsta[columname]?></a></span></li>
+        <?
+        	$sqlx="select id from `zt_goods_sort` where item2 =".$lmid." and item3=3";
+       		$qryx=$link->query($sqlx);
+            while($rstx=$qryx->fetch_array()) {
+            	$flid[]=$rstx[id];
+            }
+			} elseif ($rsta[item3]==3) {
+			$sqlb="SELECT * FROM  `zt_goods_sort` where id=(SELECT item2 FROM  `zt_goods_sort` where id=".$lmid.")";
+			$qryb=$link->query($sqlb);
+            $rstb=$qryb->fetch_array();
+            $sqlc="SELECT * FROM  `zt_goods_sort` where id=(SELECT item1 FROM  `zt_goods_sort` where id=".$rstb[id].")";
+			$qryc=$link->query($sqlc);
+            $rstc=$qryc->fetch_array();
+		?>
+				 <li><span><a href="/">首页</a></span></li><li><span>&gt;</span></li><li><span><a href="cplist.html?lmid=<?=$rstc[id]?>"  title="<?=$rstc[columname]?>"><?=$rstc[columname]?></a></span></li><li><span>&gt;</span></li><li><span><a href="cplist.html?lmid=<?=$rstb[id]?>"  title="<?=$rstb[columname]?>"><?=$rstb[columname]?></a></span></li><li><span>&gt;</span></li><li><span><a href="cplist.html?lmid=<?=$rsta[id]?>"  title="<?=$rsta[columname]?>"><?=$rsta[columname]?></a></span></li>
+		<?	
+				$flid[]=$lmid;
+			}
+
+
+               $nflid=implode("|",$flid);
+               $nflid1=implode(",",$flid);
+            } else {
+        ?>
+        	<li><span><a href="/">首页</a></span></li><li><span>&gt;</span></li><li><span><a href="cplist.html?lmid=1"  title="产品列表区">产品列表区</a></span></li>
+        <?
+            }
+
+		?>
+            </ul>
+
+        <div class="warp_j">
+            <div class="warp_j_right">
+                <div class="warp_j_right_div">
+               
+                    <ul class="warp_j_right_ul">
+                    <?	if(empty($ord)) {?>
+			        	<li class="current">
+					<?	} else {?>
+						<li>
+					<?	}?>
+                       <span>
+                    <?	if(empty($title)) {?>
+			        	<a href="cplist.html?lmid=<?=$lmid;?>&nflid=<?=$nflid;?>">
+					<?	} else {?>
+						<a href="cplist.html?lmid=1&title=<?=$title?>">
+					<?	}?>
+                       默认</a>
+
+						</span></li>
+                    <?	if($ord==1) {?>
+			        	<li class="current">
+					<?	} else {?>
+						<li>
+					<?	}?>
+						 <?	if(empty($title)) {?>
+			        	<a href="cplist.html?lmid=<?=$lmid;?>&ord=1&nflid=<?=$nflid;?>">
+					<?	} else {?>
+						<a href="cplist.html?lmid=1&ord=1&title=<?=$title?>">
+					<?	}?>
+					销量<i></i></a></li>
+                     <?	if($ord==2) {?>
+			        	<li class="current">
+					<?	} else {?>
+						<li>
+					<?	}?>
+						<?	if(empty($title)) {?>
+			        	<a href="cplist.html?lmid=<?=$lmid;?>&ord=2&nflid=<?=$nflid;?>">
+					<?	} else {?>
+						<a href="cplist.html?lmid=1&ord=2&title=<?=$title?>">
+					<?	}?>
+					价格<i></i></a></li>
+                    </ul>
+
+                </div>
+                
+                <div class="warp_j_right_cp" id="warp_j_right_cp">
+
+                  <?
+                  if($total==0) {
+?>
+<center>
+<?
+if(!empty($title)) {
+    echo "查无此产品！";
+} else {
+    echo "此分类尚未发布任何产品，敬请期待！";
+}
+?>
+</center>
+<?
+} else {
+?>
+        <ul class="warp_j_right_cp_ul">
+<?
+while($rst1=$qrya1->fetch_array()){     
+?> 
+        
+<li >
+<a href="cpcontent.html?cpid=<?=$rst1[id];?>" title="<?=$rst1[spmc];?>"><img src="<?=strtr($rst1['spslt'],array("../"=>"/mall/"));?>" border="0" />
+                        <span><?=$rst1[spmc];?></span>
+                        <b><i>￥</i><?=$rst1[spjg];?></b>
+                        </a>
+                            
+                        </li>
+        <?
+        }
+        ?>
+
+</ul>
+                   
+<center>
+
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" style="text-align: center;">
+  <tr>
+    <td height="21"><div class="epages"><?=$pagelist;?></div></td>
+  </tr>
+</table>
+</center> 
+<?
+}
+?>
+                </div>
+
+ <script type="text/javascript">
+ 	function getUrlParam(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+        var r = window.location.search.substr(1).match(reg);  //匹配目标参数
+        if (r != null) return unescape(r[2]); return null; //返回参数值
+    }
+ 	var lmid = getUrlParam('lmid');
+	var ord = getUrlParam('ord');
+	</script>
+            </div>
+            <div class="warp_j_left">
+                <h1 class="warp_j_left_h1">热销商品</h1>
+
+                <ul class="warp_j_left_ul">
+                <?
+                	if($lmid<>1) {
+						$sqla="SELECT * FROM  `zt_goods` where sfsj=1 and  fl in (".$nflid1.") order by jfgm desc limit 0,6";
+					} else {
+						$sqla="SELECT * FROM  `zt_goods` where sfsj=1 order by jfgm desc limit 0,6";
+					}
+                    $qrya=$link->query($sqla);
+                    while($rsta=$qrya->fetch_array()){
+                ?>
+                	<li><a href="cpcontent.html?cpid=<?=$rsta[id]?>" title="<?=$rsta[spmc]?>" target="_blank"><img src="<?=strtr($rsta['spslt'],array("../"=>"/mall/"));?>"  style="width: 147px;height: 147px" border="0"/>
+						<span><?=$rsta[spmc]?></span>
+						<b>￥<?=$rsta[spjg]?></b>
+						</a>
+							
+                        </li>
+                <?	
+            		}
+                ?>
+					
+				</ul>
+            </div>
+        </div>
+
+       <div style="width: 100%;height: 20px;clear: both;"></div>
+           <?            
+            $sqla="select * from `phome_enewsad` where `classid` = 9 order by `adid` asc limit 1,1";
+            $qrya=$link->query($sqla);
+            $rst1=$qrya->fetch_array();
+        ?>
+              
+<a href='<?=$rst1['url']?>' target=_blank><img src='<?=$rst1['picurl']?>' border=0 width='1200' height='99' alt=''></a>
+      <div style="width: 100%;height: 20px;clear: both;"></div>
+
+		
+    </div>
+    <!----内容结束---->
+ <?include("sfooter.html");?>
+</div>
+</body>
+</html>
+<?$link->close();?>

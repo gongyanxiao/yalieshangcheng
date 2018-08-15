@@ -1,0 +1,446 @@
+<?
+include("config.php");
+$link = mysqli_connect($db_host,$db_user,$db_pwd,$db_database) or die('Unale to link');
+$link->set_charset('utf8');
+$cpid=htmlspecialchars(trim($_GET['cpid']));
+$n=array();
+$sqln="SELECT * FROM  `zt_goods` where sfsj=1";
+$qryn=$link->query($sqln);
+while($rstn=$qryn->fetch_array()) {
+    $n[]=$rstn["id"];
+}
+if(!in_array($cpid, $n)) {
+    header("Location:error.html"); 
+    exit;
+}
+
+$sql="SELECT * FROM  `zt_goods` where id=".$cpid;
+$qry=$link->query($sql);
+$rst=$qry->fetch_array();
+$lmid=$rst["fl"];
+$sqla="SELECT * FROM  `zt_goods_sort` where id=".$lmid;
+$qrya=$link->query($sqla);
+$rsta=$qrya->fetch_array();
+
+$sqlb="SELECT * FROM  `zt_goods_sort` where id=(SELECT item2 FROM  `zt_goods_sort` where id=".$lmid.")";
+$qryb=$link->query($sqlb);
+$rstb=$qryb->fetch_array();
+$myb=$rstb[id];
+$sqlc="SELECT * FROM  `zt_goods_sort` where id=(SELECT item1 FROM  `zt_goods_sort` where id=".$rstb[id].")";
+$qryc=$link->query($sqlc);
+$rstc=$qryc->fetch_array();
+$arr = explode(",",$rst['dt']);
+$c=count($arr);
+?>
+<!DOCTYPE html>
+<html><head lang="en">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title><?=$rst[spmc]?>_网络平台_<?=_TITLE_?></title>
+    <meta name="keyword" content="<?=_KEYWORD_?>"/>
+    <meta name="description" content="<?=_DESCRIPTION_?>"/>
+    <link href="/Public/ico.ico" type="image/x-icon" rel="shortcut icon"> 
+    <link rel="stylesheet" type="text/css" href="/css/wapc/index.css">
+    <link rel="stylesheet" type="text/css" href="/css/wap/swiper.css">
+    <script type="text/javascript" src="/js/jquery-1.js"></script>
+    <script type="text/javascript" src="/js/swiper.js"></script>
+
+
+</head>
+<body>
+
+
+
+<div class="warp">
+    <!------头部开始------>
+    <div class="warp_t">
+
+        <div class="warp_t_p">
+            <a href="javascript:history.go(-1);"></a>
+        </div>
+
+        <div class="warp_t_o">
+            <ul>
+                <li><?=$rst[spmc]?></li>
+            </ul>
+        </div>
+
+        <div class="warp_t_i" style="display: none;">
+            <div class="warp_t_i_bar">
+                <div class="warp_t_i_bae" kg="off">
+                    <a href="javascript:void(0)"></a>
+                </div>
+            </div>
+        </div>
+
+       <div class="warp_t_u" style="display: block;">
+            
+        </div>
+
+    </div>
+
+    <div class="ht45"></div>
+    <!------头部结束------>
+
+    <ul class="warp_t_qh">
+        <li class="warp_t_qh_li" style="display: list-item;">
+            <!------banner开始------>
+            <div id="banner" class="swiper-container-horizontal">
+                <div class="swiper-wrapper" style="transform: translate3d(-2360px, 0px, 0px); transition-duration: 0ms;">
+<div class="swiper-slide swiper-slide-duplicate" data-swiper-slide-index="<?=$c?>" style="width:100%;">
+                        <img src="<?=strtr($arr[$c-1],array("../"=>"/mall/"));?>">
+                    </div>
+                    <?
+                           
+                            for($i=0;$i<$c-1;$i++) {
+                            ?>
+                            <div class="swiper-slide" data-swiper-slide-index="<?=$i?>" style="width:100%;">
+                        <img src="<?=strtr($arr[$i],array("../"=>"/mall/"));?>"> 
+                    </div>
+                         <?
+                            }
+                            ?>
+                    <div class="swiper-slide swiper-slide-prev" data-swiper-slide-index="<?=$c-1?>" style="width:100%;">
+                        <img src="<?=strtr($arr[$c-1],array("../"=>"/mall/"));?>" >
+                    </div>        
+                    <div class="swiper-slide swiper-slide-duplicate swiper-slide-active" data-swiper-slide-index="0" style="width:100%;">
+                        <img src="<?=strtr($arr[0],array("../"=>"/mall/"));?>">
+                    </div>
+                </div>
+                <div class="pagination swiper-pagination-bullets">
+                    <?
+                    for ($i=0; $i < $c; $i++) { 
+                        if($i==0) {
+                    ?>
+                        <span class="swiper-pagination-bullet swiper-pagination-bullet-active"></span>
+                    <?
+                        } else {
+                    ?>
+                    <span class="swiper-pagination-bullet"></span>
+                    <?       
+                        }
+                    }
+                    
+                    ?>
+
+                </div>
+            </div>
+            <script type="text/javascript">
+                $(function() {
+                    var x=$(".swiper-wrapper div").eq(0).css("width");
+                    x=x.substr(0,x.length-2);
+                    $(".swiper-wrapper div").css("height",0.8*x+"px");
+                })
+            </script>
+            <!------banner结束------>
+
+            <!------内容开始------>
+            <div class="warp_r">
+                <div class="warp_r_mp">
+                    <h3><?=$rst[spmc]?></h3>
+                </div>
+                <div class="warp_r_do">
+            <span>商品编号：<?=$row[productno]?></span>
+        </div>
+
+            <div class="warp_t_qh_li_dmp">
+                <h2 class="warp_t_qh_li_dmp_h2">
+                    <span></span>
+                    <b>规格</b>
+                </h2>
+                <ul class="warp_t_qh_li_dmp_ul">
+                <?=stripslashes($rst[ggjbz])?>
+                                      </ul>
+            </div>
+            
+            <div class="warp_t_qh_li_dmp">
+                <h2 class="warp_t_qh_li_dmp_h2">
+                    <span></span>
+                    <b>服务</b>
+                </h2>
+                <ul class="warp_t_qh_li_dmp_ul">
+                        <?=stripslashes($rst[ssfw])?>          </ul>
+            </div>
+                <div class="warp_e">
+            <span class="warp_e_sp">
+            <b>￥<?=$rst[spjg]?></b>
+            <span>原价：￥<del><?=$rst[scjg]?></del></span>
+        </span>
+
+    </div>
+
+                <div class="warp_q">
+                    <h3><!--购买数量--></h3>
+                   <div style="display:none;border: 1px solid #ddd9da;overflow: hidden;width: 102px;margin: 10px 0 0 3%">
+						<input type="button" id="but2" value="" onclick="show2()" style="width:30px; height:30px; float:left;border-bottom: 0;border-right: 1px solid #C8C6C6;;border-top: 0;border-left: 0;background: url(/Public/phone/jifen/img/im36.png) no-repeat center">
+						<input type="text" id="setNum" value="1" style="float:left; width:40px; height:32px;border-bottom: 0;border-right: 1px solid #C8C6C6;;border-top: 0;border-left: 0;background: #FFffff;font-family: '微软雅黑';font-size: 20px;color: #666666;text-align: center">
+						<input type="button" id="but1" value="" onclick="show1()" style="width: 30px; height:30px; float:left;border-bottom: 0;border-right: 0;border-top: 0;border-left: 0;background: url(/Public/phone/jifen/img/im37.png) no-repeat center">
+					</div>
+                </div>
+                 <div class="warp_t_qh_li_dmp">
+                <h2 class="warp_t_qh_li_dmp_h2">
+                    <span></span>
+                    <b>商品详情</b>
+                </h2>
+                
+            </div>
+
+                 <div class="warp_r_du"><?=stripslashes($rst[spjs])?> </div>
+            </div>
+         
+            <!------内容结束------>
+        </li>
+
+    </ul>
+           
+    <!------底部开始------>
+    <div class="ht60"></div>
+    <div class="ljgm">
+        <button type="button" onclick='duihuan(39)'>加入收藏</button>
+    </div>
+    
+     <!-- <div class="footer_nav">
+        <ul>
+            <li class="bian"><a href="/wap/mall/wap-shop.html"><em class="goods_nav1"></em><span>首页</span></a> </li>
+        </ul>
+        <dl>
+           <dd class="flow"><a class="button active_button" href="#" onclick="cart(39)">加入购物车</a> </dd>
+            <dd class="goumai"><a style="display:block;" href="#" onclick="duihuan(39)">立即购买</a> </dd>
+        </dl>
+    </div> -->
+    <?  
+$xo=''; 
+$xo1='';    
+if(!empty($_COOKIE['ECS']['username'])){
+    $queryl=$link->query("select * from xbmall_users where user_name='".$_COOKIE['ECS']['username']."'"); 
+    $rl=$queryl->fetch_array(); 
+    $xo=$rl['lx'];      
+    if($xo==0) {
+$query2=$link->query("select * from zt_memberinfo where userid=".$rl['id']); 
+    $r2=$query2->fetch_array(); 
+    $xo1=$query2->num_rows;
+    ?>
+<form action="information_do.php?type=<?=$xo1?>" method="post" id="form" enctype='multipart/form-data'>
+<?} else {
+$query2=$link->query("select * from zt_shopinfo where userid=".$rl['id']); 
+    $r2=$query2->fetch_array(); 
+    $xo1=$query2->num_rows;
+?>
+<form action="upinfo_do.php?type=<?=$xo1?>" method="post" id="form" enctype='multipart/form-data'>
+<?}}?>
+            <input type="hidden" id="mid" value="<?=$_COOKIE['ECS']['username']?>"/>
+            <input type="hidden" id="ujf" value=""/>
+            <input type="hidden" id="price" value="0.00"/>
+            <input type="hidden" id="cpid" name="cpid" value="<?=$cpid?>"/>
+            <input type="hidden" id="num" name="num" value=""/>
+            <input type="hidden" id="num" name="gid" value="39"/>
+            </form>
+<script>
+        
+            function duihuan(id){
+                if (confirm("确认收藏？")) {
+               
+            
+                    var num = $("#setNum").val();
+                    var jf = $("#ujf").val();
+                    var price= $("#price").val();
+                   var mid =$("#mid").val();
+                    if(mid==''){
+                        alert('请登录');
+                        location.href="login.html";
+                        return false;
+                    } 
+                    /*if((num*price)>jf){
+                    
+                        alert("积分不足，请充值，可用可提现积分充值");return false;
+                    }
+                    $("#num").attr("value",num);*/
+                    $("#form").submit();
+                    
+                }
+            }
+        </script>
+   
+    <script>
+        
+           /* function duihuan(id){
+            id=id
+                //alert(id);
+                var mid =$("#mid").val()
+                        if(mid==''){
+                            alert('请登录')
+                            location.href="/Wap/agent/login.html";return false;
+                        }
+                var qx = $("#qx").val();        
+                if(qx==4){
+                    if (confirm("确认购买？")) {
+                        
+                        var num = $("#setNum").val();
+                        $("#num").attr("value",num);
+                        $("#gid").attr("value",id)
+                        $("#form").submit()
+                        
+                    }
+                }else{
+                
+                    alert('非会员账号')
+                }
+                
+            }
+        function cart(id){
+                var qx = $("#qx").val();        
+                if(qx==4){
+                    var num = $("#setNum").val();
+                    var mid =$("#mid").val()
+
+                    var price= $("#price").val();
+                    
+                    if(mid==''){
+                        alert('请登录')
+                        location.href="/Wap/agent/login.html";return false;
+                    }
+                    id=id;
+                    
+                    $.ajax({
+                                //提交数据的类型 POST GET
+                                type:"POST",
+                                //提交的网址
+                                url:"/Wap/entity/cart_do.html",
+                                //提交的数据
+                                data:{id:id,num:num},
+                                //返回数据的格式
+                                datatype: "json",//"xml", "html", "script", "json", "jsonp", "text".
+                                //成功返回之后调用的函数   
+                                success:function(data){
+                                    if(data==1){
+                                    alert('请登录')
+                                    location.href="/Wap/agent/login.html";return false;
+                                   }else if(data==2){
+                                   
+                                    alert('添加失败');
+                                    
+                                   }else if(data==3){
+                                   
+                                    alert('添加成功');
+                                    location.href=location.href
+                                   }
+                                }   ,
+                            //调用出错执行的函数
+                                error: function(){
+                                    //请求出错处理
+                                }         
+                        }); 
+                }else{
+                    alert('非会员账户');return false;
+                }       
+            }*/
+        </script>
+    <!------底部结束------>
+</div>
+<script>
+    function show1(){
+        var getNum = parseInt(document.getElementById("setNum").value);
+        if(getNum <1000){
+            document.getElementById("setNum").value = getNum + 1;
+        }else{
+            alert("不可以大于20");
+        }
+    }
+    function show2(){
+        var getNum = parseInt(document.getElementById("setNum").value);
+        if(getNum > 1){
+            document.getElementById("setNum").value = getNum - 1;
+        }else{
+            alert("不可以小于1");
+        }
+    }
+</script>
+<script type="text/javascript">
+    function handleScroll(){
+        document.getElementByIdx_x("menu").style.top = (document.body.offsetHeight*0.87 + document.body.scrollTop) +"px";
+    }
+    function pop(){
+        var toogle = document.getElementByIdx_x("menu").childNodes[1];
+        if(toogle.style.visibility == "" || toogle.style.visibility == "hidden"){
+            toogle.style.visibility = "visible";
+        }else{
+            toogle.style.visibility = "hidden";
+        }
+    }
+    function init(){
+        document.body.onscroll="handleScroll()";
+        document.body.onload="handleScroll()";
+        document.getElementByIdx_x("menu").onmouseover=pop;
+        document.getElementByIdx_x("menu").onmouseout=pop;
+    }
+    window.onload=init;
+</script>
+
+<script>
+    $(function(){
+        $(".warp_t_i_bae").click(function(){
+            if($(this).attr('kg')=='on'){
+                $(".warp_t_u").show()
+                $(this).attr('kg','off')
+            }else{
+                $(".warp_t_u").hide()
+                $(this).attr('kg','on')
+            }
+        })
+    })
+</script>
+<script language="javascript" type="text/javascript">
+    $(document).ready(function(){
+        $('.warp_t_o ul li').click(function(){
+            $('.warp_t_qh_li').hide();
+            $('.warp_t_qh_li').eq($(this).index()).show()
+        });
+    });
+</script>
+<!----------------------------点击变色开始-------------------------->
+<script>
+    $(function(){
+        var cotrs = $(".warp_t_o ul li");
+        cotrs.click(function(){
+            $(this).addClass("thisclass").siblings().removeClass("thisclass");
+        });
+    });
+</script>
+<!----------------------------点击变色结束-------------------------->
+<script type="text/javascript">
+    window.onload = function() {
+        var mySwiper1 = new Swiper('#header',{
+            freeMode : true,
+            slidesPerView : 'auto',
+        });
+        var mySwiper2 = new Swiper('#banner',{
+            autoplay:5000,
+            visibilityFullFit : true,
+            loop:true,
+            pagination : '.pagination',
+        });
+
+        var tabsSwiper = new Swiper('#tabs-container',{
+            speed:500,
+            onSlideChangeStart: function(){
+                $(".tabs .active").removeClass('active')
+                $(".tabs a").eq(tabsSwiper.activeIndex).addClass('active')
+            }
+        })
+        $(".tabs a").on('touchstart mousedown',function(e){
+            e.preventDefault()
+            $(".tabs .active").removeClass('active')
+            $(this).addClass('active')
+            tabsSwiper.slideTo( $(this).index() )
+        })
+        $(".tabs a").click(function(e){
+            e.preventDefault()
+        })
+
+    }
+</script>
+
+
+</body></html><?$link->close();?>

@@ -1,0 +1,18 @@
+ <form name="formSurplus" method="post" action="user.php" onSubmit="return submitSurplus()">
+            <table width="100%" border="0" cellpadding="10" cellspacing="1" bgcolor="#eeeeee">
+              <tr>
+                <td width="10%" align="right">提现积分:</td>
+                <td align="left"><input type="text" name="amount" value="{$order.amount|escape}" class="inputBg" size="30" /></td>
+              </tr>
+              <tr>
+                <td align="right">{$lang.process_notic}:</td>
+                <td align="left"><textarea name="user_note" cols="55" rows="6" style="border:1px solid #ddd;">{$order.user_note|escape}</textarea></td>
+              </tr>
+              <tr>
+                <td colspan="2" align="center"><input type="hidden" name="surplus_type" value="1" />
+                  <input type="hidden" name="act" value="act_account" />
+                  <input type="submit" name="submit"  class="main-btn main-btn-large" value="{$lang.submit_request}" />
+                  <input type="reset" name="reset" class="main-btn main-btn-large" value="{$lang.button_reset}" /></td>
+              </tr>
+            </table>
+          </form>

@@ -1,0 +1,386 @@
+<?include("config.php");?>
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>注册_<?=_TITLE_?></title>
+    <meta name="keyword" content="<?=_KEYWORD_?>"/>
+    <meta name="description" content="<?=_DESCRIPTION_?>"/>
+
+    <link href="/Public/ico.ico" type="image/x-icon" rel="shortcut icon" /> 
+	
+    <link rel="stylesheet" type="text/css" href="/jygj/Public/home/css/index.css">
+
+                      <script src="js/jquery.min.js"></script>
+    <script src="/jygj/Public/home/js/drag.js" type="text/javascript"></script>
+
+
+</head>
+<body>
+<div id="jsgj"></div>
+<div class="warp">
+    <div class="warp_v_home">
+        <div class="warp_v">
+            <a href="/mall"><img src="/images/logo.png" width="224" height="88"></a>
+            <span>注册会员</span>
+        </div>
+        <div class="warp_v_mp">
+        <div class="warp_v_in">
+				<div style="overflow: hidden;width: 373px;margin: auto">
+					<a href="reg.html" class="warp_v_in1 current">会员注册</a>
+					<a href="reg_shop.html" class="warp_v_in2">商家注册</a>
+			</div>
+		  </div>
+            <div class="warp_v_mo">
+				<form action="/mall/member/reg_do.php" method="post" id="myform" name="myform" enctype='multipart/form-data'>
+                <table width="726" align="center">
+                    <tr>
+					    <td width="100">会员账号：</td>
+                        <td width="358"><input name="username" type="text" class="more_p_ex" id="username" onFocus="if (this.value=='建议您使用手机号')this.value=''" onBlur="if (this.value=='建议您使用手机号')this.value=''" value="必须用手机号注册" size="24">
+                        *</td>
+                        <td width="214"><div class="userinfo"></div></td>
+                    </tr>
+
+                    <tr>
+						<td>会员密码：</td>
+                      <td colspan="2"><input type="password" value="" id="password" name="password" onFocus="if(this.value==defaultValue) {this.value='';this.type='password'}" onBlur="if(!value) {value=defaultValue; this.type='text';}'" class="more_p_ex">
+                        *</td>
+                    </tr>
+
+                    <tr>
+						<td>确认密码：</td>
+                      <td colspan="2"><input type="password" value="" id="repassword"  name="repassword"  onfocus="if(this.value==defaultValue) {this.value='';this.type='password'}" onBlur="if(!value) {value=defaultValue; this.type='text';}'" class="more_p_ex">
+                        *</td>
+                    </tr>
+
+                    <tr>
+						<td>手机号码：</td>
+                      <td colspan="2"><input type="text" value="请输入手机号码" id="phone1"  name="phone1"  onfocus="if (this.value=='请输入手机号码')this.value=''" onBlur="if (this.value=='')this.value='请输入手机号码'" class="more_p_ex">
+                        *用于接收找回密码的验证码</td>
+                    </tr>
+					<tr>
+					    <td>姓名：</td>
+                      <td colspan="2"><input type="text" value="请输入姓名"  name="xm1" onFocus="if (this.value=='请输入姓名')this.value=''" onBlur="if (this.value=='请输入姓名')this.value=''" class="more_p_ex">
+                        *</td>
+                    </tr>
+					<tr>
+					    <td>身份证号：</td>
+                        <td colspan="2"><input type="text" value="用于核验绑定银行卡真实性" id="idcard" name="sfzh" onFocus="if (this.value=='请您填写真实身份证、有助于您密码找回')this.value=''" onBlur="if (this.value=='请您填写真实身份证、有助于您密码找回')this.value=''" class="more_p_ex"></td>
+                    </tr>
+					<tr>
+					    <td>选择地区：</td>     
+						<td colspan="2" style="padding-top: 18px;">						
+							<select name="location_p" id="location_p" class="" style="height: 31px;">
+							</select>
+							<select name="location_c" id="location_c" class="" style="height: 31px;">
+							</select>
+							<select name="location_a" id="location_a" class="" style="height: 31px;">
+							</select><br/>
+							<script src="/jygj/Public/home/js/region_select.js"></script>
+							<script type="text/javascript">
+							new PCAS('location_p', 'location_c', 'location_a', '北京市', '', '');
+							</script>						
+						</td>
+					</tr>
+					 <tr>
+						<td>详细地址：</td>
+                        <td colspan="2"><input type="text" value="详细地址 ~地区注册后不能自行修改" id="phone"  name="other"  onfocus="if (this.value=='详细地址 ~地区注册后不能自行修改')this.value=''" onBlur="if (this.value=='')this.value='详细地址 ~地区注册后不能自行修改'" class="more_p_ex">
+                        *</td>
+				   </tr>
+                    <tr>
+                        <td colspan="3">
+                            <div id="drag" style="text-align:center;width:306px;"></div>
+                            <script type="text/javascript">
+                                $('#drag').drag();
+                            </script>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td colspan="3">
+                            <div class="more_p_div">
+                                <input name="xy" type="checkbox" id="xy" value="1" checked="checked">
+                                <b>同意<a href="javascript:void(0)" class="more_p_div_tc">《聚元国际》</a>用户协议</b>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td colspan="3"><input type="button" value="立即注册" class="more_p_ton"></td>
+                    </tr>
+                </table>
+			  </form>
+				<script>
+				$(".more_p_ton").click(function(){
+					if($(".drag_text").html()!='验证通过')
+					{
+						alert("请拖动滑块验证")
+						return false;
+					}else{
+				
+				var username=document.myform.username.value;
+var password1=document.myform.password.value;
+var password2=document.myform.repassword.value;
+var xm=document.myform.xm1.value;
+var sfzh=document.myform.sfzh.value;
+//省县区
+var p=document.myform.location_p.value;
+var c=document.myform.location_c.value;
+var a=document.myform.location_a.value;
+var xxdz=document.myform.other.value;
+var sjhm=document.myform.phone1.value;
+var xy;
+for(var i=0;i< document.getElementsByName("xy").length; i++){
+ if(document.getElementsByName("xy")[i].checked){
+ xy=document.getElementsByName("xy")[i].value;
+}
+}
+var dataString='username='+username+'&password1='+password1+'&password2='+password2+'&xm='+xm+'&sfzh='+sfzh+'&p='+p+'&c='+c+'&a='+a+'&sjhm='+sjhm+'&xxdz='+xxdz+'&xy='+xy;
+ $.ajax({  
+type: "POST",  
+url: "member/reg_do.php",  
+data:dataString,  
+cache:false,  
+success:function(html){  
+$("#jsgj").html(html);
+ }
+ }); 
+					}
+		
+				})
+				</script>
+            </div>
+        </div>
+    </div>
+
+<?
+    include_once "sfooter.html";
+    ?>		
+	
+	<script>
+        $(function(){
+            $(".more_p_div_tc").click(function(){
+                $(".jsxy_p").show();
+            })
+
+            $(".jsxy_i_a").click(function(){
+                $(".jsxy_p").hide();
+            })
+			
+			$(".jsxy_u_ty").click(function(){
+                $(".jsxy_p").hide();
+            })
+        });
+    </script>
+	
+	<div class="jsxy_p">
+	    <div class="jsxy_o">
+		    <div class="jsxy_i">
+			    <span>会员须知</span>
+
+			    <a href="javascript:void(0)" class="jsxy_i_a"></a>
+			</div>
+			<div class="jsxy_u">
+				<p style="margin-top:auto;margin-bottom: auto;text-align:center;background:white">
+    <span style="font-size:14px;font-family:&#39;微软雅黑&#39;,&#39;sans-serif&#39;">消费者会员注册协议</span>
+</p>
+<p style="margin-top:auto;margin-bottom: auto;text-align:left;background:white">
+    <a name="OLE_LINK3"></a><a name="OLE_LINK2"></a><a name="OLE_LINK1"></a><span style="font-size:14px;font-family:&#39;微软雅黑&#39;,&#39;sans-serif&#39;">本协议是消费者会员与安徽诺斯贝尔电子商务有限公司（以下简称“诺斯贝尔公司”）的法律协议。</span>
+</p>
+<p style="margin-top:auto;margin-bottom: auto;text-align:left;background:white">
+    <span style="font-size:14px;font-family:&#39;微软雅黑&#39;,&#39;sans-serif&#39;">请您仔细阅读以下章程。</span>
+</p>
+<p style=";margin-bottom:0;background:white">
+    <span style="font-size:14px;font-family:&#39;微软雅黑&#39;,&#39;sans-serif&#39;;color:black">请您仔细阅读如有不理解地方请与客服联系</span>
+</p>
+<p style="margin-top:auto;margin-bottom: auto;text-align:left;background:white">
+    <span style="font-size:14px;font-family:&#39;微软雅黑&#39;,&#39;sans-serif&#39;">第一条 概述</span>
+</p>
+<p style="margin-top:auto;margin-bottom: auto;text-align:left;background:white">
+    <span style="font-size:14px;font-family:&#39;微软雅黑&#39;,&#39;sans-serif&#39;">甲方为：安徽诺斯贝尔电子商务有限公司</span>
+</p>
+<p style="margin-top:auto;margin-bottom: auto;text-align:left;background:white">
+    <span style="font-size:14px;font-family:&#39;微软雅黑&#39;,&#39;sans-serif&#39;">乙方为：消费者会员</span>
+</p>
+<p style="margin-top:auto;margin-bottom: auto;text-align:left;background:white">
+    <span style="font-size:14px;font-family:&#39;微软雅黑&#39;,&#39;sans-serif&#39;">（注：请您仔细阅读特别是<span style="color:red">红色部分</span>，如有不理解地方请参阅官网客服页面，或与客服联系：）</span>
+</p>
+<p style="margin-top:auto;margin-bottom: auto;text-align:left;background:white">
+    <span style="font-size:14px;font-family:&#39;微软雅黑&#39;,&#39;sans-serif&#39;">本协议是消费者会员与安徽诺斯贝尔电子商务有限公司（以下简称“诺斯贝尔公司”）的法律协议。</span>
+</p>
+<p style="margin-top:auto;margin-bottom: auto;text-align:left;background:white">
+    <span style="font-size:14px;font-family:&#39;微软雅黑&#39;,&#39;sans-serif&#39;">“消费者会员”是指愿意接受或实际上已经接受诺斯贝尔公司提供的服务的个体消费者。</span>
+</p>
+<p style="margin-top:auto;margin-bottom: auto;text-align:left;background:white">
+    <span style="font-size:14px;font-family:&#39;微软雅黑&#39;,&#39;sans-serif&#39;">此份协议是消费者会员接受诺斯贝尔公司服务时适用的通用条款。因此，请您在注册成为诺斯贝尔公司消费者会员前或接受诺斯贝尔公司的服务之前，请您详细地阅读本消费者会员协议的所有内容。</span>
+</p>
+<p style="margin-top:auto;margin-bottom: auto;text-align:left;background:white">
+    <span style="font-size:14px;font-family:&#39;微软雅黑&#39;,&#39;sans-serif&#39;">消费者会员了解并同意：<span style="color:red">只要消费者会员点击“同意”按钮并完成注册，消费者会员就已接受了本消费者会员协议及</span>诺斯贝尔<span style="color:red">公司公布的各项服务规则（包括填写实名的联系方式等等），并愿意受其约束。如果发生纠纷，消费者会员不得以未仔细阅读为由进行抗辩。</span></span>
+</p>
+<p style="margin-top:auto;margin-bottom: auto;text-align:left;background:white">
+    <span style="font-size:14px;font-family:&#39;微软雅黑&#39;,&#39;sans-serif&#39;">消费者会员了解并同意：<span style="color:red">随着市场经营情况的变化，</span>诺斯贝尔<span style="color:red">公司有权随时更改本消费者会员协议及相关服务规则。修改本消费者会员协议时，</span>诺斯贝尔<span style="color:red">公司将于相关页面公告修改的事实，有权不对消费者会员进行个别通知。消费者会员应该在每次登录前查询</span>诺斯贝尔<span style="color:red">公司官方网站的相关公告，以了解本消费者会员协议及其他服务规则的变化。若消费者会员不同意本消费者会员协议或相关服务规则，或者不同意</span>诺斯贝尔<span style="color:red">公司作出的修改，消费者会员可以主动停止使用</span>诺斯贝尔<span style="color:red">公司提供服务，如果在</span>诺斯贝尔<span style="color:red">公司修改协议或服务规则后，消费者会员仍继续使用</span>诺斯贝尔<span style="color:red">公司提供服务，即表示消费者会员同意</span>诺斯贝尔<span style="color:red">公司对本消费者会员协议及相关服务规则所做的所有修改。由于消费者会员在消费者会员协议变更后因未熟悉公告规定而引起的损失，</span>诺斯贝尔<span style="color:red">公司将不会承担任何责任。</span></span>
+</p>
+<p style="margin-top:auto;margin-bottom: auto;text-align:left;background:white">
+    <span style="font-size:14px;font-family:&#39;微软雅黑&#39;,&#39;sans-serif&#39;">诺斯贝尔公司的各项电子服务的所有权和运作权归本站。消费者会员必须完全同意所有服务条款并完成注册程序，才能成为本站的消费者会员。消费者会员确认：本协议条款是处理双方权利义务的当然约定依据。</span>
+</p>
+<p style="margin-top:auto;margin-bottom: auto;text-align:left;background:white">
+    <span style="font-size:14px;font-family:&#39;微软雅黑&#39;,&#39;sans-serif&#39;">&nbsp;</span>
+</p>
+<p style="margin-top:auto;margin-bottom: auto;text-align:left;background:white">
+    <span style="font-size:14px;font-family:&#39;微软雅黑&#39;,&#39;sans-serif&#39;">第二条 宗旨</span>
+</p>
+<p style="margin-top:auto;margin-bottom: auto;text-align:left;background:white">
+    <span style="font-size:14px;font-family:&#39;微软雅黑&#39;,&#39;sans-serif&#39;">诺斯贝尔公司秉承着一切为了会员权益，让会员更好的了解聚元国际，了解赠送模式，提高实体店创收，让实体经济全面发展，促进老有所依，幼有所教的全民幸福指数。公司秉承诚信守信、创新专注的服务理念，坚持夯实基础、平稳运行、规范管理、防控风险的企业宗旨，树立人品第一、财富第二的思想。实现汇聚资源，元通天下，提高大众生活品质，拉动实体商业经济的目标   
+。</span>
+</p>
+<p style="margin-top:auto;margin-bottom: auto;text-align:left;background:white">
+    <span style="font-size:14px;font-family:&#39;微软雅黑&#39;,&#39;sans-serif&#39;">&nbsp;</span>
+</p>
+<p style="margin-top:auto;margin-bottom: auto;text-align:left;background:white">
+    <span style="font-size:14px;font-family:&#39;微软雅黑&#39;,&#39;sans-serif&#39;">第三条 名词解释</span>
+</p>
+<p style="margin-top:auto;margin-bottom: auto;text-align:left;background:white">
+    <span style="font-size:14px;font-family:&#39;微软雅黑&#39;,&#39;sans-serif&#39;">为更好理解本协议约定的权利义务，特对如下名词进行解释：</span>
+</p>
+<p style="margin-top:auto;margin-bottom: auto;text-align:left;background:white">
+    <span style="font-size:14px;font-family:&#39;微软雅黑&#39;,&#39;sans-serif&#39;">1</span><span style="font-size:14px;font-family:&#39;微软雅黑&#39;,&#39;sans-serif&#39;">、联盟商家会员：在诺斯贝尔公司所属购物平台（网址：http://jsguoji.cn/）注册的面向普通消费者的商家（厂商）用户。</span>
+</p>
+<p style="margin-top:auto;margin-bottom: auto;text-align:left;background:white">
+    <span style="font-size:14px;font-family:&#39;微软雅黑&#39;,&#39;sans-serif&#39;">2</span><span style="font-size:14px;font-family:&#39;微软雅黑&#39;,&#39;sans-serif&#39;">、消费者会员：在诺斯贝尔公司所属购物平台注册的消费者用户。</span>
+</p>
+<p style="margin-top:auto;margin-bottom: auto;text-align:left;background:white">
+    <span style="font-size:14px;font-family:&#39;微软雅黑&#39;,&#39;sans-serif&#39;">3</span><span style="font-size:14px;font-family:&#39;微软雅黑&#39;,&#39;sans-serif&#39;">、赠送积分（消费者消费后获得的积分）：消费者需要在诺斯贝尔公司所属 网站进行注册，取得诺斯贝尔公司的会员资格，并根据交易额来确定获得积分的数量。消费者累计消费金额满1000元，可以获得诺斯贝尔公司所属平台赠送的一个积分赠送权，消费满2000元就获得两个积分赠送权，以此类推，平台会最大限度地按照相应比例以养老、医疗、教育基金以及积分兑换国内外特色产品的形式，最终以最高高达四折的优惠价回馈给消费者，同时积分可以用来在网络平台上购物、兑换商品、抽奖、旅游等。</span>
+</p>
+<p style="margin-top:auto;margin-bottom: auto;text-align:left;background:white">
+    <span style="font-size:14px;font-family:&#39;微软雅黑&#39;,&#39;sans-serif&#39;">4</span><span style="font-size:14px;font-family:&#39;微软雅黑&#39;,&#39;sans-serif&#39;">、非正品商品：非经授权工厂制作的，或质量不符合法定标准的商品，包括“假冒伪劣商品” 、“处理品”、“残次品”、“等外品”等商品。</span>
+</p>
+<p style="margin-top:auto;margin-bottom: auto;text-align:left;background:white">
+    <span style="font-size:14px;font-family:&#39;微软雅黑&#39;,&#39;sans-serif&#39;">5</span><span style="font-size:14px;font-family:&#39;微软雅黑&#39;,&#39;sans-serif&#39;">、虚假消费：乙方编造虚假购物消费的行为。</span>
+</p>
+<p style="margin-top:auto;margin-bottom: auto;text-align:left;background:white">
+    <span style="font-size:14px;font-family:&#39;微软雅黑&#39;,&#39;sans-serif&#39;">&nbsp;</span>
+</p>
+<p style="margin-top:auto;margin-bottom: auto;text-align:left;background:white">
+    <span style="font-size:14px;font-family:&#39;微软雅黑&#39;,&#39;sans-serif&#39;">第四条 注册程序及要求</span>
+</p>
+<p style="margin-top:auto;margin-bottom: auto;text-align:left;background:white">
+    <span style="font-size:14px;font-family:&#39;微软雅黑&#39;,&#39;sans-serif&#39;">1</span><span style="font-size:14px;font-family:&#39;微软雅黑&#39;,&#39;sans-serif&#39;">、认真阅读《消费者会员注册须知》如无异议，点击“同意”按钮，即进入注册程序。</span>
+</p>
+<p style="margin-top:auto;margin-bottom: auto;text-align:left;background:white">
+    <span style="font-size:14px;font-family:&#39;微软雅黑&#39;,&#39;sans-serif&#39;">2</span><span style="font-size:14px;font-family:&#39;微软雅黑&#39;,&#39;sans-serif&#39;">、会员注册时需要提供真实的姓名、身份证号码及正常使用的手机号码。</span>
+</p>
+<p style="margin-top:auto;margin-bottom: auto;text-align:left;background:white">
+    <span style="font-size:14px;font-family:&#39;微软雅黑&#39;,&#39;sans-serif&#39;">3</span><span style="font-size:14px;font-family:&#39;微软雅黑&#39;,&#39;sans-serif&#39;">、会员应当认真填写《会员档案表》，并按照提示进行操作。</span>
+</p>
+<p style="margin-top:auto;margin-bottom: auto;text-align:left;background:white">
+    <span style="font-size:14px;font-family:&#39;微软雅黑&#39;,&#39;sans-serif&#39;">&nbsp;</span>
+</p>
+<p style="margin-top:auto;margin-bottom: auto;text-align:left;background:white">
+    <span style="font-size:14px;font-family:&#39;微软雅黑&#39;,&#39;sans-serif&#39;">第五条 甲方的权利义务</span>
+</p>
+<p style="margin-top:auto;margin-bottom: auto;text-align:left;background:white">
+    <span style="font-size:14px;font-family:&#39;微软雅黑&#39;,&#39;sans-serif&#39;">1</span><span style="font-size:14px;font-family:&#39;微软雅黑&#39;,&#39;sans-serif&#39;">、甲方为乙方提供购物平台，名称为“聚元国际平台” （网址：http://jsguoji.cn/）</span>
+</p>
+<p style="margin-top:auto;margin-bottom: auto;text-align:left;background:white">
+    <span style="font-size:14px;font-family:&#39;微软雅黑&#39;,&#39;sans-serif&#39;">2</span><span style="font-size:14px;font-family:&#39;微软雅黑&#39;,&#39;sans-serif&#39;">、甲方为乙方提供与聚元国际平台合作的联盟商家（厂家）的店面信息。</span>
+</p>
+<p style="margin-top:auto;margin-bottom: auto;text-align:left;background:white">
+    <span style="font-size:14px;font-family:&#39;微软雅黑&#39;,&#39;sans-serif&#39;">3</span><span style="font-size:14px;font-family:&#39;微软雅黑&#39;,&#39;sans-serif&#39;">、甲方所属宣传平台有权对版面进行调整，且甲方有权对乙方的注册信息进行实质审查。</span>
+</p>
+<p style="margin-top:auto;margin-bottom: auto;text-align:left;background:white">
+    <span style="font-size:14px;font-family:&#39;微软雅黑&#39;,&#39;sans-serif&#39;">4</span><span style="font-size:14px;font-family:&#39;微软雅黑&#39;,&#39;sans-serif&#39;">、甲方辖区内的诺斯贝尔电子商务公司网站（网址http://jsguoji.cn/）内的所有会员管理权归诺斯贝尔公司所有。</span>
+</p>
+<p style="margin-top:auto;margin-bottom: auto;text-align:left;background:white">
+    <span style="font-size:14px;font-family:&#39;微软雅黑&#39;,&#39;sans-serif&#39;">5</span><span style="font-size:14px;font-family:&#39;微软雅黑&#39;,&#39;sans-serif&#39;">、甲方有权清理对公司造成负面影响的会员，并有权追究其法律责任。</span>
+</p>
+<p style="margin-top:auto;margin-bottom: auto;text-align:left;background:white">
+    <span style="font-size:14px;font-family:&#39;微软雅黑&#39;,&#39;sans-serif&#39;">6</span><span style="font-size:14px;font-family:&#39;微软雅黑&#39;,&#39;sans-serif&#39;">、经甲方核实，乙方有虚假消费骗取积分的行为，甲方有权取消乙方的会员资格，并追究乙方给甲方造成的损失，乙方还应承担因虚假消费而造成的所有后果。</span>
+</p>
+<p style="margin-top:auto;margin-bottom: auto;text-align:left;background:white">
+    <span style="font-size:14px;font-family:&#39;微软雅黑&#39;,&#39;sans-serif&#39;">&nbsp;</span>
+</p>
+<p style="margin-top:auto;margin-bottom: auto;text-align:left;background:white">
+    <span style="font-size:14px;font-family:&#39;微软雅黑&#39;,&#39;sans-serif&#39;">第六条 乙方的权利义务</span>
+</p>
+<p style="margin-top:auto;margin-bottom: auto;text-align:left;background:white">
+    <span style="font-size:14px;font-family:&#39;微软雅黑&#39;,&#39;sans-serif&#39;">1</span><span style="font-size:14px;font-family:&#39;微软雅黑&#39;,&#39;sans-serif&#39;">、乙方在联盟商家会员处消费，根据交易额获得积分。</span>
+</p>
+<p style="margin-top:auto;margin-bottom: auto;text-align:left;background:white">
+    <span style="font-size:14px;font-family:&#39;微软雅黑&#39;,&#39;sans-serif&#39;">2</span><span style="font-size:14px;font-family:&#39;微软雅黑&#39;,&#39;sans-serif&#39;">、乙方在联盟商家累计消费满1000元（可跨行业、跨地域进行消费）可获得1个积分赠送权，满2000元获赠2个（以此类推），平台会最大限度地按照相应比例以养老、医疗、教育基金以及积分兑换国内外特色产品的形式，最终以高达四折的优惠价回馈给乙方，同时积分可以用来在网络平台上购物、兑换商品、抽奖等。国家法定假日不予赠送</span>
+</p>
+<p style="margin-top:auto;margin-bottom: auto;text-align:left;background:white">
+    <span style="font-size:14px;font-family:&#39;微软雅黑&#39;,&#39;sans-serif&#39;">3</span><span style="font-size:14px;font-family:&#39;微软雅黑&#39;,&#39;sans-serif&#39;">、乙方（兑现及产品兑换积分）兑现部分可以提现时，乙方需在平台提交提现申请，提交后，乙方的手机会接到一个验证码，在验证码规定60秒内务必正确填写，如有误、延时将取消当天的提现，24小时后方可再次发起提现申请。</span>
+</p>
+<p style="margin-top:auto;margin-bottom: auto;text-align:left;background:white">
+    <span style="font-size:14px;font-family:&#39;微软雅黑&#39;,&#39;sans-serif&#39;">4</span><span style="font-size:14px;font-family:&#39;微软雅黑&#39;,&#39;sans-serif&#39;">、会员期内，会员享有赠送积分以及监督商家的权利，会员享有参加聚元国际网络服务平台一切活动的权利。</span>
+</p>
+<p style="margin-top:auto;margin-bottom: auto;text-align:left;background:white">
+    <span style="font-size:14px;font-family:&#39;微软雅黑&#39;,&#39;sans-serif&#39;">5</span><span style="font-size:14px;font-family:&#39;微软雅黑&#39;,&#39;sans-serif&#39;">、因商品质量、售后服务等原因造成联盟商家与消费者之间的纠纷，甲方不负责参与或协调，情节严重的、并对甲方造成负面影响的，甲方有权将商家清理出平台并停止赠送积分。</span>
+</p>
+<p style="margin-top:auto;margin-bottom: auto;text-align:left;background:white">
+    <span style="font-size:14px;font-family:&#39;微软雅黑&#39;,&#39;sans-serif&#39;">6</span><span style="font-size:14px;font-family:&#39;微软雅黑&#39;,&#39;sans-serif&#39;">、乙方应当真实消费，不许虚假消费骗取积分，若虚假消费，则甲方有权追究乙方给甲方造成的损失，并取消乙方的会员资格。</span>
+</p>
+<p style="margin-top:auto;margin-bottom: auto;text-align:left;background:white">
+    <span style="font-size:14px;font-family:&#39;微软雅黑&#39;,&#39;sans-serif&#39;">7</span><span style="font-size:14px;font-family:&#39;微软雅黑&#39;,&#39;sans-serif&#39;">、乙方在成为会员期内，乙方应服从甲方的统一安排，不得反驳、打击、报复商家以及公司人员，如有原因，可以详细向甲方说明情况。</span>
+</p>
+<p style="margin-top:auto;margin-bottom: auto;text-align:left;background:white">
+    <span style="font-size:14px;font-family:&#39;微软雅黑&#39;,&#39;sans-serif&#39;">8</span><span style="font-size:14px;font-family:&#39;微软雅黑&#39;,&#39;sans-serif&#39;">、乙方在成为会员时应如实填写《会员档案表》若因填写失实而造成损失，本公司概不负责。</span>
+</p>
+<p style="margin-top:auto;margin-bottom: auto;text-align:left;background:white">
+    <span style="font-size:14px;font-family:&#39;微软雅黑&#39;,&#39;sans-serif&#39;">9</span><span style="font-size:14px;font-family:&#39;微软雅黑&#39;,&#39;sans-serif&#39;">、乙方在参加本公司的活动时（旅游，抽奖），请严格按照公司要求去执行，不得私自行动以及组织活动，反之本公司有权作出任何惩罚措施。</span>
+</p>
+<p style="margin-top:auto;margin-bottom: auto;text-align:left;background:white">
+    <span style="font-size:14px;font-family:&#39;微软雅黑&#39;,&#39;sans-serif&#39;">10</span><span style="font-size:14px;font-family:&#39;微软雅黑&#39;,&#39;sans-serif&#39;">、乙方如接到活动通知时应问明情况后立即做出是否参加，如答应参加而私自不到者，本公司有权取消会员资格（如确有变故应在以1小时内告知本公司）。</span>
+</p>
+<p style="margin-top:auto;margin-bottom: auto;text-align:left;background:white">
+    <span style="font-size:14px;font-family:&#39;微软雅黑&#39;,&#39;sans-serif&#39;">11</span><span style="font-size:14px;font-family:&#39;微软雅黑&#39;,&#39;sans-serif&#39;">、乙方会员号码以及密码忘记的请与聚元平台客服联系。</span>
+</p>
+<p style="margin-top:auto;margin-bottom: auto;text-align:left;background:white">
+    <span style="font-size:14px;font-family:&#39;微软雅黑&#39;,&#39;sans-serif&#39;">12</span><span style="font-size:14px;font-family:&#39;微软雅黑&#39;,&#39;sans-serif&#39;">、乙方参与境外旅游、平台境外商品出售兑换时，本公司有最终决定权。</span>
+</p>
+<p style="margin-top:auto;margin-bottom: auto;text-align:left;background:white">
+    <span style="font-size:14px;font-family:&#39;微软雅黑&#39;,&#39;sans-serif&#39;">&nbsp;</span>
+</p>
+<p style="margin-top:auto;margin-bottom: auto;text-align:left;background:white">
+    <span style="font-size:14px;font-family:&#39;微软雅黑&#39;,&#39;sans-serif&#39;">第七条 争议解决方式</span>
+</p>
+<p style="margin-top:auto;margin-bottom: auto;text-align:left;background:white">
+    <span style="font-size:14px;font-family:&#39;微软雅黑&#39;,&#39;sans-serif&#39;">因履行本协议而发生的一切争议，双方当事人应通过友好协商方式解决。如果协商未成，任何一方都有权向诺斯贝尔公司所在地法院提起诉讼。</span>
+</p>
+<p style="margin-top:auto;margin-bottom: auto;text-align:left;background:white">
+    <span style="font-size:14px;font-family:&#39;微软雅黑&#39;,&#39;sans-serif&#39;">&nbsp;</span>
+</p>
+<p style="margin-top:auto;margin-bottom: auto;text-align:left;background:white">
+    <span style="font-size:14px;font-family:&#39;微软雅黑&#39;,&#39;sans-serif&#39;">第八条 附则</span>
+</p>
+<p style="margin-top:auto;margin-bottom: auto;text-align:left;background:white">
+    <span style="font-size:14px;font-family:&#39;微软雅黑&#39;,&#39;sans-serif&#39;">本协议最终解释权和决定权归诺斯贝尔公司所有。</span>
+</p>
+<p style="margin-top:auto;margin-bottom: auto;text-align:left;background:white">
+    <span style="font-size:14px;font-family:&#39;微软雅黑&#39;,&#39;sans-serif&#39;">&nbsp;</span>
+</p>
+<p style="margin-top:auto;margin-bottom: auto;text-align:left;background:white">
+    <span style="font-size:14px;font-family:&#39;微软雅黑&#39;,&#39;sans-serif&#39;">公司享有最终解释权、最终决定权！</span>
+</p>
+<p style="margin-top:auto;margin-bottom: auto;text-align:left;background:white">
+    <span style="font-size:14px;font-family:&#39;微软雅黑&#39;,&#39;sans-serif&#39;">&nbsp;</span>
+</p>
+<p style="margin-top:auto;margin-bottom: auto;text-align:left;background:white">
+    <span style="font-size:14px;font-family:&#39;微软雅黑&#39;,&#39;sans-serif&#39;">&nbsp;</span>
+</p>
+<p>
+    <span style="font-size:14px;font-family:&#39;微软雅黑&#39;,&#39;sans-serif&#39;"><a><span style="color:white;text-underline:none">同意并继续</span></a></span>
+</p>
+<p>
+    <br/>
+</p>
+			</div>
+			
+			<a href="javascript:void(0)" class="jsxy_u_ty">同意并继续</a>
+		</div>
+	
+	</div>
+
+</div>
+</body>
+</html>

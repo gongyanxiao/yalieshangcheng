@@ -1,0 +1,132 @@
+<?include("config.php");?>
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title><?=_TITLE_?></title>
+    <meta name="keyword" content="<?=_KEYWORD_?>"/>
+    <meta name="description" content="<?=_DESCRIPTION_?>"/>
+    <link href="/Public/ico.ico" type="image/x-icon" rel="shortcut icon" /> 
+    <link rel="stylesheet" type="text/css" href="/jygj/Public/home/css/index.css">
+
+	<script src="/jygj/Public/home/js/jquery.validate.min.js" type="text/javascript" ></script>
+	<script language="javascript" type="text/javascript" src="/jygj/Public/home/js/My97DatePicker/WdatePicker.js"></script>
+      <script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript">
+<!--
+//提交到后台查询
+function tj(){	
+ $(".abc").attr({"disabled":"disabled"});
+
+var je=document.myform.je.value;
+var dataString='je='+je;
+ $.ajax({  
+type: "POST",  
+url: "member/b_chongzhi_pro.php",  
+data:dataString,  
+cache:false,  
+success:function(html){  
+$("#jsgj").html(html);
+refresh();
+}
+});
+}
+//-->
+</script>
+</head>
+<body >
+<div id="jsgj"></div>
+<div class="warp">
+    <!------最顶部开始------><!------logo结束------>
+
+<!------导航开始------>
+<?
+include("sheader1.html");
+
+?>
+<?php
+	 include_once "config/check.php";
+        include_once "config/zt_config.php";
+        $db = mysql_connect("$db_host","$db_user","$db_pwd");
+mysql_query("set names $coding"); 
+mysql_select_db("$db_database");
+//判断会员类型
+$yh=$_COOKIE['ECS']['username'];
+$sql="select lx,jf from xbmall_users where user_name='$yh'";
+$qs1=mysql_query($sql);
+$sf1=mysql_fetch_assoc($qs1);
+$lx=$sf1["lx"];
+if($lx=="0"){
+echo '<script>location.href="member_login.html";</script>';
+}
+//读取积分
+$jf=$sf1["jf"];
+?>
+<!------导航结束------>
+    <!------导航结束------>
+
+
+    <!----内容开始---->
+    <div class="warp_moer">
+
+        <div class="warp_h">
+            <!----right内容开始---->
+            <div  class="warp_h_right" style="    width: 969px;">
+			<div class="warp_f">
+
+                    <div class="warp_f_div">
+                        <b>积分转换</b>
+                    </div>
+
+
+                <div class="warp_m_right_div">
+				<form method="post" id="myform" name="myform"  enctype='multipart/form-data'>	
+                    <table class="warp_n">
+						<tr>
+                            <td><span style="display: block;padding-top: 22px">可提现积分：</span></td>
+                            <td ><input type="text" disabled  class="warp_n_ex" id="xing" value="<?php echo $jf?$jf:0;?>"/></td>
+								
+                        </tr>
+						
+                         <tr>
+                            <td width="100"><span style="display: block;padding-top: 22px">转换积分：</span></td>
+                            <td><input type="text"  class="warp_n_ex" id="je" name="je" style="width: 169px;float: left"><input type="button" class="abc" value="转换" onClick="tj();" style="width: 80px;height: 37px;border: 0;background: #A27114;float: left; font-family: '宋体';font-size: 14px;border-radius: 5px;color: #FFF;margin: 22px 0 0 20px;cursor:pointer;
+"/></td>
+                        </tr>
+                        
+                    </table>
+				
+				</form>
+				
+				<div style="width: 386px;overflow: hidden;margin: auto;padding-bottom: 40px">
+				   <span style="display: block;line-height: 22px;color: #FF0000;">提现积分转换成消费积分后将不再能转换回提现积分。</span>
+				</div>
+				
+                </div>
+				
+				
+             </div>
+            </div>
+            <!----right内容结束---->
+
+            <!----left内容开始---->
+                        <? include_once "left_menu2.html";?>
+            <!----left内容结束---->
+        </div>
+
+    </div>
+    <!----内容结束---->
+
+    <!------底部开始------>
+<?include("sfooter.html");?>
+     
+
+<div class="warp_e_db"></div>
+
+
+	
+</div>
+    <!------底部结束------>
+</div>
+</body>
+</html>

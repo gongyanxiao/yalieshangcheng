@@ -1,0 +1,182 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<!-- TemplateBeginEditable name="doctitle" -->
+<title>爱心互助</title>
+<!-- TemplateEndEditable -->
+<!-- TemplateBeginEditable name="head" -->
+<!-- TemplateEndEditable -->
+<meta name="Keywords" content="{$keywords}" />
+<meta name="Description" content="{$description}" />
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+<link rel="shortcut icon" href="favicon.ico" />
+<link rel="icon" href="animated_favicon.gif" type="image/gif" />
+<link rel="stylesheet" href="themes/default/css/stores.css">
+    <script type="text/javascript" src="themes/default/js/jquery-1.9.1.min.js"></script> {insert_scripts files='jquery.json.js,transport.js'}
+</head>
+<body>
+    <!-- #BeginLibraryItem "/library/page_header.lbi" -->
+    <!-- #EndLibraryItem -->
+    <!-- {if $act eq 'index'}-->
+    <div class="content">
+        <div class="margin-w1210">
+            <div class="flow">
+                <div style="margin: 20px 0px;">
+                    <div class="flow-wrap">
+                        <!-- {foreach from=$lists item=list key=key}-->
+                        <div class="flow-item first">
+                            <a href="mutual.php?id={$list.mutual_id}&act=redone" class="flow-datu" title="联盟商家测试"> <img title="{$list.title}" alt="" src="{$list.images}" height="150" width="150"></a>
+                            <div class="flow-content">
+                                <h4 class="flow-title">
+                                    <a href="mutual.php?id={$list.mutual_id}&act=redone" title="{$list.title}"> <span>{$list.title}</span>
+                                    </a> <span class="guanzhu">赞助</span>
+                                </h4>
+                                <p class="flow-logo" style="display: none;"><a href="supplier.php?suppId=3" style="float: none; display: inline-block;"> <img id="j_logo_3" alt="" src="/data/supplier/logo/logo_supplier3.jpg" height="45" width="90"></a></p>
+                                <p class="flow-desc"><span>姓名： {$list.real_name}</span> <br> <span>联系方式：{$list.mobile_phone}</span> <br> <span>目标金额：{$list.target_money}元</span> <br></p>
+                                <!-- <p class="flow-desc"><a href="supplier.php?suppId=3" title="进入店铺，查看所有的商品"> 共 <strong>22</strong> 人赞助&gt;&gt;
+                                </a></p> -->
+                            </div>
+                        </div>
+                        <!-- {/foreach}-->
+                        <div class="mui-page">
+                            <div class="mui-page-wrap">
+                                <b class="mui-page-num">
+                                    <!--{if $smarty.request.page==1}-->
+                                    <b class="mui-page-prev">&lt;</b>
+                                    <!--{else}-->
+                                    <a href="mutual.php?id={$smarty.request.id|default:0}&page=1" class="j_PageChange" style="border-left: 1px solid #E5E5E5;">&lt;</a>
+                                    <!--{/if}-->
+                                    <!--{if $start}-->
+                                    <a href="mutual.php?id={$smarty.request.id|default:0}&page={$start}" class="j_PageChange">...</a>
+                                    <!--{/if}-->
+                                    <!--{foreach from=$page_array item=num}-->
+                                    <!--{if $smarty.request.page == $num }-->
+                                    <b class="mui-page-cur">{$num}</b>
+                                    <!--{else}-->
+                                    <a href="mutual.php?id={$smarty.request.id|default:0}&page={$num}" class="j_PageChange" data-page="{$num}">{$num}</a>
+                                    <!--{/if}-->
+                                    <!--{/foreach}-->
+                                    <!--{if $end}-->
+                                    <a href="mutual.php?id={$smarty.request.id|default:0}&page={$end}" class="j_PageChange">...</a>
+                                    <!--{/if}-->
+                                    <!--{if $smarty.request.page==$page_count}-->
+                                    <b class="mui-page-prev">&gt;</b>
+                                    <!--{else}-->
+                                    <a class="mui-page-next  j_PageChange " data-page="{$page_count}" href="mutual.php?id={$smarty.request.id|default:0}&page={$page_count}">&gt;</a>
+                                    <!--{/if}-->
+                                </b>
+                                <b class="mui-page-skip">
+                                    <form method="get" onsubmit="return btn_page()">
+                                        <input type="hidden" name="id" value="{$smarty.request.id|default:0}">
+                                            共{$page_count}页，共{$record_count}条,去第 <input type="text" value="{$smarty.request.page|default:1}" size="3" class="mui-page-skipTo j_PageChangeInput" name="page">
+                                                页
+                                                <button class="mui-btn-s mui-page-skipBtn j_PageChangeBtn" type="submit">确定</button>
+                                    </form>
+                                </b>
+                            </div>
+                        </div>
+                        <script type="text/javascript">
+                            function btn_page(){
+                                if($(".mui-page-skipTo").val() > {$page_count})
+                                {
+                                    alert("页码不正确。");
+                                    return false;
+                                }
+                            }
+                        </script>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- {elseif $act eq 'redone'}-->
+    <style>
+.mutual_l, .mutual_r, .mutualc {
+	float: left;
+	height: 300px;
+	border: 1px solid
+}
+
+.mutual_l {
+	width: 49%
+}
+
+.mutual_r {
+	width: 49%
+}
+
+.mutualc {
+	width: 99%
+}
+
+.u-buy2 {
+	background: #e31939 none repeat scroll 0 0;
+	border: 1px solid #e31939;
+	color: #fff;
+	cursor: pointer;
+	display: block;
+	float: left;
+	font-size: 16px;
+	height: 38px;
+	line-height: 38px;
+	margin-right: 15px;
+	text-align: center;
+	text-decoration: none;
+	width: 160px;
+}
+
+.u-buy2:hover {
+	color: #fff;
+}
+
+.ghs_content2 {
+	margin-top: 50px
+}
+</style>
+    <div class="content">
+        <div class="margin-w1210">
+            <div class="flow">
+                <div style="margin: 20px 0px;">
+                    <div class="/">
+                        <div class="ghs_content">
+                            <ul class="shopTolal" style="margin-top: 10px;">
+                                <li style="padding-top:50px;width: 60%; float: left; height: 220px; text-align: center;">
+                                    <span><a> <img src="{$mutual_info.images}" style="margin: 0 36px;" height="220"></a> </span>
+                                </li>
+                                <li style="width: 40%; height: 220px; float: left; font-size: 14px; margin-top: 50px;">
+                                    <p style="margin-top: 10px; color: red; font-size: 18px;">{$mutual_info.title}</p> <br>
+                                        <p style="margin-top: 10px;">联系人：<span>{$mutual_info.real_name}</span>
+                                    </p> <br>
+                                            <p style="margin-top: 10px;">联系人电话：<span>{$mutual_info.mobile_phone}</span>
+                                        </p><br>
+                                                <p style="margin-top: 10px;">目标金额：<span>{$mutual_info.target_money}</span>
+                                            </p>
+                                        </p>
+                                    <br>
+                                            <p style="margin-top: 10px;"><a href="mutual.php?act=checkout&id={$mutual_info.mutual_id}" name="bi_addToCart" class="u-buy2">我要赞助</a></span>
+                                        </p></li>
+                            </ul>
+                        </div>
+                        <div class='clear'></div></div>
+                        <div class="ghs_content2">
+                        {$mutual_info.content}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- {/if} -->
+    <!-- #BeginLibraryItem "/library/right_sidebar.lbi" -->
+    <!-- #EndLibraryItem -->
+    <div class="site-footer">
+        <div class="footer-related">
+            <!-- #BeginLibraryItem "/library/help.lbi" -->
+            <!-- #EndLibraryItem -->
+            <!-- #BeginLibraryItem "/library/page_footer.lbi" -->
+            <!-- #EndLibraryItem -->
+        </div>
+    </div>
+</body>
+</html>

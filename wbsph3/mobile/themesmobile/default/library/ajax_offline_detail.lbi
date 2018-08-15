@@ -1,0 +1,14 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<div class="detail_m">
+<dl>
+<h2><span>{$offline_orders.user_name}</span><em>{$offline_orders.createtime}</em></h2>
+<dt><em>服务费：</em><span>{$offline_orders.order_bdf}</span></dt>
+<dd>
+<p>会员手机号：{$offline_orders.mobile_phone}</p>
+<p>商品名称：{$offline_orders.good_name}</p>
+<p>消费金额：{$offline_orders.order_amt}</p>
+</dd>
+<dd>
+</dd>
+</dl>
+</div>

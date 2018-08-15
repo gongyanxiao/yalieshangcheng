@@ -1,0 +1,297 @@
+<?
+include("config.php");
+$flg = htmlspecialchars(trim($_GET['flg']));
+?>
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title><?=_TITLE_?></title>
+    <meta name="keyword" content="<?=_KEYWORD_?>"/>
+    <meta name="description" content="<?=_DESCRIPTION_?>"/>
+
+    <link href="/Public/ico.ico" type="image/x-icon" rel="shortcut icon" /> 
+    <link rel="stylesheet" type="text/css" href="/jygj/Public/home/css/index.css"/>
+    <script type="text/javascript" src="/jygj/Public/home/js/jquery-1.7.2.js"></script>
+	<link rel="stylesheet" type="text/css" href="/jygj/Public/home/css/page.css">
+    <script type="text/javascript" src="/jygj/Public/home/js/jquery.validate.min.js"></script>
+   
+	<link rel="stylesheet" type="text/css" href="/jygj/Public/home/css/page.css">
+</head>
+<body >
+<div class="warp">
+    <!------最顶部开始------>
+  <?
+        include("sheader1.html");
+		?>
+  <!------logo结束------>
+<script>
+	$(function(){
+		$(".open_xl").click(function(){
+			$(".xiala").show();
+		})
+		$(".xiala a").click(function(){
+			var xq=$(this).html();
+			$(".open_xl a").html(xq);
+			$(this).parent().hide();
+		})
+	})
+</script>
+<div id="jsgj"></div>
+<!------导航开始------><!------导航结束------>
+    <!------导航结束------>
+
+
+    <!----内容开始---->
+    <div class="warp_moer">
+
+        <div class="warp_h">
+            <!----right内容开始---->
+            <div class="warp_h_right" style="width: 989px;">
+
+                <div class="warp_f">
+
+                    <div class="warp_f_div">
+                        <b>积分兑换记录</b>
+                    </div>
+
+					<style>
+					.yyw_xq_i li.current a{color:#005CAE}
+					</style>
+                    <ul class="yyw_xq_i">
+						
+                        <li <?=$flg==a?' class=" current" ':''?>><a href="b_jifenorder.html?flg=a">待发货</a></li>
+                        <li <?=$flg==b?' class=" current" ':''?>><a href="b_jifenorder.html?flg=b">待确认收货</a></li>
+                        <li <?=$flg==c?' class=" current" ':''?>><a href="b_jifenorder.html?flg=c">已签收</a></li>
+						<!--<li><a href="#">待评价（<i class="yyw_xq_i_i">1</i>）</a></li>-->
+                    </ul>
+
+                    <table border="1" cellspacing="0" cellpadding="0" class="yys_gwc_p">
+                         <tr>
+                            <th width="380">商品名称</th>
+                            <th width="90">订单积分</th>
+                            <th width="90">数量</th>
+                            <th width="110">状态</th>
+                            <th width="130">操作</th>
+							<th>物流信息</th>
+                        </tr>
+                    </table>
+ 					<table border="1" cellspacing="0" cellpadding="0" id="yyw_xq_u" width="100%" border="2px">
+                        
+                    </table>
+
+                    <!-- <div class="warp_f_mp">
+                       下一页开始
+                        <div class="scott"></div>
+                        下一页结束
+                       <div class="warp_f_mp_div">
+                            <label style="padding-left: 5px">
+                                <input type="checkbox" name="btn1"  id="btn1" value="全选" onClick="checkalltrue()">
+                                <span>全选</span>
+                            </label>
+                            <a href="#">删除</a>
+                        </div>
+            
+			</div>-->
+
+
+
+ <script type="text/javascript">
+	function f1(url){
+		var xhr=new XMLHttpRequest();
+		xhr.onreadystatechange=function() {
+			//console.log(xhr.readyState);
+			if(xhr.readyState==4&&xhr.status==200){
+				document.getElementById("yyw_xq_u").innerHTML=xhr.responseText;
+			}
+		}
+		xhr.open("get",url);
+		xhr.send(null);
+	}
+	window.onload=function() {
+		var url="/mall/ajforder.php?user=<?=$_COOKIE['ECS']['username']?>&flg=<?=$flg?>";
+		f1(url);
+	}
+ </script>
+   <script src="js/jquery.min.js"></script>
+<script type="text/javascript">
+	
+
+function cz(id,type){
+	var ts='';
+if(type==1) {
+	ts='确定删除这条兑换记录吗？(仅删除记录，不退还积分)';
+} else if(type==2) {
+	ts='请在确定收货之后在进行此操作！';
+}
+var con = confirm(ts)
+            if(con){
+var dataString='id='+id+'&type='+type;
+$.ajax({
+type: "POST",  
+url: "czdh.php",  
+data:dataString,  
+cache:false,  
+success:function(html){  
+$("#jsgj").html(html);
+ }
+ })
+ }
+
+}
+</script>
+		<script>	/*
+		function del_order(id){
+			 var con = confirm('确定删除所选商品吗？')
+			if(con){
+						
+			
+					id=id;
+					$.ajax({
+								//提交数据的类型 POST GET
+								type:"POST",
+								//提交的网址
+								url:"/buiness/del_order.html",
+								//提交的数据
+								data:{id:id},
+								//返回数据的格式
+								datatype: "json",//"xml", "html", "script", "json", "jsonp", "text".
+								//成功返回之后调用的函数 	
+								success:function(data){
+									if(data==1){
+									alert('删除成功');
+									window.location.reload()
+								   }else if(data==2){
+								   
+									alert('删除失败');
+									
+								   }
+									
+								  
+								}   ,
+							//调用出错执行的函数
+								error: function(){
+									//请求出错处理
+								}         
+						});	
+				}		
+			}
+			
+			function qian(id){
+			 var con = confirm('确定签收吗？')
+			if(con){
+						
+			
+					id=id;
+					$.ajax({
+								//提交数据的类型 POST GET
+								type:"POST",
+								//提交的网址
+								url:"/business/jifeorder_qian.html",
+								//提交的数据
+								data:{id:id},
+								//返回数据的格式
+								datatype: "json",//"xml", "html", "script", "json", "jsonp", "text".
+								//成功返回之后调用的函数 	
+								success:function(data){
+									if(data==1){
+									alert('感谢您选择聚元');
+									window.location.reload()
+								   }else if(data==2){
+								   
+									alert('签收失败');
+									
+								   }
+									
+								  
+								}   ,
+							//调用出错执行的函数
+								error: function(){
+									//请求出错处理
+								}         
+						});	
+				}		
+			}*/
+			</script>	
+				
+                </div>
+            </div>
+            <!----right内容结束---->
+
+            <!----left内容开始---->
+                        <? include_once "left_menu2.html";?>
+            <!----left内容结束---->
+        </div>
+
+  </div>
+    <!----内容结束---->
+	<?include("sfooter.html");?>
+    <!------底部开始------>
+
+  <div class="warp_e_db"></div>
+
+
+</div>
+<!-- <style>
+.zfs_i_ul_div input{display:none}
+.zfs_i_ul_div label{display: block;overflow: hidden;height: 75px}
+</style>
+<div class="zfs_p">
+    <div class="zfs_p_mor">
+        <div class="zfs_o">
+            <a href="#"></a>
+        </div>
+        <div class="zfs_i">
+            <h2>付款方式</h2>
+            <ul class="zfs_i_ul">
+                <li class="thisclass" value="1">
+                    <div class="zfs_i_ul_div">
+                        <label>
+						    <input type="radio" name="radiu"  value="1" checked="checked">
+							<img src="/jygj/Public/home/img/zfs_2.png" width="52" height="44">
+							<span class="zfs_i_ul_sp">
+								<b>微信支付</b>
+								<span>使用微信支付，安全便捷</span>
+							</span>
+						</label>
+                    </div>
+                </li>
+                <li>
+                    <div class="zfs_i_ul_div">
+					    <label>
+							<input type="radio" name="radiu" value="2">
+							<img src="/jygj/Public/home/img/zfs_3.png" width="52" height="44">
+							<span class="zfs_i_ul_sp">
+								<b>支付宝支付</b>
+								<span>支持有支付宝用户的使用</span>
+							</span>
+						</label>
+                    </div>
+                </li>
+                <li>
+                    <div class="zfs_i_ul_div">
+                        <img src="/jygj/Public/home/img/zfs_4.png" width="52" height="44">
+                        <span class="zfs_i_ul_sp">
+                            <b>网银支付</b>
+                            <span>支持有网银用户的使用</span>
+                        </span>
+                    </div>
+                </li>
+            </ul>
+            <input type="button" onclick="chong()" value="确认" class="zfs_i_ton">
+        </div>
+    </div>
+</div> -->
+<!----------------------------点击变色开始-------------------------->
+<script>
+   /* $(function(){
+        var cotrs = $(".zfs_i_ul li");
+        cotrs.click(function(){
+            $(this).addClass("thisclass").siblings().removeClass("thisclass");
+			
+        });
+    });*/
+</script>
+
+</body>
+</html>

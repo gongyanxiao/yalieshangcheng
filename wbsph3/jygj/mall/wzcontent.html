@@ -1,0 +1,108 @@
+<?
+include("config/zt_config.php");
+include("config.php");
+$link = mysqli_connect($db_host,$db_user,$db_pwd,$db_database) or die('Unale to link');
+$link->set_charset('utf8');
+$pid=htmlspecialchars(trim($_GET['pid']));
+$ma=array();
+$sqla="select * from phome_ecms_news ";
+$querya=$link->query($sqla);
+$rowa=$querya->fetch_array();
+while ($rowa=$querya->fetch_array()) {
+    $ma[]=$rowa[id];
+}
+if(!in_array($pid,$ma)){
+    //重定向浏览器 
+    header("Location:error.php"); 
+    //确保重定向后，后续代码不会被执行 
+    exit;
+}
+$sqlb="select * from phome_ecms_news_data_1 where id=".$pid;
+$queryb=$link->query($sqlb);
+$rowb=$queryb->fetch_array();
+$sql="select * from phome_ecms_news where id=".$pid;
+$query=$link->query($sql);
+$row=$query->fetch_array();
+$sqlw="select * from phome_enewsclass where classid=".$row['classid'];
+$queryw=$link->query($sqlw);
+$roww=$queryw->fetch_array();
+?>
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title><?=$row[title]?>_网络平台_<?=_TITLE_?></title>
+    <meta name="keyword" content="<?=_KEYWORD_?>"/>
+    <meta name="description" content="<?=_DESCRIPTION_?>"/>
+    <link href="/Public/ico.ico" type="image/x-icon" rel="shortcut icon" /> 
+    <link rel="stylesheet" type="text/css" href="/jygj/Public/home/css/index.css">
+    <script type="text/javascript" src="/jygj/Public/home/js/jquery-1.7.2.js"></script>
+ <script type="text/javascript" src="/js/index.js"></script>
+</head>
+<body >
+
+
+<div class="warp">
+
+<!------导航结束------>
+<?
+include("sheader.html");
+?>
+
+    <!----内容开始---->
+    <div class="warp_moer">
+       
+
+        <ul class="warp_k">
+       
+            	<li><span><a href="/">首页</a></span></li>
+            	<li><span>&gt;</span></li><li><span><a href="wzlist.html?itid=<?=$roww[classid]?>"  title="<?=$roww[classname]?>"><?=$roww[classname]?></a></span></li><li><span>&gt;</span></li><li><span><a><?=$row[title]?></a></span></li>
+       	
+            </ul>
+
+        <div class="warp_j">
+            <div class="warp_j_right">
+              
+                
+                <div class="warp_j_right_cp" id="warp_j_right_cp" style="margin-top: 0">
+
+                     <center><h1 style="font-weight: normal;font-size: 20px;padding: 20px"><font style="line-height:  40px"><?=$row[title]?></font></h1></center>
+	        <?=stripslashes($rowb[newstext]);?>
+                </div>
+
+            </div>
+            <div class="warp_j_left">
+                <h1 class="warp_j_left_h1">热销商品</h1>
+
+                <ul class="warp_j_left_ul">
+                <?
+                	$sqla="SELECT * FROM  `zt_goods` order by jfgm desc limit 0,6";
+					$qrya=$link->query($sqla);
+                    while($rsta=$qrya->fetch_array()){
+                ?>
+                	<li><a href="cpcontent.html?cpid=<?=$rsta[id]?>" title="<?=$rsta[spmc]?>" target="_blank"><img src="<?=strtr($rsta['spslt'],array("../"=>"/mall/"));?>"  style="width: 147px;height: 147px" border="0"/>
+						<span><?=$rsta[spmc]?></span>
+						<b>￥<?=$rsta[spjg]?></b>
+						</a>
+							
+                        </li>
+                <?	
+            		}
+                ?>
+					
+				</ul>
+            </div>
+        </div>
+
+       <div style="width: 100%;height: 20px;clear: both;"></div>
+         
+      <div style="width: 100%;height: 20px;clear: both;"></div>
+
+		
+    </div>
+    <!----内容结束---->
+ <?include("sfooter.html");?>
+</div>
+</body>
+</html>
+<?$link->close();?>

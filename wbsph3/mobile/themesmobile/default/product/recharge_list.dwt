@@ -1,0 +1,88 @@
+<!DOCTYPE html >
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<title>{$page_title}</title>
+<meta name="Keywords" content="{$keywords}" />
+<meta name="Description" content="{$description}" />
+<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+<link rel="stylesheet" type="text/css" href="themesmobile/default/css/public.css"/>
+<link rel="stylesheet" href="themesmobile/default/css/stores.css">
+<link href="themesmobile/default/css/supp_center.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="themesmobile/default/js/jquery.js"></script>
+	{insert_scripts files='index.js'}
+</head>
+{insert_scripts files="jquery.json.js,transport.js"}
+<script type="text/javascript" src="admin/js/common.js"></script>
+
+<script type="text/javascript" src="themesmobile/default/js/utils.js"></script>
+<script type="text/javascript" src="themesmobile/default/js/validator.js"></script>
+<script type="text/javascript" src="js/listtable.js"></script>
+<body class="bodybj">
+      <header>
+      <div class="tab_nav">
+        <div class="header">
+          <div class="h-left"><a class="sb-back" href="javascript:history.back(-1)" title="返回"></a></div>
+          <div class="h-mid">充值记录</div>
+          <div class="h-right">
+            <aside class="top_bar">
+              <div onClick="show_menu();$('#close_btn').addClass('hid');" id="show_more"><a href="javascript:;"></a> </div>
+            </aside>
+          </div>
+        </div>
+      </div>
+      </header>
+     <!-- #BeginLibraryItem "/library/up_menu.lbi" -->
+    <!-- #EndLibraryItem -->
+ 
+ 
+ 
+<form method="post" action="role_exchange.php?act=query" name="listForm">
+    <div class="list-div" id="listDiv">
+		{foreach from=$recharge_list item=item name=item}
+			<section class="rzs_info">
+				<dl>
+					<dt><strong></strong>
+						 <p>充值时间:{$item.send_time}</p>
+			             <p>充值金额:{$item.product_type}</p>
+			             <p>获得积分数:{$item.points}</p>
+			             <p>到期时间:{$item.end_time}</p>
+			             <p>推荐人:{$item.referee_phone_num}</p>
+			             <p>付款状态:{$item.is_paid}</p>
+			             {if $item.is_can_ti_xian==1} <p><a href="product_center_recharge.php?act=chan_pin_ji_fen_ti_xian&id={$item.id}">提现</a></p>{else}
+			             {if $item.is_can_ti_xian==2}  <p>已提现</p>{else}<p>还没到提现时间</p> {/if}
+			             {/if}
+					 </dt>
+				</dl>
+			</section>
+		    {foreachelse}
+                <dl>
+					<dt><strong>没有记录</strong>
+					 </dt>
+				</dl>
+            {/foreach}
+    </div>
+</form>
+ 
+ <!--翻页-->
+ <!-- #BeginLibraryItem "/library/pages.lbi" --><!-- #EndLibraryItem -->
+
+ <!-- #BeginLibraryItem "/library/footer_nav.lbi" --><!-- #EndLibraryItem -->
+<!-- end payment list -->
+<script type="Text/Javascript" language="JavaScript">
+ function confirm_redirect(msg, url)
+{	
+  if (confirm(msg))
+  {
+    location.href=url;
+  }
+}
+</script>
+</body>
+</html>
+ 
+ 
+ 
+  
+ 

@@ -1,0 +1,14 @@
+
+      {if $goods.goods_id}
+  		<li>
+  		
+  		   <div class="index_pro">
+              <div class="products_kuang">
+                <a href="{$goods.url}" title="{$goods.name|escape:html}"> <img src="{$goods.goods_thumb}"></a></div>
+              <div class="goods_name"> <a href="{$goods.url}" title="{$goods.name|escape:html}">{$goods.goods_style_name}</a></div>
+              <div class="price">
+                <span>{$goods.exchange_integral}积分</span><em></em>
+              </div>
+              </div>
+        </li>
+        {/if}

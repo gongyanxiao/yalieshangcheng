@@ -1,0 +1,281 @@
+<?php
+header("Content-type:text/html;charset=utf-8");
+require_once 'AppConfig.php';
+require_once 'AppUtil.php';
+
+function query(){
+	$db_host="localhost"; 
+$db_user="jsgjdata";
+$db_pwd="F8a9h7x209988"; 
+$db_database="jsgjdata";
+$coding="utf8";
+date_default_timezone_set("Asia/Shanghai");
+$db=mysql_connect($db_host,$db_user,$db_pwd);
+mysql_query("SET NAMES $coding"); 
+mysql_select_db($db_database);
+$user=$_COOKIE['ECS']['username'];
+$s="select ddbh from zt_cz where  user='$user' and zt='8' order by id desc";
+$q=mysql_query($s);
+$s1=mysql_fetch_assoc($q);
+$ddbh=$s1["ddbh"];
+if(!empty($ddbh)){
+		$params = array();
+		$params["cusid"] = AppConfig::CUSID;
+	    $params["appid"] = AppConfig::APPID;
+	    $params["version"] = AppConfig::APIVERSION;
+	    $params["reqsn"] =$ddbh;
+	    $params["randomstr"] = "1450432107647";//
+	    $params["sign"] = AppUtil::SignArray($params,AppConfig::APPKEY);//签名
+	    $paramsStr = AppUtil::ToUrlParams($params);
+	    $url = AppConfig::APIURL . "/query";
+	    $rsp = request($url, $paramsStr);
+	    $rspArray = json_decode($rsp, true); 
+		if(validSign($rspArray)){
+	    $o=json_decode($rsp);
+		$id=$o->{"trxstatus"};
+		if($id=="0000"){
+		$sql="update zt_cz set zt='1' where ddbh='$ddbh' and zt='8';";
+mysql_query($sql);
+mysql_close($db);
+}
+	    }
+		}
+	}
+	query();
+
+function GetRandStr($length){
+$str='0048321000123456789';
+$len=strlen($str)-1;
+$randstr='';
+for($i=0;$i<$length;$i++){
+$num=mt_rand(0,$len);
+$randstr .= $str[$num];
+}
+return $randstr;
+}
+function pay(){
+
+$yCode = array('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J');
+$orderSn = $yCode[intval(date('Y'))-2011].strtoupper(dechex(date('m'))).date('d').substr(time(), -5).substr(microtime(), 2, 5).sprintf('%02d', rand(0, 99));
+$o="zfb".$orderSn;
+$je=htmlspecialchars(floatval($_POST['money']))*100;
+		$params = array();
+		$params["cusid"] = AppConfig::CUSID;
+	    $params["appid"] = AppConfig::APPID;
+	    $params["version"] = AppConfig::APIVERSION;
+	    $params["trxamt"] =$je;
+	    $params["reqsn"] = $o;//订单号,自行生成
+	    $params["paytype"] = "A01";
+	    $params["randomstr"] = "1450432107647";
+	    $params["body"]="聚元国际商城商家充值";
+	    $params["remark"]="备注信息";
+	    $params["acct"] = "gh_88d53469a468";
+	    $params["limit_pay"]="no_credit";
+            $params["notify_url"] = "http://www.jsguoji.cn/mall/pay/wx/notify.php";
+	    $params["sign"] = AppUtil::SignArray($params,AppConfig::APPKEY);//签名
+	    $paramsStr = AppUtil::ToUrlParams($params);
+	    $url = AppConfig::APIURL . "/pay";
+	    $rsp = request($url, $paramsStr);
+		$rspArray = json_decode($rsp, true); 
+	    if(validSign($rspArray)){
+	$obj = json_decode($rsp);
+$orderNo=$params["reqsn"];
+$ewm=$obj->{"payinfo"};
+if(empty($_COOKIE["xbmall_users1"])){
+echo '<script>location.href="http://www.jsguoji.cn/mall/member_login.html";</script>';
+}
+$db_host="localhost"; 
+$db_user="jsgjdata";
+$db_pwd="F8a9h7x209988"; 
+$db_database="jsgjdata";
+$coding="utf8";
+date_default_timezone_set("Asia/Shanghai");
+$db=mysql_connect($db_host,$db_user,$db_pwd);
+mysql_query("SET NAMES $coding"); 
+mysql_select_db($db_database);
+$user=$_COOKIE['ECS']['username'];
+$s="select a from xbmall_users where user_name='$user' order by id desc";
+$q=mysql_query($s);
+$s1=mysql_fetch_assoc($q);
+$sf=$s1["a"];
+$sql3="select * from zt_cz where ddbh='$orderNo' and user='$user' order by id desc";
+$q3=mysql_query($sql3);
+$num=mysql_fetch_assoc($q3);
+$date=date("Y-m-d H:i:s");
+if($num["ddbh"]==$orderNo){
+header("location:http://www.jsguoji.cn/mall/b_recharge.html");
+exit();
+}else{
+if($user<>""){
+$je=round(($je/100),2);
+include "config/config.php";
+$db=mysql_connect($db_host,$db_user,$db_pwd);
+mysql_query("SET NAMES $coding"); 
+mysql_select_db($db_database);
+$user=$_COOKIE['ECS']['username'];
+$sql8="INSERT INTO `zt_cz`(`id`,`ddbh`,`czmc`,`je`,`czrq`,`user`,`zt`,`sf`)VALUES(null,'$orderNo','商家会员充值','$je','$date','$user','8','$sf');";
+mysql_query($sql8);
+}
+}
+
+
+?>
+<script type="text/javascript" src="jquery.min.js"></script>
+<script type="text/javascript" src="qrcode.js"></script><style type="text/css">
+<!--
+a:link {
+	color: #0000FF;
+	text-decoration: none;
+}
+a:visited {
+	text-decoration: none;
+	color: #0000FF;
+}
+a:hover {
+	text-decoration: none;
+}
+a:active {
+	text-decoration: none;
+}
+.STYLE1 {
+	color: #FF3300;
+	font-weight: bold;
+}
+-->
+</style>
+<input id="text" type="text" value="<?=$ewm;?>" style="width:80%;display:none;" />
+<center>
+<div id="qrcode" style="width:200px; height:300px; margin-top:15px;color:green;"><span class="STYLE1">聚元国际微信充值:<br>
+  用支付宝扫描二维码支付</span><br>
+</div>
+<a href="http://www.jsguoji.cn/mall/b_recharge.html">用手机扫码支付成功后,请点击返回商家管理中心</a>
+<script type="text/javascript">
+var qrcode = new QRCode(document.getElementById("qrcode"), {
+	width : 200,
+	height : 200
+});
+
+function makeCode () {		
+	var elText = document.getElementById("text");
+	
+	if (!elText.value) {
+		alert("Input a text");
+		elText.focus();
+		return;
+	}
+	
+	qrcode.makeCode(elText.value);
+}
+
+makeCode();
+
+$("#text").
+	on("blur", function () {
+		makeCode();
+	}).
+	on("keydown", function (e) {
+		if (e.keyCode == 13) {
+			makeCode();
+		}
+	});
+</script>
+</center>
+<?php
+
+	    }
+	    
+	}
+	
+	//当天交易用撤销
+	function cancel(){
+		$params = array();
+		$params["cusid"] = AppConfig::CUSID;
+	    $params["appid"] = AppConfig::APPID;
+	    $params["version"] = AppConfig::APIVERSION;
+	    $params["trxamt"] = "1";
+	    $params["reqsn"] = "123456788";
+	    $params["oldreqsn"] = "1234569";//原来订单号
+	    $params["randomstr"] = "1450432107647";//
+	    $params["sign"] = AppUtil::SignArray($params,AppConfig::APPKEY);//签名
+	    $paramsStr = AppUtil::ToUrlParams($params);
+	    $url = AppConfig::APIURL . "/cancel";
+	    $rsp = request($url, $paramsStr);
+		echo "请求返回:".$rsp;
+	    echo "<br/>";
+	    $rspArray = json_decode($rsp, true); 
+	    if(validSign($rspArray)){
+	    	echo "验签正确,进行业务处理";
+ 
+	    }
+	}
+	
+	//当天交易请用撤销,非当天交易才用此退货接口
+	function refund(){
+		$params = array();
+		$params["cusid"] = AppConfig::CUSID;
+	    $params["appid"] = AppConfig::APPID;
+	    $params["version"] = AppConfig::APIVERSION;
+	    $params["trxamt"] = "1";
+	    $params["reqsn"] = "1234567889";
+	    $params["oldreqsn"] = "123456";//原来订单号
+	    $params["randomstr"] = "1450432107647";//
+	    $params["sign"] = AppUtil::SignArray($params,AppConfig::APPKEY);//签名
+	    $paramsStr = AppUtil::ToUrlParams($params);
+	    $url = AppConfig::APIURL . "/refund";
+	    $rsp = request($url, $paramsStr);
+		echo "请求返回:".$rsp;
+	    echo "<br/>";
+	    $rspArray = json_decode($rsp, true); 
+	    if(validSign($rspArray)){
+	    	echo "验签正确,进行业务处理";
+	    }
+	}
+
+	
+	//发送请求操作仅供参考,不为最佳实践
+	function request($url,$params){
+		$ch = curl_init();
+		$this_header = array("content-type: application/x-www-form-urlencoded;charset=UTF-8");
+		curl_setopt($ch,CURLOPT_HTTPHEADER,$this_header);
+		curl_setopt($ch, CURLOPT_URL, $url);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (compatible; MSIE 5.01; Windows NT 5.0)');
+		curl_setopt($ch, CURLOPT_TIMEOUT, 30);
+		 
+		curl_setopt($ch, CURLOPT_POST, 1);
+		curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);//如果不加验证,就设false,商户自行处理
+		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
+		 
+		$output = curl_exec($ch);
+		curl_close($ch);
+		return  $output;
+	}
+	
+	//验签
+	function validSign($array){
+		if("SUCCESS"==$array["retcode"]){
+			$signRsp = strtolower($array["sign"]);
+			$array["sign"] = "";
+			$sign =  strtolower(AppUtil::SignArray($array, AppConfig::APPKEY));
+			if($sign==$signRsp){
+				return TRUE;
+			}
+			else {
+				echo "验签失败:".$signRsp."--".$sign;
+			}
+		}
+		else{
+			echo $array["retmsg"];
+		}
+		
+		return FALSE;
+	}
+	
+	pay();
+	//cancel();
+	//refund();
+	//query();
+	$appid=$obj->{"appid"};
+	$sign=$obj->{"sign"};
+?>

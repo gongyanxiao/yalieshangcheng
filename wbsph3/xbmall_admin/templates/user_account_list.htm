@@ -1,0 +1,191 @@
+{if $full_page}
+<!-- $Id: user_account_list.htm 17030 2010-02-08 09:39:33Z sxc_shop $ -->
+{include file="pageheader.htm"}
+{insert_scripts files="../js/utils.js,listtable.js"}
+<script type='text/javascript' src='../js/calendar.php' ></script>
+<link href='../js/calendar/calendar.css' rel='stylesheet' type='text/css' />
+<div class="form-div">
+    <form action="javascript:searchUser()" name="searchForm">
+        <img src="images/icon_search.gif" width="25" height="22" border="0" alt="SEARCH" />
+        <input name="start_time" id="start_time" type="text" size="10" readonly="readonly" placeholder="开始时间" >
+    <input class="button" type="button" id="start_time_btn" onclick="return showCalendar('start_time', '%Y-%m-%d %H:%M', '24', false, 'start_time_btn');" value="选择">
+     <input name="end_time" id="end_time" type="text" size="10" readonly="readonly" placeholder="结束时间" >
+    <input class="button" type="button" id="end_time_btn" onclick="return showCalendar('end_time', '%Y-%m-%d %H:%M', '24', false, 'end_time_btn');" value="选择">
+        {$lang.user_id} <input type="text" name="keyword" size="10" />
+         
+         
+        <select name="process_type" id="process_type" style="display: none" >
+            <option value="-1" >提现类型</option>
+            <option value="0" {if $filter.process_type==0}selected="selected"{/if}>充值</option>
+            <option value="1" {if $filter.process_type==1}selected="selected"{/if} >提现</option>
+        </select>
+        提现类型:
+        <select name="ti_xian_type" id="ti_xian_type" >
+            <option value="-1">提现类型</option>
+            <option value="0" >货款积分提现</option>
+            <option value="1" >基数奖励提现</option>
+            <option value="2" >大家庭分红提现</option>
+            <option value="3" >消费分红积分提现</option>
+            <option value="5" >产品积分提现</option>
+            <option value="9" >分享奖励积分提现</option>
+            <option value="10" >扫码货款积分提现</option>
+        </select>
+        <select name="payment">
+            <option value="">{$lang.pay_mothed}</option>
+            {html_options options=$payment_list}
+        </select>
+        <select name="is_paid">
+            <option value="-1">{$lang.status}</option>
+            <option value="0" {$is_paid_0}>{$lang.unconfirm}</option>
+            <option value="1" {$is_paid_1}>{$lang.confirm}</option>
+            <option value="2">{$lang.cancel}</option>
+        </select>
+        <input type="submit" value="{$lang.button_search}" class="button" />
+        <input type="button" value="批量导出" class="button" onclick="batch_export()" />
+    </form>
+</div>
+
+<form method="POST" action="" name="listForm">
+    <!-- start user_deposit list -->
+    <div class="list-div" id="listDiv">
+        {/if}
+        <table cellpadding="3" cellspacing="1">
+            <tr>
+                <th>
+                    <input onclick='listTable.selectAll(this, "checkboxes")' type="checkbox">
+                    <a href="javascript:listTable.sort('user_id'); ">{$lang.record_id}</a>
+                    {$sort_user_id}
+                </th>
+                <th><a href="javascript:listTable.sort('user_name', 'DESC'); ">{$lang.user_id}</a>{$sort_user_name}</th>
+                <th>手机号</th>
+                <th>会员类型</th>
+                <th><a href="javascript:listTable.sort('add_time', 'DESC'); ">{$lang.add_date}</a>{$sort_add_time}</th>
+                <th><a href="javascript:listTable.sort('process_type', 'DESC'); ">{$lang.process_type}</a>{$sort_process_type}</th>
+                <th><a href="javascript:listTable.sort('amount', 'DESC'); ">{$lang.surplus_amount}</a>{$sort_amount}</th>
+                <th>手续费</th>
+                <th>实际金额</th>
+                <th><a href="javascript:listTable.sort('payment', 'DESC'); ">{$lang.pay_mothed}</a>{$sort_payment}</th>
+                <th><a href="javascript:listTable.sort('is_paid', 'DESC'); ">{$lang.status}</a>{$sort_is_paid}</th>
+                <th>真实姓名</th>
+                <th style="display: none;">分红积分/充值积分</th>
+                <th>银行</th>
+                <th>开户行</th>
+                <th>银行卡号</th>
+                <th>{$lang.admin_user}</th>
+                <th>{$lang.handler}</th>
+            </tr>
+            {foreach from=$list item=item}
+            <tr>
+                <td>
+                    <input type="checkbox" name="checkboxes[]" value="{$item.id}" notice="{if $user.user_money ne 0}1{else}0{/if}" />
+                    {$item.id}
+                </td>
+                <td>{if $item.user_name}<a href="account_log.php?act=list&user_id={$item.user_id}" target="_blank">{$item.user_name}</a>{else}{$lang.no_user}{/if}</td>
+                <td align="center">{$item.mobile_phone}</td>
+                <td align="center">{if  $item.is_bigfamily==0}普通会员{/if}
+                {if  $item.is_bigfamily==1}合伙人{/if}
+                {if  $item.is_bigfamily==2}代理{/if}</td>
+                <td align="center">{$item.add_date}</td>
+                <td align="center">{$item.process_type_name}</td>
+                <td align="right">{$item.surplus_amount}</td>
+                 <td align="right">{$item.fee}</td>
+                 <td align="right">{if $item.process_type==1}应打款{/if}{$item.real_amount}</td>
+                <td>{if $item.payment}{$item.payment}{else}N/A{/if}</td>
+                <td align="center">{if $item.is_paid}{$lang.confirm}{else}{$lang.unconfirm}{/if}</td>
+                <td>{$item.real_name}</td>
+                <td style="display: none;">{$item.pay_points}/{$item.user_money}</td>
+                <td>{$item.bank}</td>
+                <td>{$item.bank_kh}</td>
+                <td>{$item.bank_num}</td>
+                <td align="center">{$item.admin_user}
+                <td align="center">
+                    {if $item.is_paid}
+                    <a href="user_account.php?act=edit&process_type={$item.process_type}&id={$item.id}" title="{$lang.surplus}"><img src="images/icon_edit.gif" border="0" height="16" width="16" /></a>
+                    {else}
+                    <a href="user_account.php?act=check&process_type={$item.process_type}&id={$item.id}" title="{$lang.check}"><img src="images/icon_view.gif" border="0" height="16" width="16" />
+                        <a href="javascript:;" onclick="listTable.remove({$item.id}, '{$lang.drop_confirm}')" title="{$lang.drop}" ><img src="images/icon_drop.gif" border="0" height="16" width="16" /></a>
+                    {/if}
+                </td>
+            </tr>
+            {foreachelse}
+            <tr>
+                <td class="no-records" colspan="14">{$lang.no_records}</td>
+            </tr>
+            {/foreach}
+
+            <table id="page-table" cellspacing="0">
+                <tr>
+                    <td>&nbsp;</td>
+                    <td align="right" nowrap="true">
+                        {include file="page1.htm"}
+                    </td>
+                </tr>
+            </table>
+            {if $full_page}
+    </div>
+    <!-- end user_deposit list -->
+    <div>
+	操作：
+  <input type="hidden" name="act" value="batch" />
+  <select name="type" id="selAction" onchange="change_this(this.value)">
+    <option value="">{$lang.select_please}</option>
+    <option value="todo">已完成</option>
+    <option value="cancel">删除</option>
+  </select>
+</div>
+</form>
+
+<script type="text/javascript" language="JavaScript">
+    listTable.recordCount = {$record_count};
+    listTable.pageCount = {$page_count};
+    {foreach from = $filter item = item key = key}
+    listTable.filter.{$key} = '{$item}';
+    {/foreach}
+    {literal}
+            onload = function()
+            {
+            // 开始检查订单
+            startCheckOrder();
+            }
+    /**
+     * 搜索用户
+     */
+    function searchUser()
+    {
+    listTable.filter['keywords'] = Utils.trim(document.forms['searchForm'].elements['keyword'].value);
+    listTable.filter['process_type'] = document.forms['searchForm'].elements['process_type'].value;
+    listTable.filter['payment'] = Utils.trim(document.forms['searchForm'].elements['payment'].value);
+    listTable.filter['is_paid'] = document.forms['searchForm'].elements['is_paid'].value;
+    listTable.filter['start_time'] = document.forms['searchForm'].elements['start_time'].value;
+    listTable.filter['end_time'] = document.forms['searchForm'].elements['end_time'].value;
+    listTable.filter['ti_xian_type'] = document.forms['searchForm'].elements['ti_xian_type'].value;
+    listTable.filter['page'] = 1;
+    listTable.loadList();
+    }
+
+    function batch_export()
+    {
+    var keywords = document.forms['searchForm'].elements['keyword'].value;
+    var process_type = document.forms['searchForm'].elements['process_type'].value;
+    var payment = Utils.trim(document.forms['searchForm'].elements['payment'].value);
+    var is_paid = Utils.trim(document.forms['searchForm'].elements['is_paid'].value);
+    var start_time  = document.forms['searchForm'].elements['start_time'].value;
+    var end_time = document.forms['searchForm'].elements['end_time'].value;
+    return location.href = 'user_account.php?act=export&keywords=' + keywords + '&process_type='
+            + process_type + '&payment=' + payment + '&is_paid=' + is_paid+"&is_export=1"+"&start_time="+start_time+"&end_time="+end_time;
+    }
+    function change_this(val)
+    {
+        if(val!='')
+        {
+           if(confirm("确定执行此次批量操作，执行后，将更改会员的资产信息？"))
+           {
+                var frm = document.forms['listForm'];
+                frm.submit();
+           }
+        }
+    }
+</script>
+{/literal}
+{include file="pagefooter.htm"}
+{/if}

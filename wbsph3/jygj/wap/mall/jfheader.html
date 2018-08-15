@@ -1,0 +1,76 @@
+<?
+include("config/zt_config.php");
+$link = mysqli_connect($db_host,$db_user,$db_pwd,$db_database) or die('Unale to link');
+$link->set_charset('utf8');
+$noj=htmlspecialchars(trim($_GET['noj']));
+$lmid =htmlspecialchars(trim($_GET['lmid'])) ;
+$queryb=$link->query("select * from zt_jifen_sort where item1 = 1 order by id asc limit 0,5"); 
+?>
+<div class="warp_p">
+        <a href="/Wap/jifen/index.html" class="warp_p_1">
+            <img src="/img/logo1.png">
+        </a>
+        <a href="#" class="warp_p_2"></a>
+        <div id="dl-menu" class="dl-menuwrapper">
+            <button id="dl-menu-button">Open Menu</button>
+                <ul class="dl-menu">
+                    <li><img src="/img/logo1.png"/></li>
+                    <li class="fp_nav1">聚元国际<i>积分商城</i></li>
+                    <li class="fp_nav2">
+                        <div>
+                            <a href="wap-shop.html">返回商城</a>
+                            <?       
+                            if(!empty($_COOKIE['ECS']['username'])){
+                            $queryl=$link->query("select * from xbmall_users where user_name='".$_COOKIE['ECS']['username']."'"); 
+                    $rl=$queryl->fetch_array(); 
+                    if($rl['lx']==0) {
+                    ?>
+                    <a href="center.html">
+                    <?
+                    } else {
+                    ?>
+                    <a href="b_center.html">
+                    <?
+                    }   } else {
+                    ?>
+                    <a href="login.html">
+                    <?
+                    }
+
+                ?>
+账户中心</a>
+                        </div>
+
+                    </li>
+                    <li class="sousuo1">
+                        <input type="text" class="shuru">
+                        <input type="button" value="搜索" class="sousuo">
+                    </li>
+
+                    <?
+                    while($r=$queryb->fetch_array()) {
+                    ?><li>
+                        <a href="jifenlist.html?lmid=<?=$r['id']?><?=empty($noj)?'':'&noj=1'?>" class="dl-menu_a"><?=$r['columname']?></a>
+                        </li>
+                    <?
+                    }
+                    ?>
+
+
+
+
+                    
+                </ul>
+        </div>
+
+        <span class="warp_p_sp">聚元国际<?=empty($noj)?'国内特色':'国际特色'?>积分商城</span>
+    </div>
+    <div class="ht40"></div>
+    <!------头部结束------>
+    <script>
+        $(function(){
+            var v1=$(window).height();
+            v2=v1-44-61;
+            $(".dl-menuwrapper .dl-menu").height(v2)
+        })
+    </script>

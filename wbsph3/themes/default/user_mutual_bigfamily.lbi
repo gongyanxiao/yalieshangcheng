@@ -1,0 +1,41 @@
+  <div class="account">
+                <div class="tabmenu">
+                    <ul class="tab pngFix">
+                        <li class="first active">家庭信息</li>
+                        <a href='user.php?act=djtfh_points_desc'><li class="first">分红奖励明细</li></a>
+                    </ul>
+                </div>
+                <div class="user-right">
+                    <div class="box">
+                        <div class="ncm-user-profile">
+                            <div class="ncm-default-form">
+                                <p style="font-size: 12px;">
+                                    <span class="text-bold text-red">{$user_info.user_name}</span>
+                                    欢迎您回来！ <br>
+                                </p>
+                                <table style="margin-top: 10px;" cellspacing="1" cellpadding="10" bgcolor="#eeeeee" border="0" width="100%">
+                                    <tbody>
+                                        <tr>
+                                            <td>大家庭类型</td>
+                                            <td>{if $user_info.is_bigfamily eq '1'}大家庭合伙人{else}大家庭代理{/if}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>大家庭分红</td>
+                                            <td>
+                                                {$user_info.djtfh_points} &nbsp;&nbsp;&nbsp;&nbsp; <a class='main-btn' href='user.php?act=djtfh_raply'>大家庭分红提现</a>
+                                            </td>
+                                        </tr>
+                                        {if $user_info.is_bigfamily eq '1'}
+                                         <tr>
+                                            <td colspan="2">
+                                                <a class='main-btn' href='user.php?act=bigfamily&isShengJi=1'>升级为代理</a>
+                                            </td>
+                                        </tr>
+                                        {/if}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>

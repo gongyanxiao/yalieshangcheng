@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		     <meta charset="UTF-8"/>
+			 <meta name="viewport" content="width=device-width">
+				<title>{$page_title}</title>
+				<meta name="Keywords" content="{$keywords}" />
+				<meta name="Description" content="{$description}" />
+				<meta name="viewport"
+					content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+				<link rel="stylesheet" type="text/css"
+					href="themesmobile/default/css/public.css?v={$smarty.now}" />
+				<link rel="stylesheet" type="text/css"
+					href="themesmobile/default/css/index.css?v={$smarty.now}" />
+				<script type="text/javascript"
+					src="themesmobile/default/js/jquery.js"></script>
+				<script type="text/javascript"
+					src="themesmobile/default/js/TouchSlide.1.1.js"></script>
+				<script type="text/javascript"
+					src="themesmobile/default/js/jquery.more.js"></script>
+				<script type="text/javascript"
+					src="themesmobile/default/js/jquery.cookie.js"></script>
+				<script type="text/javascript"
+					src="themesmobile/default/js/mobile.js"></script>
+				<link rel="stylesheet" href="themesmobile/default/css/my.css"></link>
+					<script>
+				  function f1(url){
+				     self.location.href=url;
+				  }
+				</script>
+	</head>
+<body>
+<div class="header"><!-- #BeginLibraryItem "/library/page_header.lbi" --> <!-- #EndLibraryItem --></div>
+<div class="container">
+    <div class="invite-list">
+            {foreach from=$data_list item=data}
+			   <ul>
+			    <li><h6>姓名xxx</h6><span>{$data.real_name}</span></li>
+			    <li><h6>消费金额</h6><span>{$data.consum_money}</span></li>
+			    <li><h6>级别</h6><span>{$data.level}</span></li>
+                <li><h6>注册时间</h6><span>{$data.reg_time}</span></li>
+                <li><h6></h6><a href="xb_invite.php?user_id={$data.user_id}">查询推荐的人员</a></li>
+			   </ul>
+		    {foreachelse}
+		  	 </ul> <li><h6>没有记录 </h6><span> </span></li> </ul>
+		    {/foreach}
+		    
+           <center>
+							<table width="100%" border="0" align="center" cellpadding="0"
+								cellspacing="0" style="text-align: center; margin-bottom: 18%">
+								<tr>
+									<td height="21" colspan="6"><div class="epages"
+											style="margin-top: 0">
+											{$pagelist}
+										</div></td>
+								</tr>
+							</table>
+		  </center>
+         
+    </div>
+</div>
+<div style="position: fixed;bottom: 0" class="footer">
+<!-- #BeginLibraryItem "/library/footer_nav.lbi" --> <!-- #EndLibraryItem -->
+</div>
+</body>
+</html>

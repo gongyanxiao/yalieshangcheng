@@ -1,0 +1,362 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="Keywords" content="{$keywords}" />
+<meta name="Description" content="{$description}" />
+<!-- TemplateBeginEditable name="doctitle" -->
+<title>{$page_title}</title>
+<!-- TemplateEndEditable -->
+<!-- TemplateBeginEditable name="head" -->
+<!-- TemplateEndEditable -->
+<link rel="shortcut icon" href="favicon.ico" />
+<link rel="icon" href="animated_favicon.gif" type="image/gif" />
+<link rel="stylesheet" type="text/css" href="themes/default/css/common.css" />
+<link rel="stylesheet" type="text/css" href="themes/default/css/flow.css" />
+<script type="text/javascript" src="themes/default/js/jquery-1.9.1.min.js"></script>
+{insert_scripts files='jquery.json.js,transport.js'}
+</head>
+<body>
+    <!--弹窗start-->
+    <div id="popup_window" style="display: none;">
+        <div class="pop_head">请输入余额支付密码</div>
+        <a class="pop_head_r" href="javascript:cancel_input_surplus();"></a>
+        <div class="pop-inner">
+            <input id="surplus_password_input" class='inputBg inputSmall' type="password" />
+            <div class="required-notice surplus_password_input_notice" style="position: static;">
+                <i class="notice-icon"></i>
+                <span class="notice-text"></span>
+            </div>
+            <div class="clear"></div>
+            <input type="button" onclick="end_input_surplus()" value="确定" class='btn_pay1' />
+            <input type="button" onclick="cancel_input_surplus()" value="取消" class='btn_pay2' />
+        </div>
+    </div>
+    <!--余额额支付密码_添加_END_www.68ecshop.com-->
+    <!-- #BeginLibraryItem "/library/user_header.lbi" -->
+    <!-- #EndLibraryItem -->
+    <div class="header w990">
+        <div class="mall-logo">
+            <a href="./"><img src="../images/logo.gif" /></a>
+        </div>
+    </div>
+    <div class="blank15"></div>
+    <div class="block_jm">
+        <div class="flowstep">
+            <ol class="flowstep-5">
+                <li class="step-first">
+                    <div class="step-done">
+                        <div class="step-name">选择互助项目</div>
+                        <div class="step-no"></div>
+                    </div>
+                </li>
+                <li>
+                    <div class="step-done">
+                        <div class="step-name">填写互助信息</div>
+                        <div class="step-no"></div>
+                    </div>
+                </li>
+                <li>
+                    <div class="step-name">确认互助信息</div>
+                    <div class="step-no">3</div>
+                </li>
+                <li class="step-last">
+                    <div class="step-name">付款完成</div>
+                    <div class="step-no">4</div>
+                </li>
+            </ol>
+        </div>
+        <div class="checkBox_jm">
+            <div class="title">1 互助项目</div>
+            <table class="checkgoods" cellspacing="0" cellpadding="0" border="0" width="100%">
+                <tbody>
+                    <tr>
+                        <th class="tdone" align="left" width="20%">项目名称</th>
+                        <th>互助人员姓名</th>
+                        <th>互助人员电话</th>
+                    </tr>
+                    <tr>
+                        <td style="border-top: none;" width="20%">{$mutual_info.title}</td>
+                        <td style="border-top: none;" align="center">{$mutual_info.real_name}</td>
+                        <td style="border-top: none;" align="center">{$mutual_info.mobile_phone}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="blank10"></div>
+            <table cellspacing="0" cellpadding="0" width="100%">
+                <tbody>
+                    <tr>
+                        <td align="right"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        ]
+        <style>
+.checkgoods .jiuzhuzhe {
+	text-align: center
+}
+
+.m_tishi {
+	text-align: left
+}
+
+.jiuzhuzhe .td1 {
+	width: 35%
+}
+
+.txtare {
+	width: 100%;
+	height: 100%
+}
+</style>
+        <div class="checkBox_jm">
+            <form action="mutual.php" method="post" name="theForm" id="theForm" onsubmit="return checkOrderForm(this)">
+                <div class="title">2 互助者信息</div>
+                <table class="checkgoods" cellspacing="0" cellpadding="0" border="0" width="100%">
+                    <tbody class='jiuzhuzhe'>
+                        <tr>
+                            <th colspan=2 class='m_tishi'>请正确填写互助人信息。标注（*）为必填项目。</th>
+                        </tr>
+                        <tr>
+                            <td class='td1' style='text-align: right'>金额（*）:</td>
+                            <td style='text-align: left'>
+                                <span class="radiobtnlist">
+                                    <input name="hdRtblMoney" id="hdRtblMoney" value="10" type="hidden">
+                                        <input id="rtblMoney_0" name="rtblMoney" value="10" onclick="GetMoneyValue(this.value);" type="radio" />
+                                    <label for="rtblMoney_0" style="margin: 0 10px 0 5px;">10</label>
+                                    <input id="rtblMoney_1" name="rtblMoney" value="50" onclick="GetMoneyValue(this.value);" type="radio" />
+                                    <label for="rtblMoney_1" style="margin: 0 10px 0 5px;">50</label>
+                                    <input id="rtblMoney_2" name="rtblMoney" value="100" checked="checked" onclick="GetMoneyValue(this.value);" type="radio" />
+                                    <label for="rtblMoney_2" style="margin: 0 10px 0 5px;">100</label>
+                                    <input id="rtblMoney_3" name="rtblMoney" value="500" onclick="GetMoneyValue(this.value);" type="radio" />
+                                    <label for="rtblMoney_3" style="margin: 0 10px 0 5px;">500</label>
+                                    <input id="rtblMoney_4" name="rtblMoney" onclick="GetMoneyValue(999);" value="" type="radio">
+                                        <label for="rtblMoney_4" style="margin: 0 10px 0 5px;">其他金额</label>
+                                </span>
+                                <span id="spCusMoney" style="display: none">
+                                    <input id="rtblMoney" name="jz_money" class="txt01" value=100 style="ime-mode: disabled;" type="text">
+                                    <span>如：168.5</span>
+                                </span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class='td1' style='text-align: right'>是否显示姓名：</td>
+                            <td style='text-align: left'>
+                                <span id="rbtlShowName" class="radiobtnlist">
+                                    <label style="margin: 0 10px 0 5px;">
+                                        <input id="rbtlShowName_0" name='is_user_name' onclick="GetShowNameValue(this.value);" value="1" type="radio"> 实名 
+                                    </label>
+                                    <label style="margin: 0 10px 0 5px;">
+                                        <input id="rbtlShowName_1" name="is_user_name" onclick="GetShowNameValue(this.value);" value="0" checked="checked" type="radio"> 匿名 
+                                    </label>
+                                </span>
+                            </td>
+                        </tr>
+                        <tr style='display: none' id='lxfsch'>
+                            <td class='td1' style='text-align: right'>联系方式：</td>
+                            <td style='text-align: left'>
+                                <table style="width: 100%" cellspacing="0" cellpadding="0">
+                                    <tbody>
+                                        <tr>
+                                            <td width="100">互助人姓名：</td>
+                                            <td>
+                                                <input name="tbDonateName" value="{$user_info.real_name}" type="text">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>手机号码：</td>
+                                            <td>
+                                                <input name="tbDonateMobile" value="{$user_info.mobile_phone}"  type="text" width="260px">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>电子邮箱：</td>
+                                            <td>
+                                                <input name="tbDonateEmail" value="{$user_info.email}" type="text" width="260px">
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class='td1' style='text-align: right'>捐赠留言：</td>
+                            <td>
+                                <textarea id="tbRemark" name="tbRemark" class="txtare"></textarea>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="blank10"></div>
+                <table cellspacing="0" cellpadding="0" width="100%">
+                    <tbody>
+                        <tr>
+                            <td align="right">
+                                <div id="ECS_ORDERTOTAL">
+                                    <div id="ECS_ORDERTOTAL">
+                                        <table cellspacing="1" cellpadding="1" bgcolor="#ffffff" align="center" border="0" width="99%">
+                                            <tbody>
+                                                <tr>
+                                                    <td bgcolor="#ffffff" align="right">
+                                                        总价:
+                                                        <font id='money1' class="main-color">100</font>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td bgcolor="#ffffff" align="right">
+                                                        应付款金额：
+                                                        <font id='money2' class="main-color" style="font-size: 18px; font-family: 微软雅黑;">100</font>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+        </div>
+        {* 支付方式 *}
+        <div class="checkBox_jm" id="pay_div">
+            <div class="title">3 支付方式</div>
+            <ul class="payment_tab_jm" id="payment_tab">
+                <!-- {foreach from=$payment_list name="payment_list" item=payment} -->
+                <!-- 预售订单不支持货到付款 -->
+                {if $payment.pay_code eq 'alipay_bank' || ($payment.pay_code eq 'cod' && $is_pre_sale != 1) || $payment.pay_code eq 'pup'}
+                <li onclick="selPayment(this)">
+                    <input type="radio" isCod="{$payment.is_cod}" isPickup="{$payment.is_pickup}" onclick="selectPayment(this)" {if $cod_disabled and $payment.is_cod eq "1"}disabled="true" {/if} {if $payment.pay_code eq 'alipay_bank'}id="alipay_bank_input" {/if} name="payment" value="{$payment.pay_id}">
+                        <strong>{if $payment.pay_code eq $pickup_code and $has_pickup_point eq 0}({$lang.empty_pickup_point}){/if}</strong> {if $payment.pay_code eq 'alipay_bank'}支付宝网银直连{else}{$payment.pay_name}{/if} {if $payment.pay_code eq 'alipay_bank'}
+                        <div class="payment_subbox">
+                            <!-- #BeginLibraryItem "/Library/alipay_bank.lbi" -->
+                            <!-- #EndLibraryItem -->
+                        </div>
+                        {/if} 
+                </li>
+                {/if}
+                <!-- {/foreach} -->
+                <li onclick="selPayment(this)">
+                    <input type="radio" onclick="selectPayment(this)" isCod="0" name="payment" id="payment_other_input" value="0">
+                        &nbsp;其他支付
+                        <div class="payment_subbox">
+                            <ul>
+                                <!-- {foreach from=$payment_list name="payment_list" item=payment} -->
+                                {if $payment.pay_code neq 'alipay_bank' && $payment.pay_code neq 'cod' && $payment.pay_code neq 'pup' && $payment.pay_code neq 'balance'}
+                                <li>
+                                    <label for="payment_other{$smarty.foreach.payment_list.iteration}">
+                                        <input id="payment_other{$smarty.foreach.payment_list.iteration}" type="radio" name="payment_other" onclick="selectPayment(this);document.getElementById('payment_other_input').value=this.value;" value="{$payment.pay_id}">
+                                            <img {if $payment.pay_code eq 'bank'}title='{$payment.pay_desc}' {/if} align="absmiddle" src="images/jmpic/pay_{$payment.pay_code}.gif" alt="{$payment.pay_name}" />
+                                    </label>
+                                </li>
+                                {/if}
+                                <!-- {/foreach} -->
+                            </ul>
+                        </div>
+                </li>
+            </ul>
+        </div>
+        <div class="flowBox_jm clearfix" style="border: none; padding-bottom: 20px;">
+            <div style="float: left; width: 40%; padding: 8px 0; padding-left: 5px;">
+                {if $is_exchange_goods neq 1} {if !$one_step_buy}<a href="mutual.php" class="continue_buy" style="padding: 0;">返回选择保额</a>{/if}
+            </div>
+            {/if}
+            <div style="float: right; width: 55%; text-align: right; padding: 8px 20px;">
+                <!--余额额支付密码_更改_START_www.68ecshop.com-->
+                <input onclick="return check_before_submit()" type="image" src="images/jmpic/btn_done.png" align="absmiddle" />
+                <!--余额额支付密码_更改_END_www.68ecshop.com-->
+                <input name="need_inv" style="display: none;" type="checkbox" class="input" id="ECS_NEEDINV" onclick="changeNeedInv()" value="1" checked="true" />
+                <input type="hidden" name="act" value="mutual_done" />
+                <input type="hidden" name="mutual_id" value="{$mutual_info.mutual_id}" />
+            </div>
+        </div>
+        <div class="blank10"></div>
+        </form>
+        <div class="blank15"></div>
+    </div>
+    <!-- #BeginLibraryItem "/library/arrive_notice.lbi" -->
+    <!-- #EndLibraryItem -->
+    <!-- #BeginLibraryItem "/library/right_sidebar.lbi" -->
+    <!-- #EndLibraryItem -->
+    <div class="site-footer">
+        <div class="footer-related">
+            <!-- #BeginLibraryItem "/library/page_footer.lbi" -->
+            <!-- #EndLibraryItem -->
+        </div>
+    </div>
+</body>
+<script type="text/javascript">
+    function selPayment(obj) {
+        var paymentList = obj.getElementsByTagName('input');
+        if (paymentList[0].disabled != true)
+        {
+            var payParent = obj.parentNode;
+            var payList = payParent.getElementsByTagName('li');
+            for (i = 0; i < payList.length; i++)
+            {
+                payList[i].className = '';
+            }
+            obj.className = 'seled';
+            
+            for (var i = 0; i < paymentList.length; i++)
+            {
+                if (paymentList[i].name == 'payment' && !paymentList[i].disabled)
+                {
+                    paymentList[i].checked = true;
+                }
+            }
+        }
+    }
+</script>
+<script language="javascript" type="text/javascript">
+    function GetMoneyValue(MoneyValue) {
+        if (MoneyValue == 999)
+        {
+            $("#rtblMoney").val('');
+            $('#spCusMoney').show();
+        }
+        else
+        {
+            $("#rtblMoney").val(MoneyValue);
+            $('#spCusMoney').hide();
+        }
+        $("#rtblMoney").change();
+    }
+
+    function GetShowNameValue(ShowNameValue) {
+        if (ShowNameValue > 0)
+        {
+            $('#lxfsch').show();
+        }
+        else
+        {
+            $('#lxfsch').hide();
+        }
+    }
+    $("#rtblMoney").change(function() {
+        $money = $(this).val();
+        if (!($money > -1 && $money < 100000))
+        {
+            alert('互助金额有误');
+        }
+        if ($money)
+        {
+            $('#money1').html('￥' + $money);
+            $('#money2').html('￥' + $money);
+        }
+    })
+    function checkOrderForm() {
+        $aa = $("#rtblMoney").val();
+        if (!$aa)
+        {
+            alert('互助金额不能为空');
+            return false;
+        }
+        if ($('#money1').html() == '')
+        {
+            alert('互助金额不能为空');
+            return false;
+        }
+    }
+</script>
+</html>

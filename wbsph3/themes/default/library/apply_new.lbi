@@ -1,0 +1,406 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+{insert_scripts files='region.js'}
+{insert_scripts files='utils.js'}
+<div class="store-joinin-apply">
+  <div class="main">
+    <div> 
+      <script>
+	function radioShow()
+	{	
+		var apply_type = document.getElementsByName('apply_type');
+		var showdiv = document.getElementsByClassName("apply-company-info");
+		for(i=0;i<showdiv.length;i++)
+		{
+			if(apply_type[i].checked)
+			{
+				showdiv[i].style.display = "block";
+			}
+			else
+			{
+				showdiv[i].style.display = "none";
+			}
+		}
+				
+	}
+	</script>
+      <table border="0" cellpadding="0" cellspacing="0" class="all"  style="display:none;">
+        <thead>
+          <tr>
+            <th colspan="2" align="left">请选择您的开店身份</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><input type="radio" name="apply_type" {if !$supplier.guimo}checked{/if} onClick="radioShow()">
+              个人
+              <input type="radio" name="apply_type" {if $supplier.guimo}checked{/if} onClick="radioShow()">
+              企业 </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div id="apply_person_info" class="apply-company-info">
+      <div class="note"><i></i>以下所需要上传的电子版资质文件仅支持JPG\GIF\PNG格式图片，大小请控制在{$piclimit}K之内。</div>
+      {if $supplier.status eq '-1'}<div style="color: red;line-height: 16px;padding: 10px 0; margin-bottom: 10px;border-bottom: dashed 1px #CBDDE6;">审核不通过，原因：{$supplier.supplier_remark}</div>{/if}
+      <form id="form_person_info" name="form_person_info" action="apply.php" method="post" enctype="multipart/form-data" onSubmit="return supplier_Reg();">
+        <table border="0" cellpadding="0" cellspacing="0" class="all">
+          <thead style="display:none;">
+            <tr>
+              <th colspan="2" align="left">请按照提示填写本人真实的资料</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th><i>*</i>商家名称：</th>
+              <td><input name="supplier_name" type="text" value="{$supplier.supplier_name}"    class="w200"  />
+                <span></span></td>
+            </tr>
+            
+            <tr>
+                <th><i>*</i>商家类型：</th>
+                <td>
+                    <input type='radio' name='supp_type' {if $is_bigfamily eq 0}checked="checked"{/if}  readonly="readonly" disabled="disabled"  value='4' /> 联盟商家
+                    <input type='radio' name='supp_type'  {if $is_bigfamily neq 0}checked="checked"{/if} readonly="readonly" disabled="disabled"  value='3' />线上商家
+                </td>
+            </tr>
+            
+            <tr>
+              <th><i>*</i>联系地址：</th>
+              <td><select name="country" id="selCountries_1" onchange="region.changed(this, 1, 'selProvinces_1')"  style="display:none" >
+                  <!-- <option value="0">请选择</option> -->
+                  <!-- {foreach from=$country_list item=country} -->
+                  <option value="{$country.region_id}" {if $supplier.country eq $country.region_id}selected{/if}>{$country.region_name}</option>
+                  <!-- {/foreach} -->
+                </select>
+                <select name="province" id="selProvinces_1" onchange="region.changed(this, 2, 'selCities_1')"  >
+                  <option value="0">请选择</option>
+                  <!-- {foreach from=$province_list item=province} -->
+                  <option value="{$province.region_id}" {if $supplier.province eq $province.region_id}selected{/if}>{$province.region_name}</option>
+                  <!-- {/foreach} -->
+                </select>
+                <select name="city" id="selCities_1" onchange="region.changed(this, 3, 'selDistricts_1')"  >
+                  <option value="0">请选择</option>
+                  <!-- {foreach from=$city_list item=city} -->
+                  <option value="{$city.region_id}" {if $supplier.city eq $city.region_id}selected{/if}>{$city.region_name}</option>
+                  <!-- {/foreach} -->
+                </select>
+                <select name="district" id="selDistricts_1"   > <!-- {if !$district_list}style="display:none"{/if} -->
+                  <option value="0">请选择</option>
+                  <!-- {foreach from=$district_list item=district} -->
+                  <option value="{$district.region_id}" {if $supplier.district eq $district.region_id}selected{/if}>{$district.region_name}</option>
+                  <!-- {/foreach} -->
+                </select>
+                <span></span></td>
+            </tr>
+            <tr>
+              <th><i>*</i>详细地址：</th>
+              <td><input name="address" id='dingwei_xx' class="w200" type="text"   value="{$supplier.address}"   />
+                <span></span></td>
+            </tr>
+            
+            <tr>
+              <th><i>*</i>联系人：</th>
+              <td><input name="contacts_name" type="text" class="w200" value="{$supplier.contacts_name}"  >
+                <span></span></td>
+            </tr>
+            <tr>
+              <th><i>*</i>联系人电话：</th>
+              <td><input name="contacts_phone" type="text" class="w200" value="{$supplier.contacts_phone}"  >
+                <span></span></td>
+            </tr>
+          <tr>
+              <th><i>*</i>微信号：</th>
+              <td><input name="wx" type="text" class="w200" value="{$supplier.wx}"  >
+                <span></span></td>
+            </tr>
+            <tr>
+              <th><i>*</i>店铺分类：</th>
+              <td>
+              <select name="shop_category"  >
+              <!-- {foreach from=$categories item=shop_cat} -->
+              <option value='{$shop_cat.cat_id}' {if $supplier.shop_category eq $shop_cat.cat_id}selected{/if}>{$shop_cat.cat_name}</option>
+              <!-- {/foreach} -->
+                  </select>
+                <span></span></td>
+            </tr>
+            <tr>
+              <th><i>*</i>经营范围：</th>
+              <td><input name="business_sphere" class="w200" type="text"   value="{$supplier.business_sphere}"   />
+                <span></span></td>
+            </tr>
+            <tr>
+              <th><i>*</i>商家照片：</th>
+              <td><input name="shop_logo" type="file"  >
+              <input type="hidden" value="{$supplier.shop_logo}" name="shop_logo_id" id="shop_logo_id" />
+              {if $supplier.shop_logo}<br>
+                <img src="{$supplier.shop_logo}" width=80 height=80 >{/if} <br />
+                </td>
+            </tr>
+            <tr>
+              <th><i>*</i>营业执照：</th>
+              <td><input name="zhizhao" type="file"  >
+              <input type="hidden" value="{$supplier.zhizhao}" name="zhizhao_id" id="zhizhao_id" />
+              {if $supplier.zhizhao}<br>
+                <img src="{$supplier.zhizhao}" width=80 height=80 id='zhizhao_id'>{/if} <br />
+                </td>
+            </tr>
+            <tr>
+              <th><i>*</i>商家店铺图片1：</th>
+              <td><input name="shop_pics1" type="file"  >
+              <input type="hidden" value="{$supplier.shop_pics1}" name="shop_pics1_id" id="shop_pics1_id" />
+               {if $supplier.shop_pics1}<br>
+                <img src="{$supplier.shop_pics1}" width=80 height=80 id='shop_pics1_id'>{/if} <br />
+                </td>
+            </tr>
+            <tr>
+              <th><i>*</i>商家店铺图片2：</th>
+              <td><input name="shop_pics2" type="file"  >
+              <input type="hidden" value="{$supplier.shop_pics2}" name="shop_pics2_id" id="shop_pics2_id" />
+               {if $supplier.shop_pics2}<br>
+                <img src="{$supplier.shop_pics2}" width=80 height=80 id='shop_pics2_id'>{/if} <br />
+                </td>
+            </tr>
+           <tr>
+              <th><i>*</i>商家店铺图片3：</th>
+              <td><input name="shop_pics3" type="file"  >
+              <input type="hidden" value="{$supplier.shop_pics3}" name="shop_pics3_id" id="shop_pics3_id" />
+              {if $supplier.shop_pics3}<br>
+                <img src="{$supplier.shop_pics3}" width=80 height=80 id='shop_pics3_id'>{/if} <br />
+                </td>
+            </tr>
+            <tr>
+              <th>商家店铺图片4：</th>
+              <td><input name="shop_pics4" type="file"  >
+              <input type="hidden" value="{$supplier.shop_pics4}" name="shop_pics4_id" id="shop_pics4_id" />
+               {if $supplier.shop_pics4}<br>
+                <img src="{$supplier.shop_pics4}" width=80 height=80 id='shop_pics4_id'>{/if} <br />
+                </td>
+            </tr>
+            <tr>
+              <th>商家店铺图片5：</th>
+              <td><input name="shop_pics5" type="file"  >
+              <input type="hidden" value="{$supplier.shop_pics5}" name="shop_pics5_id" id="shop_pics5_id" />
+               {if $supplier.shop_pics5}<br>
+                <img src="{$supplier.shop_pics5}" width=80 height=80 id='shop_pics5_id'>{/if} <br />
+                </td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="20">&nbsp;</td>
+            </tr>
+          </tfoot>
+        </table>
+        {if !$supplier or $supplier.status neq '1'}
+        <input type="hidden" name="shownum" value="1">
+        <input type="hidden" name="dos" value="1">
+        <input type="hidden" name="sid" value="{$supplier.supplier_id}">
+        <input type="hidden" name="person" value="1">
+        <div class="bottom">
+          <input type="submit" value="确定" class="btn">
+        </div>
+        {/if}
+      </form>
+    </div>
+  </div>
+</div>
+<script>
+function ispic(filepath){
+	var extStart=filepath.lastIndexOf('.');
+	var ext=filepath.substring(extStart,filepath.length).toUpperCase();
+	if(ext!='.BMP'&&ext!='.PNG'&&ext!='.GIF'&&ext!='.JPG'&&ext!='.JPEG'){
+	  return false;
+	}
+	return true;
+}
+var isSubmit=false;
+function supplier_Reg()
+{   
+        
+        if(isSubmit==true)
+        {
+            alert("店铺信息提交中");
+            return false;
+        }
+	var msg = '';
+	var frm = document.forms['form_person_info'];
+	var company_name =  frm.elements['supplier_name'] ? Utils.trim(frm.elements['supplier_name'].value) : '';
+	var country =  frm.elements['country'] ? Utils.trim(frm.elements['country'].value) : '0';
+	var province =  frm.elements['province'] ? Utils.trim(frm.elements['province'].value) : '0';
+	var city =  frm.elements['city'] ? Utils.trim(frm.elements['city'].value) : '0';
+	var district =  frm.elements['district'] ? Utils.trim(frm.elements['district'].value) : '0';
+	var address =  frm.elements['address'] ? Utils.trim(frm.elements['address'].value) : '';
+	var contacts_name =  frm.elements['contacts_name'] ? Utils.trim(frm.elements['contacts_name'].value) : '';
+	var contacts_phone =  frm.elements['contacts_phone'] ? Utils.trim(frm.elements['contacts_phone'].value) : '';
+
+	var zhizhao = frm.elements['zhizhao'].value;
+	
+        var shop_logo = frm.elements['shop_logo'].value;
+
+        var shop_pics1 = frm.elements['shop_pics1'].value;
+        
+         var shop_pics2 = frm.elements['shop_pics2'].value;
+	
+	 var shop_pics3 = frm.elements['shop_pics3'].value;
+
+	if (company_name.length == 0)
+	{
+		msg += "商家名称不能为空！" + '\n';
+	}
+
+	if (country == '0' || province=='0' || city=='0' || district=='0')
+	{
+		msg += "公司所在地不完整！" + '\n';
+	}
+	
+	if (address.length == 0)
+	{
+		msg += "公司详细地址不能为空！" + '\n';
+	}
+	
+	if (contacts_name.length == 0)
+	{
+		msg += "联系人姓名不能为空！" + '\n';
+	}
+
+	if (contacts_phone.length == 0)
+	{
+		msg += "联系人电话不能为空！" + '\n';
+	}
+
+	if (contacts_phone.length > 0){
+		var patrn=/^1[3|4|5|7|8][0-9]\d{8}$/;
+		if (!patrn.exec(contacts_phone)){
+	　　     msg += "联系人电话不正确！" + '\n';
+	　　   }
+	}
+        var shop_logo_id=frm.elements['shop_logo_id'].value;
+        var zhizhao_id=frm.elements['zhizhao_id'].value;
+        var shop_pics1_id=frm.elements['shop_pics1_id'].value;
+        var shop_pics2_id=frm.elements['shop_pics2_id'].value;
+        var shop_pics3_id=frm.elements['shop_pics3_id'].value;
+	if(ispic(shop_logo) == false&&!shop_logo_id){
+	   msg += "请上传商家图片！" + '\n';
+	}
+        if(ispic(zhizhao) == false&&!zhizhao_id){
+	   msg += "请上传营业执照！" + '\n';
+	}
+        if(ispic(shop_pics1) == false&&!shop_pics1_id){
+	   msg += "请上传店铺图片1！" + '\n';
+	}
+        if(ispic(shop_pics2) == false&&!shop_pics2_id){
+	   msg += "请上传店铺图片2！" + '\n';
+	}
+        if(ispic(shop_pics3) == false&&!shop_pics3_id){
+	   msg += "请上传店铺图片3！" + '\n';
+	}
+
+	if (msg.length > 0)
+	{
+		alert(msg);
+		return false;
+	}
+	else
+	{
+                //isSubmit=true;
+		//return true;
+	}
+}
+</script>
+
+<div id="container" style="width:0px;height:0px;"></div>
+{if !$supplier.supplier_name}
+<script type="text/javascript">
+    var map, geolocation;
+    //加载地图，调用浏览器定位服务
+    map = new AMap.Map('container', {
+        resizeEnable: true
+    });
+    map.plugin('AMap.Geolocation', function() {
+        geolocation = new AMap.Geolocation({
+            enableHighAccuracy: true,//是否使用高精度定位，默认:true
+            timeout: 10000,          //超过10秒后停止定位，默认：无穷大
+            buttonOffset: new AMap.Pixel(10, 20),//定位按钮与设置的停靠位置的偏移量，默认：Pixel(10, 20)
+            zoomToAccuracy: true,      //定位成功后调整地图视野范围使定位位置及精度范围视野内可见，默认：false
+            buttonPosition:'RB'
+        });
+
+        geolocation.getCurrentPosition();
+        AMap.event.addListener(geolocation, 'complete', onComplete);//返回定位信息  
+    });
+    //解析定位结果
+    function onComplete(data) {
+        if(data['info']=="SUCCESS")
+        {
+            //省份设置 district
+            //$('#selProvinces_1').html("<option value='"+data['addressComponent']['province']+"'>"+data['addressComponent']['province']+"</option>");
+            //$('#selCities_1').html("<option value='"+data['addressComponent']['city']+"'>"+data['addressComponent']['city']+"</option>");
+            //$('#selDistricts_1').html("<option value='"+data['addressComponent']['district']+"'>"+data['addressComponent']['district']+"</option>");
+            $("#selProvinces_1 option").each(function (){  
+                var txt = $(this).text();  
+                if(txt===data['addressComponent']['province']){  
+                    $("#selProvinces_1").val($(this).val());
+                    Ajax.call(region.getFileName(), "type=2&target=selCities_1&parent=" + $(this).val() , function(result){
+                            var sel = document.getElementById(result.target);
+                              sel.length = 1;
+                              sel.selectedIndex = 0;
+                              sel.style.display = (result.regions.length == 0 && ! region.isAdmin && result.type + 0 == 3) ? "none" : '';
+
+                            
+                            if (result.regions)
+                            {
+                                var selectedCity="";
+                                for (i = 0; i < result.regions.length; i ++ )
+                                {
+                                  var opt = document.createElement("OPTION");
+                                  opt.value = result.regions[i].region_id;
+                                  opt.text  = result.regions[i].region_name;
+                                  if(data['addressComponent']['city']===opt.text)
+                                  {
+                                        selectedCity=opt.value;
+                                   }
+                                   sel.options.add(opt);
+                                }
+                                $("#"+result.target).val(selectedCity);
+                               
+                                if(selectedCity>0)
+                                {
+                                    Ajax.call(region.getFileName(), "type=3&target=selDistricts_1&parent=" +selectedCity, function(result){
+			                                    
+			                            var sel = document.getElementById(result.target);
+			                              sel.length = 1;
+			                              sel.selectedIndex = 0;
+			                              sel.style.display = (result.regions.length == 0 && ! region.isAdmin ) ? "none" : '';
+			
+			                             
+				                            if (result.regions)
+				                            {
+				                                var selectedCity="";
+				                                for (i = 0; i < result.regions.length; i ++ )
+				                                {
+				                                  var opt = document.createElement("OPTION");
+				                                  opt.value = result.regions[i].region_id;
+				                                  opt.text  = result.regions[i].region_name;
+				                                  if(data['addressComponent']['district']===opt.text)
+				                                  {
+				                                        selectedCity=opt.value;
+				                                   }
+				                                   sel.options.add(opt);
+				                                }
+				                                $("#"+result.target).val(selectedCity);
+				                           }
+              				      }, "GET", "JSON");
+              				   }
+                           }
+                    }, "GET", "JSON");
+                }  
+            });  
+            $('#dingwei_xx').val(data['addressComponent']['township'] + data['addressComponent']['street'] + data['addressComponent']['streetNumber']);
+        }
+        else
+        {
+            alert("定位失败,请清除缓存后再次操作");
+        } 
+    }
+</script>
+{/if}

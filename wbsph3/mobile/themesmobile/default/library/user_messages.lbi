@@ -1,0 +1,61 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<div class="user_login_title"><h2>
+<em onclick="javascript:setRead(0);">全部标记已读</em>
+<em onclick="javascript:delRead(0);">全部删除</em>
+</h2></div>
+ <div id="J_ItemList" class="Fund">
+      <ul class="product single_item info">
+      </ul>
+      <a href="javascript:;" class="get_more"> </a> 
+      </div>
+<script type="text/javascript">
+var url = 'user.php?act=ajax_messages';
+$(function(){
+	$('#J_ItemList').more({'address': url});
+});
+             function setRead(ids)
+             {
+                 if(confirm("确定设置为已读?"))
+                {
+                     Ajax.call('user.php?act=readmsg', 'ids=' + ids, readMsgCompleted, 'POST', 'JSON');
+                }
+             }
+             function readMsgCompleted(result)
+             {
+                if(result.code*1===1)
+                {
+                    alert("设置成功");
+                    window.location.reload();
+                }
+             }
+             function delRead(ids)
+             {
+                 if(confirm("确定删除当前消息?"))
+                {
+                    Ajax.call('user.php?act=delmsg', 'ids=' + ids, delReadCompleted, 'POST', 'JSON');
+                } 
+             }
+             function delReadCompleted(result)
+             {
+                if(result.code*1===1)
+                {
+                    alert("操作成功");
+                    window.location.reload();
+                }
+             }
+</script>
+<!---返回顶部-->
+<script>
+function goTop(){
+	$('html,body').animate({'scrollTop':0},600);
+}
+</script>
+<a href="javascript:goTop();" class="gotop"><img src="themesmobile/default/images/topup.png"></a> 
+<script type="text/javascript">
+{foreach from=$lang.account_js item=item key=key}
+var {$key} = "{$item}";
+{/foreach}
+</script>
+
+
+

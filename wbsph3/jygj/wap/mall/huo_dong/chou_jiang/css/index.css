@@ -1,0 +1,158 @@
+* {
+    padding: 0;
+    margin: 0
+}
+
+img {
+    display: block
+}
+
+html, body {
+    font-size: 62.5%;
+    background: #f03048
+}
+
+ul, li {
+    list-style: none
+}
+
+a {
+    text-decoration: none
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: normal;
+}
+
+.top-img {
+    width: 95%;
+    margin: 30px auto;
+}
+
+.top-img img {
+    width: 100%
+}
+
+.active-time{
+    width: 90%;
+    margin: 30px auto;
+}
+.active-time h6{ height: 30px;
+    font-size: 1.4rem;
+    color: #f03048;
+    background: rgba(255,255,255,0.9);
+    text-align: center;
+    line-height: 30px;
+    border-radius: 15px;
+}
+
+.action {
+    width: 90%;
+    margin: 40px auto
+}
+
+.action-head {
+    margin: 10px;
+}
+
+.head-left {
+    width: 60%;
+    float: left;
+    margin-top: 10px;
+}
+
+.head-left h3, .head-left h4 {
+    display: inline-block;
+    line-height: 26px;
+    vertical-align: top
+}
+
+.head-left h3 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    font-style: italic;
+    color: #F0D8A8
+}
+
+.head-left dd {
+    font-size: 1rem;
+    margin-top: 5px;
+    color: rgba(255,255,255,0.8);
+}
+
+.head-left h4 {
+    height: 26px;
+    background: #F0D8A8;
+    border-radius: 4px;
+    text-align: center;
+    padding: 0 5px;
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-left: 10px;
+    color: #f03048;
+}
+
+.head-left h4 span {
+    display: inline-block;
+    font-weight: normal;
+    font-size: 1rem;
+    padding-left: 5px;
+    line-height: 1rem;
+}
+
+.head-right {
+    width: 30%;
+    float: right;
+
+}
+
+.head-right button {
+    display: block;
+    width: 100%;
+    border: none;
+    background: rgb(238, 199, 16);
+    line-height: 24px;
+    border-radius: 12px;
+    margin: 5px 0;
+    font-size: 1.2rem;
+    outline: none;
+    color:  #f03048;
+}
+
+.head-right .jf {
+    background: rgba(255, 255, 255, 0.6)
+}
+
+.active-img {
+    width: 100%
+}
+
+.active-img img {
+    width: 100%;
+    display: block
+}
+
+.active-js {
+
+}
+
+.active-btn {
+    width: 30%;
+    font-size: 1.4rem;
+    line-height: 30px;
+    height: 30px;
+    border-radius: 6px;
+    background: rgb(238, 199, 16);
+    color: #f03048;
+    text-align: center;
+    margin: 10px auto;
+}
+
+.active-desc {
+    display: none;
+    color:rgba(255,255,255,0.8);
+    font-size: 1rem;
+    line-height: 1.4rem;
+    height: 160px;
+    overflow: scroll
+}

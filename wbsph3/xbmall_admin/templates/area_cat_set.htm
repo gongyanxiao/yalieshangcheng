@@ -1,0 +1,64 @@
+<!-- $Id: category_info.htm 16752 2009-10-20 09:59:38Z wangleisvn $ -->
+{include file="pageheader.htm"}
+<!-- start add new category form -->
+<div class="main-div">
+  <form action="area_cat.php" method="post" name="theForm" enctype="multipart/form-data" onsubmit="return validate()">
+  <table width="100%" id="general-table">
+      <tr>
+        <td class="label">会员手机号</td>
+        <td>
+          <input type='text' name='user_id'  maxlength="20" value='{$cat_info.mobile}' size='15' /> <font color="red">*(留空为删除该地区的运营中心，删除运营中心将会删除会员业务信息、资金信息，将不能登录商家中心！！！)</font>
+        </td>
+      </tr>
+      <tr style='display: none;'>
+        <td class="label">是否开启做单权限</td>
+        <td>
+          <input type='radio' name='zuodan'  {if $cat_info.zuodan and $cat_info.zuodan eq '1'}checked="checked"{/if} value='1' />是
+          <input type='radio' name='zuodan'  {if !$cat_info.zuodan or $cat_info.zuodan eq '0'}checked="checked"{/if}  value='0' />否
+          <font color="red">*</font>
+        </td>
+      </tr>
+      </table>
+      <div class="button-div">
+        <input type="submit" value="{$lang.button_submit}" />
+      </div>
+    <input type="hidden" name="act"  value="{$form_act}" />
+    <input type="hidden" name="old_cat_name"  value="{$cat_info.cat_name}" />
+    <input type="hidden" name="cat_id"  value="{$cat_info.cat_id}" />
+  </form>
+</div>
+{insert_scripts files="../js/utils.js,validator.js"}
+{literal}
+<script language="JavaScript">
+<!--
+document.forms['theForm'].elements['user_id'].focus();
+/**
+ * 检查表单输入的数据
+ */
+function validate()
+{
+//  validator = new Validator("theForm");
+//  validator.required("user_id",      "请输入会员手机号");
+//  return validator.passed();
+
+
+if(confirm("确定要进行此操作吗？"))
+{
+  return true;
+}
+else
+{
+   return false;
+}
+
+}
+onload = function()
+{
+  // 开始检查订单
+  startCheckOrder();
+}
+
+//-->
+</script>
+{/literal}
+{include file="pagefooter.htm"}

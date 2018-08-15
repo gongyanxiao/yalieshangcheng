@@ -1,0 +1,84 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <link href="themesmobile/default/css/supp_center.css" rel="stylesheet" type="text/css" />
+        <div id="container" class="shouye">
+            <header id="header" class="header">
+				<div class="toplog">
+				    <dl>
+				    <dt><img src="{$supp_infos.shop_logo}"></dt>
+				    <dd><span>{$supp_infos.supplier_name}</span></dd>
+				    </dl>
+				</div>
+				<div class="topnav">
+				    <ul>
+				    <li class="bain"><a><span>{$today.money}</span>今日销售额</a></li>
+				    <li class="bain"><a><span>{$today.order}</span>今日订单数</a></li>
+				    <li style="border:0"><a ><span>{$num}</span>商品数量</a></li>
+				    </ul>
+				</div>
+			</header> 
+			   
+			  <div class="Assets">
+					<dl><a><dt><strong><b>店铺配置</b></strong></dt></a></dl>
+					<dl><dt><strong style='margin-left:30px'>服务费： </strong> 
+					    <input type="radio" name="fuWuFei"{if $supp_infos.system_fee==1}checked="checked"{/if} value="1"/>1
+					   <input type="radio" name="fuWuFei"{if $supp_infos.system_fee==2}checked="checked"{/if} value="2"/>2
+					    <input type="radio" name="fuWuFei"{if $supp_infos.system_fee==3}checked="checked"{/if} value="3"/>3
+						<input type="radio" name="fuWuFei" {if $supp_infos.system_fee==6}checked="checked"{/if}value="6"/>6
+						<input type="radio" name="fuWuFei" {if $supp_infos.system_fee==12}checked="checked"{/if}value="12"/>12
+					    <input type="radio" name="fuWuFei" {if $supp_infos.system_fee==100}checked="checked"{/if}value="100"/>100
+					 <a href="javascript:void(0)" onclick="saveRate()">设置</a></dt></dl>
+					
+					 <script type="text/javascript" src="js/layer/layer.js" ></script>
+					<script>
+	                
+	                function saveRate(){
+	                 
+	                var url="supplier_m_center.php?rate="+$("[name='fuWuFei']:checked").val()+"&act=saveRate";
+	                $.post(url," ",function(d){ 
+	                    alert(d);
+					    layer.closeAll();
+					    window.location.href=window.location.href;
+					} 
+					,"text"
+					);
+
+	                  
+	                }       
+					</script>
+			 </div>
+			 
+			
+			<!--我的订单-->
+			  <div class="Assets">
+					<dl><a><dt><strong><b>我的订单</b></strong></dt></a></dl>
+					 <dl><a><dt><strong style='margin-left:30px'>待付款： </strong><span style='background:none;padding-right:50px'>{$order.await_pay}</span></dt></a></dl>
+					 <dl><a><dt><strong style='margin-left:30px'>待发货： </strong><span style='background:none;padding-right:50px'>{$order.shipped_part}</span></dt></a></dl>
+					 <dl><a><dt><strong style='margin-left:30px'>待收货： </strong><span style='background:none;padding-right:50px'>{$order.await_receipt}</span></dt></a></dl>
+					 <dl><a><dt><strong style='margin-left:30px'>已完成： </strong><span style='background:none;padding-right:50px'>{$order.finished}</span></dt></a></dl>
+			 </div>
+			 <div class="Assets">
+					<dl><a><dt><strong><b>积分管理</b></strong></dt></a></dl>
+					<dl><a href="user.php?act=chong_zhi"><dt><strong style='margin-left:30px'>充值： </strong><span style='background:none;padding-right:50px'>现有积分:{$userInfo.user_money}</span></dt></a></dl>
+					<dl><a href="supplier_m_center.php?act=to_huo_kuan_dui_huan"><dt><strong style='margin-left:30px'>货款提现： </strong><span style='background:none;padding-right:50px'>现有货款积分:{$userInfo.hk_points}</span></dt></a></dl>
+		 		    <dl><a href="supplier_m_center.php?act=list"><dt><strong style='margin-left:30px'>货款提现记录： </strong><span style='background:none;padding-right:50px'>现有货款积分:{$userInfo.hk_points}</span></dt></a></dl>
+		 	 </div>
+		 	 
+			  <div class="Assets">
+					<dl><a><dt><strong><b>线下店铺功能</b></strong></dt></a></dl>
+					<dl><a href="supplier_m_zuo_dan.php?act=list"><dt><strong style='margin-left:30px'>做单列表</strong><span style='background:none;padding-right:50px'></span></dt></a></dl>
+					<dl><a href="supplier_m_zuo_dan.php?act=add"><dt><strong style='margin-left:30px'>做单 </strong><span style='background:none;padding-right:50px'></span></dt></a></dl>
+					<dl><a href="supplier_m_xian_xia_ding_dan.php?act=list"><dt><strong style='margin-left:30px'>线下订单列表 </strong><span style='background:none;padding-right:50px'></span></dt></a></dl>
+		             <dl><a href="supplier_m_xian_xia_ding_dan.php?act=add"><dt><strong style='margin-left:30px'>线下订单 </strong><span style='background:none;padding-right:50px'></span></dt></a></dl>
+		 	 </div>
+		 	   <div class="Assets">
+					<dl><a><dt><strong><b>线上店铺功能</b></strong></dt></a></dl>
+					<dl><a href="supplier_m_xian_shang.php?act=to_pei_song_list"><dt><strong style='margin-left:30px'>配送方式列表</strong><span style='background:none;padding-right:50px'></span></dt></a></dl>
+			 		<dl><a href="supplier_m_category.php?act=list"><dt><strong style='margin-left:30px'>店内分类</strong><span style='background:none;padding-right:50px'></span></dt></a></dl>
+			 		<dl><a href="supplier_m_goods.php?act=list"><dt><strong style='margin-left:30px'>商品列表</strong><span style='background:none;padding-right:50px'></span></dt></a></dl>
+			 		<dl><a href="supplier_m_goods.php?act=trash"><dt><strong style='margin-left:30px'>商品回收站</strong><span style='background:none;padding-right:50px'></span></dt></a></dl>
+					<dl><a href="supplier_m_xian_shang_ding_dan.php?act=list"><dt><strong style='margin-left:30px'>线上订单列表</strong><span style='background:none;padding-right:50px'></span></dt></a></dl>
+					<dl><a href="supplier_m_xian_shang_ding_dan.php?act=delivery_list"><dt><strong style='margin-left:30px'>发货单列表</strong><span style='background:none;padding-right:50px'></span></dt></a></dl>
+					<dl><a href="supplier_m_back.php?act=back_list"><dt><strong style='margin-left:30px'>退款/退货及维修列表</strong><span style='background:none;padding-right:50px'></span></dt></a></dl>
+		
+			  </div>
+  		</div>

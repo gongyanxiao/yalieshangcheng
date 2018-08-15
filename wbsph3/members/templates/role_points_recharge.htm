@@ -1,0 +1,247 @@
+<!-- $Id: account_info.htm 14216 2008-03-10 02:27:21Z testyang $ -->
+{include file="pageheader.htm"}
+
+<div class="main-div">
+    <form name="formSurplus" method="post" action="role_recharge.php" onSubmit="return submitSurplus()">
+        <table width="100%" border="0" cellpadding="10" cellspacing="1" bgcolor="#eeeeee">
+            <tr>
+                <td width="10%" align="right">充值金额:</td>
+                <td align="left"><input type="text" name="amount"  class="inputBg" value="" size="30" /></td>
+            </tr>
+            <tr>
+                <td align="right">充值备注:</td>
+                <td align="left"><textarea name="user_note" cols="55" rows="6" style="border:1px solid #ddd;"></textarea></td>
+            </tr>
+        </table>
+        <div class="blank10"></div>
+        <style>
+        .paytable td{border:1px solid #ddd}
+        </style>
+        <table width="100%" class='paytable' cellpadding="10" cellspacing="0" bgcolor="#eeeeee">
+            <tr align="center">
+                <td colspan="3" align="left">支付方式:</td>
+            </tr>
+            <tr align="center">
+                <td width="20%">方式名称</td>
+                <td style='text-align:left;padding-left:50px'>描述</td>
+            </tr>
+            <!-- {foreach from=$payment item=list} -->
+            <tr>
+                <td align="left"><input type="radio" name="payment_id" value="{$list.pay_id}" {if $list.pay_code eq 'alipay_bank'}id="alipay_bank_input"{/if}/>
+                                        {$list.pay_name}</td>
+                <td align="left">{$list.pay_desc}</td>
+                <!--{if $list.pay_code eq 'alipay_bank'}-->
+            <tr><td colspan="2" style="background-color:#fff">
+                    <style type="text/css">
+                        .payment_subbox {
+                            display: none;
+                        }
+                        .payment_subbox ul {
+                            margin: 10px;
+                        }
+                        .payment_subbox ul li {
+                            list-style: none;
+                            float: left;
+                            margin: 10px 15px 0 0;
+                            padding: 0 10px;
+                            width: 180px;
+                            height: 40px;
+                            line-height: 40px;
+                            border: 1px solid #ddd;
+                        }
+                        .payment_subbox ul li input{
+                            margin-right:8px;
+                            cursor:pointer;	
+                        }
+                    </style>
+                    <div class="payment_subbox"  style="display:block">
+                        <script>
+                            function payment_alipay_bank() {
+                                document.getElementById('alipay_bank_input').checked = true;
+                            }
+                            function clear_radio_alipay_bank() {
+                                var x = document.getElementsByName("com_bank");
+                                for (var i = 0; i < x.length; i++) {
+                                    if (x[i].checked == true) {
+                                        x[i].checked = false;
+                                    }
+                                }
+                            }
+                        </script>
+                        <ul>
+                            <li>
+                                <label for="ICBCB2C">
+                                    <input type="radio" onclick="payment_alipay_bank();" name="com_bank" value="ICBCB2C" id="ICBCB2C">
+                                    <img  src="images/alipay_bank_www_ecshop68_com/10.gif" align="absmiddle">
+                                </label>
+                            </li>
+                            <li>
+                                <label for="CMB">
+                                    <input type="radio" onclick="payment_alipay_bank();" name="com_bank" value="CMB" id="CMB">
+                                    <img src="images/alipay_bank_www_ecshop68_com/17.gif" align="absmiddle">
+                                </label>
+                            </li>
+                            <li>
+                                <label for="CCB">
+                                    <input type="radio" onclick="payment_alipay_bank();" name="com_bank" value="CCB" id="CCB">
+                                    <img src="images/alipay_bank_www_ecshop68_com/2.gif" align="absmiddle">
+                                </label>
+                            </li>
+                            <li>
+                                <label for="ABC">
+                                    <input type="radio" onclick="payment_alipay_bank();" name="com_bank" value="ABC" id="ABC">
+                                    <img src="images/alipay_bank_www_ecshop68_com/1.gif" align="absmiddle">
+                                </label>
+                            </li>
+                            <li>
+                                <label for="COMM">
+                                    <input type="radio" onclick="payment_alipay_bank();" name="com_bank" value="COMM" id="COMM">
+                                    <img src="images/alipay_bank_www_ecshop68_com/5.gif" align="absmiddle">
+                                </label>
+                            </li>
+                            <li>
+                                <label for="CMBC">
+                                    <input type="radio" onclick="payment_alipay_bank();" name="com_bank" value="CMBC" id="CMBC">
+                                    <img src="images/alipay_bank_www_ecshop68_com/4.gif" align="absmiddle">
+                                </label>
+                            </li>
+                            <li>
+                                <label for="BOCB2C">
+                                    <input type="radio" onclick="payment_alipay_bank();" name="com_bank" value="BOCB2C" id="BOCB2C">
+                                    <img src="images/alipay_bank_www_ecshop68_com/19.gif" align="absmiddle">
+                                </label>
+                            </li>
+                            <li>
+                                <label for="CITIC">
+                                    <input type="radio" onclick="payment_alipay_bank();" name="com_bank" value="CITIC" id="CITIC">
+                                    <img src="images/alipay_bank_www_ecshop68_com/7.gif" align="absmiddle">
+                                </label>
+                            </li>
+                            <li>
+                                <label for="CEB-DEBIT">
+                                    <input type="radio" onclick="payment_alipay_bank();" name="com_bank" value="CEB-DEBIT" id="CEB-DEBIT">
+                                    <img src="images/alipay_bank_www_ecshop68_com/3.gif" align="absmiddle">
+                                </label>
+                            </li>
+                            <li>
+                                <label for="CIB">
+                                    <input type="radio" onclick="payment_alipay_bank();" name="com_bank" value="CIB" id="CIB">
+                                    <img src="images/alipay_bank_www_ecshop68_com/27.gif" align="absmiddle">
+                                </label>
+                            </li>
+                            <li>
+                                <label for="SDB">
+                                    <input type="radio" onclick="payment_alipay_bank();" name="com_bank" value="SDB" id="SDB">
+                                    <img src="images/alipay_bank_www_ecshop68_com/8.gif" align="absmiddle">
+                                </label>
+                            </li>
+                            <li>
+                                <label for="GDB">
+                                    <input type="radio" onclick="payment_alipay_bank();" name="com_bank" value="GDB" id="GDB">
+                                    <img src="images/alipay_bank_www_ecshop68_com/6.gif" align="absmiddle">
+                                </label>
+                            </li>
+                            <li>
+                                <label for="BJBANK">
+                                    <input type="radio" onclick="payment_alipay_bank();" name="com_bank" value="BJBANK" id="BJBANK">
+                                    <img src="images/alipay_bank_www_ecshop68_com/11.gif" align="absmiddle">
+                                </label>
+                            </li>
+                            <li>
+                                <label for="SPDB">
+                                    <input type="radio" onclick="payment_alipay_bank();" name="com_bank" value="SPDB" id="SPDB">
+                                    <img src="images/alipay_bank_www_ecshop68_com/12.gif" align="absmiddle">
+                                </label>
+                            </li>
+                            <li>
+                                <label for="SHBANK">
+                                    <input type="radio" onclick="payment_alipay_bank();" name="com_bank" value="SHBANK" id="SHBANK">
+                                    <img src="images/alipay_bank_www_ecshop68_com/20.gif" align="absmiddle">
+                                </label>
+                            </li>
+                            <li>
+                                <label for="PSBC-DEBIT">
+                                    <input type="radio" onclick="payment_alipay_bank();" name="com_bank" value="PSBC-DEBIT" id="PSBC-DEBIT">
+                                    <img align="absmiddle" src="images/alipay_bank_www_ecshop68_com/29.gif">
+                                </label>
+                            </li>
+                            <li>
+                                <label for="SPABANK">
+                                    <input type="radio" onclick="payment_alipay_bank();" name="com_bank" value="SPABANK" id="SPABANK">
+                                    <img align="absmiddle" src="images/alipay_bank_www_ecshop68_com/18.gif">
+                                </label>
+                            </li>
+                            <li>
+                                <label for="HZCBB2C">
+                                    <input type="radio" onclick="payment_alipay_bank();" name="com_bank" value="HZCBB2C" id="HZCBB2C">
+                                    <img align="absmiddle" src="images/alipay_bank_www_ecshop68_com/26.gif">
+                                </label>
+                            </li>
+                            <li>
+                                <label for="NBBANK">
+                                    <input type="radio" onclick="payment_alipay_bank();" name="com_bank" value="NBBANK" id="NBBANK">
+                                    <img align="absmiddle" src="images/alipay_bank_www_ecshop68_com/21.gif">
+                                </label>
+                            </li>
+
+                        </ul>
+                    </div>
+            </tr></td>
+            <!--{/if}-->
+            </tr>
+            <!-- {/foreach} -->
+            <tr>
+                <td colspan="3"  align="center"><input type="hidden" name="surplus_type" value="0" />
+                    <input type="hidden" name="rec_id" value="{$order.id}" />
+                    <input type="hidden" name="act" value="act_account" />
+                    <input type="submit" class="main-btn main-btn-large" name="submit" value="提交" />
+                    <input type="reset" class="main-btn main-btn-large" name="reset" value="{$lang.button_reset}" /></td>
+            </tr>
+        </table>
+    </form>
+    <script>
+        function submitSurplus() {
+            var frm = document.forms['formSurplus'];
+            var surplus_type = frm.elements['surplus_type'].value;
+            var surplus_amount = frm.elements['amount'].value;
+            var process_notic = frm.elements['user_note'].value;
+            var payment_id = 0;
+            var msg = '';
+
+            if (surplus_amount.length == 0) {
+                msg += "充值金额不能为空\n";
+            } else {
+                var reg = /^[\.0-9]+/;
+                if (!reg.test(surplus_amount)) {
+                    msg += '充值金额不合法\n';
+                }
+            }
+
+            if (process_notic.length == 0) {
+                msg += "充值描述不能为空\n";
+            }
+
+            if (msg.length > 0) {
+                alert(msg);
+                return false;
+            }
+
+            if (surplus_type == 0) {
+                for (var i = 0; i < frm.elements.length; i++) {
+                    if (frm.elements[i].name == "payment_id" && frm.elements[i].checked) {
+                        payment_id = frm.elements[i].value;
+                        break;
+                    }
+                }
+
+                if (payment_id == 0) {
+                    alert("支付方式不能为空");
+                    return false;
+                }
+            }
+
+            return true;
+        }
+    </script>
+</div>
+{include file="pagefooter.htm"}

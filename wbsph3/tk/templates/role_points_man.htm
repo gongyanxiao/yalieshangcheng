@@ -1,0 +1,84 @@
+<!-- $Id: account_info.htm 14216 2008-03-10 02:27:21Z testyang $ -->
+{include file="pageheader.htm"}
+
+<div class="main-div">
+    <table cellspacing="1" cellpadding="3" width="100%">
+        <tr>
+            <td class="label">累计消费金额:</td>
+            <td>{$userinfo.consum_money}&nbsp;&nbsp;<a href="role_points_man.php?act=account_log_list&type=consum_money">[点击查看累计消费金额详情]</a></td>
+        </tr>
+        <tr>
+            <td class="label">累计赠送积分:</td>
+            <td>{$userinfo.give_points}&nbsp;&nbsp;<a href="role_points_man.php?act=account_log_list&type=give_points">[点击查看累计赠送积分详情]</a></td>
+        </tr>
+        <tr>
+            <td class="label">累计分红权:</td>
+            <td>{$userinfo.history_zsq}&nbsp;&nbsp;<a href="role_points_man.php?act=account_log_list&type=history_zsq">[点击查看累计分红权详情]</a></td>
+        </tr>
+
+        <tr>
+            <td class="label">当前分红权:</td>
+            <td>{$userinfo.zsq}&nbsp;&nbsp;<a href="role_points_man.php?act=account_log_list&type=zsq">[点击查看当前分红权详情]</a></td>
+        </tr>
+        <tr>
+            <td class="label">分红积分:</td>
+            <td>{$userinfo.pay_points}&nbsp;&nbsp;<a href="role_points_man.php?act=account_log_list&type=pay_points">[点击查看分红积分详情]</a></td>
+        </tr>
+        <tr>
+            <td class="label">养老积分:</td>
+            <td>
+                {$userinfo.yl_points}&nbsp;&nbsp;<a href="role_points_man.php?act=account_log_list&type=yl_points">[点击查看养老积分详情]</a>
+            </td>
+        </tr>
+        <tr>
+            <td class="label">充值积分:</td>
+            <td>
+                {$userinfo.cz_points}&nbsp;&nbsp;<a href="role_points_man.php?act=account_log_list&type=user_money">[点击查看充值积分详情]</a>&nbsp;&nbsp;<a href="role_recharge.php?act=recharge">[点击充值]</a>&nbsp;&nbsp;<a href="role_recharge.php?act=recharge_list">[点击查看充值记录]</a>
+            </td>
+        </tr>
+        {if $smarty.session.member_role gt 2}
+        <tr>
+            <td class="label">货款积分:</td>
+            <td>
+                {$userinfo.hk_points}&nbsp;&nbsp;<a href="role_points_man.php?act=account_log_list&type=hk_points">[点击查看货款积分详情]</a>
+            </td>
+        </tr>
+        <tr>
+            <td class="label">冻结货款积分:</td>
+            <td>
+                {$userinfo.frozen_hk_points}&nbsp;&nbsp;<a href="role_points_man.php?act=account_log_list&type=frozen_hk_points">[点击查看冻结货款积分详情]</a>
+            </td>
+        </tr>
+        {/if}
+        <tr>
+            <td class="label">奖励基数:</td>
+            <td>
+                {$userinfo.jljs_points}&nbsp;&nbsp;<a href="role_points_man.php?act=account_log_list&type=jljs_points">[点击查看奖励基数详情]</a>
+            </td>
+        </tr>
+        {if $smarty.session.member_role lt 3}
+        <tr>
+            <td class="label">基数奖励:</td>
+            <td>
+                {$userinfo.gz_points}&nbsp;&nbsp;<a href="role_points_man.php?act=account_log_list&type=gz_points">[点击查看基数奖励详情]</a><a href="role_points_gz_ex.php?act=list">[点击提现]</a>
+            </td>
+        </tr>
+        {/if}
+        {if $smarty.session.member_role eq 4}
+        <tr>
+            <td class="label">推荐会员:</td>
+            <td>
+                {$realValidUserCount}&nbsp;&nbsp;<a href="role_account_list.php?act=list">[点击查看推荐会员:详情]</a>
+            </td>
+        </tr>
+        {/if}
+        <tr>
+            <td class="label">分享奖励积分:</td>
+            <td>
+                {$userinfo.fxjl_points}&nbsp;&nbsp;<a href="role_points_man.php?act=account_log_list&type=fxjl_points">[点击查看:详情]</a>
+            </td>
+        </tr>
+        
+    </table>
+</div>
+{include file="pagefooter.htm"}

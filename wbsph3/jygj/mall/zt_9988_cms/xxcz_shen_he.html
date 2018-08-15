@@ -1,0 +1,96 @@
+ <?php
+include "../myphplib/db.php";
+include "config/check.php";
+date_default_timezone_set("Asia/Shanghai");
+$id=$_REQUEST['id'];//线下充值的id
+ 
+$sql="select id,date_format(FROM_UNIXTIME(tjrq),'%Y-%m-%d %H:%i') as tjrq ,czyhkh,  skyhkh,czje,history_fhq, fhq,sh_state,step,xfjf,gwjf   from zt_xxcz  where id=".$id  ;
+$result=mysql_query($sql);
+$bean=mysql_fetch_assoc($result);
+
+//查询出此银行卡上次的充值日期, 好判断本次有没有充值
+$sql="SELECT max(czrq) as czrq FROM `zt_xxcz` WHERE  czyhkh = ".$bean['czyhkh'];
+$result=mysql_query($sql);
+$czrq=mysql_fetch_assoc($result);
+
+ ?>
+<!DOCTYPE html>
+<html>
+<head lang="en">
+<meta charset="UTF-8">
+<title><?=_TITLE_?></title>
+<meta name="keyword" content=" " />
+<meta name="description" content="" />
+<link href="/Public/ico.ico" type="image/x-icon" rel="shortcut icon" />
+<link rel="stylesheet" type="text/css" href="/jygj/Public/home/css/page.css">
+<link rel="stylesheet" type="text/css" href="/jygj/Public/home/css/index.css" />
+<script type="text/javascript" src="/jygj/Public/home/js/jquery-1.7.2.js"></script>
+<script type="text/javascript" src="/Public/js/jquery.flexslider-min.js"></script>
+<style type="text/css">
+tr{
+ height:30px;
+}
+</style>
+</head>
+
+
+<body >
+	<div class="warp">
+		<!------最顶部开始------>
+		<!------logo结束------>
+		<script>
+			function   shenhe(type){
+				var czrq = $("#czrq").val();
+				if(type==1 && czrq==''){
+					alert("必须填写客户本次的真实充值时间, 方便下次充值时对照时间");
+					return ;
+				}
+				
+				var url="xxcz_shen_he.php?id=<?php echo $id;?>&type="+type+"&czrq="+czrq;
+				window.location.href= url;
+				 
+			}
+		</script>
+	 
+		
+
+ 
+				<div class=" ">
+
+					<div class="warp_f"  >
+						<form >
+							<table border="1" cellspacing="0" cellpadding="0" 
+								class="warp_f_th">
+								<tr >
+								<td>&nbsp;</td>
+									<td align="center">充值金额:<?php echo $bean['czje'];?>元</td>
+								</tr>
+								<tr>
+									<td>&nbsp;</td><td align="center">银行卡号:<?php  echo  $bean['czyhkh'];?></td>
+								</tr>
+								<tr>
+									<td>&nbsp;</td><td align="center">选择收款账号:<?php  echo  $bean['skyhkh'];?></td>
+									 
+								</tr>
+								 <tr>
+								<td>&nbsp;</td>	<td align="center">此银行卡上次充值时间:<?php  echo  $czrq['czrq'];?></td>
+								</tr>
+								<tr>
+									<td>&nbsp;</td><td align="center">本次充值时间:<input type="text" name="czrq" id="czrq"></td>
+								</tr>
+								<tr><td>&nbsp;</td>
+								    <td align="center"><button type="button" style="width:150px" onclick="shenhe(1)">审核通过</button>
+								      <button type="button" style="width:150px" onclick="shenhe(2)">审核不通过</button>
+								    
+								    </td>
+									 
+								</tr>
+							</table>
+						</form>
+					</div>
+
+				</div>
+	 
+	</div>
+</body>
+</html>

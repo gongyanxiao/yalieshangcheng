@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		     <meta charset="UTF-8"/>
+			 <meta name="viewport" content="width=device-width">
+				<title>{$page_title}</title>
+				<meta name="Keywords" content="{$keywords}" />
+				<meta name="Description" content="{$description}" />
+				<meta name="viewport"
+					content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+				<link rel="stylesheet" type="text/css"
+					href="themesmobile/default/css/public.css?v={$smarty.now}" />
+				<link rel="stylesheet" type="text/css"
+					href="themesmobile/default/css/index.css?v={$smarty.now}" />
+				<script type="text/javascript"
+					src="themesmobile/default/js/jquery.js"></script>
+				<script type="text/javascript"
+					src="themesmobile/default/js/TouchSlide.1.1.js"></script>
+				<script type="text/javascript"
+					src="themesmobile/default/js/jquery.more.js"></script>
+				<script type="text/javascript"
+					src="themesmobile/default/js/jquery.cookie.js"></script>
+				<script type="text/javascript"
+					src="themesmobile/default/js/mobile.js"></script>
+				<link rel="stylesheet" href="themesmobile/default/css/my.css"></link>
+	</head>
+<body>
+<div class="header"><!-- #BeginLibraryItem "/library/page_header.lbi" --> <!-- #EndLibraryItem --></div>
+<div class="container">
+    <div class="my-balance">
+        <div class="balance">
+            <p>账户余额（元）</p>
+            <h1>{$user.user_money}</h1>
+        </div>
+    </div>
+    <div class="my-purse">
+       <!--  <a href="">
+        <dl class="clearfix">
+            <dt><i class="recharge"></i></dt>
+            <dd><h1>充值</h1></dd>
+        </dl>
+        </a> -->
+        <a href="xb_partner.php?act=to_ti_xian">
+        <dl class="clearfix">
+            <dt><i class="withdraw"></i></dt>
+            <dd><h1>提现</h1></dd>
+        </dl>
+        </a>
+        
+         <a href="xb_partner.php?act=ti_xian_list">
+	        <dl class="clearfix">
+	            <dt><i class="withdraw"></i></dt>
+	            <dd><h1>提现记录</h1></dd>
+	        </dl>
+         </a>
+        
+    </div>
+</div>
+<div style="position: fixed;bottom: 0" class="footer">
+<!-- #BeginLibraryItem "/library/footer_nav.lbi" --> <!-- #EndLibraryItem --> 
+</div>
+</body>
+</html>

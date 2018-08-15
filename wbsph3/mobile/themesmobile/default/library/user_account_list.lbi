@@ -1,0 +1,73 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!---------账户明细----------->
+<!--{if $action eq "account_raply" || $action eq "account_log" || $action eq "account_deposit" || $action eq "account_detail"} -->
+<script type="text/javascript">
+	{foreach from=$lang.account_js item=item key=key}
+		var {$key} = "{$item}";
+	{/foreach}
+</script>
+<!-- {/if}--> 
+
+<div class="user_login_title"><h2>
+{if $account_type eq 'pay_points'}
+<em>分红积分：</em><span>{$userInfo.integral}</span>
+{elseif $account_type eq 'consum_money'}
+<em>累计消费：</em><span>{$userInfo.consum_money_value}</span>
+{elseif $account_type eq 'give_points'}
+<em>累计赠送积分：</em><span>{$userInfo.give_points}积分</span>
+{elseif $account_type eq 'tx_points'}
+<em>累计提现积分：</em><span>{$userInfo.tx_points}积分</span>
+{elseif $account_type eq 'history_zsq'}
+<em>累计分红权：</em><span>{$userInfo.history_zsq}</span>
+{elseif $account_type eq 'sg_history_zsq'}
+<em>累计收益分红权：</em><span>{$userInfo.sg_history_zsq}</span>
+{elseif $account_type eq 'zsq'}
+<em>当前分红权：</em><span>{$userInfo.zsq}</span>
+{elseif $account_type eq 'frozen_points'}
+<em>冻结积分：</em><span>{$userInfo.frozen_points_formatted}</span>
+{elseif $account_type eq 'jljs_points'}
+<em>奖励基数：</em><span>{$userInfo.jljs_points}积分</span>
+{elseif $account_type eq 'yl_points'}
+<em>养老积分：</em><span>{$userInfo.yl_points}积分</span>
+{elseif $account_type eq 'hk_points'}
+<em>货款积分：</em><span>{$userInfo.hk_points}积分</span>
+{elseif $account_type eq 'gou_wu_quan'}
+<em>购物券：</em><span>{$userInfo.gou_wu_quan}</span>
+{elseif $account_type eq 'fxjl_points'}
+<em>分享奖励积分：</em><span>{$userInfo.fxjl_points}</span>
+{elseif $account_type eq 'hk_xf_points'}
+<em>扫码货款积分：</em><span>{$userInfo.hk_xf_points}</span>
+{else}
+<em>充值积分：</em><span>{$userInfo.surplus}积分</span>
+{/if}
+</h2></div>
+ <div id="J_ItemList" class="Fund">
+      <ul class="product single_item info">
+      </ul>
+      <a href="javascript:;" class="get_more"> </a> 
+      </div>
+<script type="text/javascript" src="themesmobile/default/js/jquery.js"></script>
+{insert_scripts files='jquery.json.js,transport.js'}
+<script type="text/javascript" src="themesmobile/default/js/touchslider.dev.js"></script>
+<script type="text/javascript" src="themesmobile/default/js/jquery.more.js"></script>
+<script type="text/javascript">
+var url = 'user.php?act=ajax_account_detail&account_type={$account_type}';
+$(function(){
+	$('#J_ItemList').more({'address': url});
+});
+</script>
+<!---返回顶部-->
+<script>
+function goTop(){
+	$('html,body').animate({'scrollTop':0},600);
+}
+</script>
+<a href="javascript:goTop();" class="gotop"><img src="themesmobile/default/images/topup.png"></a> 
+<script type="text/javascript">
+{foreach from=$lang.account_js item=item key=key}
+var {$key} = "{$item}";
+{/foreach}
+</script>
+
+
+

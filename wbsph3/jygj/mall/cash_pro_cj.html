@@ -1,0 +1,390 @@
+<?
+include("config.php");
+    include_once "config/check.php";
+    
+session_start(); 
+$_SESSION['uniqid'] = md5(uniqid('jygj',true));
+?>
+<!DOCTYPE html>
+<html>
+<head lang="en">
+<meta charset="UTF-8">
+<title><?=_TITLE_?></title>
+<meta name="keyword" content="<?=_KEYWORD_?>" />
+<meta name="description" content="<?=_DESCRIPTION_?>" />
+
+
+<link href="/Public/ico.ico" type="image/x-icon" rel="shortcut icon" />
+<link rel="stylesheet" type="text/css" href="/jygj/Public/home/css/index.css" />
+<script type="text/javascript" src="/jygj/Public/home/js/jquery-1.7.2.js"></script>
+<link rel="stylesheet" type="text/css" href="/jygj/Public/home/css/page.css">
+<script type="text/javascript"
+	src="/jygj/Public/home/js/jquery.validate.min.js"></script>
+<link rel="stylesheet" type="text/css" href="/jygj/Public/home/css/page.css">
+<script type="text/javascript" src="js/jquery.min.js"></script>
+
+<script type="text/javascript">
+	//提交到后台查询
+	function tj() {
+		var money = document.myform.money.value;
+  		var yzm = "";// document.myform.yzm.value;
+		var session = document.myform.session.value;
+		var dataString = 'money=' + money + '&yzm=' + yzm + '&session='
+				+ session;
+		$.ajax({
+			type : "POST",
+			url : "member/cash_pro_cj.php",
+			data : dataString,
+			cache : false,
+			success : function(html) {
+				$("#jygj").html(html);
+				refresh();
+			}
+		});
+	}
+
+	var InterValObj;
+	var count = 60; //间隔函数，1秒执行
+	var curCount;//当前剩余秒数	
+	function duanxin() {
+		curCount = count;
+		//设置button效果，开始计时
+		$("#hqyzm").attr("disabled", "true");
+		$("#hqyzm").val(curCount + "重发验证码");
+		InterValObj = window.setInterval(SetRemainTime, 1000); //启动计时器，1秒执行一次
+		var yzm = document.myform.yzm.value;
+		var money = document.myform.money.value;
+		var dataString = 'money=' + money + '&yzm=' + yzm;
+		$.ajax({
+			type : "POST",
+			url : "member/f_txyzm_send.html",
+			data : dataString,
+			cache : false,
+			success : function(html) {
+				$("#jygj").html(html);
+			}
+		});
+
+	}
+	function SetRemainTime() {
+		if (curCount == 0) {
+			window.clearInterval(InterValObj);//停止计时器
+			$("#hqyzm").removeAttr("disabled");//启用按钮
+			$("#hqyzm").val("重新发送");
+		} else {
+			curCount--;
+			$("#hqyzm").val(curCount + "重发验证码");
+		}
+	}
+</script>
+</head>
+<body >
+	<div id="jygj"></div>
+	<div class="warp">
+		<!------最顶部开始------>
+		<?
+        include("sheader1.html");
+		?>
+		<!------logo结束------>
+		<script>
+			$(function() {
+				$(".open_xl").click(function() {
+					$(".xiala").show();
+				})
+				$(".xiala a").click(function() {
+					var xq = $(this).html();
+					$(".open_xl a").html(xq);
+					$(this).parent().hide();
+				})
+			})
+		</script>
+
+		<!------导航开始------>
+		<!------导航结束------>
+		<!------导航结束------>
+
+		<?php
+	 include_once "config/check.php";
+      include_once "myphplib/db.php";
+//判断会员类型
+$user=$_COOKIE['ECS']['username'];
+$sql="select lx,jf from xbmall_users where user_name='$user'";
+$sf1=getRow($sql);
+$lx=$sf1["lx"];
+if($lx=="1"){
+echo '<script>location.href="member_login.html";</script>';
+}
+//读取积分
+$jf=$sf1["jf"];
+?>
+
+
+		<!----内容开始---->
+		<div class="warp_moer">
+
+			<div class="warp_h">
+			
+			  <div class="warp_h_left">
+					<?
+    include_once "left_p_menu.html";
+    ?>
+
+					<a href="" class="warp_h_left_gg"><img
+						src="/jygj/Public/home/img/im113.jpg" width="170" height="207"></a>
+
+				</div>
+				
+				<!----right内容开始---->
+				<div class="warp_h_right">
+
+					<div class="warp_f">
+
+						<div class="warp_f_div">
+							<b>我要提现</b>
+						</div>
+
+						<div class="warp_moer">
+							<div class="warp_h">
+								<!----right内容开始---->
+								<div class="warp_h_right" style="width: 769px; float: left;">
+									<div class="warp_f">
+										<div class="warp_f_div"></div>
+										<div class="tx_p">
+											<span>银行提现说明：</span> <span>1.每笔金额不小于500,并且是100的倍数.</span>  
+											<span>2.每天都可提现（周末、法定节假日除外，到账时间T+3）</span>
+										</div>
+										<table class="tx_o">
+											<tr>
+												<td width="80"><span>可提现：</span></td>
+												<td width="387"><b id="yue"> <?php
+							 
+ 
+$sql1="select  xxtzztxjf, tui_jian_shou_yi from xbmall_users where user_name='$user' order by id desc";
+$ss= getRow($sql1);
+$tiXianZongE = $ss['xxtzztxjf']+$ss['tui_jian_shou_yi'];
+
+if($tiXianZongE>=100){
+   echo floor($tiXianZongE/100)*100?floor($tiXianZongE/100)*100:0;
+  }else{
+	  echo '0';
+  } ?> 元 &nbsp;&nbsp;
+ 	</b> </td>
+											</tr>
+											<form method="post" id="myform" name="myform"
+												enctype='multipart/form-data'>
+												<input type="hidden" name="session"
+													value="<?=$_SESSION['uniqid'];?>">
+												<tr>
+													<td><span>提现金额：</span></td>
+													<td><input type="text" class="tx_o_ex" id="money"
+														name="money"></td>
+												</tr>
+<!-- 											 	<tr> -->
+<!-- 													<td><span>验证码：</span></td> -->
+<!-- 													<td><input name="yzm" type="text" class="tx_o_ex" -->
+<!-- 														id="verify" style="width: 60px; height: 27px;"> <input -->
+<!-- 														name="button" type="button" class="tx_o_ex" id="hqyzm" -->
+<!-- 														style="width: 92px; height: 30px; padding: 0" -->
+<!-- 														onclick="duanxin();" value="获取验证码"></td> -->
+<!-- 												</tr>  -->
+												<tr>
+													<td colspan="2"><input name="button" type="button"
+														class="tx_o_ton" onClick="tj();" value="确认提交"></td>
+												</tr>
+											</form>
+										</table>
+									</div>
+								</div>
+								<!----right内容结束---->
+								<!----left内容开始---->
+								<!----left内容结束---->
+							</div>
+						</div>
+						<ul class="yyw_xq_u">
+						</ul>
+						<div class="warp_f_mp">
+							<!----下一页开始---->
+							<div class="scott"></div>
+							<!----下一页结束---->
+							<!--<div class="warp_f_mp_div">
+                            <label style="padding-left: 5px">
+                                <input type="checkbox" name="btn1"  id="btn1" value="全选" onClick="checkalltrue()">
+                                <span>全选</span>
+                            </label>
+                            <a href="#">删除</a>
+                        </div>-->
+
+						</div>
+						
+
+					</div>
+				</div>
+				<!----right内容结束---->
+			 
+			</div>
+
+		</div>
+		<!----内容结束---->
+		<input type="hidden" id="orderid" />
+		<!------底部开始------>
+
+		<?include("sfooter.html");?>
+
+		<div class="warp_e_db"></div>
+
+
+
+		<script type="text/javascript">
+			$(function() {
+				var $qqServer = $('.qqserver');
+				var $qqserverFold = $('.qqserver_fold');
+				var $qqserverUnfold = $('.qqserver_arrow');
+				$qqserverFold.click(function() {
+					$qqserverFold.hide();
+					$qqServer.addClass('unfold');
+				});
+				$qqserverUnfold.click(function() {
+					$qqServer.removeClass('unfold');
+					$qqserverFold.show();
+				});
+				//窗体宽度小鱼1024像素时不显示客服QQ
+				function resizeQQserver() {
+					$qqServer[document.documentElement.clientWidth < 1024 ? 'hide'
+							: 'show']();
+				}
+				$(window).bind("load resize", function() {
+					resizeQQserver();
+				});
+			});
+		</script>
+		<div class="qqserver">
+
+			<div class="qqserver_fold">
+				<div></div>
+			</div>
+
+			<div class="qqserver-body" style="display: block;">
+				<div class="qqserver-header">
+					<div></div>
+					<span class="qqserver_arrow"></span>
+				</div>
+
+			</div>
+
+		</div>
+		<!------底部结束------>
+ 
+		<script>
+			 
+			$(function() {
+
+				$(".zfs_o").click(function() {
+					$(".zfs_p").hide();
+				})
+			});
+		</script>
+	</div>
+	<style>
+.zfs_i_ul_div input {
+	display: none
+}
+
+.zfs_i_ul_div label {
+	display: block;
+	overflow: hidden;
+	height: 75px
+}
+</style>
+	<div class="zfs_p">
+		<div class="zfs_p_mor">
+			<div class="zfs_o">
+				<a href="#"></a>
+			</div>
+		</div>
+	</div>
+	<!----------------------------点击变色开始-------------------------->
+	<script>
+		$(function() {
+			var cotrs = $(".zfs_i_ul li");
+			cotrs.click(function() {
+				$(this).addClass("thisclass").siblings().removeClass(
+						"thisclass");
+
+			});
+		});
+		
+		function del_order(id) {
+			var con = confirm('确定删除所选商品吗？')
+			if (con) {
+
+				id = id;
+				$.ajax({
+					//提交数据的类型 POST GET
+					type : "POST",
+					//提交的网址
+					url : "/member/del_order.html",
+					//提交的数据
+					data : {
+						id : id
+					},
+					//返回数据的格式
+					datatype : "json",//"xml", "html", "script", "json", "jsonp", "text".
+					//成功返回之后调用的函数 	
+					success : function(data) {
+						if (data == 1) {
+							alert('删除成功');
+							window.location.reload()
+						} else if (data == 2) {
+
+							alert('删除失败');
+
+						}
+
+					},
+					//调用出错执行的函数
+					error : function() {
+						//请求出错处理
+					}
+				});
+			}
+		}
+
+		function qian(id) {
+			var con = confirm('确定签收吗？')
+			if (con) {
+
+				id = id;
+				$.ajax({
+					//提交数据的类型 POST GET
+					type : "POST",
+					//提交的网址
+					url : "/member/qian_order.html",
+					//提交的数据
+					data : {
+						id : id
+					},
+					//返回数据的格式
+					datatype : "json",//"xml", "html", "script", "json", "jsonp", "text".
+					//成功返回之后调用的函数 	
+					success : function(data) {
+						if (data == 1) {
+							alert('感谢您选择聚升');
+							window.location.reload()
+						} else if (data == 2) {
+
+							alert('签收失败');
+
+						}
+
+					},
+					//调用出错执行的函数
+					error : function() {
+						//请求出错处理
+					}
+				});
+			}
+		}
+	</script>
+
+</body>
+</html>

@@ -1,0 +1,170 @@
+<!-- $Id: start.htm 17216 2011-01-19 06:03:12Z liubo $ -->
+{include file="pageheader_bd.htm"}
+<!-- directory install start -->
+
+<script type="Text/Javascript" language="JavaScript">
+<!--
+  //Ajax.call('cloud.php?is_ajax=1&act=cloud_remind','', cloud_api, 'GET', 'JSON');
+    function cloud_api(result)
+    {
+      //alert(result.content);
+      if(result.content=='0')
+      {
+        document.getElementById("cloud_list").style.display ='none';
+      }
+      else
+       {
+         document.getElementById("cloud_list").innerHTML =result.content;
+      }
+    } 
+   function cloud_close(id)
+    {
+      //Ajax.call('cloud.php?is_ajax=1&act=close_remind&remind_id='+id,'', cloud_api, 'GET', 'JSON');
+    }
+  //-->
+ </script> 
+<ul id="lilist" style="padding:0; margin: 0; list-style-type:none; color: #CC0000;">
+  {foreach from=$warning_arr item=warning}
+  <li class="Start315">{$warning}</li>
+  {/foreach}
+</ul>
+
+<!-- directory install end -->
+<!-- start personal message -->
+{if $admin_msg}
+<div class="list-div" style="border: 1px solid #CC0000">
+  <table cellspacing='1' cellpadding='3'>
+    <tr>
+      <th>{$lang.pm_title}</th>
+      <th>{$lang.pm_username}</th>
+      <th>{$lang.pm_time}</th>
+    </tr>
+    {foreach from=$admin_msg item=msg}
+      <tr align="center">
+        <td align="left"><a href="message.php?act=view&id={$msg.message_id}">{$msg.title|truncate:60:"..."}</a></td>
+        <td>{$msg.user_name}</td>
+        <td>{$msg.send_date}</td>
+      </tr>
+    {/foreach}
+  </table>
+  </div>
+<br />
+{/if}
+<!-- end personal message -->
+
+
+
+<!-- start order statistics -->
+<div class="list-div">
+<table cellspacing='1' cellpadding='3'>
+  <tr>
+    <th class="group-title">系统公告：{ $tk_user_info.member_role}</th>
+  </tr>
+  <tr>
+    <td width="100%" style="padding:20px">{if $user_role==7}<h1><font color="red">会员身份审核中,审核通过后开通产品权限</font></h1>{/if}</td>    
+  </tr>
+</table>
+</div>
+<!-- end order statistics -->
+
+ 
+<br />
+
+
+{if $user_role==6}
+<div class="list-div"   >
+	<div class="console-detaile">
+	
+	  <div class="item goods-item">
+            <div class="item-hd"><span class="bg2">用户信息</span></div>
+            <div class="item-bd item-bd2">
+                <ul class="clearfix">
+                    <li>
+                        <strong><a href="goods.php?act=list&supplier_status=1">资金余额</a></strong><span>{$tk_user_info.total_money}元</span>
+                    </li>                   
+                    <li >
+                        <strong><a href="goods.php?act=list&supplier_status=-1">消费总额</a></strong><span>{$tk_user_info.xiao_fei_zong_e} 元</span>
+                    </li>
+                    <li>
+                        <strong><a href="goods.php?act=list&stock_warning=1">收益总额</a></strong><span>{$tk_user_info.total_shou_yi} 元</span>
+                    </li>
+                    <li >
+                        <strong><a href="goods.php?act=list&amp;intro_type=is_new">推荐人数</a></strong><span>{$tk_user_info.tui_jian_num} 人</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        
+        
+        <div class="item shop-item">
+            <div class="item-hd"><span class="bg1">商贸产品<em> </em></span></div>
+            <div class="item-bd item-bd1">
+                <ul class="clearfix">
+                    <li>
+                        <strong><a href="goods.php?act=list&supplier_status=0">购买产品套数</a></strong>
+                        <span>{$tk_user_info.product_quantity} 套</span>
+                    </li>
+                    <li>
+                        <strong><a href="goods.php?act=list&supplier_status=0">剩余产品套数</a></strong>
+                        <span>{$tk_user_info.product_left} 套</span>
+                    </li>
+                     <li  >
+                        <strong><a href="supplier_rebate.php?act=list&is_pay_ok=0 ">一级分销套数</a></strong>
+                        <span>{$tk_user_info.product_xiao_shou_num1}  套</span>
+                    </li>
+                     <li >
+                        <strong><a href="supplier_rebate.php?act=list&is_pay_ok=0 ">一级分销收益额</a></strong>
+                        <span>{$tk_user_info.product_shou_yi1} 元</span>
+                    </li>
+                    <li >
+                        <strong><a href="supplier_rebate.php?act=list&is_pay_ok=0 ">二级分销套数</a></strong>
+                        <span>{$tk_user_info.product_xiao_shou_num2} 套</span>
+                    </li>
+                    <li >
+                        <strong><a href="supplier_rebate.php?act=list&is_pay_ok=0 ">二级分销收益额</a></strong>
+                        <span>{$tk_user_info.product_shou_yi2} 元</span>
+                    </li>
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <div class="item goods-item">
+            <div class="item-hd"><span class="bg2">理财产品</span></div>
+            <div class="item-bd item-bd2">
+                <ul class="clearfix">
+                    <li>
+                        <strong><a href="goods.php?act=list&supplier_status=1">购买个数</a></strong><span>{$tk_user_info.li_cai_num}元</span>
+                    </li>                   
+                    <li >
+                        <strong><a href="goods.php?act=list&supplier_status=-1">已提现个数</a></strong><span>{$tk_user_info.li_cai_ti_xian_num} 元</span>
+                    </li>
+                    <li>
+                        <strong><a href="goods.php?act=list&stock_warning=1">购买总额</a></strong><span>{$tk_user_info.li_cai_zong_e} 元</span>
+                    </li>
+                    <li >
+                        <strong><a href="goods.php?act=list&amp;intro_type=is_new">预计收益总额</a></strong><span>{$tk_user_info.li_cai_ti_xian_shou_yi_e} 元</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+         
+    </div>
+</div>
+{/if}
+<div style="height:0px;line-height:0px;clear:both"></div>
+ 
+ 
+<script src='js/echarts-all.js'></script>
+<script>
+    var order_chart = echarts.init(document.getElementById('order_chart_div'));
+    order_chart.setOption({$orders_option});
+    var sales_chart = echarts.init(document.getElementById('sales_chart_div'));
+    sales_chart.setOption({$sales_option});
+</script>
+<!-- end 升级 -->
+{literal}
+{insert_scripts files="../js/utils.js"}
+
+{/literal}
+{include file="pagefooter.htm"}

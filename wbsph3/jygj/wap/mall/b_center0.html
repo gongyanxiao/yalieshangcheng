@@ -1,0 +1,157 @@
+﻿
+<?
+include "pay/wx/query.php";
+include("config.php");
+$link = mysqli_connect($db_host,$db_user,$db_pwd,$db_database) or die('Unale to link');
+$link->set_charset('utf8');
+if(empty($_COOKIE['ECS']['username'])){
+header("Location:/wap/mall/login.html"); 
+    exit();
+}
+$query1=$link->query("select * from xbmall_users where user_name='".$_COOKIE['ECS']['username']."'"); 
+$r1=$query1->fetch_array(); 
+if($r1['lx']==0) {
+    header("Location:/wap/mall/center.html");
+    exit();
+}
+$query2=$link->query("select * from zt_shopinfo where userid=".$r1['id']); 
+$r2=$query2->fetch_array(); 
+$x=$query2->num_rows;
+$yx='';
+if($x==0) {
+$yx="";
+} else {
+$yx=stripslashes($r2['yx']);
+}
+
+?>
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<meta content="no-cache,must-revalidate" http-equiv="Cache-Control">
+<meta content="no-cache" http-equiv="pragma">
+<meta content="0" http-equiv="expires">
+<meta content="telephone=no, address=no" name="format-detection">
+<meta name="apple-mobile-web-app-capable" content="yes"> 
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta http-equiv="pragma" content="no-cache">
+<meta http-equiv="cache-control" content="no-cache">
+<meta http-equiv="expires" content="0">   
+    <title><?=_TITLE_?></title>
+    <meta name="keyword" content="<?=_KEYWORD_?>"/>
+    <meta name="description" content="<?=_DESCRIPTION_?>"/>
+    <link href="/Public/ico.ico" type="image/x-icon" rel="shortcut icon" /> 
+	<link rel="stylesheet" type="text/css" href="/jygj/Public/wap/css/index.css">
+	 <script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript">
+<!--
+var curr = new Date();
+			var m = curr.getMonth() + 1;
+			if (m < 10) {m = '0' + m;}
+			var d = curr.getDate();
+			if (d < 10) {d = '0' + d;}
+			var h = curr.getHours();
+			if (h < 10) {h = '0' + h;}
+			var mi = curr.getMinutes();
+			if (mi < 10) {mi = '0' + mi;}
+			var s = curr.getSeconds();
+			if (s < 10) {s = '0' + s;}		
+var strDatetime = '' + curr.getFullYear() + m + d + h + mi + s;		
+var dataString='sj='+strDatetime;
+ $.ajax({  
+type: "POST",  
+url: "member/order_pro.html",  
+data:dataString,  
+cache:false,  
+success:function(html){ 
+$("#jygj").html(html);
+}  
+ }); 
+
+
+
+//-->
+</script>
+<script type="text/javascript">
+    function isWeiXin(){
+        var ua = window.navigator.userAgent.toLowerCase();
+        if(ua.match(/MicroMessenger/i) == 'micromessenger'){
+            window.location.href="https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx24f4bca011ce867e&redirect_uri=http://www.jsguoji.cn/wpay/login.php&response_type=code&scope=snsapi_userinfo&state=1#wechat_redirect ";
+        }else{
+            window.location.href="/wap/mall/b_recharge.html";
+        }
+    }
+
+</script>
+</head>
+<body style="background: #F6F6F6">
+<div id="jygj"></div>
+<div class="warp">
+    <div class="warp_l">
+        <div class="warp_l_div">
+		<img src="<?=empty($r2['tx'])?'/images/logoa.png':'/mall/'.$r2['tx']?>">
+                
+        </div>
+        <span class="warp_l_sp">
+            <b><?=$r1['xm']?></b>
+            <span><?=substr($r1['lxdh'],0,3).'****'.substr($r1['lxdh'],-4)?></span>
+            <span><?=$yx==''?'':'优先联系人：'.$yx?></span>
+
+        </span>
+    </div>
+
+    <ul class="warp_l_um">
+        <li class=" current">
+            <a href="b_xgzl.html">
+                <span style="background: url(/jygj/Public/wap/img/im41.png) no-repeat left center;background-size: 40px 40px">修改资料</span>
+            </a>
+        </li>
+        <li>
+            <a href="b_bank.html">
+                <span style="background: url(/jygj/Public/wap/img/im42.png) no-repeat left center;background-size: 40px 40px">绑定银行卡</span>            </a>        </li>
+    </ul>
+
+    <ul class="warp_l_ul">
+	<li><a href="exit.html?log=1" style="color:#FF0000">退出登录(更换帐号先点击退出)</a></li>
+        <li><a href="b_order_list.html">订单列表</a></li>
+        <li><a href="javascript:;" onClick="isWeiXin();">在线充值</a></li>
+		<li><a href="b_orderadd.html">订单录入</a></li>
+		<li><a href="b_jfzh.html">积分转换</a></li>
+        <li><a href="b_sqtx.html">申请提现</a></li>
+        
+    </ul>
+
+    <ul class="warp_l_ul">
+        <li><a href="b_czjl.html">充值记录</a></li>
+        <li><a href="b_record_x.html">消费记录</a></li>
+        <li><a href="b_jfjl.html">积分记录</a></li>
+        <li><a href="dhjl.html">兑换记录</a></li>
+         <li><a href="shdz.html">收货地址</a></li>
+		<li><a href="b_txjl.html">提现记录</a></li>
+		
+		
+    </ul>
+
+    <div class="ht60"></div>
+
+ <?
+     
+       include_once "config/check.php";
+        include_once "config/zt_config.php";
+        $db = mysql_connect("$db_host","$db_user","$db_pwd");
+mysql_query("set names $coding"); 
+mysql_select_db("$db_database");
+//判断会员类型
+$yh=$_COOKIE['ECS']['username'];
+$q1="select dldq from zt_log  where user='$yh' order by id desc";
+$o=mysql_query($q1);
+$a=mysql_fetch_assoc($o);
+
+
+include("footer.html");?>
+</div>
+</body>
+</html><?$link->close();?>

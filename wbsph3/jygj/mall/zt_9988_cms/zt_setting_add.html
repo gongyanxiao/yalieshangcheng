@@ -1,0 +1,77 @@
+ 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>添加配置</title>
+
+ 
+
+<script type=text/javascript src="../js/jquery.min.js"></script>
+</head>
+
+<?php 
+   include "../myphplib/db.php";
+   $id = $_REQUEST['id'];
+   if(id!=null){
+     $sql="select * from  zt_setting where id={$id}";
+     $bean = mysql_query($sql);
+	 $bean=mysql_fetch_assoc($bean);
+   }
+?>
+<body>
+
+	<div style="z-index: 100:width:60%; height: 22px;">
+
+		<table width="100%" border="0" height="22px;" cellpadding="0"
+			cellspacing="0">
+			<tr>
+				<td width="2%" height="22"><img src="images/position1.jpg"></td>
+				<td width="98%" align="left" background="images/position2.jpg">您当前的位置>>添加编辑配置</td>
+			</tr>
+		</table>
+
+	</div>
+	<div id="ryd"></div>
+
+
+<form  action="zt_setting_add.php">
+	<table width="60%"  align="center"  
+		style="margin-top: 15px;">
+		<tr>
+			<td height="29"  align="center" bgcolor="#FFFFFF"
+				class="bk"><span class="btdx">配置名</span></td>
+			<td  align="left" class="bk"><input type="text"name="name" value="<?php  echo $bean['name']; ?>" ></input></td>
+		</tr>
+		<tr>
+			<td height="29"  align="center" bgcolor="#FFFFFF"
+				class="bk"><span class="btdx">配置值</span></td>
+			<td  align="left" class="bk"><input type="text"name="value" value="<?php  echo $bean['value']; ?>"></input></td>
+		</tr>
+		<tr>
+			<td height="29"  align="center" bgcolor="#FFFFFF"
+				class="bk"><span class="btdx">注释</span></td>
+			<td  align="left" class="bk"><input type="text"name="comment" value="<?php  echo $bean['comment']; ?>"></input></td>
+		</tr>
+		
+		<tr>
+			<td height="29"  align="center" bgcolor="#FFFFFF"
+				class="bk"><span class="btdx">类型</span></td>
+			<td  align="left" class="bk">单值<input type="radio" <?php if($bean==null){ echo "checked='checked'";}elseif($bean['type']==0){ echo "checked='checked'";}?>
+			   name="type" value="0" ></input>
+			组合值<input type="radio"name="type" <?php if($bean!=null && $bean['type']==1){ echo "checked='checked'";} ?> value="1" ></input>
+			</td>
+		</tr>
+		<tr>
+			<td height="29"  align="center" bgcolor="#FFFFFF"
+				class="bk">&nbsp;</td>
+			<td  align="left" class="bk"><input type="submit" ></input></td>
+		</tr>
+ <?php if($bean!=null){ ?>
+ <input type="hidden" name="id" value="<?php echo $bean['id']; ?>"></input>
+ <?php } ?>
+</table>
+</form>
+	 
+</body>
+</html>

@@ -1,0 +1,109 @@
+<!-- $Id: data_list.htm 14888 2008-09-18 03:43:21Z levie $ -->
+
+{if $full_page}
+{include file="pageheader.htm"}
+{insert_scripts files="../js/utils.js,region.js,listtable.js"}
+
+<div class="form-div">
+  <form action="javascript:searchActivity()" name="searchForm">
+    <img src="images/icon_search.gif" width="26" height="22" border="0" alt="SEARCH" />
+     会员名称/手机号 <input type="text" name="keyword" size="30" />
+	{include file="lib_region.htm"}
+    <input type="submit" value="{$lang.button_search}" class="button" />
+  </form>
+</div>
+
+<form method="post" action="{$file_name}" name="listForm" onsubmit="return confirm(batch_drop_confirm);">
+<!-- start data list -->
+<div class="list-div" id="listDiv">
+{/if}
+
+  <table >
+    <tr>
+      <th>
+        <input onclick='listTable.selectAll(this, "checkboxes")' type="checkbox" />
+        <a href="javascript:listTable.sort('id'); ">编号</a> </th>
+          <th> 城市 </th>
+          <th><a href="javascript:listTable.sort('real_name'); ">姓名</a> </th>
+          <th><a href="javascript:listTable.sort('mobile'); ">手机号</a> </th>
+          <th><a href="javascript:listTable.sort('shrq'); ">签到时间</a>  </th>
+          <th><a href="javascript:listTable.sort('dan_shu'); ">单数</a> </th>
+      	  <th><a href="javascript:listTable.sort('shou_yi'); ">收益</a> </th>
+      	
+      <th>{$lang.handler}</th>
+    </tr>
+
+    {foreach from=$data_list item=data}
+    <tr>
+      <td><input value="{$data.id}" name="checkboxes[]" type="checkbox">{$data.id}</td>
+      <td>{$data.tjrq}</td>
+      <td align="center">{$data.province_name}{$data.city_name}</td>
+            
+      <td>{$data.shrq}</td>
+      <td>{$data.real_name}</td>
+      <td align="center">{$data.mobile}</td>
+      <td align="center">{$data.dan_shu}</td>
+      <td align="center"> <a href="/jygj/xb_pz_uploads/{$data.ping_zheng} " target="blank">查看</a></td>
+     
+      <td align="center">{$data.province_name}{$data.city_name}</td>
+      <td align="center">{$data.syxsts}</td>
+      <td align="center">
+         <a href="{$file_name}?act=to_shen_he&id={$data.id}" title="审核">审核</a>
+      </td>
+    </tr>
+    {foreachelse}
+    <tr><td class="no-records" colspan="12">没有记录</td></tr>
+    {/foreach}
+  </table>
+
+  <table cellpadding="4" cellspacing="0">
+    <tr>
+      <td><input type="submit" name="drop" id="btnSubmit" value="{$lang.drop}" class="button" disabled="true" />
+      <input type="hidden" name="act" value="batch" /></td>
+      <td align="right">{include file="page.htm"}</td>
+    </tr>
+  </table>
+
+{if $full_page}
+</div>
+<!-- end data list -->
+</form>
+
+<script type="text/javascript" language="JavaScript">
+<!--
+  listTable.recordCount = {$record_count};
+  listTable.pageCount = {$page_count};
+
+  {foreach from=$filter item=item key=key}
+  listTable.filter.{$key} = '{$item}';
+  {/foreach}
+
+  {literal}
+  onload = function()
+  {
+     document.forms['searchForm'].elements['keyword'].focus();
+  }
+
+  /**
+   * 搜索
+   */
+  function searchActivity()
+  {
+
+    var keyword = Utils.trim(document.forms['searchForm'].elements['keyword'].value);
+    listTable.filter['keyword'] = keyword;
+    listTable.filter['source'] = source;
+    listTable.filter['target'] = target;
+    listTable.filter['province'] = province;
+    listTable.filter['city'] = city;
+    listTable.filter['type'] = type;
+    
+    listTable.filter['page'] = 1;
+    listTable.loadList("data_list");
+  }
+  {/literal}
+//-->
+</script>
+
+{include file="pagefooter.htm"}
+{/if}

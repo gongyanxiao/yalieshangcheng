@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+<title>抽奖报名</title>
+<script>
+	String.prototype.trim=function()
+	{
+	     return this.replace(/(^\s*)|(\s*$)/g, '');
+	}
+
+
+	function bao_ming(act_id) {
+		var url = "bao_ming.php";
+		var params = "act_id=" + act_id;
+		$.post(url, params, function(data) {
+			data = data.trim();
+			alert(data);
+			window.location.href=window.location.href;
+
+		});
+	}
+</script>
+
+
+</head>
+<link rel="stylesheet" href="css/index.css">
+<body>
+	<div class="top-img">
+		<img src="images/head.png" alt="">
+	</div>
+	<div class="active-time">
+		<h6>活动时间：2018年5月31日&nbsp;&nbsp;&nbsp;&nbsp;参加人员：尚品汇会员</h6>
+	</div>
+	<div class="action-box">
+	
+	 <?php  
+		    include "../../myphplib/db.php";
+		    include "../../myphplib/message.php";
+		    include "../../myphplib/page.php";
+			include "../../config/check.php";
+   			$operateUser = $_COOKIE['ECS']['username'];
+			 
+
+
+		    $act_id = $_REQUEST['act_id'];
+		    $sql=" select * from  xbmall_goods_activity  order  by act_type asc , act_name asc  ";
+  		    $res = mysql_query($sql);
+			$i=0;
+		   while ($row = mysql_fetch_array($res))
+	        {   $i++;
+	        	$ext_info = unserialize($row['ext_info']);
+	       		$row = array_merge($row, $ext_info);
+				$sql="select * from xbmall_goods where goods_id=".$row['goods_id'];
+				$goods = getRow($sql);
+				$sql="select count(0) from  xbmall_hd_chou_jiang_bao_ming where user_name='{$operateUser}' and act_id={$row['act_id']}";
+                $is_can_jia = getOne($sql);
+
+		?>
+		
+		<div class="action">
+			<div class="action-head">
+				<div class="head-left">
+					<dl>
+						<dt>
+							<h3><?php  echo  $i;?></h3>
+							<h4>
+								欢乐抽奖<span></span>
+							</h4>
+						</dt>
+						<dd><?php if  ($row['act_type']==7)  echo "温馨提示: 限时抽奖中奖后扣除积分";
+								  if  ($row['act_type']==6)  echo "温馨提示: 幸运抽奖,报名扣除积分";
+						 ?></dd>
+					</dl>
+				</div>
+				<div class="head-right">
+					<button class="jf">需要<?php echo $row['price'];?>积分</button>
+					<?php  if($is_can_jia){?>
+						<button class="cj">已参加</button>
+					  <?php  }else if($row['is_finished']==2){?>
+					 <button class="cj">已开始</button>
+				     <?php  }else{?>
+					 <button class="cj" onclick="bao_ming(<?php echo $row['act_id'];?>)">立即参加</button>
+				   <?php  }?>
+				</div>
+				<div style="clear: both"></div>
+			</div>
+			<div class="active-img">
+				<img src="/<?php echo  $goods['goods_thumb'];?>" alt="">
+			</div>
+			<div class="active-js">
+				<div class="active-btn">活动介绍</div>
+				<div class="active-desc">
+				<?php echo  $row['act_desc'];?>
+                </div>
+			</div>
+		</div>
+	<?php
+	        }?>
+
+
+	</div>
+	<script type="text/javascript" src="js/jquery.js"></script>
+	<script>
+		$('.active-btn').click(function() {
+			$(this).siblings().slideToggle(100)
+		})
+	</script>
+
+</body>
+</html>

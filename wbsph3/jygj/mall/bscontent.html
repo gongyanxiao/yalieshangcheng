@@ -1,0 +1,233 @@
+<?
+include("config/zt_config.php");
+include("config.php");
+include("config/page.class.php");
+$link = mysqli_connect($db_host,$db_user,$db_pwd,$db_database) or die('Unale to link');
+$link->set_charset('utf8');
+$bsid=htmlspecialchars(trim($_GET['bsid']));
+$n=array();
+$sqln="SELECT * FROM  `xbmall_users`";
+$qryn=$link->query($sqln);
+while($rstn=$qryn->fetch_array()) {
+	$n[]=$rstn["id"];
+}
+if(!in_array($bsid, $n)) {
+	header("Location:error.html"); 
+    exit;
+}
+
+$sql="SELECT * FROM  `xbmall_users` where id=".$bsid;
+$qry=$link->query($sql);
+$rst=$qry->fetch_array();
+$sql1="SELECT * FROM  `zt_shopinfo` where userid=".$bsid;
+$qry1=$link->query($sql1);
+$rst1=$qry1->fetch_array();
+$num1=$qry1->num_rows;
+$tx='';
+if($num1==0) {
+$tx="/images/logoa.png";
+} else {
+$tx=$rst1["tx"];
+}
+$jj='';
+if($num1==0) {
+$jj="这家店铺忙着赚钱呢，还没时间做介绍。";
+} else {
+$jj=stripslashes($rst1['jj']);
+}
+$dt='';
+if($num1==0) {
+$dt="这家店铺位于神秘的地球村。";
+} else {
+$dt=stripslashes($rst1['dt']);
+}
+$yx='';
+if($num1==0) {
+$yx="";
+} else {
+$yx=stripslashes($rst1['yx']);
+}
+
+$sql11="SELECT * FROM  `zt_goods` where sfsj=1 and dpmc='".$rst[dpmc]."'";
+
+$qry11=$link->query($sql11);
+$total=$qry11->num_rows;
+$per=24;
+$page_obj=new Page($total,$per);
+$sqla1=$sql11." limit ".($page_obj->page-1)*$per.",".$per;
+$qrya1=$link->query($sqla1);
+$pagelist=$page_obj->fpage(array(0,2,4,5,6,9));
+
+$p=isset($page_obj->page)?$page_obj->page:1;
+$num=($p-1)*$per;
+?>
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>联盟商家_网络平台_<?=_TITLE_?></title>
+    <meta name="keyword" content="<?=_KEYWORD_?>"/>
+    <meta name="description" content="<?=_DESCRIPTION_?>"/>
+    <link href="/Public/ico.ico" type="image/x-icon" rel="shortcut icon" /> 
+    <link rel="stylesheet" type="text/css" href="/jygj/Public/home/css/index.css">
+    <script type="text/javascript" src="/jygj/Public/home/js/jquery-1.7.2.js"></script>
+ <script type="text/javascript" src="/js/index.js"></script>
+    <script language="javascript" type="text/javascript">
+        $(document).ready(function(){
+            $('.warp_l_right_p li').click(function(){
+                $('.warp_l_right_li').hide();
+                $('.warp_l_right_li').eq($(this).index()).show()
+            });
+        });
+    </script>
+    <script language="javascript" type="text/javascript">
+        $(document).ready(function(){
+            $('.gd_content li').click(function(){
+                $('.warp_l_right_li').hide();
+                $('.warp_l_right_li').eq($(this).index()).show()
+            });
+        });
+    </script>
+</head>
+<body>
+<div class="warp">
+   
+    <!------导航结束------>
+<?include("sheader.html");?>
+
+    <!----内容开始---->
+    <div class="warp_moer">
+
+        <ul class="fix_r">
+
+            <li><i><?=$rst[dpmc]?></i></li>
+        </ul>
+
+        <div class="warp_q">
+
+            <div class="warp_q_right">
+                <h1><?=$rst[dpmc]?></h1>
+               <ul class="fix_e">
+                   <li><span>联系人：<?=$rst[xm]?></span></li>
+                   <li><span>手机：<?=$rst[lxdh]?></span></li>
+                   <li><span>地址：<?=$rst[a]?><?=$rst[b]?><?=$rst[c]?><?=$rst[xxdz]?></span></li>
+                   <li><span>优先联系人：<?=$yx?></span></li>
+               </ul>
+
+            </div>
+
+            <div class="warp_left" style="width: 352px;overflow: visible">
+
+                <div class="fix_t">
+                    <img src="<?=$tx?>" width="350" height="350">
+                </div>
+
+            </div>
+        </div>
+        <div class="fix_w">
+
+            <div class="fix_w_mor">
+                <ul class="warp_l_right_p">
+                    <li class="thisclass"><span>店铺介绍</span></li>
+                    <li><span>地图位置</span></li>
+                    <li><span>所有商品</span></li>
+                </ul>
+
+                <ul class="warp_l_right_o">
+                    <li class="warp_l_right_li">
+                          <?=$jj;?>                 </li>
+                    <li class="warp_l_right_li" style="display: none">
+                                <?=$dt;?>   </li>
+                    <li class="warp_l_right_li" style="display: none">
+
+                        <div class="fix_q" id="fix_q">
+
+                          <?
+                           if($total==0) {
+    echo "<center>此店铺尚未发布任何产品，敬请期待！</center>";
+} else {
+?>
+<ul class="warp_j_right_cp_ul">
+<?
+while($rst1=$qrya1->fetch_array()){		
+?> 
+		
+
+                    <li><a href="cpcontent.html?cpid=<?=$rst1[id];?>" title="<?=$rst1[spmc];?>" target="_blank"><img src="<?=strtr($rst1['spslt'],array("../"=>"/mall/"));?>"  style="width: 200px;height: 200px" border="0"/>
+						<span><?=$rst1[spmc];?></span>
+						<b>￥<?=$rst1[spjg];?></b>
+						</a>
+							
+                        </li>
+		<?
+	    }
+	    ?>
+
+</ul>
+                   
+<center>
+
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" style="text-align: center;">
+  <tr>
+    <td height="21"><div class="epages"><?=$pagelist;?></div></td>
+  </tr>
+</table>
+</center> 
+<?
+}
+?>
+                        </div>
+
+                    </li>
+                </ul>
+
+            </div>
+
+
+        </div>
+
+    </div>
+    <!----内容结束---->
+    <script>
+        $(document).ready(function(){
+            $(document).scroll(function(){
+                var scroll_top=$(document).scrollTop();
+
+                if(scroll_top>=720){$(".guding").css("display","block");}
+                else{$(".guding").css("display","none");}
+            })
+        })
+    </script>
+    <!------底部开始------>
+    
+
+<?include("sfooter.html");?>
+
+
+    <!------底部结束------>
+</div>
+<!----------------------------点击变色开始-------------------------->
+<script>
+    $(function(){
+        var cotrs = $(".warp_l_right_p li");
+        cotrs.click(function(){
+            var v1=$(this).index();
+
+            $(this).addClass("thisclass").siblings().removeClass("thisclass");
+            $(".gd_content li:eq("+v1+")").addClass("thisclass").siblings().removeClass("thisclass");
+        });
+    });
+</script>
+<!----------------------------点击变色结束-------------------------->
+<script>
+    $(function(){
+        var cotrs = $(".gd_content li");
+        cotrs.click(function(){
+            var v2=$(this).index();
+            $(this).addClass("thisclass").siblings().removeClass("thisclass");
+            $(".warp_l_right_p li:eq("+v2+")").addClass("thisclass").siblings().removeClass("thisclass");
+        });
+    });
+</script>
+</body>
+</html><?$link->close();?>

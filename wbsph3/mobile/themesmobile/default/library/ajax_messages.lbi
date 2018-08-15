@@ -1,0 +1,11 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<ul class="single_item">
+    <li class="Funds_li" >
+        <span>{$messages_item.add_time}</span>
+        <span>{$messages_item.content}</span>
+        <span>
+            {if $messages_item.is_read eq 0}<a href="javascript:;"  style="color:red;" onclick="setRead({$messages_item.id});">设置为已读</a>{/if}
+            <a href="javascript:;" style="color:red;"  onclick="delRead({$messages_item.id});">删除</a>
+        </span> 
+    </li>
+</ul>

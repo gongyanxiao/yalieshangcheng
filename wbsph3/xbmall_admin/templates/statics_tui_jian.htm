@@ -1,0 +1,121 @@
+{if $full_page}
+{include file="pageheader.htm"}
+{insert_scripts files="../js/utils.js,listtable.js,placeholder.js,utils.js,transport.js,region.js,shopping_flow.js"}
+
+<script type='text/javascript' src='../js/calendar.php' ></script>
+<link href='../js/calendar/calendar.css' rel='stylesheet' type='text/css' />
+<style>
+<!--
+.tongji span{
+ padding-right: 20px;
+}
+-->
+</style>
+<!-- 订单搜索 -->
+<div class="form-div">
+    <form action="javascript:searchOrder()" name="searchForm">
+        <img src="images/icon_search.gif" width="26" height="22" border="0" alt="SEARCH" />
+     
+         手机号: <input name="mobile_phone" id="mobile_phone" type="text" size="12"> 
+        姓名: <input name="real_name" id="real_name" type="text" size="10"> 
+        <input type="submit" value="{$lang.button_search}" class="button" />
+        <!-- <input type="button" value="下载" class="button" onclick="exportSupps()" />  -->
+    </form>
+</div>
+ 
+ 
+    <div class="list-div" id="listDiv">
+        {/if}
+ 
+        <table cellpadding="3" cellspacing="1" >
+            <tr>
+                <th>姓名</th>
+                <th>手机号</th>
+                <th>用户类型</th>
+                <th>推荐路径</th>
+                <th>线上现金消费</th>
+                <th>线上积分消费</th>
+                <th>线下现金消费</th>
+                <th>线下积分消费</th>
+                <th>线下给他人现金做单</th>
+                <th>线下给他人积分做单</th>
+                <th>提现金额</th>
+            </tr>
+            { foreach from=$order_list item=card}
+            <tr>
+                <td align="center">
+                    {$card.real_name}
+                </td>
+                <td align="center">{$card.mobile_phone}</td>
+                  <td align="center">{if $card.is_bigfamily==0}普通会员{/if}
+                  {if $card.is_bigfamily==1}合伙人{/if}
+                  {if $card.is_bigfamily==2}代理{/if}</td>
+                
+                
+                <td align="center">{$card.path}</td>
+                <td align="center">{$card.xian_shang_xian_jin}</td>
+                <td align="center">{$card.xian_shang_ji_fen}</td>
+                <td align="center">{$card.xian_xia_xian_jin}</td>
+                <td align="center">{$card.xian_xia_ji_fen}</td>
+                <td align="center">{$card.xian_xia_supplier_xian_jin}</td>
+                <td align="center">{$card.xian_xia_supplier_ji_fen}</td>
+                <td align="center">{$card.ti_xian_jin_e}</td> 
+            </tr>
+            {foreachelse}
+            <tr><td class="no-records" colspan="6">{$lang.no_records}</td></tr>
+            {/foreach}
+        </table>
+       <!-- 分页 -->
+		<table id="page-table" cellspacing="0">
+		  <tr>
+		    <td align="right" nowrap="true">
+		    {include file="page.htm"}
+		    </td>
+		  </tr>
+		</table>
+        {if $full_page}
+
+    </div>
+ 
+<script language="javascript">
+    
+    listTable.recordCount = {$record_count};
+    listTable.pageCount = {$page_count};
+    {foreach from=$filter item=item key=key}
+    	listTable.filter.{$key} = '{$item}';
+    {/foreach}
+    
+    /**
+     * 搜索订单
+     */
+    function searchOrder()
+    {
+    	
+        listTable.filter['real_name'] = document.forms['searchForm'].elements['real_name'].value;
+        listTable.filter['mobile_phone'] = document.forms['searchForm'].elements['mobile_phone'].value;
+//         listTable.filter['page'] = 1;
+        listTable.loadList();
+    }
+    function check()
+    {
+        var snArray = new Array();
+        var eles = document.forms['listForm'].elements;
+        for (var i = 0; i < eles.length; i++)
+        {
+            if (eles[i].tagName == 'INPUT' && eles[i].type == 'checkbox' && eles[i].checked && eles[i].value != 'on')
+            {
+                snArray.push(eles[i].value);
+            }
+        }
+        if (snArray.length == 0)
+        {
+            return false;
+        } else
+        {
+            eles['order_id'].value = snArray.toString();
+            return true;
+        }
+    }
+</script>
+{include file="pagefooter.htm"}
+{/if}

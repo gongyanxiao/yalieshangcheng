@@ -1,0 +1,38 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<div class="user_login_title"><h2>
+<em>累计赠送：</em><span>{$affiliate_rewards}</span>
+<em style="font-size:14px;color:#000;float:right;"><a style="color:red;" href="user.php?act=supplier_static">查看商家统计</a></em>
+</h2>
+</div>
+
+ <div id="J_ItemList" class="Fund">
+      <ul class="product single_item info">
+      </ul>
+      <a href="javascript:;" class="get_more"> </a> 
+      </div>
+<script type="text/javascript" src="themesmobile/default/js/jquery.js"></script>
+{insert_scripts files='jquery.json.js,transport.js'}
+<script type="text/javascript" src="themesmobile/default/js/touchslider.dev.js"></script>
+<script type="text/javascript" src="themesmobile/default/js/jquery.more.js"></script>
+<script type="text/javascript">
+var url = 'user.php?act=ajax_affiliate_reward';
+$(function(){
+	$('#J_ItemList').more({'address': url});
+});
+</script>
+<!---返回顶部-->
+<script>
+function goTop(){
+	$('html,body').animate({'scrollTop':0},600);
+}
+</script>
+<a href="javascript:goTop();" class="gotop"><img src="themesmobile/default/images/topup.png"></a> 
+<script type="text/javascript">
+{foreach from=$lang.account_js item=item key=key}
+var {$key} = "{$item}";
+{/foreach}
+</script>
+
+
+
+

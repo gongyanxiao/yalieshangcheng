@@ -1,0 +1,18 @@
+<!--弹出菜单js-->
+<script type="text/javascript" src="themesmobile/default/js/mobile.js" ></script>
+<style>
+	.goods_nav ul li{ text-align:center; line-height:40px}
+	.goods_nav ul li a{ color:#fff; display:block}
+</style>
+<div class="goods_nav hid" id="menu">
+        <div class="Triangle">
+          <h2></h2>
+        </div>
+        <ul>
+         <li><a href="flow.php">购物车</a></li>
+		  <li><a href="user.php?act=collection_list">收藏</a></li>
+		  <li><a href="user.php?act=order_list">商品订单</a></li>
+		  <li><a href="catalog.php">商品分类</a></li>
+		  <li><a href="user.php?act=address_list">收货地址</a></li>
+        </ul>
+      </div>

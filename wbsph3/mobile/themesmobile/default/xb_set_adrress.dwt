@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		     <meta charset="UTF-8"/>
+			 <meta name="viewport" content="width=device-width">
+				<title>{$page_title}</title>
+				<meta name="Keywords" content="{$keywords}" />
+				<meta name="Description" content="{$description}" />
+				<meta name="viewport"
+					content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+				<link rel="stylesheet" type="text/css"
+					href="themesmobile/default/css/public.css?v={$smarty.now}" />
+				<link rel="stylesheet" type="text/css"
+					href="themesmobile/default/css/index.css?v={$smarty.now}" />
+				<script type="text/javascript"
+					src="themesmobile/default/js/jquery.js"></script>
+				<script type="text/javascript"
+					src="themesmobile/default/js/TouchSlide.1.1.js"></script>
+				<script type="text/javascript"
+					src="themesmobile/default/js/jquery.more.js"></script>
+				<script type="text/javascript"
+					src="themesmobile/default/js/jquery.cookie.js"></script>
+				<script type="text/javascript"
+					src="themesmobile/default/js/mobile.js"></script>
+				<link rel="stylesheet" href="themesmobile/default/css/my.css"></link>
+				
+		 {insert_scripts files='jquery.json.js,transport.js'}
+	     {insert_scripts files='region.js,shopping_flow.js'}
+	</head>
+<style>
+
+</style>
+<body>
+<div class="header"><!-- #BeginLibraryItem "/library/page_header.lbi" --> <!-- #EndLibraryItem --></div>
+<div class="container">
+    <div class="partner-ph">
+    <form action="xb_partner.php?act=set_address" method="post"  enctype="multipart/form-data">
+        <dl>
+            <dt> 
+             <input name='country' value='1' type="hidden">
+    		<select name="province" id="selProvinces"  style="width:30%;" {if $user.province}disabled="disabled"{/if}  onchange="region.changed(this, 2, 'selCities');$('.selDistricts1').hide();" class="province_select" >
+                     <option value="0">{$lang.please_select}{$name_of_region[1]}</option>
+                      <!-- {foreach from=$province_list item=province} -->
+                      <option value="{$province.region_id}" {if $user.province eq $province.region_id}selected{/if}>{$province.region_name}</option>
+                      <!-- {/foreach} -->
+                    </select>
+                    <select name="city" id="selCities" {if $user.city}disabled="disabled"{/if} onchange="region.changed(this, 3, 'selDistricts');$('.selDistricts1').show();"  style="width:30%;">
+                   <option value="0">{$lang.please_select}{$name_of_region[2]}</option>
+                      <!-- {foreach from=$city_list item=city} -->
+                      <option value="{$city.region_id}" {if $user.city eq $city.region_id}selected{/if}>{$city.region_name}</option>
+                      <!-- {/foreach} -->
+                    </select>
+                    <select name="district" id="selDistricts"  {if $user.district}disabled="disabled"{/if} style="width:30%;">
+                      <option value="0">{$lang.please_select}{$name_of_region[3]}</option>
+                      <!-- {foreach from=$district_list item=district} -->
+                      <option value="{$district.region_id}" {if $user.district eq $district.region_id}selected{/if}>{$district.region_name}</option>
+                      <!-- {/foreach} -->
+                    </select>
+            </dt>
+        </dl>
+        <button type="submit">确定</button>
+     </form>
+    </div>
+</div>
+<div style="position: fixed;bottom: 0" class="footer"><!-- #BeginLibraryItem "/library/footer_nav.lbi" --> <!-- #EndLibraryItem --></div>
+</body>
+</html>

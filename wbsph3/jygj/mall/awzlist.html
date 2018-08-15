@@ -1,0 +1,91 @@
+<?	
+header("content-type:text/html;charset:utf-8");
+include("page.class.php");
+include("config/zt_config.php");
+$link = mysqli_connect($db_host,$db_user,$db_pwd,$db_database) or die('Unale to link');
+$link->set_charset('utf8');
+$lmid =htmlspecialchars(trim($_GET['itid']));
+$a=array();
+$b=array(70);
+$sql=$link->query("select * from `phome_enewsclass` where `classid` in ($lmid)"); 
+$r = $sql->fetch_array();
+$str=$r['sonclass']; 
+$newstr=substr($str,1,-1);
+$arr = explode("|",$newstr);
+$newarr=implode(",",$arr);
+if(trim($str)<>'') {
+		$sql1="select * from phome_ecms_news where `classid` in ($newarr) order by `id` desc ";
+} else {
+	$sql1="select * from phome_ecms_news where `classid` in ($lmid) order by `id` desc ";
+}
+$query1=$link->query($sql1); 
+$total=$query1->num_rows;
+$per=16;
+$page_obj=new Page($total,$per);
+$sqla1=$sql1." limit ".($page_obj->page-1)*$per.",".$per;
+$qrya1=$link->query($sqla1);
+$pagelist=$page_obj->fpage(array(0,2,4,5,6,9));
+
+$p=isset($page_obj->page)?$page_obj->page:1;
+$num=($p-1)*$per;
+if(in_array($lmid,$b)) {
+?>
+<div class="sub_r" style="float: left;">
+	<ul class="zjzs" style="width: 100%">
+	<h1 style="font-size: 20px"><?=$r[classname]?></h1>
+        <hr>
+		<?
+        while($row1 = $qrya1->fetch_array()){
+		?> 
+		<li style="height:250px;width: 22%;float: left;margin: 1%">
+		       <a href="wzcontent.html?pid=<?=$row1[id]?>" style="width: 100%;height: 100%;text-decoration: none;color: #333">
+		       <img src="<?=$row1[titlepic]?>" border="0" style="width: 100%;height: 80%"/>
+		       <p style="text-align: center;"><?=$row1[title]?></p>
+		       </a>
+	    </li>
+	    <?}?>
+    </ul>
+</div>
+
+<?
+} else {
+?>
+    <!------列表开始------>
+        <ul class="warp_z_ul" style="border: 0">
+        <h1 style="font-size: 20px"><?=$r[classname]?></h1>
+        <hr>
+        <?
+        while($row1 = $qrya1->fetch_array()){
+		?> 
+		<li style="width: 100%">
+                <a href="wzcontent.html?pid=<?=$row1[id]?>" title="<?=$row1[classname]?>">
+                    <span class="warp_z_ul_sp" style="width: 100%;">
+                        <b style="float: right;"><?=$row1[newspath]?></b>
+                        <span style="float: left;"><?=$row1[title]?></span>
+                    </span>
+                </a>
+            </li>          
+		<?
+	    }
+	    ?>
+            </ul> 
+            <div style="clear: both;"></div>
+            <br>
+            <?}
+            $qrya2=$link->query($sql1);
+            $row2 = $qrya2->num_rows;
+            if($row2==0) {
+            ?>
+            	<center><p style="color: #333;font-size: 16px">当前分类暂时还没有发布任何信息，敬请期待！</p></center>
+            <?
+            } else {
+            ?>
+            <center> <table width="100%"  border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td height="21" style="text-align: center;"><div class="epages"><?=$pagelist?></div></td>
+  </tr>
+</table></center> 
+            <?
+            }
+            $link->close();
+            ?>

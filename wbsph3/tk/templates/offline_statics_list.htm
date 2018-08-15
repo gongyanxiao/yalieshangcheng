@@ -1,0 +1,146 @@
+<!-- $Id: card_list.htm 14216 2008-03-10 02:27:21Z testyang $ -->
+{if $full_page}
+{include file="pageheader.htm"}
+{insert_scripts files="../js/utils.js,listtable.js"}
+{insert_scripts files='utils.js,transport.js,region.js,shopping_flow.js'}
+<script type='text/javascript' src='../js/calendar.php' ></script>
+<link href='../js/calendar/calendar.css' rel='stylesheet' type='text/css' />
+<!--搜索区域-->
+<div class="form-div">
+<form action="javascript:search_offline()" name="search_offline_form" >
+
+<table>
+<tr>
+  <td>开始时间:</td>
+  <td>
+    <input name="add_time" id="add_time" type="text" size="20">
+    <input class="button" type='button' id="add_time_btn" onclick="return showCalendar('add_time', '%Y-%m-%d %H:%M:%S', '24', false, 'add_time_btn');" value="选择">
+  </td>
+  <td>结束时间:</td>
+  <td>
+    <input name="end_time" id="end_time" type="text" size="20">
+    <input class="button" type='button' id="add_time_btn" onclick="return showCalendar('end_time', '%Y-%m-%d %H:%M:%S', '24', false, 'end_time');" value="选择">
+  </td>
+  <td>{$lang.label_inv_status}</td>
+  <td>
+  
+       <select name="province" id="selProvinces_{$sn}" onchange="region.changed(this, 2, 'selCities_{$sn}')"  {if !$province_list} style="display:none"{/if}  >
+       <option value="0">-省份-</option>
+       <!-- {foreach from=$province_list item=province} -->
+       <option value="{$province.region_id}" {if $consignee.province eq $province.region_id}selected{/if}>{$province.region_name}</option>
+       <!-- {/foreach} -->
+       </select>
+       <select name="city" id="selCities_{$sn}" onchange="region.changed(this, 3, 'selDistricts_{$sn}')" {if !$city_list} style="display:none"{/if}>
+       <option value="0">-城市-</option>
+       <!-- {foreach from=$city_list item=city} -->
+       <option value="{$city.region_id}" {if $consignee.city eq $city.region_id}selected{/if}>{$city.region_name}</option>
+       <!-- {/foreach} -->
+       </select>
+       <select name="district" id="selDistricts_{$sn}" {if !$district_list}style="display:none"{/if}>
+       <option value="0">-地区-</option>
+       <!-- {foreach from=$district_list item=district} -->
+       <option value="{$district.region_id}" {if $consignee.district eq $district.region_id}selected{/if}>{$district.region_name}</option>
+       <!-- {/foreach} -->
+       </select>
+  </td>
+  <td>
+  联盟商家:
+  <input name="supplier_name" type="text" size="20">
+  </td>
+  
+  <td><input class="button" type="submit" value="搜索 "></td>
+</tr>
+</table>
+</form>
+</div>
+
+<!-- start goods list -->
+<form method="post" action="role_offline_man.php" name="offlinelistForm">
+    <div class="list-div" id="listDiv">
+        {/if}
+        <table cellpadding="3" cellspacing="1">
+            <tr>
+                <th><a href="javascript:listTable.sort('id');">编号</a></th>
+                <th><a href="javascript:listTable.sort('createtime');">时间</a></th>
+                <th><a href="javascript:listTable.sort('good_name');">商品名称</a></th>
+                <th><a>商家名称</a></th>
+                <th><a href="javascript:listTable.sort('order_amt');">订单金额</a></th>
+                <th><a href="javascript:listTable.sort('order_bdf');">报单费</a></th>
+                <th>会员信息</th>
+                <th>消费清单号</th>
+                <th>商品图片</th>
+            </tr>
+            { foreach from=$order_list item=card}
+            <tr>
+                <td align="center">
+                    {$card.id}
+                </td>
+                <td align="left">{$card.order_time}</td>
+                <td align="right">{$card.good_name}</td>
+                <td align="center">{$card.supplier_name}</td>
+                <td align="right">{$card.order_amt}</td>
+                <td align="left">{$card.order_bdf}</td>
+                <td align="center" >
+                    {$card.user_name}/{if $card.real_name}{$card.real_name}{else}未实名{/if}
+                </td>
+                <td align="center">{$card.fp_url}</td>
+                <td align="center">{if $card.good_url}<img src="../{$card.good_url}" width="100px" height="100px" />{/if}</td>
+            </tr>
+            {foreachelse}
+            <tr><td class="no-records" colspan="10">{$lang.no_records}</td></tr>
+            {/foreach}
+
+            <tr>
+                <th colspan="4">总计</th>
+                <td align="right">{$filter.order_amt_sum}</td>
+                <td>{$filter.order_bdf_sum}</td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </table>
+
+        <table cellpadding="4" cellspacing="0">
+            <tr>
+                <td align="right">{include file="page.htm"}</td>
+            </tr>
+        </table>
+        {if $full_page}
+    </div>
+</form>
+<!-- end goods list -->
+<script type="text/javascript" >
+
+    listTable.recordCount = {$record_count};
+    listTable.pageCount = {$page_count};
+    {foreach from = $filter item = item key = key}
+        listTable.filter.{$key} = '{$item}';
+    {/foreach}
+
+    {literal}
+	    onload = function()
+	    {
+		    // 开始检查订单
+		    startCheckOrder();
+	    }
+    {/literal}
+    
+    
+    /**
+    * 做单按照日期搜索
+    */
+   function search_offline()
+   {
+       listTable.filter['up_time'] = Utils.trim(document.forms['search_offline_form'].elements['add_time'].value);
+       listTable.filter['end_time'] = Utils.trim(document.forms['search_offline_form'].elements['end_time'].value);
+       listTable.filter['province'] = Utils.trim(document.forms['search_offline_form'].elements['province'].value);
+       listTable.filter['city'] = Utils.trim(document.forms['search_offline_form'].elements['city'].value);
+       listTable.filter['district'] = Utils.trim(document.forms['search_offline_form'].elements['district'].value);
+       listTable.filter['supplier_name'] = Utils.trim(document.forms['search_offline_form'].elements['supplier_name'].value);
+       
+       listTable.loadList();
+   }
+
+</script>
+{include file="pagefooter.htm"}
+{/if}

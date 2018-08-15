@@ -1,0 +1,37 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+{if $hot_goods}
+<section class="index_floor">
+
+    <h4><span>积分兑换专区</span><i><a href="exchange.php">更多</a></i></h4>
+   
+    <div  class="scroll_hot">
+      <div class="bd">
+        <ul>
+	          {foreach from=$hot_goods_ji_fen item=goods name=hot_goods}
+	          <li>
+	           
+	             <div class="index_pro"> 
+	              <div class="products_kuang">
+	               <a href="exchange.php?id={$goods.goods_id}&act=view" title="{$goods.name|escape:html}">
+	                <img src="/{$goods.goods_thumb}"> </a></div>
+	               <div class="goods_name"> <a href="exchange.php?id={$goods.goods_id}&act=view" title="{$goods.name|escape:html}">{$goods.name}</a></div>
+		              <div class="price">
+		                 <span>{$goods.exchange_integral}积分</span>
+		              </div>
+	              </div>
+	           
+	          </li>
+	          <!--{if $smarty.foreach.hot_goods.iteration%3 eq 0 && $smarty.foreach.hot_goods.iteration neq $smarty.foreach.hot_goods.total}--> 
+	         <ul> </ul>
+	          <!--{/if}-->
+	          {/foreach}
+          </div>
+        <div class="hd">
+          <ul></ul>
+        </div>
+      </div>
+
+  </section>
+
+ 
+{/if}

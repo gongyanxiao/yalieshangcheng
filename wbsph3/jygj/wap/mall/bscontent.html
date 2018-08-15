@@ -1,0 +1,141 @@
+﻿<?  
+include("config.php");
+$link = mysqli_connect($db_host,$db_user,$db_pwd,$db_database) or die('Unale to link');
+$link->set_charset('utf8');
+$bsid=htmlspecialchars(trim($_GET['bsid']));
+$n=array();
+$sqln="SELECT * FROM  `xbmall_users`";
+$qryn=$link->query($sqln);
+while($rstn=$qryn->fetch_array()) {
+	$n[]=$rstn["id"];
+}
+if(!in_array($bsid, $n)) {
+	header("Location:error.html"); 
+    exit;
+}
+
+$sql="SELECT * FROM  `xbmall_users` where id=".$bsid;
+$qry=$link->query($sql);
+$rst=$qry->fetch_array();
+$sql1="SELECT * FROM  `zt_shopinfo` where userid=".$bsid;
+$qry1=$link->query($sql1);
+$rst1=$qry1->fetch_array();
+$num1=$qry1->num_rows;
+$tx='';
+if($num1==0) {
+$tx="/images/logoa.png";
+} else {
+$tx=$rst1["tx"];
+}
+?>
+<!DOCTYPE html>
+<html>
+<head lang="en">
+ <meta charset="UTF-8">
+ <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<meta content="no-cache,must-revalidate" http-equiv="Cache-Control">
+<meta content="no-cache" http-equiv="pragma">
+<meta content="0" http-equiv="expires">
+<meta content="telephone=no, address=no" name="format-detection">
+<meta name="apple-mobile-web-app-capable" content="yes"> 
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta http-equiv="pragma" content="no-cache">
+<meta http-equiv="cache-control" content="no-cache">
+<meta http-equiv="expires" content="0">   
+    <title>联盟商家_网络平台_<?=_TITLE_?></title>
+    <meta name="keyword" content="<?=_KEYWORD_?>"/>
+    <meta name="description" content="<?=_DESCRIPTION_?>"/>
+    <link href="/Public/ico.ico" type="image/x-icon" rel="shortcut icon" /> 
+	
+    <link rel="stylesheet" type="text/css" href="/css/wap/index.css">
+    <link rel="stylesheet" type="text/css" href="/css/wap/swiper.css">
+    <script type="text/javascript" src="/js/jquery-1.js"></script>
+    <script type="text/javascript" src="/js/swiper.js"></script>
+    <script language="javascript" type="text/javascript">
+        $(document).ready(function(){
+            $('.sj_p_kp li').click(function(){
+                $('.sj_p_ko_li').hide();
+                $('.sj_p_ko_li').eq($(this).index()).show()
+            });
+        });
+    </script>
+</head>
+<body>
+<div class="warp">
+
+    <div class="warp_q">
+        <a href="javascript:history.Go(-1);"></a>
+        <span>店铺详情</span>
+    </div>
+
+    <div class="sj_p">
+        <img src="">
+        <h2><?=$rst[dpmc]?></h2>
+        <div class="sj_p_div">
+            <span>联系人：<?=$rst[xm]?></span>
+          
+            <span>手机：<?=$rst[lxdh]?></span>
+            <span>地址：<?=$rst[a]?><?=$rst[b]?><?=$rst[c]?><?=$rst[xxdz]?></span>
+        </div>
+    </div>
+
+    <div class="sj_p_mor">
+        <ul class="sj_p_kp">
+            <li class="thisclass"><span>店铺介绍</span></li>
+            <li><span>地理位置</span></li>
+            <li><span>所有商品</span></li>
+        </ul>
+        <ul class="sj_p_ko">
+            <li class="sj_p_ko_li">
+                 <?=stripslashes($rst1[jj]);?>
+            </li>
+            <li class="sj_p_ko_li" style="display: none">
+                     <?=stripslashes($rst1[dt]);?>           </li>
+            <li class="sj_p_ko_li" id="sj_p_ko_li" style="display: none">
+				
+                   
+            </li>
+        </ul>
+    </div>
+
+<script type="text/javascript">
+	function f1(url){
+		var xhr=new XMLHttpRequest();
+		xhr.onreadystatechange=function() {
+			//console.log(xhr.readyState);
+			if(xhr.readyState==4&&xhr.status==200){
+				document.getElementById("sj_p_ko_li").innerHTML=xhr.responseText;
+			}
+		}
+		xhr.open("get",url);
+		xhr.send(null);
+	}
+	window.onload=function() {
+		var url="acplist_bc.html?bsid=<?=$bsid;?>";
+		f1(url);
+	}
+ </script>
+
+
+</div>
+<!----------------------------点击变色开始-------------------------->
+<script>
+    $(function(){
+        var cotrs = $(".sj_p_kp li");
+        cotrs.hover(function(){
+            $(this).addClass("thisclass").siblings().removeClass("thisclass");
+        });
+    });
+</script>
+<!----------------------------点击变色结束-------------------------->
+</body>
+</html><script type="text/javascript">
+    var w=$('.sj_p_mor img').css('width');
+    var sw=screen.availWidth;
+    w=w.substr(0,w.length-2);
+    if(w>sw){
+        $('.sj_p_mor img').css('width',sw+'px');
+        $('.sj_p_mor img').css('height','auto');
+    }
+</script>

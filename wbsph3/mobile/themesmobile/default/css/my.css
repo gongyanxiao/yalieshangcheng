@@ -1,0 +1,374 @@
+* {
+    margin: 0;
+    padding: 0
+}
+
+html, body {
+    height: 100%;
+    overflow: auto;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background: #f5f5f5
+}
+
+img {
+    display: block;
+    width: 100%;
+}
+
+ul, li {
+    list-style: none
+}
+
+a {
+    text-decoration: none
+}
+
+.clearfix:after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}
+
+.clearfix {
+    display: inline-block;
+}
+
+.container {
+
+    margin-bottom: 60px;
+}
+
+.my-purse {
+    margin-top: 30px;
+}
+
+.my-purse dl {
+    background: #fff;
+    width: 100%;;
+    display: flex;
+    margin-bottom: 15px;
+    border-top: 1px #f2f2f2 solid;
+    border-bottom: 1px #f2f2f2 solid
+}
+
+.my-purse dd {
+    float: left;
+    flex: 1;
+    padding-right: 40px;
+    background: url("../images/user_right.png") no-repeat right center;
+    margin-right: 10px
+}
+
+.my-purse dl i {
+    background: url("../images/money.png") no-repeat center center;
+    float: left;
+    width: 50px;
+    height: 50px
+}
+
+.my-purse dl .recharge {
+    background: url("../images/cz.png") no-repeat center center;
+}
+
+.my-purse dl .withdraw {
+    background: url("../images/tx.png") no-repeat center center;
+}
+
+.my-purse dl h1 {
+    font-size: 18px;
+    color: #333;
+    font-weight: normal;
+    float: left;
+    height: 50px;
+    line-height: 50px;
+}
+
+.my-purse dl span {
+    float: right;
+    line-height: 50px;
+    color: #808080
+}
+
+/*my-balance*/
+.my-balance {
+    background: #f50b50;
+    border-top: 1px rgba(255, 255, 255, 0.3) solid;
+}
+
+.balance {
+    padding: 30px 20px;
+    color: #fff;
+}
+
+.balance p {
+    font-size: 12px;
+    margin-bottom: 10px
+}
+
+.balance h1 {
+    font-size: 40px
+}
+
+/*交易明细 transcation*/
+.transaction {
+    border-top: 1px #eee solid;
+    width: 100%
+}
+
+.transaction ul {
+    display: flex;
+    padding: 10px 15px;
+    justify-content: space-between;
+    background: #fff;
+    color: #333;
+    border-bottom: 1px #eee solid;
+}
+
+.tran-left {
+    text-align: left
+}
+
+.tran-right {
+    text-align: right
+}
+
+.transaction ul h2 {
+    font-size: 16px;
+    font-weight: normal;
+    line-height: 26px;
+}
+
+.transaction ul span {
+    font-size: 14px;
+    line-height: 20px;
+}
+
+.transaction ul h6 {
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 26px;
+}
+
+/*交易明细 transaction_detail*/
+.tran-detial {
+}
+
+.tran-detial dl {
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 16px;
+}
+
+.tran-detial dl:first-child {
+    text-align: left
+}
+
+.tran-detial dl:last-child {
+    text-align: right
+}
+
+/*转出*/
+.transfer {
+}
+
+.transfer dl {
+    background: #fff;
+    padding: 10px 0
+}
+
+.transfer dl dt {
+    border-bottom: 1px #f2f2f2 solid;
+    padding: 0 20px;
+}
+
+.transfer dl span {
+    font-size: 14px;
+    color: #808080
+}
+
+.transfer dl h1 {
+    font-size: 24px;
+    line-height: 30px;
+    margin-top: 10px
+}
+
+.transfer dl dd {
+    font-size: 14px;
+    padding: 0 20px;
+    line-height: 40px;
+    color: #505050
+}
+
+.transfer dl h1 input {
+    height: 30px;
+    border: none;
+    outline: none;
+    line-height: 30px;
+    font-size: 20px
+}
+
+.transfer button {
+    width: 90%;
+    margin: 30px auto;
+    height: 40px;
+    line-height: 40px;
+    display: block;
+    font-size: 22px;
+    color: #fff;
+    background: #f50b50;
+    border: none;
+    outline: none;
+}
+
+/*invite-link*/
+.invite-link {
+    margin-top: 20px
+}
+
+.invite-link dl {
+    padding: 0 20px
+}
+
+.invite-link dt img {
+    width: 100%;
+    display: block
+}
+
+.invite-link dd input {
+    height: 30px;
+    display: block;
+    line-height: 30px;
+    width: 94%;
+    background: #fff;
+    border: 1px solid #eee;
+    outline: none;
+    border-radius: 6px;
+    padding-left: 10px;
+    margin: 0 auto;
+}
+
+.invite-link dd button {
+    width: 40%;
+    display: block;
+    line-height: 30px;
+    border: none;
+    border-radius: 6px;
+    background: #f50b50;
+    color: #fff;
+    margin: 0 auto;
+    margin-top: 20px;
+}
+
+/*invite-list*/
+.invite-list {
+    margin-top: 20px
+}
+
+.invite-list ul {
+    padding: 10px 20px;
+    background-color: #fff;
+    border-bottom: 1px #f1f1f1 solid
+}
+
+.invite-list ul li {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    line-height: 30px
+}
+
+.invite-list ul li span {
+    color: #808080
+}
+
+.invite-list ul li h6 {
+    color: #505050;
+    font-size: 14px
+}
+/*买入汇通宝*/
+.hub-buy {
+    margin-top: 20px;
+}
+
+.hub-buy dl {
+    padding: 10px 20px;
+    font-size: 14px;
+    color: #505050;
+}
+
+.hub-buy dl dt {
+    line-height: 30px;
+}
+
+.hub-buy dl input {
+    background: #fff;
+    height: 30px;
+    border-radius: 6px;
+    line-height: 30px;
+    border: 1px #f1f1f1 solid;
+    outline: none;
+    width: 60%;
+    padding-left: 10px;
+}
+.hub-buy dd{ line-height: 30px; color: #505050; height: 30px}
+.hub-buy button {
+    width: 40%;
+    display: block;
+    margin: 20px auto;
+    line-height: 30px;
+    height: 30px;
+    background: #f50b50;
+    border: none;
+    color: #fff;
+    border-radius: 6px;
+    outline: none;
+}
+/*铺货*/
+.partner-ph {
+    background: #fff;
+    padding: 20px 0;
+}
+
+.partner-ph dl {
+    padding: 10px 20px;
+    line-height: 32px;
+    color: #505050;
+    font-size: 14px
+}
+
+.partner-ph dt {
+    display: flex;
+}
+
+.partner-ph dt input {
+    height: 30px;
+    border: 1px solid #f0f0f0;
+    border-radius: 6px;
+    outline: none;
+}
+
+.partner-ph dd {
+    margin-top: 20px;
+    margin-bottom: 20px
+}
+
+.partner-ph dd input {
+    outline: none;
+    background: none
+}
+
+.partner-ph button {
+    width: 40%;
+    background: #f50b50;
+    color: #fff;
+    display: block;
+    margin: 0 auto;
+    height: 30px;
+    border: none}

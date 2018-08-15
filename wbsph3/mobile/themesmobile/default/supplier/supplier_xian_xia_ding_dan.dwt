@@ -1,0 +1,253 @@
+<!DOCTYPE html >
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<title>{$page_title}</title>
+<meta name="Keywords" content="{$keywords}" />
+<meta name="Description" content="{$description}" />
+<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+<link rel="stylesheet" type="text/css" href="themesmobile/default/css/public.css"/>
+<link rel="stylesheet" href="themesmobile/default/css/stores.css">
+<link rel="stylesheet" href="themesmobile/default/css/user.css">
+<link href="themesmobile/default/css/supp_center.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="themesmobile/default/js/jquery.js"></script>
+	{insert_scripts files='index.js'}
+</head>
+<script type="text/javascript" src="themesmobile/default/js/utils.js"></script>
+<script type="text/javascript" src="themesmobile/default/js/validator.js"></script>
+
+<body class="bodybj">
+      <header>
+      <div class="tab_nav">
+        <div class="header">
+          <div class="h-left"><a class="sb-back" href="javascript:history.back(-1)" title="返回"></a></div>
+          <div class="h-mid">线下积分订单</div>
+          <div class="h-right">
+            <aside class="top_bar">
+              <div onClick="show_menu();$('#close_btn').addClass('hid');" id="show_more"><a href="javascript:;"></a> </div>
+            </aside>
+          </div>
+        </div>
+      </div>
+      </header>
+     <!-- #BeginLibraryItem "/library/up_menu.lbi" -->
+    <!-- #EndLibraryItem -->
+ 
+
+		<div class="main-div">
+		   <form method="post" action="supplier_m_xian_xia_ding_dan.php" name="theForm" onsubmit="return validate()" enctype="multipart/form-data">
+		        
+		            <dl class="re_one">
+	                    <dt><font class="main-color">*</font>会员手机号：</dt>
+					    <dd>
+					    	<input type="text" size="20" id="user_id"   name="user_id"></textarea>
+						    <div class="required-notice"><i class="notice-icon"></i><span class="notice-text real_name-notice"></span>
+						    </div>
+					    </dd>
+	                  </dl>
+		          
+		             {if $dayu_xiaofei eq 1}
+		              <dl class="re_one">
+	                    <dt><font class="main-color">*</font>验证码：</dt>
+					    <dd>
+					    	<input type="text" size="20"  id="mobile_code"  name="mobile_code"/>
+					    	<input id="zphone" type="button" value=" 获取手机验证码" class="zphone" />
+						    <div class="required-notice"><i class="notice-icon"></i><span class="notice-text real_name-notice"></span>
+						    </div>
+					    </dd>
+	                  </dl>
+		             {/if}
+		             <dl class="re_one">
+	                    <dt><font class="main-color"></font>商品名称：</dt>
+					    <dd>
+					    	<input type="text" size="20"  id="good_name"  name="good_name"/>
+						    <div class="required-notice"><i class="notice-icon"></i><span class="notice-text real_name-notice"></span>
+						    </div>
+					    </dd>
+	                  </dl>
+		           
+		            <dl class="re_one">
+	                    <dt><font class="main-color">*</font>消费金额：</dt>
+					    <dd>
+					    	<input type="text" size="20"  id="order_amt"  name="order_amt"/>
+						    <div class="required-notice"><i class="notice-icon"></i><span class="notice-text real_name-notice"  id='txtAmt'></span>
+						    </div>
+					    </dd>
+	                  </dl>
+	                  
+		         
+		             <dl class="re_one">
+	                    <dt><font class="main-color"></font>服务费：</dt>
+					    <dd>
+					    	<input type="text" size="20"  id="order_bdf"  name="order_bdf"  readonly="readonly"/>
+						    <div class="required-notice"><i class="notice-icon"></i><span class="notice-text real_name-notice"></span>
+						    </div>
+					    </dd>
+	                  </dl>
+	                  
+		           
+		  		  <div class="field submit-btn">
+                    <input type="hidden" name="bdFei" value="0" id="bdFei" />
+                    <input name="postToken" value="{$postToken}" type="hidden">
+                    <input type="submit" class="btn_big1" value="提交" />
+                    <input type="hidden" name="act" value="insert" />
+		         </div>    
+		    </form>
+		</div>
+ 
+
+{literal}
+<script language="JavaScript">
+     /**
+     * 检查表单输入的数据
+     */
+    function validate()
+    {
+        validator = new Validator("theForm");
+        validator.required("user_id", "会员手机号不能为空");
+        {if $dayu_xiaofei eq 1}
+        validator.required("mobile_code", "验证码不能为空");
+        {/if}
+        validator.required("good_name", "商品名称不能为空");
+        validator.required("order_amt", "消费金额不能为空");
+        validator.required("order_bdf", '报单费不能为空');
+        validator.isNumber("order_amt", "消费金额格式不正确");
+        validator.isNumber("order_bdf", "报单费格式不正确");
+
+        return validator.passed();
+    }
+
+    $("#zphone").click(function(){
+        if($("#user_id").val().length===0)
+        {
+            alert("会员手机号不能为空");
+        }
+        else
+        {
+            send_mobile_code($("#mobile_code"), $(this));
+        }
+    });
+    var wait = 60;
+    function countdown(obj, msg) {
+        obj = $(obj);
+
+        if (wait == 0) {
+            obj.removeAttr("disabled");
+            obj.val(msg);
+            wait = 60;
+        } else {
+            if (msg == undefined || msg == null) {
+                msg = obj.val();
+            }
+            obj.attr("disabled", "disabled");
+            obj.val(wait + "秒后重新获取");
+            wait--;
+            setTimeout(function () {
+                countdown(obj, msg)
+            }, 1000)
+        }
+    }
+
+    function send_mobile_code(mobileCodeObj, sendButton) {
+        // 发送邮件
+        var url = 'supplier_m_xian_xia_ding_dan.php';
+        $.post(url, {
+                act: 'send_mobile_code',
+                mobile:$("#user_id").val()
+        }, function(result) {
+                if (result == 'ok') {
+                        //倒计时
+                        countdown(sendButton);
+                } else {
+                        alert(result);
+                }
+        }, 'text');
+    }                          
+    $("input[name='user_id']").blur(function () {
+        $("#txtPhone").text("");
+        $.ajax({
+            url: 'supplier_m_xian_xia_ding_dan.php?act=get_user',
+            data: {user_id: $("input[name='user_id']").val()},
+            type: "POST",
+            dataType: "json",
+            success: function (res) {
+                if (res)
+                {
+                    if (res.code * 1 === 0)
+                    {
+                        $("#txtPhone").text(res.message);
+                    } else
+                    {
+                        $("#txtPhone").text("(会员:" + res.user_id + ",真实姓名:" + res.real_name + ")");
+                    }
+                }
+            },
+            error: function () {
+                //alert("网络繁忙，请稍后再试");
+            }
+        });
+    });
+    
+    $("input[name='order_amt']").blur(function () {
+        $("#txtAmt").text("");
+        $("input[name='order_bdf']").val('');
+        if (!isPriceNumber($("input[name='order_amt']").val()))
+        {
+            $("#txtAmt").text("消费金额不合法");
+        }
+        $("input[name='order_bdf']").val(parseFloat($("input[name='order_amt']").val() * 1 * $("#bdFei").val()).toFixed(2));
+        $.ajax({
+            url: 'supplier_m_xian_xia_ding_dan.php?act=checkje',
+            data: {amount: $("input[name='order_amt']").val(),user_id:$("#user_id").val()},
+            type: "POST",
+            dataType: "json",
+            success: function (res) {
+                if (res)
+                {
+                    if (res.code * 1 === 0)
+                    {
+                        $("#txtAmt").text(res.message);
+                        $("input[name='order_amt']").val('');
+                        $("input[name='order_bdf']").val('');
+                    }
+                }
+            },
+            error: function () {
+                //alert("网络繁忙，请稍后再试");
+            }
+        });
+    });
+    function isPriceNumber(_keyword) {
+        if (_keyword == "0" || _keyword == "0." || _keyword == "0.0" || _keyword == "0.00") {
+            _keyword = "0";
+            return false;
+        } else {
+            var index = _keyword.indexOf("0");
+            var length = _keyword.length;
+            if (index === 0 && length > 1) {/*0开头的数字串*/
+                var reg = /^[0]{1}[.]{1}[0-9]$/;
+                if (!reg.test(_keyword)) {
+                    return false;
+                } else {
+                    return true;
+                }
+            } else {/*非0开头的数字*/
+                var reg = /^[1-9]{1}[0-9]{0,10}$/;
+                if (!reg.test(_keyword)) {
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+            return false;
+        }
+    }
+</script>
+</body>
+</html>
+ 
+ 
+ 
+  
+ 

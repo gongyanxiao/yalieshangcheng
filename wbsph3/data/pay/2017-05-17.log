@@ -1,0 +1,1 @@
+生成订单信息：{"merId":"M1704260104237","user_id":"199","transSeqId":120299,"transAmt":"229.00","merPriv":"5d80586138fea66c0fbbbb842bbc0a60","gateId":"reapalx","retUrl":"http:\/\/www.y.com\/user.php?act=order_detail&order_id=118","bgRetUrl":"http:\/\/www.y.com\/testNotify.php","key":"d3CgIMWVz4","signmsg":"23a9b981efd558d05b4115cde1c31af0","paySrc":"PC","liqType":"T0"}

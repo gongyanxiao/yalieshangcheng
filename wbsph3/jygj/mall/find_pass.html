@@ -1,0 +1,128 @@
+<?include("config.php");?>
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>找回密码_网络平台_<?=_TITLE_?></title>
+    <meta name="keyword" content="<?=_KEYWORD_?>"/>
+    <meta name="description" content="<?=_DESCRIPTION_?>"/>
+    <link href="/Public/ico.ico" type="image/x-icon" rel="shortcut icon" /> 	
+    <link rel="stylesheet" type="text/css" href="/jygj/Public/home/css/index.css">
+<script type="text/javascript" src="/jygj/Public/home/js/jquery-1.7.2.js"></script>
+<script src="js/jquery.min.js"></script>
+<script language=javascript> 
+<!-- 
+function tj(){	
+var user=document.myform.user.value;
+var pass1=document.myform.pass1.value;
+var pass2=document.myform.pass2.value;
+var yzm=document.myform.yzm.value;
+var dataString='user='+user+'&pass1='+pass1+'&pass2='+pass2+'&yzm='+yzm;
+ $.ajax({  
+type: "POST",  
+url:"member/f_pass_pro.html",  
+data:dataString,  
+cache:false,  
+success:function(html){  
+$("#jygj").html(html);
+refresh();
+ }  
+ }); 
+}
+
+var InterValObj; 
+var count = 60; //间隔函数，1秒执行
+var curCount;//当前剩余秒数	
+function duanxin(){
+ curCount = count;
+//设置button效果，开始计时
+$("#hqyzm").attr("disabled", "true");
+$("#hqyzm").val(curCount + "重发验证码");
+InterValObj = window.setInterval(SetRemainTime, 1000); //启动计时器，1秒执行一次
+//验证真实性
+var user=document.myform.user.value;
+var pass1=document.myform.pass1.value;
+var pass2=document.myform.pass2.value;
+var yzm=document.myform.yzm.value;
+var dataString='user='+user+'&pass1='+pass1+'&pass2='+pass2+'&yzm='+yzm;
+ $.ajax({  
+type: "POST",  
+url: "member/f_yzm_send.html",  
+data:dataString,  
+cache:false,  
+success:function(html){  
+$("#jygj").html(html);
+}  
+}); 
+		
+	}
+						function SetRemainTime() {
+						if (curCount == 0) {                
+							window.clearInterval(InterValObj);//停止计时器
+							$("#hqyzm").removeAttr("disabled");//启用按钮
+							$("#hqyzm").val("重新发送");
+						}
+						else {
+							curCount--;
+							$("#hqyzm").val(curCount + "重发验证码");
+						}
+					}
+//-->
+</script>
+	</head>
+<body>
+<div id="jygj"></div>
+<div class="warp">
+    <div class="warp_v_home">
+        <div class="warp_v">
+            <a href="/mall/index.html"><img src="/jygj/Public/home/img/logo.png" width="224" height="88"></a>
+            <span>密码找回</span>
+        </div>
+        <div class="warp_v_mp">
+
+
+          <div class="more_o">
+                    <h1>找回密码</h1>
+              <img src="/jygj/Public/home/img/im137.jpg" width="766" height="48" class="more_o_img">
+			  <form  method="post" name="myform" enctype="multipart/form-data">
+                    <table width="522" cellpadding="0" cellspacing="0" class="more_o_ble">
+                      <tr>
+                        <td width="115" height="27"><b>用户名</b></td>
+                        <td colspan="2">
+                            <input type="text" class="more_o_ble_ex" id="name" name="user" >
+                          <span class="more_o_ble_sp">会员号或商家账号</span>                      </td>
+                      </tr>
+                      <tr>
+                        <td height="25"><b>新密码 </b></td>
+                        <td colspan="2"><input type="password" class="more_o_ble_ex" id="pass1" name="pass1" ></td>
+                      </tr>
+                      <tr>
+                        <td height="25"><b>确认密码</b></td>
+                        <td colspan="2"><input type="password" class="more_o_ble_ex" id="pass2" name="pass2" ></td>
+                      </tr>
+                      <tr>
+                        <td height="38"><b>短信验证码</b></td>
+                        <td width="173"><input type="text" class="more_o_ble_ex" id="yzm" name="yzm" ></td>
+             <td width="232" valign="bottom"><input type="button" class="tx_o_ex" id="hqyzm"  onclick="duanxin()" value="获取验证码" style="width: 92px;height: 30px;padding: 0"></td>
+                      </tr>
+                      <tr>
+                        <td></td>
+                        <td colspan="2"><input name="button" type="button"  class="more_o_ble_ton" onClick="tj();" value="马上找回"></td>
+                      </tr>
+                    </table>
+			</form>
+                </div>
+               
+        </div>
+    </div>
+
+    
+
+<?include("sfooter.html");?>
+
+
+
+
+</div>
+</body>
+</html>

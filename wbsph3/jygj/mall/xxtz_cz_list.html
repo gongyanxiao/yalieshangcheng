@@ -1,0 +1,170 @@
+<?php
+  include "config.php" ;
+  include "page.class.php" ;
+
+ 
+?>
+<!DOCTYPE html>
+<html>
+<head lang="en">
+<meta charset="UTF-8">
+<title><?=_TITLE_?></title>
+<meta name="keyword" content="<?=_KEYWORD_?>" />
+<meta name="description" content="<?=_DESCRIPTION_?>" />
+<link href="/Public/ico.ico" type="image/x-icon" rel="shortcut icon" />
+<link rel="stylesheet" type="text/css" href="/jygj/Public/home/css/page.css">
+<link rel="stylesheet" type="text/css" href="/jygj/Public/home/css/index.css" />
+<script type="text/javascript" src="/jygj/Public/home/js/jquery-1.7.2.js"></script>
+<script type="text/javascript" src="/Public/js/jquery.flexslider-min.js"></script>
+<script type="text/javascript" src="/Public/js/clipboard.min.js"></script>
+
+
+</head>
+
+
+<body >
+	<div class="warp">
+		<!------最顶部开始------>
+		<!------logo结束------>
+		<script>
+			$(function() {
+
+			});
+		</script>
+
+		<!------导航开始------>
+		<?
+        include("sheader1.html");
+		?>
+		<!------导航结束------>
+		<!------导航结束------>
+		<?php
+include "myphplib/db.php";
+include "myphplib/message.php";
+include "config/check.php";
+date_default_timezone_set("Asia/Shanghai");
+$user=$_COOKIE['ECS']['username'];
+ 
+
+$sql="select level from xbmall_users where user_name='{$user}'";
+$level = getOne($sql);
+ $where =" where user='$user' ";
+ $sql = "select id, czyhkh ,skyhkh,user,czje,  date_format(FROM_UNIXTIME(tjrq),'%Y-%m-%d %H:%i') as tjrq ,
+date_format(FROM_UNIXTIME(czrq),'%Y-%m-%d %H:%i') as czrq , cw_sh_state, js_sh_state,  
+ date_format(FROM_UNIXTIME(cwshrq),'%Y-%m-%d %H:%i') as cwshrq,date_format(FROM_UNIXTIME(jsshrq),'%Y-%m-%d %H:%i') as jsshrq,cw_bz  
+,js_bz ,user_bz,ping_zheng,fs_state from  zt_xxtz_cz {$where}  ";
+						$num  = getOne("select count(0) from zt_xxtz_cz {$where} ");
+				     	$per = 12;
+						$page_obj=new Page($num,$per);
+ 						$q="{$sql} order by id desc limit ".($page_obj->page-1)*$per.",".$per;
+ 						$r=mysql_query($q);
+
+						$pagelist=$page_obj->fpage();
+
+ ?>
+
+		<!----内容开始---->
+		<div class="warp_moer">
+			<div class="warp_h">
+				<!----right内容开始---->
+				<div class="warp_h_right">
+
+					<div class="warp_f">
+
+						<div class="warp_f_div">
+							<b>充值记录</b> &nbsp; &nbsp; <a href="xxtz_cz.html">充值</a>
+						</div>
+
+						<table border="1" cellspacing="0" cellpadding="0"
+							class="warp_f_th">
+							<tr>
+								<th align="center">金额</th>
+								<th align="center">提交日期</th>
+								<th align="center">技术审核状态</th>
+								<th align="center">财务审核状态</th>
+								<th align="center">用户备注</th>
+								<th align="center">财务备注</th>
+								<th align="center">凭证</th>
+							</tr>
+							<?php
+					for($i=0;$i<$num;$i++){
+					$data=mysql_fetch_array($r);
+				?>
+							<tr>
+								 
+								<td align="center" style="border-bottom: 1px solid #CCC;">
+									<?=$data["czje"];?>
+								</td>
+								<td align="center"
+									style="font-family: Arial, Helvetica, sans-serif; color: #F00; border-bottom: 1px solid #CCC;">
+									<?=$data["tjrq"];?>
+								</td>
+								<td align="center" style="border-bottom: 1px solid #CCC;">
+									<?php  if($data["js_sh_state"]==0) 
+  												 echo "未审核";
+										  else if($data["js_sh_state"]==1) 
+                                           echo   "审核通过";
+										  else echo "审核不通过";
+                                    ?>
+								</td>
+							     <td align="center" style="border-bottom: 1px solid #CCC;">
+									<?php  if($data["cw_sh_state"]==0) 
+  												 echo "未审核";
+										  else if($data["cw_sh_state"]==1) 
+                                           echo   "审核通过";
+										  else echo "审核不通过";
+                                    ?>
+								</td>
+								<td align="center" style="border-bottom: 1px solid #CCC;">
+									<?=$data["user_bz"];?>
+								</td>
+								
+								<td align="center" style="border-bottom: 1px solid #CCC;">
+									<?=$data["cw_bz"];?>
+								</td>
+								<td align="center" style="border-bottom: 1px solid #CCC;">
+									<a href="/xxtzuploads/<?=$data['ping_zheng'];?>" target="blank">查看</a>
+								</td>
+							</tr>
+							<?php  } ?>
+						</table>
+						<center>
+							<table width="100%" border="0" align="center" cellpadding="0"
+								cellspacing="0" style="text-align: center;">
+								<tr>
+									<td height="21" colspan="6"><div class="epages"
+											style="margin-top: 0">
+											<?php  echo $pagelist;?>
+										</div></td>
+								</tr>
+							</table>
+						</center>
+					</div>
+
+				</div>
+				<!----right内容结束---->
+
+				<!----left内容开始---->
+				<div class="warp_h_left">
+					<?
+		   			 include_once "left_p_menu.html";
+					 mysql_close($db);
+  					?>
+
+					<a href="" class="warp_h_left_gg"><img
+						src="/jygj/Public/home/img/im113.jpg" width="170" height="207"></a>
+
+				</div>
+				<!----left内容结束---->
+			</div>
+
+		</div>
+		<!----内容结束---->
+
+
+		<!------底部开始------>
+		<?include("sfooter.html");?>
+		<!------底部结束------>
+	</div>
+</body>
+</html>

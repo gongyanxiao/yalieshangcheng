@@ -1,0 +1,189 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no">
+<title>摇红包</title>
+<style>
+button {
+	border: none;
+}
+
+h1, h5 {
+	padding: 0;
+	margin: 0;
+	text-align: center
+}
+
+.red>span {
+	width: 98%; height:100%;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: 100%;
+	top: 0;
+	left: 0;
+	position: absolute;
+}
+
+.red>button {
+	position: absolute;
+	top: 53%;
+	left: 50%;
+	width: 100%;
+	margin-left: -44%;
+	height: 80px;
+	font-size: 28px;
+	font-family: '微软雅黑', '宋体';
+	background: none;
+	color: #FF6400;
+	outline: none;
+}
+
+.red-jg {
+	display: none;
+	position: absolute;
+	left: 50%;
+	width: 195px;
+	margin-left: -20%;
+	top: 50%;
+	text-align: center;
+	color: #FF6400;
+	font-size: 1em;
+}
+
+.red-jg>h1 {
+	font-size: 15px;
+	color: #ffc000;
+	line-height: 20px;
+}
+
+.red-jg>h5 {
+	color: #f00;
+}
+
+.ad {
+	display: none;
+}
+</style>
+<script type="text/javascript"
+	src="/themes/default/js/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="/js/jquery.cookie.js"></script>
+<script src="js/zepto.min.js"></script>
+<script>
+
+ 
+ var adSecond = 5;//广告时间
+ //隐藏广告, 显示红包结果
+ function toResult(){	
+	    $.ajax({
+         url: "/mobile/user.php?act=get_hong_bao",
+         type: "POST",
+         data: {},
+         dataType:"html",
+         success: function (result) {
+        	 var fdStart = result.indexOf("领取");
+        	 if(fdStart!=0){//今天没红包了, 或不满足条件
+        		 $("#gongXiNi").hide();
+        	 }
+         	 
+         		$('.ad').css("display" , "none");
+     			$('.red').removeClass('shake-chunk');
+         		$('.redbutton').css("display" , "none");
+//          	    $('.red > span').css("background-image" , ""); 
+         	    $("#result").html(result);//显示领取结果
+         	    $(".red-jg").show();
+         	    window.parent.isCanClose=true;//可以手动关闭弹出窗口了
+         	    $.cookie('lingQuHongBao',"已领取");
+         	    setTimeout(function(){//1后自动关闭本页
+         		  closePopWin();
+         		 },5000);
+         	   window.parent.daoJiShi("本窗口关闭剩余时间:",5);//弹出窗口开始红包的倒计时
+         	 
+         }
+       });
+ }
+ 
+
+$(document).ready(function() {
+	var isClick = false;
+    $('.redbutton').click(function(){//点击领取红包按钮
+    	lingQuHongBao();
+    	isClick=  true;
+    });
+    
+    setTimeout(function(){//5秒不点击自动领取
+    	   if(isClick==false){//如果还没有点击领取
+    		   lingQuHongBao();
+    	   }
+		 },5000);
+    window.parent.daoJiShi("领取红包",5);//弹出窗口开始红包的倒计时
+});
+
+function lingQuHongBao(){
+	  $('.red').addClass('shake-chunk');
+      $('.redbutton').css("display" , "none");
+      $('.ad').css("display" , "block");//显示广告
+	   showHongBaoResult();
+}
+ 
+function showHongBaoResult(){
+	 //看看有没有广告, 有广告先显示广告, 没有广告, 直接显示红包
+     $.ajax({
+         url: "/mobile/user.php?act=getAreaAds",
+         type: "POST",
+         data: {region_id:$.cookie('area_id')},
+         dataType:"json",
+         success: function (result) {
+        	if(result.ad_code!='no'){//有广告信息
+         		window.parent.daoJiShi("广告剩余时间",adSecond);//转到广告倒计时
+         		startAd();
+         		$('.red > span').css("background-image" , "none");//隐藏红包领取页的图片
+         	 
+         		$("#adImg").attr("src",result.ad_code);//加载广告图片
+         		if(result.ad_link){
+         			$("#adA").attr("href",result.ad_link);//广告的链接地址
+         		}
+//              	$("#adA").attr("href",result.ad_link);//广告的链接地址
+             	$("#adA").attr("background",result.ad_code);//广告背景图
+         	}else{//直接显示红包结果
+         		toResult();
+         	}
+         
+         }
+       });
+		
+	 
+ }
+ function closePopWin(){
+	 window.parent.closePopWin();
+ }
+ //开始广告
+ function startAd(){
+	 var miliSecond = adSecond*1000;
+	 setTimeout(function(){//等广告完成后,就进入红包结果页
+		  toResult();
+		 },miliSecond);
+	 
+ }
+</script>
+</head>
+<body>
+	<div class="red ">
+		<span style="background-image: url(img/wx_red.png);">
+			<div class='ad' style='overflow:hidden'>
+				<a id="adA" target="_blank"><img id="adImg" style='width:100%'/></a>
+			</div>
+		</span>
+		<button class="redbutton" type="领取红包">领取红包</button>
+
+		<div class="red-jg">
+			<h1 id="gongXiNi">恭喜您！</h1>
+			<h5 id="result">已领取</h5>
+		</div>
+	</div>
+
+</body>
+</html>

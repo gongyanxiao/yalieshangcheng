@@ -1,0 +1,33 @@
+<div class="store-joinin-apply" style="width:1020px;">
+<div style="float:right;font-size:16px;padding-bottom:20px;"><a href="apply.php?act=add" {if $suppliers}style="display:none"{/if}class="main-btn main-btn-large">申请商家入驻</a></div>
+<table width="100%" border="0" cellpadding="5" cellspacing="1" bgcolor="#eeeeee" style="font-size:14px;">
+          <tr align="center">
+            <td bgcolor="#ffffff">创建时间</td>
+            <td bgcolor="#ffffff">商家名称</td>
+            <td bgcolor="#ffffff">联系人</td>
+            <td bgcolor="#ffffff">联系人手机号</td>
+            <td bgcolor="#ffffff">商家类型</td>
+            <td bgcolor="#ffffff">地址</td>
+            <td bgcolor="#ffffff">状态</td>
+            <td bgcolor="#ffffff">操作</td>
+          </tr>
+          <!-- {foreach from=$suppliers item=val name=logdb} -->
+          <tr align="center" style="height:40px;line-heihgt:40px;">
+            <td bgcolor="#ffffff">{$val.add_time}</td>
+            <td bgcolor="#ffffff">{$val.supplier_name}</td>
+            <td bgcolor="#ffffff">{$val.contacts_name}</td>
+            <td bgcolor="#ffffff">{$val.contacts_phone}</td>
+            <td bgcolor="#ffffff">{$val.cat_name}</td>
+            <td bgcolor="#ffffff">{$val.address}</td>
+            <td bgcolor="#ffffff">{if $val.status eq '1'}审核通过{else}{if $val.status eq '0'}待审核{else}审核不通过{/if}{/if}</td>
+            <td bgcolor="#ffffff">
+                    <a href="apply.php?act=add&id={$val.supplier_id}" width="250">查看</a>
+                </td>
+          </tr>
+          <!--{foreachelse}-->
+          <tr>
+            <td colspan="8" align="center" bgcolor="#ffffff">{$lang.no_records}</td>
+          </tr>
+          <!-- {/foreach} --> 
+</table>
+</div>

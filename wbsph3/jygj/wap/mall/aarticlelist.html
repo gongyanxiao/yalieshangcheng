@@ -1,0 +1,82 @@
+<?	
+include("../conn.php");
+$lmid = htmlspecialchars(trim($_GET['lmid']));
+include("../page.class.php");
+$b=array(70);
+?>
+<?						
+					$a=array();
+					$sql=mysql_query("select * from `phome_enewsclass` where `classid` in ($lmid)"); 
+					$r = mysql_fetch_array( $sql );
+					$str=$r['sonclass']; 
+					$newstr=substr($str,1,-1);
+					$arr = explode("|",$newstr);
+					$newarr=implode(",",$arr);
+					if(trim($str)<>'') {
+ 						$sql1="select * from `phome_ecms_news` as es where `classid` in ($newarr) and (select checked from `phome_ecms_news_index` where `id`=es.id)=1 order by `firsttitle` desc,`isgood` desc,`newstime` desc,id desc ";
+					} else {
+						$sql1="select * from `phome_ecms_news` as es where `classid` in ($lmid) and (select checked from `phome_ecms_news_index` where `id`=es.id)=1 order by `firsttitle` desc,`isgood` desc,`newstime` desc,id desc ";
+					}
+					$query1=mysql_query($sql1); 
+					$total=mysql_num_rows($query1);
+					$per=16;
+					$page_obj=new Page($total,$per);
+					$sqla1=$sql1." limit ".($page_obj->page-1)*$per.",16";
+					$qrya1=mysql_query($sqla1);
+					$pagelist=$page_obj->fpage(array(0,2,4,5,6,9));
+
+					$p=isset($page_obj->page)?$page_obj->page:1;
+					$num=($p-1)*$per;
+					if(in_array($lmid,$b)) {
+
+				?>
+        <ul class="warp_z_ul">
+        <?
+        while($row1 = mysql_fetch_array( $qrya1 )){
+		?> 
+		<li>
+                <a href="articlecontent.html?pid=<?=$row1[id]?>" title="<?=$row1[classname]?>" style="text-align: center;">
+                    <span class="warp_z_ul_an"><img src="<?=$row1[titlepic]?>"></span>
+                    <span class="warp_z_ul_sp">
+                        <span><?=$row1[title]?></span>
+                    </span>
+                </a>
+            </li>          
+		<?
+	    }
+	    ?>
+            </ul> 
+<?
+} else {
+				?>
+        <ul class="warp_z_ul">
+        <?
+        while($row1 = mysql_fetch_array( $qrya1 )){
+		?> 
+		<li>
+                <a href="articlecontent.html?pid=<?=$row1[id]?>" title="<?=$row1[classname]?>">
+                    <span class="warp_z_ul_sp">
+                        <b><?=$row1[newspath]?></b>
+                        <span><?=$row1[title]?></span>
+                    </span>
+                    <span class="warp_z_ul_an"></span>
+                </a>
+            </li>          
+		<?
+	    }
+	    ?>
+            </ul> 
+            <?}
+            $qrya2=mysql_query($sql1);
+            $row2 = mysql_fetch_array( $qrya2 );
+            if($row2==0) {
+            ?>
+            	<center><p style="color: #333;font-size: 16px">当前分类暂时还没有发布任何产品，敬请期待！</p></center>
+            <?
+            } else {
+            ?>
+            <center><?=$pagelist?></center> 
+            <?
+            }@mysql_close($conn);
+            ?>
+

@@ -1,0 +1,247 @@
+<!-- $Id: account_list.htm 14928 2008-10-06 09:25:48Z testyang $ -->
+{if $full_page}
+{include file="pageheader.htm"}
+{insert_scripts files="../js/utils.js,listtable.js"}
+
+<div class="form-div">
+    <form method="post" action="role_points_man.php?act=account_log_list" name="searchForm">
+        <select name="type" onchange="document.forms['searchForm'].submit()">
+            <option value="" {if $type eq ''}selected="selected"{/if}>账户资产</option>
+            <option value="user_money" {if $type eq 'user_money'}selected="selected"{/if}>充值积分</option>
+            <option value="pay_points" {if $type eq 'pay_points'}selected="selected"{/if}>分红积分</option>
+            <option value="yl_points" {if $type eq 'yl_points'}selected="selected"{/if}>养老积分</option>
+            <option value="consum_money" {if $type eq 'consum_money'}selected="selected"{/if}>累计消费金额</option>
+            <option value="history_zsq" {if $type eq 'history_zsq'}selected="selected"{/if}>累计分红权</option>
+            <option value="zsq" {if $type eq 'zsq'}selected="selected"{/if}>当前分红权</option>
+            <option value="jljs_points" {if $type eq 'jljs_points'}selected="selected"{/if}>奖励基数</option>
+            {if $smarty.session.member_role gt 2}
+            <option value="hk_points" {if $type eq 'hk_points'}selected="selected"{/if}>货款积分</option>
+            <option value="frozen_hk_points" {if $type eq 'frozen_hk_points'}selected="selected"{/if}>冻结货款积分</option>
+            {/if}
+            <option value="hz_points" {if $type eq 'hz_points'}selected="selected"{/if}>互助基金</option>
+            {if $smarty.session.member_role lt 3}
+            <option value="gz_points" {if $type eq 'gz_points'}selected="selected"{/if}>基数奖励</option>
+            {/if}
+        </select>
+        <select name="change_type" onchange="document.forms['searchForm'].submit()">
+            <option value="" {if $change_type eq ''}selected="selected"{/if}>全部</option>
+            <option value="0" {if $change_type eq '0'}selected="selected"{/if}>充值</option>
+            <option value="1" {if $change_type eq '1'}selected="selected"{/if}>积分提现</option>
+            <option value="2" {if $change_type eq '2'}selected="selected"{/if}>系统调整</option>  
+            <option value="5" {if $change_type eq '5'}selected="selected"{/if}>每日赠送</option>
+            <option value="3" {if $change_type eq '3'}selected="selected"{/if}>添加报单</option>
+            <option value="6" {if $change_type eq '6'}selected="selected"{/if}>推荐赠送</option>
+            <option value="6" {if $change_type eq '7'}selected="selected"{/if}>购买养老金</option>
+            <option value="99" {if $change_type eq '99'}selected="selected"{/if}>其他</option>
+        </select>
+        <strong>{$lang.label_user_name}</strong>{$user.user_name}
+        <strong>充值积分</strong>{$user.cz_points}
+        <strong>分红积分</strong>{$user.pay_points}
+        <strong>养老积分</strong>{$user.yl_points}
+        <strong>累计消费金额</strong>{$user.consum_money}
+        <strong>累计分红权</strong>{$user.history_zsq}
+        <strong>当前分红权</strong>{$user.zsq}
+        <strong>奖励基数</strong>{$user.jljs_points}
+        {if $smarty.session.member_role gt 2}
+        <strong>货款积分</strong>{$user.hk_points}
+        <strong>冻结货款积分</strong>{$user.frozen_hk_points}
+        {/if}
+        <strong>互助基金</strong>{$user.hz_points}
+        {if $smarty.session.member_role lt 3}
+        <strong>基数奖励</strong>{$user.gz_points}
+        {/if}
+        <strong>分享奖励积分</strong>{$user.fxjl_points}
+    </form>
+</div>
+
+<form method="post" action="" name="listForm" onsubmit="return confirmSubmit();">
+    <div class="list-div" id="listDiv">
+        <input type="hidden" value="{$smarty.get.type}"  name="type" />
+        <input type="hidden" value="{$smarty.get.change_type}" name="change_type" />
+        {/if}
+        <table cellpadding="3" cellspacing="1">
+            <tr>
+                <th width="20%">时间</th>
+                <th width="30%">描述</th>
+                <th>充值积分</th>
+                <th  style="display: none;">{$lang.frozen_money}</th>
+                <th  style="display: none;">{$lang.rank_points}</th>
+                <th>分红积分</th>
+                <th>养老积分</th>
+                <th>累计消费金额</th>
+                <th>累计分红权</th>
+                <th>当前分红权</th>
+                <th>奖励基数</th>
+                <th>互助基金</th>
+                {if $smarty.session.member_role gt 2}
+                <th>货款积分</th>
+                <th>冻结货款积分</th>
+                {/if}
+                {if $smarty.session.member_role lt 3}
+                <th>基数奖励</th>
+                {/if}
+               <th>分享奖励积分</th>
+            </tr>
+            {foreach from=$account_list item=account}
+            <tr>
+                <td>{$account.change_time}</td>
+                <td>{$account.change_desc|escape:html}</td>
+                <td align="right" >
+                    {if $account.user_money gt 0}
+                    <span style="color:#0000FF">+{$account.user_money}</span>
+                    {elseif $account.user_money lt 0}
+                    <span style="color:#FF0000">{$account.user_money}</span>
+                    {else}
+                    {$account.user_money}
+                    {/if}
+                </td>
+                <td align="right"  style="display: none;">
+                    {if $account.frozen_money gt 0}
+                    <span style="color:#0000FF">+{$account.frozen_money}</span>
+                    {elseif $account.frozen_money lt 0}
+                    <span style="color:#FF0000">{$account.frozen_money}</span>
+                    {else}
+                    {$account.frozen_money}
+                    {/if}
+                </td>
+                <td align="right"  style="display: none;">
+                    {if $account.rank_points gt 0}
+                    <span style="color:#0000FF">+{$account.rank_points}</span>
+                    {elseif $account.rank_points lt 0}
+                    <span style="color:#FF0000">{$account.rank_points}</span>
+                    {else}
+                    {$account.rank_points}
+                    {/if}
+                </td>
+                <td align="right">
+                    {if $account.pay_points gt 0}
+                    <span style="color:#0000FF">+{$account.pay_points}</span>
+                    {elseif $account.pay_points lt 0}
+                    <span style="color:#FF0000">{$account.pay_points}</span>
+                    {else}
+                    {$account.pay_points}
+                    {/if}
+                </td>
+                <td align="right">
+                    {if $account.yl_points gt 0}
+                    <span style="color:#0000FF">+{$account.yl_points}</span>
+                    {elseif $account.yl_points lt 0}
+                    <span style="color:#FF0000">{$account.yl_points}</span>
+                    {else}
+                    {$account.yl_points}
+                    {/if}
+                </td>
+                <td> {if $account.consum_money gt 0}
+                    <span style="color:#0000FF">+{$account.consum_money}</span>
+                    {elseif $account.consum_money lt 0}
+                    <span style="color:#FF0000">{$account.consum_money}</span>
+                    {else}
+                    {$account.consum_money}
+                    {/if}</td>
+                <td>{if $account.history_zsq gt 0}
+                    <span style="color:#0000FF">+{$account.history_zsq}</span>
+                    {elseif $account.history_zsq lt 0}
+                    <span style="color:#FF0000">{$account.history_zsq}</span>
+                    {else}
+                    {$account.history_zsq}
+                    {/if}</td>
+                <td>{if $account.zsq gt 0}
+                    <span style="color:#0000FF">+{$account.zsq}</span>
+                    {elseif $account.zsq lt 0}
+                    <span style="color:#FF0000">{$account.zsq}</span>
+                    {else}
+                    {$account.zsq}
+                    {/if}</td>
+                <td>{if $account.jljs_points gt 0}
+                    <span style="color:#0000FF">+{$account.jljs_points}</span>
+                    {elseif $account.jljs_points lt 0}
+                    <span style="color:#FF0000">{$account.jljs_points}</span>
+                    {else}
+                    {$account.jljs_points}
+                    {/if}</td>
+                <td>{if $account.hz_points gt 0}
+                    <span style="color:#0000FF">+{$account.hz_points}</span>
+                    {elseif $account.hz_points lt 0}
+                    <span style="color:#FF0000">{$account.hz_points}</span>
+                    {else}
+                    {$account.hz_points}
+                    {/if}</td>
+
+                {if $smarty.session.member_role gt 2}
+                <td>{if $account.hk_points gt 0}
+                    <span style="color:#0000FF">+{$account.hk_points}</span>
+                    {elseif $account.hk_points lt 0}
+                    <span style="color:#FF0000">{$account.hk_points}</span>
+                    {else}
+                    {$account.hk_points}
+                    {/if}</td>
+                <td>{if $account.frozen_hk_points gt 0}
+                    <span style="color:#0000FF">+{$account.frozen_hk_points}</span>
+                    {elseif $account.frozen_hk_points lt 0}
+                    <span style="color:#FF0000">{$account.frozen_hk_points}</span>
+                    {else}
+                    {$account.frozen_hk_points}
+                    {/if}</td>
+                {/if}
+                {if $smarty.session.member_role lt 3}
+                <td>{if $account.gz_points gt 0}
+                    <span style="color:#0000FF">+{$account.gz_points}</span>
+                    {elseif $account.gz_points lt 0}
+                    <span style="color:#FF0000">{$account.gz_points}</span>
+                    {else}
+                    {$account.gz_points}
+                    {/if}</td>
+                {/if}
+                
+                 <td>{if $account.fxjl_points gt 0}
+                    <span style="color:#0000FF">+{$account.fxjl_points}</span>
+                    {elseif $account.gz_points lt 0}
+                    <span style="color:#FF0000">{$account.fxjl_points}</span>
+                    {else}
+                    {$account.fxjl_points}
+                 {/if}</td>
+                    
+            </tr>
+            {foreachelse}
+            
+            <tr><td class="no-records" {if $smarty.session.member_role gt 2}colspan="12"{elseif $smarty.session.member_role lt 3}colspan="11"{else}colspan="10"{/if}>{$lang.no_records}</td></tr>
+            {/foreach}
+        </table>
+        <table id="page-table" cellspacing="0">
+            <tr>
+                <td align="right" nowrap="true">
+                    {include file="page.htm"}
+                </td>
+            </tr>
+        </table>
+        {if $full_page}
+    </div>
+</form>
+
+<script type="text/javascript" language="javascript">
+    <!--
+  listTable.recordCount = {$record_count};
+    listTable.pageCount = {$page_count};
+    {foreach from = $filter item = item key = key}
+    listTable.filter.{$key} = '{$item}';
+    {/foreach}
+
+    {literal}
+    onload = function()
+    {
+    // 开始检查订单
+    startCheckOrder();
+    }
+    
+  function confirmSubmit()
+  {
+      var frm = document.forms['listForm'];
+      frm.elements["type"]=document.getElementByName("type").value;
+      frm.elements["change_type"]=document.getElementByName("change_type").value;
+      frm.submit();
+  }
+    {/literal}
+            //-->
+</script>
+{include file="pagefooter.htm"}
+{/if}

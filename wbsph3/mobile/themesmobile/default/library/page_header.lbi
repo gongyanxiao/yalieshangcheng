@@ -1,0 +1,107 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style style="text/css">
+space{
+    display: inline-block;
+    width: .12rem;
+}
+.nav-city {
+        position: absolute;
+    font-size:16px;
+    color:#fff;
+    float:left;
+    line-height: 45px;
+    display: inline-block;
+    vertical-align: middle;
+    text-align: center;
+    margin-right: .2rem;
+    margin-left: .2rem;
+    width:50px;
+}
+.icon-downarrow {
+    position: relative;
+}
+.text-icon {
+    font-family: base_icon;
+    display: inline-block;
+    vertical-align: middle;
+    font-style: normal;
+}
+.icon-downarrow:after {
+    content: '';
+    display: inline-block;
+    position: relative;
+    top: -.2em;
+    width: .5em;
+    height: .5em;
+    border-bottom: .03rem solid #fff;
+    border-left: .03rem solid #fff;
+    -webkit-transform: scaleX(0.7) rotateZ(-45deg);
+}	
+.header, #header {
+    background-color: #f50b50;
+}
+#header dl{ width:25%; height:45px; float:right;}
+#header dl dt{ float:right; width:50%;}
+#header dl dd{ float:right;width:50%;}
+.show_cart{float:left; width:40px; height:40px; padding-top:5px; position:relative; background-position:0 -30px;background-size: auto 150px;}
+.global-nav__nav-shop-cart-num{
+  position: absolute;left: 50%; top:6px;color: #fff;text-align: center; font-weight:normal; font-size:12px; font-family:宋体;width:16px; height:16px; line-height:16px; }
+.top_bar{display: block;width: 30px;height: 45px; margin:auto;}
+#show_more{width:30px; height:45px;background-position:5px -150px;}
+
+.goods_nav ul li a{ color:#fff; line-height:36px}
+</style>
+<script type="text/javascript">
+var process_request = "{$lang.process_request}";
+</script>
+<script language="javascript"> 
+<!--
+/*屏蔽所有的js错误*/
+function killerrors() { 
+return true; 
+} 
+window.onerror = killerrors; 
+//-->
+
+function checkSearchForm()
+{
+    if(document.getElementById('searchtype').value == 0){
+        if(document.getElementById('keyword').value != '' && document.getElementById('keyword').value != '请输入关键词')
+        {
+            return true;
+        }
+        else
+        {
+             alert("请输入关键词！");
+            return false;
+        }
+    }else{
+        if(document.getElementById('keyword').value == '' || document.getElementById('keyword').value == '请输入关键词'){
+               document.getElementById('keyword').value = '';
+               return true; 
+        }
+    }
+}
+</script>
+<script type="text/javascript" src="js/jquery.cookie.js" ></script>
+<div id="container" style="width:0px;height:0px;"></div>
+ <div class="h-left"><a class="sb-back" href="javascript:history.back(-1)" title="返回"></a></div>
+  <dl>
+    <dd class="top_bar">
+      <div onClick="show_menu();$('#close_btn').addClass('hid');" id="show_more"><a href="javascript:;"></a></div>
+    </dd>
+  </dl>
+<span href="javascript:void(0)" class="logo" style="text-align:center;">{$shop_name|truncate:10}</span>
+<script type="text/javascript" src="themesmobile/default/js/mobile.js" ></script>
+<div class="goods_nav hid" id="menu">
+        <div class="Triangle">
+          <h2></h2>
+        </div>
+        <ul>
+          <li><a href="flow.php">购物车</a></li>
+		  <li><a href="user.php?act=collection_list">收藏</a></li>
+		  <li><a href="user.php?act=order_list">商品订单</a></li>
+		  <li><a href="catalog.php">商品分类</a></li>
+		  <li><a href="user.php?act=address_list">收货地址</a></li>
+        </ul>
+      </div>

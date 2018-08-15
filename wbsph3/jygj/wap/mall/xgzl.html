@@ -1,0 +1,194 @@
+﻿<?
+include("config.php");
+$link = mysqli_connect($db_host,$db_user,$db_pwd,$db_database) or die('Unale to link');
+$link->set_charset('utf8');
+if(empty($_COOKIE['ECS']['username'])){
+header("Location:/mall/"); 
+    exit;
+}?>
+<?
+
+$query1=$link->query("select * from xbmall_users where user_name='".$_COOKIE['ECS']['username']."'"); 
+$r1=$query1->fetch_array(); 
+$query2=$link->query("select * from zt_memberinfo where userid=".$r1['id']); 
+$r2=$query2->fetch_array(); 
+$x=$query2->num_rows;
+?>
+
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<meta content="no-cache,must-revalidate" http-equiv="Cache-Control">
+<meta content="no-cache" http-equiv="pragma">
+<meta content="0" http-equiv="expires">
+<meta content="telephone=no, address=no" name="format-detection">
+<meta name="apple-mobile-web-app-capable" content="yes"> 
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta http-equiv="pragma" content="no-cache">
+<meta http-equiv="cache-control" content="no-cache">
+<meta http-equiv="expires" content="0">   
+    <title><?=_TITLE_?></title>
+    <meta name="keyword" content="<?=_KEYWORD_?>"/>
+    <meta name="description" content="<?=_DESCRIPTION_?>"/>
+    <link href="/Public/ico.ico" type="image/x-icon" rel="shortcut icon" /> 
+	
+    <link rel="stylesheet" type="text/css" href="/jygj/Public/wap/css/index.css">
+    <script type="text/javascript" src="/mall/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/mall/js/jquery.wallform.js"></script>
+    <script type="text/javascript" src="/jygj/Public/home/js/jquery.validate.min.js"></script>
+
+ <script type="text/javascript">   	
+$(function(){
+	$('#photoimg').die('click').live('change', function(){
+		var status = $("#up_status");
+		var btn = $("#up_btn");
+		$("#imageform").ajaxForm({
+			target: '#preview', 
+			beforeSubmit:function(){
+				status.show();
+				btn.hide();
+			}, 
+			success:function(){
+				status.hide();
+				btn.show();
+			}, 
+			error:function(){
+				status.hide();
+				btn.show();
+		} }).submit();
+	});
+});
+//-->
+</script>
+
+<style type="text/css">
+.demo{width:100px; min-height:80px;float:left;}
+#preview{height: 110px;
+overflow: hidden; }
+.preview{width:100px;height:100px;}
+.demo p{line-height:26px}
+.btn{position: relative;overflow: hidden;margin-right: 4px;display:inline-block;*display:inline;font-size:14px;line-height:18px;*line-height:20px;color:#fff;text-align:center;vertical-align:middle;cursor:pointer;background-color:#0054A7;border-color:#0054A7 #0054A7 #0054A7;border-bottom-color:#b3b3b3;-webkit-border-radius:4px;-moz-border-radius:4px;border-radius:4px;}
+.btn input {position: absolute;top: 0; right: 0;margin: 0;border: solid transparent;opacity: 0;filter:alpha(opacity=0); cursor: pointer;}
+select{
+border: 1px solid #DADADA;
+    font-size: 16px;
+    color: #A9A9A9;
+    padding-left: 3%;
+    height: 44px;
+    line-height: 44px;
+    border-radius: 3px;
+    font-family: '微软雅黑';
+        margin-bottom: 5%;
+        height: 44px;
+    width: 30%;
+    float: left;
+    margin-left: 2%;
+}
+</style>
+</head>
+<body style="background: #EEEEEE">
+<div class="warp">
+	
+    <div class="warp_a">
+        <div class="warp_a_div">
+            <div class="warp_a_div_mp">
+				
+				
+			<form id="imageform" method="post" enctype="multipart/form-data" action="/mall/upload5.php">
+             <div class="demo">
+			 <div id="up_status" style="display:none"><img src="" alt=""/></div>
+			<div id="up_btn" class="btn">
+				<span><div id="preview"><img src="<?=empty($r2['tx'])?'/images/logoa.png':'/mall/'.$r2['tx']?>" style="width: 100px;height:100px"></div></span>
+				<input id="photoimg" type="file" name="photoimg">
+			</div>
+              
+		 </div>
+   </form>				
+            </div>
+        </div>
+    </div>
+    <form action="information_do.php?type=<?=$x?>" method="post" id="form" enctype='multipart/form-data'>
+    <div class="warp_a_mp">
+        <div class="warp_a_mo">
+            <label class="warp_a_mo_1">
+                <input type="radio" name="sex" value="男" checked="checked">
+                <span>男</span>
+            </label>
+            <label class="warp_a_mo_2">
+                <input type="radio" name="sex" value="女" >
+                <span>女</span>
+            </label>
+             <script type="text/javascript">
+                                    	if(<?=$r2['xb']?>==1) {
+                                    		$("input[name='sex']").eq(0).attr("checked","checked");
+                                    	} else {
+                                    		$("input[name='sex']").eq(1).attr("checked","checked");
+                                    	}
+                                    </script>
+        </div>
+        <div class="warp_a_mi">
+            <input type="text" placeholder="修改姓名" name="xm" id="name" value="<?=$r1['xm']?>">
+           
+            <input type="text" placeholder="修改邮箱" name="yx" id="email" value="<?=$r2['yx']?>">
+   			<b style="font-size: 16px;color: #A9A9A9;">修改所在地区</b>
+         	<div >
+	            <input type="hidden" id="sa" value="<?=$r1[a]?>">
+	            <input type="hidden" id="sb" value="<?=$r1[b]?>">
+	            <input type="hidden" id="sc" value="<?=$r1[c]?>">
+	                <select id="s_province" name="a" style="margin-left: 0"></select>  
+	                <select id="s_city" name="b" ></select>  
+	                <select id="s_county" name="c"></select>
+	                <script class="resources library" src="/jygj/Public/home/js/area.js" type="text/javascript"></script>
+	                <script type="text/javascript">
+	                    var s=["s_province","s_city","s_county"];//三个select的name
+	                    var x="省份";
+                        var y="地级市";
+                        var z="市、县级市";
+						var opt0 = [x,y,z];
+	                	_init_area();
+	                </script>
+	        </div>
+                          
+			<input type="text" placeholder="修改详细地址" name="xxdz" id="xxdz" value="<?=$r1['xxdz']?>">
+        </div>
+    </div>
+
+    <input type="button" value="确认修改" class="warp_a_mu">
+	</form>
+<script>
+$(".warp_a_mu").click(function()
+{
+	var name = $("#name").val();
+	var phone = $("#phone").val();
+	var email = $("#email").val();
+	
+	if(name==''){
+			alert('姓名不能为空!')
+			return false
+	} else{
+		var rel = /^[\u4e00-\uf900]{2,4}$/
+		if(!rel.test(name)){
+			alert('请输入正确的姓名!');
+			return false
+		}else{
+			
+				var rel = /^(\w)+(\.\w+)*@(\w)+((\.\w+)+)$/;
+				if(!rel.test(email)){
+					alert('请输入正确的邮箱!');
+					return false
+				}else{
+					$('#form').submit()	
+				}
+					
+		}
+	}
+	
+})
+
+</script>
+</div>
+</body>
+</html>

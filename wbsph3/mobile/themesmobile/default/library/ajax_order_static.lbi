@@ -1,0 +1,14 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<div class="detail_m">
+<dl>
+<h2><span>{$order_static_detail.supplier_name}</span><em>{$order_static_detail.add_time}</em></h2>
+<dt><em>服务费：</em><span>{$order_static_detail.rebate_money}</span></dt>
+<dd>
+<p>订单类型：{$order_static_detail.is_offline}</p>
+<p>订单编号：{$order_static_detail.order_sn}</p>
+<p>订单金额：{$order_static_detail.all_money}</p>
+</dd>
+<dd>
+</dd>
+</dl>
+</div>

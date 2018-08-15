@@ -1,0 +1,107 @@
+<!-- $Id: card_list.htm 14216 2008-03-10 02:27:21Z testyang $ -->
+{if $full_page}
+{include file="pageheader.htm"}
+{insert_scripts files="../js/utils.js,listtable.js"}
+<script type='text/javascript' src='../js/calendar.php' ></script>
+<link href='../js/calendar/calendar.css' rel='stylesheet' type='text/css' />
+<!--搜索区域-->
+<div class="form-div">
+<form action="javascript:search_offline()" name="search_offline_form" >
+<table>
+<tr>
+  <td>开始时间:</td>
+  <td>
+    <input name="add_time" id="add_time" type="text" size="26">
+    <input class="button" type='button' id="add_time_btn" onclick="return showCalendar('add_time', '%Y-%m-%d %H:%M:%S', '24', false, 'add_time_btn');" value="选择">
+  </td>
+  <td>结束时间:</td>
+  <td>
+    <input name="end_time" id="end_time" type="text" size="26">
+    <input class="button" type='button' id="add_time_btn" onclick="return showCalendar('end_time', '%Y-%m-%d %H:%M:%S', '24', false, 'end_time');" value="选择">
+  </td>
+  <td>{$lang.label_inv_status}</td>
+  <td>
+  </td>
+  <td><input class="button" type="submit" value="搜索 "></td>
+</tr>
+</table>
+</form>
+</div>
+
+<!-- start goods list -->
+<form method="post" action="role_offline_man.php" name="offlinelistForm">
+    <div class="list-div" id="listDiv">
+        {/if}
+        <table cellpadding="3" cellspacing="1">
+            <tr>
+                <th><a href="javascript:listTable.sort('tk_id');">编号</a></th>
+                <th><a href="javascript:listTable.sort('product_name');">产品名字</a></th>
+                <th><a href="javascript:listTable.sort('period');">周期</a></th>
+                <th><a href="javascript:listTable.sort('rate');">利率</a></th>
+                <th><a href="javascript:listTable.sort('sales_num');">销量</a></th>
+                <th>描述</th>
+                <th>操作</th>
+            </tr>
+            { foreach from=$order_list item=card}
+            <tr>
+                <td align="center">
+                    {$card.tk_id}
+                </td>
+                <td align="left">{$card.product_name}</td>
+                <td align="right">{$card.period}</td>
+                <td align="right">{$card.rate}</td>
+                <td align="left">{$card.sales_num}</td>
+                 <td align="center" >
+                    {$card.description}
+                </td>
+                 <td align="center" >
+                   <a href="javascript:void(0)" onclick="alert({$card.tk_id})">购买</a>
+                    <a href="javascript:void(0)" onclick="alert({$card.tk_id})">查看</a>
+                </td>
+            </tr>
+            {foreachelse}
+            <tr><td class="no-records" colspan="10">{$lang.no_records}</td></tr>
+            {/foreach}
+
+            <tr>
+                <th>总计</th>
+                <td></td>
+                <td></td>
+                <td align="right">{$filter.order_amt_sum}</td>
+                <td>{$filter.order_bdf_sum}</td>
+                <td></td>
+                <td></td>
+            </tr>
+        </table>
+
+        <table cellpadding="4" cellspacing="0">
+            <tr>
+                <td align="right">{include file="page.htm"}</td>
+            </tr>
+        </table>
+        {if $full_page}
+    </div>
+</form>
+
+<script type="text/javascript" src="js/layer/layer.js" ></script>
+<script type="text/javascript" language="JavaScript">
+    listTable.recordCount = {$record_count};
+    listTable.pageCount = {$page_count};
+    {foreach from = $filter item = item key = key}
+    listTable.filter.{$key} = '{$item}';
+    {/foreach}
+    
+    /**
+    *  按照日期搜索
+    */
+   function search_offline()
+   {
+       listTable.filter['up_time'] = Utils.trim(document.forms['search_offline_form'].elements['add_time'].value);
+       listTable.filter['end_time'] = Utils.trim(document.forms['search_offline_form'].elements['end_time'].value);
+       listTable.loadList();
+   }
+
+
+</script>
+{include file="pagefooter.htm"}
+{/if}

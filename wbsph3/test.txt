@@ -1,0 +1,98 @@
+订单号:121723
+
+订单号:121724
+
+app_id=2017082808420024&biz_content={"timeout_express":"30m","product_code":"QUICK_MSECURITY_PAY","total_amount":"0.01","subject":"1","body":"ceshi","out_trade_no":"121724"}&charset=utf-8&method=alipay.trade.app.pay&notify_url=http://shop.xiangbai315.com/er_wei_ma.php&sign_type=RSA2&timestamp=2017-09-23 10:40:58&version=1.0
+
+订单号:121731
+
+app_id=2017082808420024&biz_content={"timeout_express":"30m","product_code":"QUICK_MSECURITY_PAY","total_amount":"0.01","subject":"1","body":"ceshi","out_trade_no":"121731"}&charset=utf-8&method=alipay.trade.app.pay&notify_url=http://shop.xiangbai315.com/er_wei_ma.php&sign_type=RSA2&timestamp=2017-09-25 15:36:35&version=1.0
+
+app_id=2017082808420024&biz_content=%7B%22timeout_express%22%3A%2230m%22%2C%22product_code%22%3A%22QUICK_MSECURITY_PAY%22%2C%22total_amount%22%3A%220.01%22%2C%22subject%22%3A%221%22%2C%22body%22%3A%22ceshi%22%2C%22out_trade_no%22%3A%22121731%22%7D&charset=utf-8&method=alipay.trade.app.pay&notify_url=http%3A%2F%2Fshop.xiangbai315.com%2Fer_wei_ma.php&sign_type=RSA2&timestamp=2017-09-25+15%3A36%3A35&version=1.0&sign=
+
+订单号:121732
+
+app_id=2017082808420024&biz_content={"timeout_express":"30m","product_code":"QUICK_MSECURITY_PAY","total_amount":"0.01","subject":"1","body":"ceshi","out_trade_no":"121851"}&charset=utf-8&method=alipay.trade.app.pay&notify_url=http://shop.xiangbai315.com/er_wei_ma.php&sign_type=RSA2&timestamp=2016-07-29 16:55:53&version=1.0
+
+收到支付宝的回复
+array (
+)
+收到支付宝的回复
+array (
+)
+收到支付宝的回复
+array (
+)
+收到支付宝的回复
+array (
+)
+收到支付宝的回复
+array (
+)
+收到支付宝的回复
+array (
+)
+收到支付宝的回复
+array (
+)
+收到支付宝的回复
+array (
+)
+收到支付宝的回复
+array (
+)
+收到支付宝的回复
+array (
+)
+收到支付宝的回复
+array (
+)
+收到支付宝的回复
+array (
+)
+收到支付宝的回复
+array (
+)
+收到支付宝的回复
+array (
+)
+收到支付宝的回复
+array (
+)
+收到支付宝的回复
+array (
+)
+收到支付宝的回复
+array (
+)
+收到支付宝的回复
+array (
+)
+收到支付宝的回复
+array (
+)
+收到支付宝的回复
+array (
+)
+收到支付宝的回复
+array (
+)
+收到支付宝的回复
+array (
+)
+收到支付宝的回复
+array (
+)
+收到支付宝的回复
+array (
+)
+收到支付宝的回复
+array (
+)
+收到支付宝的回复
+array (
+)
+订单号:122184
+
+app_id=2017082808420024&biz_content={"timeout_express":"30m","product_code":"QUICK_MSECURITY_PAY","total_amount":"0.01","subject":"1","body":"ceshi","out_trade_no":"121851"}&charset=utf-8&method=alipay.trade.app.pay&notify_url=http://shop.xiangbai315.com/er_wei_ma.php&sign_type=RSA2&timestamp=2016-07-29 16:55:53&version=1.0
+

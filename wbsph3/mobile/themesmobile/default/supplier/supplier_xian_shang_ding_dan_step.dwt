@@ -1,0 +1,117 @@
+<!DOCTYPE html >
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<title>{$page_title}</title>
+<meta name="Keywords" content="{$keywords}" />
+<meta name="Description" content="{$description}" />
+<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+<link rel="stylesheet" type="text/css" href="themesmobile/default/css/public.css"/>
+<link rel="stylesheet" href="themesmobile/default/css/stores.css">
+<link href="themesmobile/default/css/supp_center.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="themesmobile/default/js/jquery.js"></script>
+	{insert_scripts files='index.js'}
+</head>
+<script type="text/javascript" src="themesmobile/default/js/utils.js"></script>
+<script type="text/javascript" src="themesmobile/default/js/validator.js"></script>
+
+<body class="bodybj">
+      <header>
+      <div class="tab_nav">
+        <div class="header">
+          <div class="h-left"><a class="sb-back" href="javascript:history.back(-1)" title="返回"></a></div>
+          <div class="h-mid">线上订单</div>
+          <div class="h-right">
+            <aside class="top_bar">
+              <div onClick="show_menu();$('#close_btn').addClass('hid');" id="show_more"><a href="javascript:;"></a> </div>
+            </aside>
+          </div>
+        </div>
+      </div>
+      </header>
+     <!-- #BeginLibraryItem "/library/up_menu.lbi" -->
+    <!-- #EndLibraryItem -->
+ 
+ 
+		
+{if $step eq "user"}
+     <!-- #BeginLibraryItem "/supplier/xian_shang_ding_dan/userStep.lbi" -->
+     <!-- #EndLibraryItem -->
+{elseif $step eq "goods"}
+  <!-- #BeginLibraryItem "/supplier/xian_shang_ding_dan/goodsStep.lbi" -->
+  <!-- #EndLibraryItem -->
+{elseif $step eq "consignee"}
+  <!-- #BeginLibraryItem "/supplier/xian_shang_ding_dan/consigneeStep.lbi" -->
+  <!-- #EndLibraryItem -->
+{elseif $step eq "shipping"}
+  <!-- #BeginLibraryItem "/supplier/xian_shang_ding_dan/shippingStep.lbi" -->
+  <!-- #EndLibraryItem -->
+{elseif $step eq "payment"}
+  <!-- #BeginLibraryItem "/supplier/xian_shang_ding_dan/paymentStep.lbi" -->
+  <!-- #EndLibraryItem -->
+{elseif $step eq "other"}
+  <!-- #BeginLibraryItem "/supplier/xian_shang_ding_dan/otherStep.lbi" -->
+  <!-- #EndLibraryItem -->
+{elseif $step eq "money"}
+  <!-- #BeginLibraryItem "/supplier/xian_shang_ding_dan/moneyStep.lbi" -->
+  <!-- #EndLibraryItem -->
+  
+{elseif $step eq "invoice"} 
+	
+	<script lang='javascript' type='text/javascript'>
+	  function $(id)
+	  {
+	    return document.getElementById(id);
+	  }
+	</script>
+
+	{if $step_detail eq 'edit'}
+		 <!-- #BeginLibraryItem "/supplier/xian_shang_ding_dan/step_detail_edit.lbi" -->
+	     <!-- #EndLibraryItem -->
+	<!--查看增值税发票-->
+	{elseif $step_detail eq 'info'}
+	   
+		{if $order.inv_type eq 'vat_invoice'}
+		  <!-- #BeginLibraryItem "/supplier/xian_shang_ding_dan/step_detail_info_vat_invoice.lbi" -->
+	   	  <!-- #EndLibraryItem -->
+		
+		<!--查看普通发票-->
+		{elseif $order.inv_type eq 'normal_invoice'}
+		 <!-- #BeginLibraryItem "/supplier/xian_shang_ding_dan/step_detail_info_normal_invoice.lbi" -->
+	   	 <!-- #EndLibraryItem -->
+		{/if}
+
+	
+		<script language='javascript' type='text/javascript'>
+			var origin_inv_remark = '{$order.inv_remark}';
+			$('inv_remark').onblur=function(){
+			  if($('inv_remark').value != origin_inv_remark)
+			  {
+			    Ajax.call('?act=save_inv_remark','order_id='+{$order.order_id}+'&inv_remark='+$('inv_remark').value,save_inv_remark_response,'GET','POST',false,true);
+			  }
+			}
+			function save_inv_remark_response(result)
+			{
+			  if(result.error == '1')
+			  {
+			    alert('保存失败\n'+result.msg);
+			  }
+			  else
+			  {
+			    origin_inv_remark = $('inv_remark').value;
+			    alert('保存成功');
+			  }
+			}
+		</script>
+	 {/if} 
+{/if}
+ <!-- #BeginLibraryItem "/supplier/xian_shang_ding_dan/footerScript.lbi" -->
+  <!-- #EndLibraryItem -->
+</body>
+</html>
+ 
+ 
+ 
+  
+ 

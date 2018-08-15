@@ -1,0 +1,412 @@
+<?
+include("config.php");?>
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <title>积分记录_<?=_TITLE_?></title>
+    <meta name="keyword" content="<?=_KEYWORD_?>"/>
+    <meta name="description" content="<?=_DESCRIPTION_?>"/>
+    <link href="/Public/ico.ico" type="image/x-icon" rel="shortcut icon" /> 
+	
+    <link rel="stylesheet" type="text/css" href="/jygj/Public/wap/css/index.css">
+    <script type="text/javascript" src="/jygj/Public/home/js/jquery-1.js"></script>
+	<script src="/jygj/Public/home/js/echarts.js"></script>
+    <script src="/jygj/Public/home/js/dark.js"></script>
+		 <style>
+#wins{
+    position: relative;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    width: 100%;
+    height: 200px;
+    background-color: #fff;
+}
+
+.warp_m_right_ble th{font-weight: normal;line-height: 40px;background: #ECF5FD;border: 1px solid #E1E1E1}
+</style>
+</head>
+<body style="background: #EEEEEE">
+<div class="warp">
+	<div class="warp_q">
+        <a href="/wap/mall/center.html"></a>
+        <span>积分记录</span>
+    </div>
+    <!------内容开始------>
+    <div class="ktp_u">
+        <div class="ktp_u_div">
+            <span style="background: url(/jygj/Public/wap/img/ktp_1.png) no-repeat left center;background-size: 16px 16px">消费记录</span>
+        </div><?
+	    if($_COOKIE['ECS']['username']==""){
+			echo '<script>location.href="/wap/mall/login.html";</script>';
+}
+$user=$_COOKIE['ECS']['username'];
+    
+        include_once "config/check.php";
+        include_once "config/zt_config.php";
+        $db = mysql_connect("$db_host","$db_user","$db_pwd");
+mysql_query("set names $coding"); 
+mysql_select_db("$db_database");
+//判断会员类型
+$yh=$_COOKIE['ECS']['username'];
+$q1="select dldq from zt_log  where user='$yh' order by id desc";
+$o=mysql_query($q1);
+$a=mysql_fetch_assoc($o);
+if($_COOKIE['dl']<>$a['dldq']){
+echo '<script>alert("同一帐户不可以同时登录！")</script>';
+echo '<script>location.href="exit.html?log=1";</script>';
+exit();
+}
+
+$sql="select lx from xbmall_users where user_name='$yh'";
+$qs1=mysql_query($sql);
+$sf1=mysql_fetch_assoc($qs1);
+
+$lx=$sf1["lx"];
+if($lx=="1"){
+exit();
+}
+		?>
+        <ul class="ktp_y">
+            <li>
+                <b><?php
+$sq2="select sum(jyje) as ze from zt_orderlist  where mjhyh='$user' and zfzt='1'";
+$qs2=mysql_query($sq2);
+$sf2=mysql_fetch_assoc($qs2);
+echo number_format($sf2['ze'],2);
+									?>元</b>
+                <span>总共消费</span>
+            </li>
+            <li>
+                <b><?php
+							
+$sql1="select jf from xbmall_users where user_name='$user' order by id desc";
+	$q1=mysql_query($sql1);
+	$ss1=mysql_fetch_assoc($q1);
+	$sql3="select yzs,zsq,yljf from xbmall_users where user_name='$user' order by id desc";
+	$q3=mysql_query($sql3);
+	$ss3=mysql_fetch_assoc($q3);
+	$sql2="select xfjf from xbmall_users where user_name='$user' order by id desc";
+	$q2=mysql_query($sql2);
+	$ss2=mysql_fetch_assoc($q2);?>
+	<?echo floor($sf2['ze']/1000);?>个</b>
+                <span>赠送权</span>
+            </li>
+       
+			   <li>
+                <b><?echo $ss3['yzs']?$ss3['yzs']:0;?>个</b>
+                <span>已赠送</span>            </li>
+          
+            <li>
+                <b><?$zs=floor($sf2['ze']/1000)-$ss3['yzs']; echo $zs?$zs:0;?>个</b>
+                <span>未赠送</span>            </li>
+           
+        </ul>
+
+        <div class="ht10"></div>
+
+        <div class="ktp_u_div">
+            <span style="background: url(/jygj/Public/wap/img/ktp_2.png) no-repeat left center;background-size: 16px 16px">&nbsp;赠送记录</span>        </div>
+
+
+
+    </div>
+	<table width="100%" border="0" cellpadding="0" cellspacing="0">
+  <tr>
+    <td height="297" valign="top" bgcolor="#FFFFFF">  <table width="100%" height="34" border="0" cellpadding="0" cellspacing="0"  style="background: #fff;">
+                        <tr>
+                          <td width="40%" align="left"><strong>&nbsp;历史赠送记录：</strong>
+            <?php
+									$sq2="select sum(jf) as ze from  zt_jf_record  where user='$user' and (xmfl='兑现积分' or  xmfl='提现' or  xmfl='转换扣除') order by id desc";
+$qs2=mysql_query($sq2);
+$sf2=mysql_fetch_assoc($qs2);
+echo number_format($sf2['ze'],2);
+									?>
+          积分</td>
+           <td width="60%" align="left"　style=" background:#eeeeee;1px solid #ccc;">已提现:
+                          <?php
+									$sq2="select sum(jf) as ze1 from  zt_jf_record  where user='$user' and xmfl='提现' order by id desc";
+$qs2=mysql_query($sq2);
+$sf2=mysql_fetch_assoc($qs2);
+echo number_format(abs($sf2['ze1']),2);
+									?>积分 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;已转换:
+                
+									
+									  <?php
+									$sq2="select sum(jf) as ze1 from  zt_jf_record  where user='$user' and xmfl='转换扣除' order by id desc";
+$qs2=mysql_query($sq2);
+$sf2=mysql_fetch_assoc($qs2);
+echo number_format(abs($sf2['ze1']),2);
+									?>
+                          积分</td>
+      </tr>
+    </table>
+<table width="100%" border="1" cellpadding="0" cellspacing="0"  class="warp_m_right_ble">
+								<tr>
+									<th width="21%">兑现积分</th>
+									<th width="34%">赠送时间</th>
+									<th width="18%">增幅</th>
+								    <th width="27%">备注</th>
+								</tr>
+	    </table>
+   <?php
+                            $user=$_COOKIE['ECS']['username'];
+ include "config/zt_config.php";
+$db=mysql_connect($db_host,$db_user,$db_pwd);
+mysql_query("SET NAMES $coding"); 
+mysql_select_db($db_database);
+//判断登录状态
+$sql="select lx from xbmall_users where user_name='$user'";
+$qs1=mysql_query($sql);
+$sf1=mysql_fetch_assoc($qs1);
+$lx=$sf1["lx"];
+if($lx=="1"){
+echo '<script>location.href="login.html";</script>';
+}
+?>
+	<div id="wins"> 
+       <?php
+$q="select * from zt_jf_record  where user='$user' and (xmfl='兑现积分' or  xmfl='提现' or  xmfl='转换扣除')   order by id desc";
+$r=mysql_query($q,$db);
+$num=mysql_num_rows($r);
+for($i=0;$i<$num;$i++){
+$data2=mysql_fetch_array($r);
+?>
+<p>
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF">
+  <tr>
+    <td width="21%" height="37" align="center" style="font-family:Arial, Helvetica, sans-serif;color:#F00;border-bottom:1px  solid #CCC;"><?=$data2["jf"];?></td>
+    <td width="34%" align="center" style="border-bottom:1px  solid #CCC;"><?=$data2["date"];?></td>
+    <td width="18%" align="center" style="border-bottom:1px  solid #CCC;"><?
+	$id=$data2["id"];
+	$q2="select sum(jf) as jf1 from zt_jf_record  where user='$user' and id<='$id' and (xmfl='兑现积分' or  xmfl='提现' or  xmfl='转换扣除')   order by id desc";
+$r2=mysql_query($q2);
+$o=mysql_fetch_assoc($r2);
+echo "↑ ".number_format($o['jf1'],2)?"↑ ".number_format($o['jf1'],2):0;
+if($data2['xmfl']=="提现"){
+	$q3="select zt from zt_b_cash_record where user='$user' order by id desc";
+	$c3=mysql_query($q3);
+	$out3=mysql_fetch_assoc($c3);
+if($out3["zt"]=="0"){
+echo '<font color="#000">(处理中)</font>';
+}
+if($out3["zt"]=="2"){
+echo '<font color="#f00">(已处理)</font>';
+}
+}
+	?></td>
+	<td width="27%" align="center" style="border-bottom:1px  solid #CCC;"><?=$data2["bz"];?></td>
+    </tr>
+</table>
+
+</p>
+<?php
+  }
+  ?>
+      </div>
+	  </td>
+  </tr>
+  <tr>
+    <td height="297" align="left" valign="top" bgcolor="#FFFFFF">
+	
+	    <table width="100%" height="34" border="0" cellpadding="0" cellspacing="0"  style="background: #fff;">
+                        <tr>
+                          <td width="40%" align="left"><strong>&nbsp;历史赠送记录：</strong>
+                              <?php
+									$sq2="select sum(jf) as ze from  zt_jf_record  where user='$user' and (xmfl='消费兑换积分')  order by id desc";
+$qs2=mysql_query($sq2);
+$sf2=mysql_fetch_assoc($qs2);
+echo number_format($sf2['ze'],2)?number_format($sf2['ze'],2):0;
+									?>
+                            积分</td>
+                             <td width="60%" align="left"　style=" background:#eeeeee;1px solid #ccc;">已转换:
+                            <?php
+									$sq2="select sum(jf) as ze1 from  zt_jf_record  where user='$user' and xmfl='转换增加' order by id desc";
+$qs2=mysql_query($sq2);
+$sf2=mysql_fetch_assoc($qs2);
+echo number_format(abs($sf2['ze1']),2);
+									?>
+积分 &nbsp;&nbsp;已兑换：<?php
+									$sq21="select sum(jf) as ze1 from  zt_jf_record  where user='$user' and xmfl='兑换商品' order by id desc";
+$qs21=mysql_query($sq21);
+$sf21=mysql_fetch_assoc($qs21);
+echo number_format(abs($sf21['ze1']),2);
+									?> 积分</td>
+        </tr>
+      </table>
+	
+
+	<table width="100%" border="1" cellpadding="0" cellspacing="0"  class="warp_m_right_ble">
+								<tr>
+									<th width="21%">消费兑换积分</th>
+									<th width="34%">赠送时间</th>
+									<th width="18%">增幅</th>
+								    <th width="27%">备注</th>
+								</tr>	
+
+	    </table>
+	<div id="wins"> 
+       <?php
+$q="select * from zt_jf_record  where user='$user'  and  (xmfl='消费兑换积分' or  xmfl='转换增加' or xmfl='兑换商品') order by id desc";
+$r=mysql_query($q,$db);
+$num=mysql_num_rows($r);
+for($i=0;$i<$num;$i++){
+$data2=mysql_fetch_array($r);
+?>
+<p>
+<table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF">
+  <tr>
+    <td width="21%" height="37" align="center" style="font-family:Arial, Helvetica, sans-serif;color:#F00;border-bottom:1px  solid #CCC;"><?=$data2["jf"];?></td>
+    <td width="34%" align="center" style="border-bottom:1px  solid #CCC;"><?=$data2["date"];?></td>
+    <td width="18%" align="center" style="border-bottom:1px  solid #CCC;color:#006600;"><?
+	$id=$data2["id"];
+	$q2="select sum(jf) as jf1 from zt_jf_record  where user='$user' and id<='$id'  and  (xmfl='消费兑换积分' or  xmfl='转换增加' or xmfl='兑换商品') order by id desc";
+$r2=mysql_query($q2);
+$o=mysql_fetch_assoc($r2);
+echo "↑ ".number_format($o['jf1'],2)?"↑ ".number_format($o['jf1'],2):0;
+	?></td>
+	<td width="27%" align="center" style="border-bottom:1px  solid #CCC;"><?=$data2["bz"];?></td>
+    </tr>
+</table>
+
+</p>
+<?php
+  }
+  ?>
+  </div>
+  </td>
+  </tr>
+  <tr>
+    <td height="297" valign="top" bgcolor="#FFFFFF">
+  <table width="100%" height="34" border="0" cellpadding="0" cellspacing="0"  style="background: #fff;">
+                        <tr>
+                          <td width="40%" align="left"><strong>&nbsp;历史赠送记录：</strong>
+                             <?php
+									$sq2="select sum(jf) as ze from  zt_jf_record  where user='$user' and xmfl='养老教育积分'  order by id desc";
+$qs2=mysql_query($sq2);
+$sf2=mysql_fetch_assoc($qs2);
+echo number_format($sf2['ze'],2)?number_format($sf2['ze'],2):0;
+									?>
+                            积分</td>
+
+                      <td width="60%" align="left"　style=" background:#eeeeee;1px solid #ccc;">已生成保单：<?php
+									$sq2="select sum(jf) as ze from  zt_jf_record  where user='$user' and (xmfl='保单兑换')  order by id desc";
+$qs2=mysql_query($sq2);
+$sf2=mysql_fetch_assoc($qs2);
+echo number_format($sf2['ze'],2)?number_format($sf2['ze'],2):0;
+									?> 积分</td>
+        </tr>
+      </table>
+
+	<table width="100%" border="1" cellpadding="0" cellspacing="0"  class="warp_m_right_ble">
+								<tr>
+									<th width="21%">养老教育积分</th>
+									<th width="34%">赠送时间</th>
+									<th width="18%">增幅</th>
+								    <th width="27%">备注</th>
+								</tr>							
+	    </table>
+	<div id="wins"> 
+       <?php
+$q="select * from zt_jf_record  where user='$user' and  (xmfl='养老教育积分' or xmfl='保单兑换') order by id desc";
+$r=mysql_query($q,$db);
+$num=mysql_num_rows($r);
+for($i=0;$i<$num;$i++){
+$data2=mysql_fetch_array($r);
+?>
+<p>
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF">
+  <tr>
+    <td width="21%" height="37" align="center" style="font-family:Arial, Helvetica, sans-serif;color:#F00;border-bottom:1px  solid #CCC;"><?=$data2["jf"];?></td>
+    <td width="34%" align="left" style="border-bottom:1px  solid #CCC;"><?=$data2["date"];?></td>
+    <td width="18%" align="center" style="border-bottom:1px  solid #CCC;"><?
+	$id=$data2["id"];
+	$q2="select sum(jf) as jf1 from zt_jf_record  where user='$user' and id<='$id' and  (xmfl='养老教育积分' or xmfl='保单兑换') order by id desc";
+$r2=mysql_query($q2);
+$o=mysql_fetch_assoc($r2);
+echo "↑ ".number_format($o['jf1'],2)?"↑ ".number_format($o['jf1'],2):0;
+if($data2['xmfl']=="保单兑换"){
+	$q3="select zt from zt_bd where user='$user' order by id desc";
+	$c3=mysql_query($q3);
+	$out3=mysql_fetch_assoc($c3);
+if($out3["zt"]=="0"){
+echo '<font color="#000">(处理中)</font>';
+}
+if($out3["zt"]=="2"){
+echo '<font color="#f00">(已处理)</font>';
+}
+}
+	?></td>
+	<td width="27%" align="center" style="border-bottom:1px  solid #CCC;"><?=$data2["bz"];?></td>
+    </tr>
+</table>
+
+</p>
+<?php
+  }
+  ?>
+  </div></td>
+  </tr>
+</table>
+  
+  <?php
+   //调用积分
+$sql="select jf,xfjf,yljf from xbmall_users where user_name='$user'";
+$qs1=mysql_query($sql);
+$sf1=mysql_fetch_assoc($qs1);
+
+  ?>  
+     <div class="warp_m_right_div" style="width: 100%;height: 500%;" id="main5" ></div>
+	<script type="text/javascript">
+						var myChart = echarts.init(document.getElementById('main5'));
+							option = {
+							tooltip: {
+								trigger: 'item',
+								formatter: "{a}{b}:{c} 积分"
+							},
+							legend: {
+								orient: 'vertical',
+								x: 'left',
+								data:['兑现积分','商品兑换积分','消费养老积分']
+							},
+							series: [
+								{
+									name:'赠送记录',
+									type:'pie',
+									radius: ['50%','70%'],
+									avoidLabelOverlap: false,
+									label: {
+										normal: {
+											show: false,
+											position: 'center'
+										},
+										emphasis: {
+											show: true,
+											textStyle: {
+												fontSize: '30',
+												fontWeight: 'bold'
+											}
+										}
+									},
+									labelLine: {
+										normal: {
+											show: false
+										}
+									},
+									data:[
+										{value:<?=$sf1['jf']?$sf1['jf']:0;?>, name:'兑现积分'},
+										{value:<?=$sf1['xfjf']?$sf1['xfjf']:0;?>, name:'商品兑换积分'},
+										{value:<?=$sf1['yljf']?$sf1['yljf']:0;  mysql_close($db);?>, name:'消费养老积分'},
+										//{value:0, name:'保险积分'}
+									]
+								}
+							]
+						};
+						
+												myChart.setOption(option);
+					</script>
+</div>
+</body>
+</html>

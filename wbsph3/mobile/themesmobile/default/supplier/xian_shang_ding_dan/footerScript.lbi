@@ -1,0 +1,315 @@
+<script language="JavaScript">
+  var step = '{$step}';
+  var orderId = {$order_id};
+  var act = '{$smarty.get.act}';
+ 
+  function checkUser()
+  {
+    var eles = document.forms['theForm'].elements;
+
+    /* 如果搜索会员，检查是否找到 */
+    if (document.getElementById('user_useridname').checked && eles['user'].options.length == 0)
+    {
+      alert(pls_search_user);
+      return false;
+    }
+    return true;
+  }
+
+  function checkGoods()
+  {
+    var eles = document.forms['theForm'].elements;
+
+    if (eles['goods_count'].value <= 0)
+    {
+      alert(pls_search_goods);
+      return false;
+    }
+    return true;
+  }
+
+  function checkConsignee()
+  {
+    var eles = document.forms['theForm'].elements;
+
+    if (eles['country'].value <= 0)
+    {
+      alert(pls_select_area);
+      return false;
+    }
+    if (eles['province'].options.length > 1 && eles['province'].value <= 0)
+    {
+      alert(pls_select_area);
+      return false;
+    }
+    if (eles['city'].options.length > 1 && eles['city'].value <= 0)
+    {
+      alert(pls_select_area);
+      return false;
+    }
+    if (eles['district'].options.length > 1 && eles['district'].value <= 0)
+    {
+      alert(pls_select_area);
+      return false;
+    }
+    return true;
+  }
+
+  function checkShipping()
+  {
+    if (!radioChecked('shipping'))
+    {
+      alert(pls_select_shipping);
+      return false;
+    }
+    return true;
+  }
+
+  function checkPayment()
+  {
+    if (!radioChecked('payment'))
+    {
+      alert(pls_select_payment);
+      return false;
+    }
+    return true;
+  }
+
+  /**
+   * 返回某 radio 是否被选中一个
+   * @param string radioName
+   */
+  function radioChecked(radioName)
+  {
+    var eles = document.forms['theForm'].elements;
+
+    for (var i = 0; i < eles.length; i++)
+    {
+      if (eles[i].name == radioName && eles[i].checked)
+      {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  /**
+   * 按用户编号或用户名搜索用户
+   */
+  function searchUser()
+  {
+    var eles = document.forms['theForm'].elements;
+
+    /* 填充列表 */
+    var idName = Utils.trim(eles['keyword'].value);
+    if (idName != '')
+    {
+      Ajax.call('order.php?act=search_users&id_name=' + idName, '', searchUserResponse, 'GET', 'JSON');
+    }
+  }
+
+  function searchUserResponse(result)
+  {
+    if (result.message.length > 0)
+    {
+      alert(result.message);
+    }
+
+    if (result.error == 0)
+    {
+      var eles = document.forms['theForm'].elements;
+
+      /* 清除列表 */
+      var selLen = eles['user'].options.length;
+      for (var i = selLen - 1; i >= 0; i--)
+      {
+        eles['user'].options[i] = null;
+      }
+      var arr = result.userlist;
+      var userCnt = arr.length;
+
+      for (var i = 0; i < userCnt; i++)
+      {
+        var opt = document.createElement('OPTION');
+        opt.value = arr[i].user_id;
+        opt.text = arr[i].user_name;
+        eles['user'].options.add(opt);
+      }
+    }
+  }
+
+  /**
+   * 按商品编号或商品名称或商品货号搜索商品
+   */
+  function searchGoods()
+  {
+    var eles = document.forms['goodsForm'].elements;
+
+    /* 填充列表 */
+    var keyword = Utils.trim(eles['keyword'].value);
+    if (keyword != '')
+    {
+      Ajax.call('order.php?act=search_goods&keyword=' + keyword, '', searchGoodsResponse, 'GET', 'JSON');
+    }
+  }
+
+  function searchGoodsResponse(result)
+  {
+    if (result.message.length > 0)
+    {
+      alert(result.message);
+    }
+
+    if (result.error == 0)
+    {
+      var eles = document.forms['goodsForm'].elements;
+
+      /* 清除列表 */
+      var selLen = eles['goodslist'].options.length;
+      for (var i = selLen - 1; i >= 0; i--)
+      {
+        eles['goodslist'].options[i] = null;
+      }
+
+      var arr = result.goodslist;
+      var goodsCnt = arr.length;
+      if (goodsCnt > 0)
+      {
+        for (var i = 0; i < goodsCnt; i++)
+        {
+          var opt = document.createElement('OPTION');
+          opt.value = arr[i].goods_id;
+          opt.text = arr[i].name;
+          eles['goodslist'].options.add(opt);
+        }
+        getGoodsInfo(arr[0].goods_id);
+      }
+      else
+      {
+        getGoodsInfo(0);
+      }
+    }
+  }
+
+  /**
+   * 取得某商品信息
+   * @param int goodsId 商品id
+   */
+  function getGoodsInfo(goodsId)
+  {
+    if (goodsId > 0)
+    {
+      Ajax.call('order.php?act=json&func=get_goods_info', 'goods_id=' + goodsId, getGoodsInfoResponse, 'get', 'json');
+    }
+    else
+    {
+      document.getElementById('goods_name').innerHTML = '';
+      document.getElementById('goods_sn').innerHTML = '';
+      document.getElementById('goods_cat').innerHTML = '';
+      document.getElementById('goods_brand').innerHTML = '';
+      document.getElementById('add_price').innerHTML = '';
+      document.getElementById('goods_attr').innerHTML = '';
+    }
+  }
+  function getGoodsInfoResponse(result)
+  {
+    var eles = document.forms['goodsForm'].elements;
+
+    // 显示商品名称、货号、分类、品牌
+    document.getElementById('goods_name').innerHTML = result.goods_name;
+    document.getElementById('goods_sn').innerHTML = result.goods_sn;
+    document.getElementById('goods_cat').innerHTML = result.cat_name;
+    document.getElementById('goods_brand').innerHTML = result.brand_name;
+
+    // 显示价格：包括市场价、本店价（促销价）、会员价
+    var priceHtml = '<input type="radio" name="add_price" value="' + result.market_price + '" />市场价 [' + result.market_price + ']<br />' +
+      '<input type="radio" name="add_price" value="' + result.goods_price + '" checked />本店价 [' + result.goods_price + ']<br />';
+    for (var i = 0; i < result.user_price.length; i++)
+    {
+      priceHtml += '<input type="radio" name="add_price" value="' + result.user_price[i].user_price + '" />' + result.user_price[i].rank_name + ' [' + result.user_price[i].user_price + ']<br />';
+    }
+    priceHtml += '<input type="radio" name="add_price" value="user_input" />' + input_price + '<input type="text" name="input_price" value="" /><br />';
+    document.getElementById('add_price').innerHTML = priceHtml;
+
+    // 显示属性
+    var specCnt = 0; // 规格的数量
+    var attrHtml = '';
+    var attrType = '';
+    var attrTypeArray = '';
+    var attrCnt = result.attr_list.length;
+    for (i = 0; i < attrCnt; i++)
+    {
+      var valueCnt = result.attr_list[i].length;
+
+      // 规格
+      if (valueCnt > 1)
+      {
+        attrHtml += result.attr_list[i][0].attr_name + ': ';
+        for (var j = 0; j < valueCnt; j++)
+        {
+          switch (result.attr_list[i][j].attr_type)
+          {
+            case '0' :
+            case '1' :
+              attrType = 'radio';
+              attrTypeArray = '';
+            break;
+
+            case '2' :
+              attrType = 'checkbox';
+              attrTypeArray = '[]';
+            break;
+          }
+          attrHtml += '<input type="' + attrType + '" name="spec_' + specCnt + attrTypeArray + '" value="' + result.attr_list[i][j].goods_attr_id + '"';
+          if (j == 0)
+          {
+            attrHtml += ' checked';
+          }
+          attrHtml += ' />' + result.attr_list[i][j].attr_value;
+          if (result.attr_list[i][j].attr_price > 0)
+          {
+            attrHtml += ' [+' + result.attr_list[i][j].attr_price + ']';
+          }
+          else if (result.attr_list[i][j].attr_price < 0)
+          {
+            attrHtml += ' [-' + Math.abs(result.attr_list[i][j].attr_price) + ']';
+          }
+        }
+        attrHtml += '<br />';
+        specCnt++;
+      }
+      // 属性
+      else
+      {
+        attrHtml += result.attr_list[i][0].attr_name + ': ' + result.attr_list[i][0].attr_value + '<br />';
+      }
+    }
+    eles['spec_count'].value = specCnt;
+    document.getElementById('goods_attr').innerHTML = attrHtml;
+  }
+
+  /**
+   * 把商品加入订单
+   */
+  function addToOrder()
+  {
+    var eles = document.forms['goodsForm'].elements;
+
+    // 检查是否选择了商品
+    if (eles['goodslist'].options.length <= 0)
+    {
+      alert(pls_search_goods);
+      return false;
+    }
+    return true;
+  }
+
+  /**
+   * 载入收货地址
+   * @param int addressId 收货地址id
+   */
+  function loadAddress(addressId)
+  {
+    location.href += 'order.php?act={$smarty.get.act}&order_id={$smarty.get.order_id}&step={$smarty.get.step}&address_id=' + addressId;
+  }
+</script>

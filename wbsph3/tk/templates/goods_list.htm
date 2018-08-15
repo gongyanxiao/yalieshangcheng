@@ -1,0 +1,55 @@
+<!-- $Id: goods_list.htm 17126 2010-04-23 10:30:26Z liuhui $ -->
+
+{if $full_page}
+	{include file="pageheader.htm"}
+	{insert_scripts files="../js/utils.js,listtable.js"}
+	
+	<!-- 商品搜索 -->
+	{include file="goods_search.htm"}
+	<!-- 商品列表 -->
+	<form method="post" action="" name="listForm" onsubmit="return confirmSubmit(this)">
+	  <!-- start goods list -->
+	  <div class="list-div" id="listDiv">
+{/if}
+    {include file="goods_list_data.htm"}
+
+{if $full_page}
+</div>
+
+<div>
+  <input type="hidden" name="act" value="batch" />
+</div>
+</form>
+
+<script type="text/javascript">
+  listTable.recordCount = {$record_count};
+  listTable.pageCount = {$page_count};
+  {foreach from=$filter item=item key=key}
+ 	 listTable.filter.{$key} = '{$item}';
+  {/foreach}
+  {literal}
+
+  /**
+   * @param: bool ext 其他条件：用于转移分类
+   */
+  function confirmSubmit(frm, ext)
+  {
+      
+      else if (frm.elements['type'].value == 'not_on_sale')
+      {
+          return confirm(batch_no_on_sale);
+      }
+      else if (frm.elements['type'].value == '')
+      {
+          return false;
+      }
+      else
+      {
+          return true;
+      }
+  }
+  
+{/literal}
+</script>
+{include file="pagefooter.htm"}
+{/if}

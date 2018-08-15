@@ -1,0 +1,49 @@
+<div class="box">
+	                <script type="text/javascript">
+	                      var surplus_amount_empty = "请输入您要操作的数量！";
+	                      var surplus_amount_error = "您输入的数量格式不正确！";
+	                      var process_desc = "请输入您此次操作的备注信息！";
+	                      var payment_empty = "请选择支付方式！";
+	                  </script>
+	                <div class="tabmenu">
+	                    <ul class="tab pngFix">
+	                        <li class="first active">分红积分提现</li>
+	                    </ul>
+	                </div>
+	                <div class="mar_top">
+	                    <table cellspacing="1" cellpadding="10" bgcolor="#eeeeee" border="0" width="100%">
+	                        <tbody>
+	                            <tr>
+	                                <td align="right">
+	                                    <a href="user.php?act=fen_hong_ji_fen_account_log" class="main-btn main-btn-large">查看提现记录</a>
+	                                </td>
+	                            </tr>
+	                        </tbody>
+	                    </table>
+	                </div>
+	                <form name="formSurplus" method="post" action="user.php" onsubmit="return submitSurplus()">
+	                    <table cellspacing="1" cellpadding="10" bgcolor="#eeeeee" border="0" width="100%">
+	                        <tbody>
+	                            <tr>
+	                                <td align="right" width="15%">提现分红积分:</td>
+	                                <td align="left">
+	                                    <input name="amount" value="" class="inputBg" size="30" type="text">
+	                                </td>
+	                            </tr>
+	                            <tr>
+	                                <td align="right">会员备注:</td>
+	                                <td align="left">
+	                                    <textarea name="user_note" cols="55" rows="6" style="border: 1px solid #ddd;"></textarea>
+	                                </td>
+	                            </tr>
+	                            <tr>
+	                                <td colspan="2" align="center">
+	                                     <input name="act" value="fen_hong_ji_fen_ti_xian_save" type="hidden">
+	                                     <input name="submit" class="main-btn main-btn-large" value="提交申请" type="submit"> 
+	                                     <input name="reset" class="main-btn main-btn-large" value="重置表单" type="reset">
+	                                </td>
+	                            </tr>
+	                        </tbody>
+	                    </table>
+	                </form>
+	            </div>

@@ -1,0 +1,134 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="Keywords" content="{$keywords}" />
+<meta name="Description" content="{$description}" />
+<meta name="renderer" content="webkit" />
+<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+<!-- TemplateBeginEditable name="doctitle" -->
+<title>{$page_title}</title>
+<!-- TemplateEndEditable -->
+<!-- TemplateBeginEditable name="head" -->
+<!-- TemplateEndEditable -->
+<link rel="shortcut icon" href="favicon.ico" />
+<link rel="icon" href="animated_favicon.gif" type="image/gif" />
+<link rel="alternate" type="application/rss+xml" title="RSS|{$page_title}" href="{$feed_url}" />
+<link rel="stylesheet" type="text/css" href="themes/default/css/common.css" />
+<link rel="stylesheet" type="text/css" href="themes/default/css/city.css" />
+<script type="text/javascript" src="themes/default/js/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="themes/default/js/jump.js"></script>
+<script type="text/javascript" src="themes/default/js/tab.js"></script>
+<script type="text/javascript" src="themes/default/js/jquery-lazyload.js" ></script>
+<script type="text/javascript">
+var compare_no_goods = "{$lang.compare_no_goods}";
+var btn_buy = "{$lang.btn_buy}";
+var is_cancel = "{$lang.is_cancel}";
+var select_spe = "{$lang.select_spe}";
+</script>
+{insert_scripts files='jquery.json.js,transport.js'}
+{insert_scripts files='common.js,index.js'}
+</head>
+<body>
+{insert name='add_url_uid'}
+<!-- #BeginLibraryItem "/library/page_header.lbi" --><!-- #EndLibraryItem -->
+
+<div class="w1210">
+<div class="city_province" >
+                <span class="label" id="yui_3_16_0_1_1482472502421_663">按省份选择：</span>
+                <span class="province-city-select">
+    <select name="province" class="ui-select-small" >
+        <option value="-1">--省--</option>
+        {foreach from=$provices item=city_prov}
+            <option value="{$city_prov.cat_id}" >{$city_prov.cat_name}</option>
+        {/foreach}
+    </select>
+    <select name="city" class="ui-select-small" >
+        <option value="-1">--市--</option>
+    </select>
+</span>
+                <input class="confirm-city-btn"  type="button" value="确定">
+        </div>
+<div class="citieslist" >
+                <h2>热门城市</h2>
+                <ol class="hasallcity">
+<li id="city-{$item.key}" class="">
+<p class="cf">
+<span>
+{foreach from=$hotcitys item=hotcity}
+<a href="javascript:void(0);" onclick="set_area_cookie2({$hotcity.cat_id},'{$hotcity.cat_name}');">{$hotcity.cat_name}</a>
+{/foreach}
+</span></p></li>
+</ol>
+            </div>
+<div class="citieslist">
+            <h2 >按拼音首字母选择<span class="arrow">»</span></h2>
+            <ol class="hasallcity">
+            {foreach from = $allcitys item =item}
+<li id="city-{$item.key}" class="">
+<p class="cf">
+<span class="label">
+<strong>{$item.key}</strong></span>
+<span>
+{foreach from=$item.items item=childcity}
+<a class="isonline" href="javascript:void(0);" onclick="set_area_cookie2({$childcity.cat_id},'{$childcity.cat_name}');">{$childcity.cat_name}</a>
+{/foreach}
+{/foreach}
+</span></p></li>
+             </ol>
+</div>
+</div>
+ <div class="site-footer">
+        <div class="footer-related">
+            <!-- #BeginLibraryItem "/library/help.lbi" --><!-- #EndLibraryItem -->
+            <!-- #BeginLibraryItem "/library/page_footer.lbi" --><!-- #EndLibraryItem -->
+      </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){
+    var jsonData='{$jsonprovices}';
+    $("select[name='province']").change(function(){
+        var prov=$(this).val();
+        if(prov*1===-1)
+        {
+            $("select[name='city']").empty().html('<option value="-1">--市--</option>');
+        }
+        else
+        {
+            var citys=$.parseJSON(jsonData); 
+            $("select[name='city']").empty().html('<option value="-1">--市--</option>');
+            for(var i in citys)
+            {
+                if(prov*1==i*1)
+                {
+                    $.each(citys[i],function(index,item){
+                        $('<option value="'+item.cat_id+'">'+item.cat_name+'</option>').appendTo($("select[name='city']"));
+                    });
+                }
+            }
+        }
+    });
+    $(".confirm-city-btn").click(function(){
+        var prov=$("select[name='province']").val();
+        var city=$("select[name='city']").val();
+        if(prov*1===-1)
+        {
+            alert("请选择省份");
+            $("select[name='province']").focus();
+            return false;
+        }
+        else if(city*1===-1)
+        {
+            alert("请选择城市");
+            $("select[name='city']").focus();
+            return false;
+        }
+        else
+        {
+            set_area_cookie2(city,$("select[name='city']").find("option:selected").text());
+        }
+    });
+});
+</script>
+</body>
+</html>

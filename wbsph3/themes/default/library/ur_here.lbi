@@ -1,0 +1,19 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<div class="w">
+  <div class="breadcrumb clearfix">{$ur_here}</div>
+</div>
+<div class="blank"></div>
+<script>
+$(function(){
+	$('.breadcrumb .crumbs-nav').hover(function(){
+            $(this).siblings().removeClass('curr');
+		$(this).toggleClass('curr');	
+	})
+        $('.breadcrumb .crumbs-nav').mouseover(function(){
+            $(this).siblings().removeClass('curr');
+		$(this).addClass('curr');	
+	})
+})
+</script>
+
+

@@ -1,0 +1,71 @@
+<!-- $Id: card_list.htm 14216 2008-03-10 02:27:21Z testyang $ -->
+{if $full_page}
+{include file="pageheader.htm"}
+{insert_scripts files="../js/utils.js,listtable.js"}
+<script type='text/javascript' src='../js/calendar.php' ></script>
+<link href='../js/calendar/calendar.css' rel='stylesheet' type='text/css' />
+<!-- start goods list -->
+<form method="post" action="role_yl_points_apply.php?act=query" name="listForm">
+    <div class="list-div" id="listDiv">
+        {/if}
+        <table cellpadding="3" cellspacing="1">
+            <tr>
+                <th><a href="javascript:listTable.sort('id');">编号</a></th>
+                <th><a href="javascript:listTable.sort('add_time');">时间</a></th>
+                <th>养老金</th>
+                <th>真实姓名</th>
+                <th>身份证号</th>
+                <th>手机号</th>
+                <th>状态</th>
+            </tr>
+            {foreach from=$account_list item=card}
+            <tr>
+                <td align="center">
+                    {$card.id}
+                </td>
+                <td align="left">{$card.add_time}</td>
+                <td align="right">{$card.pension_name}（{$card.money}）</td>
+                <td align="right">{$card.real_name}</td>
+                <td align="right">{$card.idcard}</td>
+                <td align="left">{$card.mobile_phone}</td>
+                <td align="center">{if $card.status eq 1}审核通过{elseif $card.status eq 2}审核不通过{else}审核中{/if}</td>
+            </tr>
+            {foreachelse}
+            <tr><td class="no-records" colspan="7">{$lang.no_records}</td></tr>
+            {/foreach}
+            <tr style="display: none;"><td align="center">总计</td><td></td><td></td><td align="right"></td><td></td><td></td><td></td><td></td></tr>
+        </table> 
+        <table cellpadding="4" cellspacing="0">
+            <tr>
+                <td align="right">{include file="page.htm"}</td>
+            </tr>
+        </table>
+        {if $full_page}
+    </div>
+</form>
+<!-- end goods list -->
+<script type="text/javascript" language="JavaScript">
+    listTable.recordCount = {$record_count};
+    listTable.pageCount = {$page_count};
+    {foreach from = $filter item = item key = key}
+    listTable.filter.{$key} = '{$item}';
+    {/foreach}
+            onload = function()
+            {
+            // 开始检查订单
+            startCheckOrder();
+            }
+    /**
+     * 搜索订单
+     */
+    function searchOrder()
+    {
+    listTable.filter['start_time'] = document.forms['searchForm'].elements['start_time'].value;
+    listTable.filter['end_time'] = document.forms['searchForm'].elements['end_time'].value;
+    listTable.filter['page'] = 1;
+    listTable.loadList();
+    }
+//-->
+</script>
+{include file="pagefooter.htm"}
+{/if}

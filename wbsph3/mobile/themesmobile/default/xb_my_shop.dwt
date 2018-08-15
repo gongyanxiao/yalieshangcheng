@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		     <meta charset="UTF-8"/>
+			 <meta name="viewport" content="width=device-width">
+				<title>{$page_title}</title>
+				<meta name="Keywords" content="{$keywords}" />
+				<meta name="Description" content="{$description}" />
+				<meta name="viewport"
+					content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+				<link rel="stylesheet" type="text/css"
+					href="themesmobile/default/css/public.css?v={$smarty.now}" />
+				<link rel="stylesheet" type="text/css"
+					href="themesmobile/default/css/index.css?v={$smarty.now}" />
+				<script type="text/javascript"
+					src="themesmobile/default/js/jquery.js"></script>
+				<script type="text/javascript"
+					src="themesmobile/default/js/TouchSlide.1.1.js"></script>
+				<script type="text/javascript"
+					src="themesmobile/default/js/jquery.more.js"></script>
+				<script type="text/javascript"
+					src="themesmobile/default/js/jquery.cookie.js"></script>
+				<script type="text/javascript"
+					src="themesmobile/default/js/mobile.js"></script>
+				<link rel="stylesheet" href="themesmobile/default/css/my.css"></link>
+	</head>
+<body>
+<div class="header"><!-- #BeginLibraryItem "/library/page_header.lbi" --> <!-- #EndLibraryItem --></div>
+<div class="container">
+    <div class="my-balance">
+        <div class="balance">
+            <p>可用余额（元）</p>
+            <h1>1000</h1>
+        </div>
+    </div>
+    <div class="my-purse">
+        <a href="xb_my_shop.php?act=transe_out">
+            <dl class="clearfix">
+                <dt><i class="recharge"></i></dt>
+                <dd><h1>转出</h1></dd>
+            </dl>
+        </a>
+        <a href="">
+            <dl class="clearfix">
+                <dt><i class="withdraw"></i></dt>
+                <dd><h1>总收入金额</h1><span>10000</span></dd>
+            </dl>
+        </a>
+        <a href="">
+            <dl class="clearfix" style="margin-top: 40px">
+                <dt><i class="withdraw"></i></dt>
+                <dd><h1>交易明细</h1></dd>
+            </dl>
+        </a>
+    </div>
+</div>
+<div style="position: fixed;bottom: 0" class="footer">
+<!-- #BeginLibraryItem "/library/footer_nav.lbi" --> <!-- #EndLibraryItem --> 
+</div>
+</body>
+</html>

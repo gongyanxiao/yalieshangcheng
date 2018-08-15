@@ -1,0 +1,4 @@
+cmbc.cer 为民生银行公钥证书
+正式环境商户的私钥证书需要通过申请得到。
+
+详见Demo（http://111.205.207.103/cmbcpaydemo/）中进入下载页（http://111.205.207.103/cmbcpaydoc/downIndex.html）的【文件证书下载使用操作手册-国密】文档

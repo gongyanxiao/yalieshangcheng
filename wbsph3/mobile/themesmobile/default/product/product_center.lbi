@@ -1,0 +1,32 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <link href="themesmobile/default/css/supp_center.css" rel="stylesheet" type="text/css" />
+        <div id="container" class="shouye">
+            <header id="header" class="header">
+				<div class="toplog">
+				    <dl>
+				 <!-- <dt><img src="{$supp_infos.shop_logo}"></dt>-->
+				    <dd><span>{$supp_infos.supplier_name}</span></dd>
+				    </dl>
+				</div>
+				<div class="topnav">
+				    <ul>
+				    <li class="bain"><a><span>{$points}</span>产品积分总额</a></li>
+				    <li class="bain"><a><span>{$draw_points}</span>已提现总额</a></li>
+				    <li style="border:0"><a ><span>{$ke_ti_xian_jin_e}</span>可提现金额</a></li> 
+				    </ul>
+				</div>
+			</header> 
+			
+			<!--我的订单-->
+			  <div class="Assets">
+					<dl><dt><strong><b>操作记录</b></strong></dt></a></dl>
+					 <dl><dt><a href="product_center_recharge.php?act=list"><strong style='margin-left:30px'>充值记录 </strong></a><a href="product_center_recharge.php?act=add"><span style='background:none;padding-right:50px'>充值</span></a></dt></dl>
+				
+					<!--   <dl><dt><a href="product_center_recharge.php?act=chan_pin_ji_fen_ti_xian_log"><strong style='margin-left:30px'>提现记录 </strong></a>
+									 <a href="product_center_recharge.php?act=chan_pin_ji_fen_ti_xian"><span style='background:none;padding-right:50px'>提现	</span></a>
+					 </dt></dl> 
+					 <dl><a href="product_center_recharge.php?act=fa_fang_ji_lu"><dt><strong style='margin-left:30px'>发放记录 </strong><span style='background:none;padding-right:50px'>{$order.shipped_part}</span></dt></a></dl>-->
+			 </div>
+		 	 
+			   
+  		</div>

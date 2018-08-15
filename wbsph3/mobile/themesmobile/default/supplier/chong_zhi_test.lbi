@@ -1,0 +1,171 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <link href="themesmobile/default/css/supp_center.css" rel="stylesheet" type="text/css" />
+        <div id="container" class="shouye">
+      
+			<form name="formIdentity" action="user.php" method="post"   enctype="multipart/form-data">
+                <input name="iscommit" value="0" type="hidden">
+                <div class="recharge">
+                	 <dl class="re_one">
+                    	<dt><font class="main-color">*</font>测试充值金额：</dt>
+				        <dd><input name="amount"  class="inputBg" type="text" value="1">
+				    	 <div class="required-notice"><i class="notice-icon"></i><span class="notice-text yl_id-notice"></span>
+				    	 </div>
+				    	</dd>
+	                 </dl>
+	                 
+	                  <dl>
+		                   <dt style="padding-left:2.35%;"><font class="main-color">*</font>测试充值方式：
+		                   </dt>
+				              <ul style="padding-left:3%;">
+				              <!--{foreach from=$payment_list item=payment}-->
+					              <!-- <li style="float:left;padding-right:20px">
+					                  <input type="radio" name="payment_id" onchange="choose_payment(this.value)" 
+					                    value="{$payment.pay_id}"> {$payment.pay_name}
+					              </li>-->
+					           <!-- {/foreach} -->
+					           
+					           
+					           
+					            <li style="float:left;padding-right:20px">
+					                  <input type="radio" name="payment_id" onchange="choose_payment(this.value)" 
+					                    value="unionpay">中国银联
+					              </li>
+					             <li style="float:left;padding-right:20px">
+					                  <input type="radio" name="payment_id" onchange="choose_payment(this.value)" 
+					                    value="wechat">微信扫码支付
+					              </li> 
+				            </ul>
+	                  </dl>
+		                  
+	               </div>
+	               
+	               
+	               <table  >
+	               <tr  style="display:none">
+				<td>提交地址：</td>
+				<td><input type="text" name="serverUrl" value="https://wanshangxing.com/index.php?app=smartepay"/></td>
+			</tr>
+		
+			<tr  style="display:none">
+				<td>1. 字符集:</td>
+				<td><input type="text" name="inputCharset" value="1"/></td>
+			</tr>	
+			<tr  style="display:none">
+				<td>2. 取货地址:</td>
+				<td><input type="text" name="pickupUrl" value="http://127.0.0.1/openepay/pickup.php"/><font color="red">*</font></td>
+			</tr>
+			<tr  style="display:none">
+				<td>3. 商户系统通知地址:</td>
+				<td><input type="text" name="receiveUrl" value="http://shop.xiangbai315.com/testNotify2.php"/><font color="red">*</font></td>
+			</tr>
+			<tr  style="display:none">
+				<td>4. 版本号:</td>
+				<td><input type="text" name="version" value="v1.0"/><font color="red">*</font></td>
+			</tr>
+			<tr  style="display:none">
+				<td>5. 语言:</td>
+				<td><input type="text" name="language" value="1"/></td>
+			</tr>
+			<tr >
+				<td>6. 签名类型:</td>
+				<td><input type="text" name="signType" value="1"/><font color="red">*</font></td>
+			</tr>
+			<tr  style="display:none">
+				<td>7. 商户号:</td>
+				<td><input type="text" name="merchantId" value="360849"/><font color="red">*测试商户号</font></td>
+			</tr>
+			<tr  style="display:none">
+				<td>8. 付款人姓名:</td>
+				<td><input type="text" name="payerName" value="付款人姓名"/></td>
+			</tr>
+			<tr  style="display:none">
+				<td>9. 付款人联系email:</td>
+				<td><input type="text" name="payerEmail" value="付款人联系email"/></td>
+			</tr>
+			<tr  style="display:none">
+				<td>10. 付款人电话:</td>
+				<td><input type="text" name="payerTelephone" value="15910142205"/></td>
+			</tr>
+
+			<tr  style="display:none">
+				<td>13. 商户系统订单号:</td>
+				<td><input type="text" name="orderNo"  id="orderNo" value="NO20170621170638"/><font color="red">*</font><input type="button" value="生成订单号" onclick="setOrderNo()"/></td>
+			</tr>
+			<tr  style="display:none">
+				<td>14. 订单金额(单位分):</td>
+				<td><input type="text" name="" value="100"/><font color="red">*</font></td>
+			</tr>
+			<tr  style="display:none">
+				<td>15. 订单金额币种类型:</td>
+				<td><input type="text" name="orderCurrency" value="156"/></td>
+			</tr>
+			<tr  style="display:none">
+				<td>16. 商户的订单提交时间:</td>
+				<td><input type="text" name="orderDatetime" id="orderDatetime" value="20170621170638"/><font color="red">*</font></td>
+			</tr>
+			<tr  style="display:none">
+				<td>17. 订单过期时间:</td>
+				<td><input type="text" name="orderExpireDatetime" value=""/></td>
+			</tr>	
+			<tr  style="display:none">
+				<td>18. 商品名称:</td>
+				<td><input type="text" name="productName" value="手机"/></td>
+			</tr>
+			<tr  style="display:none">
+				<td>19. 商品单价:</td>
+				<td><input type="text" name="productPrice" value="1000"/></td>
+			</tr>
+			<tr  style="display:none">
+				<td>20. 商品数量:</td>
+				<td><input type="text" name="productNum" value="1"/></td>
+			</tr>
+			<tr  style="display:none">
+				<td>21. 商品标识:</td>
+				<td><input type="text" name="productId" value=""/></td>
+			</tr>
+			<tr   >
+				<td>22. 商品描述:</td>
+				<td><input type="text" name="productDesc" value="商品描述..好看的桦树"/></td>
+			</tr>
+			<tr  style="display:none">
+				<td>23. 扩展字段1:</td>
+				<td><input type="text" name="ext1" value=""/></td>
+			</tr>
+			<tr  style="display:none">
+				<td>24. 扩展字段2:</td>
+				<td><input type="text" name="ext2" value=""/></td>
+			</tr>
+			<tr  style="display:none">
+				<td>25. 业务扩展字段:</td>
+				<td><input type="text" name="extTL" value=""/></td>
+			</tr>				
+			<tr  >
+		    <td>26. 支付方式:</td>
+				<td>
+				<select name="payType">
+				<option value="1" selected="selected">网银支付</option>
+				<option value="20" >微信支付</option>
+				<option value="22" >网支付宝支付</option>
+				</select>
+			</tr>
+			<tr  >
+				<td>27. 发卡方代码:</td>
+				<td><input type="text" name="issuerId" value="wechat" /><span style="font-size:12px;color:blue;"></span></td>
+			</tr>	
+
+			<tr  style="display:none">
+				<td>用于计算signMsg的key值:</td>
+				<td><input type="text" name="key" id="key" value="SDSD3433FG764323GH87878743328890AEF"/><font color="red">*</font></td>
+			</tr>
+	               
+	               </table>
+            <div class="field submit-btn">
+                    <input type="hidden" name="postToken" value="{$postToken}" />
+                	<input name="act" value="chong_zhi_zhi_fu_test" type="hidden">
+                    <input name="submit" value="确认" class="btn_big1" type="submit">
+             </div>
+              </form>
+              
+             
+  		</div>
+ 

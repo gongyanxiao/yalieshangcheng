@@ -1,0 +1,136 @@
+<?include("config.php");?>
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title><?=_TITLE_?></title>
+    <meta name="keyword" content="<?=_KEYWORD_?>"/>
+    <meta name="description" content="<?=_DESCRIPTION_?>"/>
+    <link href="/Public/ico.ico" type="image/x-icon" rel="shortcut icon" /> 
+    <link rel="stylesheet" type="text/css" href="/jygj/Public/home/css/index.css">
+	<link rel="stylesheet" type="text/css" href="/jygj/Public/home/css/page.css">
+    <script type="text/javascript" src="/jygj/Public/home/js/jquery-1.7.2.js"></script>
+</head>
+<body >
+<div class="warp">
+    <!------最顶部开始------><!------logo结束------>
+<script>
+	$(function(){
+		$(".open_xl").click(function(){
+			$(".xiala").show();
+		})
+		$(".xiala a").click(function(){
+			var xq=$(this).html();
+			$(".open_xl a").html(xq);
+			$(this).parent().hide();
+		})
+	})
+</script>
+
+<!------导航开始------>
+<?
+        include("sheader1.html");
+		?>
+<!------导航结束------>
+    <!------导航结束------>
+
+
+    <!----内容开始---->
+    <div class="warp_moer">
+
+        <div class="warp_h">
+            <!----right内容开始---->
+            <div class="warp_h_right">
+
+                <div class="warp_f">
+
+                    <div class="p_lb_mo_q">
+                        <h2>抽奖记录</h2>
+                        <ul class="p_lb_mo_q_hl">
+                            <li class=" current"><a href="#">全部</a></li>
+                           
+                        </ul>
+
+                        <table border="1" cellspacing="0" cellpadding="0" class="p_lb_mo_q_hk">
+                            <tr>
+                                <th style="text-indent: 2em;text-align: left" width="500">商品名称</th>
+                                <th align="center">全部状态</th>
+                                <th align="center">操作</th>
+                            </tr>
+							                        </table>
+						 <div class="scott"></div>
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+            <!----right内容结束---->
+
+            <!----left内容开始---->
+            <div class="warp_h_left">
+		<?
+    include_once "left_p_menu.html";
+    ?>
+
+	<a href="" class="warp_h_left_gg"><img src="/jygj/Public/home/img/im113.jpg" width="170" height="207"></a>
+	
+</div>
+            <!----left内容结束---->
+        </div>
+
+    </div>
+    <!----内容结束---->
+
+    <!------底部开始------>
+
+  <div class="warp_e_db">
+  <?include("sfooter.html");?>
+	
+</div>
+
+
+
+<script type="text/javascript">
+$(function(){
+	var $qqServer = $('.qqserver');
+	var $qqserverFold = $('.qqserver_fold');
+	var $qqserverUnfold = $('.qqserver_arrow');
+	$qqserverFold.click(function(){
+		$qqserverFold.hide();
+		$qqServer.addClass('unfold');
+	});
+	$qqserverUnfold.click(function(){
+		$qqServer.removeClass('unfold');
+		$qqserverFold.show();
+	});
+	//窗体宽度小鱼1024像素时不显示客服QQ
+	function resizeQQserver(){
+		$qqServer[document.documentElement.clientWidth < 1024 ? 'hide':'show']();
+	}
+	$(window).bind("load resize",function(){
+		resizeQQserver();
+	});
+});
+</script>
+<div class="qqserver">
+
+	<div class="qqserver_fold">
+		<div></div>
+	</div>
+	
+	<div class="qqserver-body" style="display: block;">
+		<div class="qqserver-header">
+			<div></div>
+			<span class="qqserver_arrow"></span>
+		</div>
+	
+	</div>
+	
+</div>
+    <!------底部结束------>
+</div>
+</body>
+</html>

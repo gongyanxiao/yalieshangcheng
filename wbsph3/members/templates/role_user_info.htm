@@ -1,0 +1,149 @@
+{include file="pageheader.htm"}
+<style>
+    .tell-me-form .tell-me-notice .notice-text,.required-notice .notice-text{
+        float:left;
+        color:#E31939;	
+        padding-left:5px;
+    }
+</style>
+<form name="formIdentity" action="{if $action eq 1}role_points_gz_ex.php{else}role_points_ex.php{/if}" method="post" onsubmit="return identity()" enctype="multipart/form-data">
+    <table width="100%" border="0" cellpadding="10" cellspacing="1" bgcolor="#eeeeee">
+        <tbody><tr>
+                <td width="28%" align="right"><font class="main-color">*</font>真实姓名：</td>
+                <td width="72%" align="left"><input type="text" id='real_name' name="real_name"  value="{$profile.real_name}" class="inputBg"  disabled="disabled" readonly="readonly">
+                    <div class="required-notice"><i class="notice-icon"></i><span class="notice-text people-name-notice"></span></div></td>
+            </tr>
+            <script>
+            $(function(){
+            	if($('#real_name').val() =='')
+            	{
+            		alert('请前往前台个人中心实名认证');
+            	}
+            })
+            </script>
+            <tr>
+                <td width="28%" align="right"><font class="main-color">*</font>银行：</td>
+                <td width="72%" align="left"><input type="text" name="bank" value="{$profile.bank}" class="inputBg">
+                    <div class="required-notice"><i class="notice-icon"></i><span class="notice-text people-bank-notice"></span></div></td>
+            </tr>
+            <tr>
+                <td width="28%" align="right"><font class="main-color">*</font>开户行：</td>
+                <td width="72%" align="left"><input type="text" name="bank_kh" value="{$profile.bank_kh}" class="inputBg">
+                    <div class="required-notice"><i class="notice-icon"></i><span class="notice-text people-bank_kh-notice"></span></div></td>
+            </tr>
+            <tr>
+                <td width="28%" align="right"><font class="main-color">*</font>银行卡号：</td>
+                <td width="72%" align="left"><input type="text" name="bank_num" value="{$profile.bank_num}" class="inputBg">
+                    <div class="required-notice"><i class="notice-icon"></i><span class="notice-text people-bank_num-notice"></span></div></td>
+            </tr>
+            <tr>
+                <td align="right"><font class="main-color">*</font>身份证号：</td>
+                <td align="left"><input type="text" name="card" value="{$profile.card}" class="inputBg" disabled="disabled" readonly="readonly">
+                    <div class="required-notice"><i class="notice-icon"></i><span class="notice-text people-num-notice"></span></div></td>
+            </tr>
+          <!--   <tr>
+                <td align="right"><font class="main-color">*</font>身份证证件照：</td>
+                <td align="left">正面：
+                    <input type="hidden" name="face_card_url" value="{$profile.face_card}">
+                    <input type="file" name="face_card">
+                    <br>
+                    {if $profile.face_card}
+                    <img src="../{$profile.face_card}" width="160" height="160" class="face_img">		      
+                    {/if}
+                    <div class="required-notice"><i class="notice-icon"></i><span class="notice-text people-face-card-notice"></span></div></td>
+            </tr>
+            <tr>
+                <td align="right">&nbsp;</td>
+                <td align="left">反面：
+                    <input type="hidden" name="back_card_url" value="{$profile.back_card}">
+                    <input type="file" name="back_card">
+                    <br>
+                    {if $profile.back_card}
+                    <img src="../{$profile.back_card}" width="150" height="150" class="face_img">        
+                    {/if}
+                    <div class="required-notice"><i class="notice-icon"></i><span class="notice-text people-back_card-notice"></span></div>
+                </td>
+            </tr> -->
+            <tr>
+                <td width="28%" align="right">&nbsp;</td>
+                <td align="left">
+                    <input name="act" type="hidden" value="act_identity">
+                    <input name="submit" type="submit" value="确认" class="main-btn main-btn-large"></td>
+            </tr>
+        </tbody></table>
+</form>
+<script type="text/javascript">
+    function identity() {
+        var frm = document.forms['formIdentity'];
+        var real_name = frm.elements['real_name'].value;
+        var card = frm.elements['card'].value;
+//	var country = frm.elements['country'].value;
+//	var province = frm.elements['province'].value;
+//	var city = frm.elements['city'].value;
+//	var district = frm.elements['district'].value;
+//	var address = frm.elements['address'].value;
+
+        var bank = frm.elements['bank'].value;
+        var bank_kh = frm.elements['bank_kh'].value;
+        var bank_num = frm.elements['bank_num'].value;
+        if (real_name.length == 0) {
+            $('form[name=formIdentity]').find('.people-name-notice').html('真实姓名不能为空').parents('.required-notice').css('visibility', 'visible');
+            //alert('真实姓名不能为空');
+            return false;
+        } else {
+            $('form[name=formIdentity]').find('.people-name-notice').html('').parents('.required-notice').css('visibility', 'hidden');
+        }
+        if (card.length == 0) {
+            $('form[name=formIdentity]').find('.people-num-notice').html('身份证号不能为空').parents('.required-notice').css('visibility', 'visible');
+            //alert('身份证号不能为空！');
+            return false;
+        } else {
+            var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
+            if (reg.test(card) === false) {
+                $('form[name=formIdentity]').find('.people-num-notice').html('身份证输入不合法').parents('.required-notice').css('visibility', 'visible');
+                //alert("身份证输入不合法");
+                return false;
+            } else {
+                $('form[name=formIdentity]').find('.people-num-notice').html('').parents('.required-notice').css('visibility', 'hidden');
+            }
+        }
+
+        if (bank.length == 0) {
+            $('form[name=formIdentity]').find('.people-bank-notice').html('银行不能为空').parents('.required-notice').css('visibility', 'visible');
+            //alert('真实姓名不能为空');
+            return false;
+        } else {
+            $('form[name=formIdentity]').find('.people-bank-notice').html('').parents('.required-notice').css('visibility', 'hidden');
+        }
+        if (bank_kh.length == 0) {
+            $('form[name=formIdentity]').find('.people-bank_kh-notice').html('开户行不能为空').parents('.required-notice').css('visibility', 'visible');
+            //alert('真实姓名不能为空');
+            return false;
+        } else {
+            $('form[name=formIdentity]').find('.people-bank_kh-notice').html('').parents('.required-notice').css('visibility', 'hidden');
+        }
+        if (bank_num.length == 0) {
+            $('form[name=formIdentity]').find('.people-bank_num-notice').html('银行卡号不能为空').parents('.required-notice').css('visibility', 'visible');
+            //alert('真实姓名不能为空');
+            return false;
+        } else {
+            $('form[name=formIdentity]').find('.people-bank_num-notice').html('').parents('.required-notice').css('visibility', 'hidden');
+        }
+//	if (country == 0 || province == 0 || city == 0 || district == 0) {
+//		$('form[name=formIdentity]').find('.address-notice').html('现居地请选择完整').parents('.required-notice').css('visibility','visible');
+//		//alert('现居地请选择完整！');
+//		return false;
+//	}else{
+//		$('form[name=formIdentity]').find('.address-notice').html('').parents('.required-notice').css('visibility','hidden');	
+//	}
+//	if (address.length == 0) {
+//		$('form[name=formIdentity]').find('.address-detail-notice').html('详细地址不能为空').parents('.required-notice').css('visibility','visible');
+//		//alert('详细地址不能为空！');
+//		return false;
+//	}else{
+//		$('form[name=formIdentity]').find('.address-detail-notice').html('').parents('.required-notice').css('visibility','hidden');	
+//	}
+        return true;
+    }
+</script>
+{include file="pagefooter.htm"}

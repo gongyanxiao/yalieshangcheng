@@ -1,0 +1,20 @@
+<html>
+{insert_scripts files='jquery.js'}
+<div>
+	<img style="width: 350px; height: 350px;" alt="扫描二维码" src="{$qrPath}">
+</div>
+<div>请扫描二维码， 或长按二维码让手机自动识别</div>
+<script>
+                function run() {
+                    $.get("{$site_domain}/waiting_weixin_pay1.php?step=waiting_weixin_pay&log_id=" + {$order.log_id}, function (data) {
+                        if (data === "1") {
+                        	alert("log_id:{$order.log_id}    data:"+data);
+                            self.window.location.href = "{$pickupUrl}";
+                        } else {
+                            
+                        }
+                    });
+                }
+                window.setInterval("run()",3000) ;
+  </script>
+</html>

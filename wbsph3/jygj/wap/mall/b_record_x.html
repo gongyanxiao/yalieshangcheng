@@ -1,0 +1,91 @@
+<?
+include("config.php");?>
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <title>消费记录_<?=_TITLE_?></title>
+    <meta name="keyword" content="<?=_KEYWORD_?>"/>
+    <meta name="description" content="<?=_DESCRIPTION_?>"/>
+    <link href="/Public/ico.ico" type="image/x-icon" rel="shortcut icon" /> 
+	
+    <link rel="stylesheet" type="text/css" href="/jygj/Public/wap/css/index.css">
+    <script type="text/javascript" src="/jygj/Public/home/js/jquery-1.js"></script>
+	<script src="/jygj/Public/home/js/echarts.js"></script>
+    <script src="/jygj/Public/home/js/dark.js"></script>
+</head>
+<body style="background: #EEEEEE">
+<div class="warp">
+	<div class="warp_q">
+        <a href="/wap/mall/b_center.html"></a>
+        <span>消费记录</span>
+    </div>
+    <!------内容开始------>
+    <div class="warp_m_right_div" style="width: 100%;height: 500%;" id="main5" >
+	<ul class="ktp_y">
+           
+	<i>  <span>消费总额：<?php
+						$user=$_COOKIE['ECS']['username'];
+include "config/zt_config.php";
+$db=mysql_connect($db_host,$db_user,$db_pwd);
+mysql_query("SET NAMES $coding"); 
+mysql_select_db($db_database);
+$q1="select sum(jyje) as je2 from zt_orderlist  where ssyh='$user'  order by id desc";
+$qs2=mysql_query($q1);
+$sf2=mysql_fetch_assoc($qs2);
+echo number_format($sf2["je2"]*0.12,2);
+
+						?>
+					</span>	</i></ul></div>
+					
+    <ul class="warp_l_ul">
+      <div class="ktp_t">
+        <table width="100%">
+          <tr>
+            <th><b>会员姓名</b></th>
+            <th><b>手机号</b></th>
+            <th><b >消费金额</b></th>
+			 <th><b >扣除金额</b></th>
+			 	 <th><b >消费时间</b></th>
+          </tr>
+        </table>
+<?php
+$q="select * from zt_orderlist  where ssyh='$user' and zfzt='1'  order by id desc";
+$r=mysql_query($q,$db);
+$num=mysql_num_rows($r);
+for($i=0;$i<$num;$i++){
+$data2=mysql_fetch_array($r);
+?>
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+  <tr>
+    <td width="303" height="37" align="center" style="font-family:Arial, Helvetica, sans-serif;color:#F00;border-bottom:1px  solid #CCC;"><?php
+   $mjhyh=$data2["mjhyh"];
+    $sql="select xm,sjhm,lxdh from xbmall_users where user_name='$mjhyh'";
+$qs1=mysql_query($sql);
+$sf1=mysql_fetch_assoc($qs1);
+echo $sf1["xm"];
+    ?></td>
+    <td width="300" align="center" style="font-family:Arial, Helvetica, sans-serif;color:#F00;border-bottom:1px  solid #CCC;"><?php echo $sf1["sjhm"]?$sf1["sjhm"]:$sf1["lxdh"];?></span></td>
+    <td width="308" align="center" style="border-bottom:1px  solid #CCC;">¥
+      <?=$data2["jyje"];?></td>
+    <td width="278" align="center" style="border-bottom:1px  solid #CCC;"><?="<font color='red'>-¥".number_format($data2["jyje"]*0.12,2).'</font>';?></td>
+    <td width="320" align="center" style="border-bottom:1px  solid #CCC;font-size:6px;"><?=$data2["ddrq"];?></td>
+  </tr>
+</table>
+<?php
+  }
+  mysql_close($db);
+  ?>  
+      </div>
+    </ul>
+    <!------内容结束------>
+
+
+
+
+
+</div>
+</body>
+</html>

@@ -1,0 +1,9 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<ul class="single_item">
+    <li class="Funds_li" >
+        <span>{$supplier_static_detail.supplier_name},<em>{$supplier_static_detail.mobile_phone}</em></span>
+        <span>{$supplier_static_detail.reg_time}</span>
+        <span>累计销售金额:{$supplier_static_detail.all_money}</span>
+        <span>累计服务费:{$supplier_static_detail.rebate_money}</span>
+    </li>
+</ul>

@@ -1,0 +1,56 @@
+<!DOCTYPE html >
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<title>{$page_title}</title>
+<meta name="Keywords" content="{$keywords}" />
+<meta name="Description" content="{$description}" />
+<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+<link rel="stylesheet" type="text/css" href="themesmobile/default/css/public.css"/>
+<link rel="stylesheet" href="themesmobile/default/css/stores.css">
+<script type="text/javascript" src="themesmobile/default/js/jquery.js"></script>
+{insert_scripts files='index.js'}
+</head>
+<body class="bodybj">
+       
+		<!---列表--->
+		{foreach from=$account_log item=item name=item}
+			<section class="rzs_info">
+				<dl>
+					<dt><strong></strong>
+						 <p>提现时间:{$item.add_time}</p>
+			              <p>积分数:{$item.amount}</p>
+			              <p>手续费:{$item.fee}</p>
+			              <p>应打款:{$item.real_amount}</p>
+			              <p>用户备注:{$item.short_user_note}</p>
+			              <p>管理员备注:{$item.short_admin_note}</p>
+			             <p>状态:{$item.pay_status}</p>
+			             <p>{$item.handle} 
+			                <!-- {if ($item.is_paid eq 0 && $item.process_type eq 1) || $item.handle} --> 
+			                <a href="user.php?act=cancel_fen_hong_ji_fen_ti_xian&id={$item.id}" onclick="if (!confirm('确定取消分红积分提现吗?')) return false;">取消</a> 
+			                <!-- {/if} -->
+			             </p>
+                
+					 </dt>
+				</dl>
+			</section>
+		{/foreach}
+
+
+	<!--翻页-->
+	<!-- #BeginLibraryItem "/library/pages.lbi" --><!-- #EndLibraryItem -->
+	<!---footer--->
+	<!-- #BeginLibraryItem "/library/page_footer.lbi" --><!-- #EndLibraryItem -->
+	<!-- #BeginLibraryItem "/library/footer_nav.lbi" --><!-- #EndLibraryItem -->
+	<!---返回顶部-->
+	<script>
+	function goTop(){
+		$('html,body').animate({'scrollTop':0},600);
+	}
+	</script>
+	<a href="javascript:goTop();" class="gotop"><img src="themesmobile/default/images/topup.png"></a> 
+	<script src="themesmobile/default/js/slider.js" type="text/javascript"></script>
+	  
+</body>
+</html>

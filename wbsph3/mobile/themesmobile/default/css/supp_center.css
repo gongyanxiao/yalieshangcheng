@@ -1,0 +1,440 @@
+/*页面body的背景色*/
+.body_bg {
+	background: #E5E5E5
+}
+.body_bj {
+	background:url('/jygj/Public/images/背景.png')
+}
+/*iphone手机的input的样式问题*/
+input[type="submit"], input[type="reset"], input[type="button"], button {
+	-webkit-appearance: none;
+}
+/*css初始值*/
+body {
+	margin: 0px;
+	font-family: "Microsoft YaHei", "SimSun", Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	line-height: 180%;
+	color: #333333;
+	min-width: 320px;
+	background: #eee;
+}
+body{
+     -webkit-tap-highlight-color:rgba(0,0,0,0);
+}
+html, body, div, p, ul, li, dl, dt, dd, h1, h2, h3, h4, h5, h6, form, input, select, button, textarea, iframe, table, th, td {
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+}
+img {
+	border: 0px
+}
+a:link {
+	font-family: "Microsoft YaHei", "SimSun", Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	color: #333333;
+	text-decoration: none;
+}
+a:visited {
+	font-family: "Microsoft YaHei", "SimSun", Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	color: #333333;
+	text-decoration: none;
+}
+a:hover {
+	font-family: "Microsoft YaHei", "SimSun", Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	color: #E24615;
+	text-decoration: none;
+}
+input[type=number] {
+	-moz-appearance: textfield;
+}
+input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button {
+-webkit-appearance: none;
+}
+.main {
+	width: 100%;
+	overflow: hidden;
+	margin: 0;
+	padding: 0;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+	empty-cells: show;
+	font-size: 14px
+}
+fieldset, img {
+	border: 0
+}
+cite, em, s, i, b {
+	font-style: normal
+}
+input, button, textarea, select {
+	font-size: 12px;
+	font-family: 'microsoft yahei', Verdana, Arial, Helvetica, sans-serif;
+}
+body, input, button, textarea, select, option {
+	font-size: normal
+}
+a, input, textarea {
+	text-decoration: none;
+	outline: 0
+}
+li, img, label, input {
+	vertical-align: middle
+}
+var {
+	font-style: normal
+}
+ins {
+	text-decoration: none
+}
+body {
+	font-size: 14px
+}
+.bodybj {
+	background: #e5e5e5;
+}
+.black {
+	width: 100%;
+	height: 5px;
+	background: #F2F2F2;
+}
+.blank5 {
+	height: 10px;
+	line-height: 10px;
+	clear: both;
+	background: #EEE;
+}
+.blank {
+	height: 10px;
+}
+
+/*
+首页头部css样式
+*/
+.shouye {
+	width: 100%;
+	height: auto;
+	overflow: hidden;
+	background: #eee none repeat scroll 0% 0%;
+}
+.shouye .header, .shouye #header {
+	width: 100%;
+	height: auto;
+	overflow: hidden;
+	position: relative;
+	z-index: 9999;
+	background: url(../images/indexbg.jpg);
+	background-size: cover;
+}
+.shouye .header .toplog {
+	width: 100%;
+	height: 170px;
+	margin: auto;
+}
+.shouye .header .toplog dl {
+	width: 100%;
+	height: 80px;
+	padding-top: 20px;
+}
+.shouye .header .toplog dl dt {
+	width: 90px;
+	height: 90px;
+	margin: auto;
+	border-radius: 50%;
+	background: #eee;
+}
+.shouye .header .toplog dl dt img {
+	display: block;
+	width: 80px;
+	height: auto;
+	margin: auto;
+	padding-top: 5px;
+        border-radius: 50%; 
+}
+.shouye .header .toplog dl dd {
+	margin: auto;
+	text-align: center;
+	padding-top: 15px;
+}
+.shouye .header .toplog dl dd span {
+	display: block;
+	font-size: 18px;
+	color: #FFF;
+	line-height: 25px;
+}
+.shouye .header .topnav {
+	width: 100%;
+	height: auto;
+	overflow: hidden;
+	background-color: rgba(255, 255, 255, 0.1);
+}
+.shouye .header .topnav ul {
+	width: 90%;
+	height: 40px;
+	padding-bottom: 10px;
+	padding-top: 10px;
+	margin: auto;
+}
+.shouye .header .topnav ul li {
+	width: 33%;
+	float: left;
+	line-height: 20px;
+	text-align: center;
+}
+.shouye .header .topnav ul li a {
+	display: block;
+	width: 100%;
+	overflow: hidden;
+	font-size: 14px;
+	color: #fff;
+}
+.shouye .header .topnav ul li a:hover {
+	color: #fff;
+}
+.shouye .header .topnav ul li span {
+	display: block;
+	width: 100%;
+	height: 20px;
+	font-size: 16px;
+	line-height: 20px;
+	color: #fff
+}
+/*首页我的订单css样式*/
+.shouye .Order {
+	width: 100%;
+	background: #FFF;
+	overflow: hidden;
+	margin-top: 10px;
+}
+.shouye .Order dl {
+	width: 100%;
+	height: 50px;
+	margin: auto;
+	border-bottom: 1px solid #e3e3e3;
+	line-height: 50px;
+}
+.shouye .Order dl dt {
+	width: 95%;
+	overflow: hidden;
+	margin: auto
+}
+.shouye .Order dl dt strong {
+	display: block;
+	float: left;
+	font-size: 16px;
+	color: #333;
+	font-weight: normal
+}
+.shouye .Order dl dt span {
+	display: block;
+	float: right;
+	background: url(../images/user_right.png) no-repeat right center;
+	background-size: auto 16px;
+	padding-right: 15px;
+	font-size: 14px;
+	color: #999;
+}
+.shouye .Order ul {
+	width: 100%;
+	height: 55px;
+	padding-top: 5px;
+	padding-bottom: 10px;
+}
+.shouye .Order ul li {
+	width: 25%;
+	float: left;
+}
+.shouye .Order ul li em {
+	display: block;
+	width: 35px;
+	height: 35px;
+	margin: auto;
+	position: relative;
+}
+.shouye .Order ul li em i {
+	display: block;
+	width: 18px;
+	height: 18px;
+	position: absolute;
+	border: 1px solid #E71F19;
+	font-size: 12px;
+	line-height: 20px;
+	text-align: center;
+	border-radius: 50%;
+	right: -6px;
+	top:-2px;
+	color: #E71F19;
+	background: #FFF
+}
+.shouye .Order ul li span {
+	display: block;
+	width: 50px;
+	height: 20px;
+	margin: auto;
+	font-size: 14px;
+	line-height: 20px;
+	color: #666;
+	text-align: center
+}
+.ordem1, .ordem2, .ordem3, .ordem4 {
+	background-image: url(../images/orderbg.png);
+	background-repeat: no-repeat;
+	background-size: auto 400%;
+}
+.ordem1 {
+	background-position: 0 -70px;
+}
+.ordem2 {
+	background-position:0 0;
+}
+.ordem3 {
+	background-position:0 -35px;
+}
+.ordem4 {
+	background-position:0 -105px;
+}
+.shouye section {
+	padding-top: 0px;
+	margin-top: 10px;
+	background: #fff;
+	margin-bottom: 70px;
+}
+.shouye section ul {
+	width: 100%;
+	overflow: hidden;
+}
+.shouye section ul li {
+	width: 33%;
+	float: left;
+	height: 80px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+.shouye section ul li span {
+	width: 100%;
+	height: 50px;
+}
+.shouye section ul li span img {
+	display: block;
+	width: 50px;
+	height: 50px;
+	margin: auto;
+}
+.shouye section ul li p {
+	text-align: center;
+	line-height: 30px;
+	font-size: 14px;
+	color: #999;
+	display: block;
+}
+.border_r {
+	border-right: 1px solid #e3e3e3;
+}
+.border_b {
+	border-bottom: 1px solid #e3e3e3;
+}
+section {
+	padding-top: 0px;
+}
+section .pd {
+	width: 96%;
+	height: auto;
+	padding: 0px 2%;
+	margin-bottom: 90px;
+}
+section .pd h4 {
+	width: 96%;
+	padding: 12px 2%;
+	background: #ffffff;
+	border-radius: 3px;
+	font-size: 14px;
+}
+section .pd h4 span {
+	margin: 0px 5px;
+	color: #ff4a01;
+}
+section .index {
+	width: 100%;
+	background: #ffffff;
+	border-radius: 3px;
+	display: inline-block
+}
+section .index ul {
+	width: 100%;
+	height: auto;
+	display: inline-block;
+	padding: 20px 0px 10px;
+}
+section .index ul li {
+	width: 33.3%;
+	height: auto;
+	float: left;
+	display: block;
+	margin: 5px 0px;
+	text-align: center;
+}
+section .index ul li a {
+	width: 100%;
+	height: auto;
+	padding: 10px 0px;
+	display: block;
+	text-decoration: none;
+}
+section .index ul li .index_menu1 {
+	background: url(../images/fahuo_will.png) no-repeat top center;
+}
+section .index ul li .index_menu2 {
+	background: url(../images/bufenfahuo.png) no-repeat top center;
+}
+section .index ul li .index_menu3 {
+	background: url(../images/zhifu_will.png) no-repeat top center;
+}
+section .index ul li .index_menu4 {
+	background: url(../images/fahuo_list.png) no-repeat top center;
+}
+section .index ul li .index_menu5 {
+	background: url(../images/tuikuan_new.png) no-repeat top center;
+}
+section .index ul li .index_menu6 {
+	background: url(../images/tuihuo_new.png) no-repeat top center;
+}
+section .index ul li a span {
+	display: block;
+	width: 100%;
+	text-decoration: none;
+	padding-top: 90px;
+	font-siz4: 14px;
+	color: #969696;
+	font-weight: 600;
+}
+section .index .index_menu_two {
+	border-top: 1px #eeeeee solid;
+	padding: 15px 5%;
+	width: 80%;
+	height: 63px;
+	margin: 0 auto;
+}
+section .index .index_menu_two a {
+	width: 49.5%;
+	text-align: center;
+	display: block;
+	float: left;
+	height: 63px;
+	line-height: 63px;
+	text-decoration: none;
+	font-siz4: 14px;
+	color: #969696;
+	font-weight: 600;
+}
+section .index .index_menu_two a.index_menu_7 {
+	border-right: 1px #eeeeee solid;
+}
+
+	
+	
+	

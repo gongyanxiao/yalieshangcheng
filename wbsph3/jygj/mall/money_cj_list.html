@@ -1,0 +1,148 @@
+<?include("config.php");?>
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title><?=_TITLE_?></title>
+    <meta name="keyword" content="<?=_KEYWORD_?>"/>
+    <meta name="description" content="<?=_DESCRIPTION_?>"/>
+    <link href="/Public/ico.ico" type="image/x-icon" rel="shortcut icon" /> 
+	<link rel="stylesheet" type="text/css" href="/jygj/Public/home/css/page.css">
+    <link rel="stylesheet" type="text/css" href="/jygj/Public/home/css/index.css"/>
+    <script type="text/javascript" src="/jygj/Public/home/js/jquery-1.7.2.js"></script>
+	<script type="text/javascript" src="/Public/js/jquery.flexslider-min.js"></script>
+</head>
+	
+
+<body >
+<div class="warp">
+    <!------最顶部开始------><!------logo结束------>
+<script>
+	$(function(){
+		$(".open_xl").click(function(){
+			$(".xiala").show();
+		})
+		$(".xiala a").click(function(){
+			var xq=$(this).html();
+			$(".open_xl a").html(xq);
+			$(this).parent().hide();
+		})
+	})
+</script>
+
+<!------导航开始------>
+<?
+        include("sheader1.html");
+		?>
+<!------导航结束------>
+    <!------导航结束------>
+
+	
+    <!----内容开始---->
+    <div class="warp_moer">
+
+        <div class="warp_h">
+            <!----right内容开始---->
+            <div class="warp_h_right">
+
+                <div class="warp_f">
+
+                    <div class="warp_f_div">
+                        <span>总共提现：<i><?php
+include "config/zt_config.php";
+include "config/check.php";
+date_default_timezone_set("Asia/Shanghai");
+$user=$_COOKIE['ECS']['username'];
+$db=mysql_connect($db_host,$db_user,$db_pwd);
+mysql_query("SET NAMES $coding"); 
+mysql_select_db($db_database);
+$sql="select * from xbmall_users where user_name='$user' ";	//超级用户的提现					
+$query=mysql_query($sql);
+$out=mysql_fetch_assoc($query);	
+$sq2="select sum(je) as ze from zt_xxtz_ti_xian  where user='$user'  ";
+$qs2=mysql_query($sq2);
+$sf2=mysql_fetch_assoc($qs2);
+echo number_format($sf2['ze'],2);
+									?></i></span>
+                        <b>提现记录</b>
+                    </div>
+
+                    <table border="1" cellspacing="0" cellpadding="0" class="warp_f_th">
+                        <tr>
+                            
+                            <th width="374">提现日期</th>
+                            <th width="174" align="left">提现金额</th>
+                            <th width="209" align="center">状态</th>
+							<th width="409">说明</th>
+							<th width="106">&nbsp;</th>
+                        </tr>
+                    </table>
+					
+					<?php
+					$q="select * from zt_xxtz_ti_xian  where user='$user'   order by id desc";
+$r=mysql_query($q,$db);
+$num=mysql_num_rows($r);
+for($i=0;$i<$num;$i++){
+$data2=mysql_fetch_array($r);
+?>
+<table width="1291" border="0" cellpadding="0" cellspacing="0">
+  <tr>
+    <td width="290" height="37" align="center" style="font-family:Arial, Helvetica, sans-serif;color:#F00;border-bottom:1px  solid #CCC;"><?=$data2["date"];?></td>
+    <td width="187" align="left" style="border-bottom:1px  solid #CCC;"><?=$data2["je"];?></td>
+    <td width="204" align="left" style="border-bottom:1px  solid #CCC;"><?if($data2["cwsh"]=="1"){
+	echo "已通过";
+	} elseif($data2["cwsh"]=="2") {
+    echo "已驳回";
+    } else{
+		echo "未处理";
+	};?></td>
+    <td width="465" align="left" style="border-bottom:1px  solid #CCC;"><?=$data2["sm"];?>
+	</td>
+    <td width="145" align="center" style="border-bottom:1px  solid #CCC;">&nbsp;</td>
+  </tr>
+</table>
+<?php
+  }
+
+  ?>
+
+                    <table border="1" cellspacing="0" cellpadding="0" class="warp_f_ble">
+						
+                     </volist>  
+                    </table>
+
+                    <div class="warp_f_mp">
+                        <!----下一页开始---->
+						<div class="scott"></div>
+                        <!----下一页结束---->
+
+                    </div>
+
+                </div>
+			
+            </div>
+            <!----right内容结束---->
+
+            <!----left内容开始---->
+            <div class="warp_h_left">
+	<?
+    include_once "left_p_menu.html";
+	mysql_close($db);
+    ?>
+
+	<a href="" class="warp_h_left_gg"><img src="/jygj/Public/home/img/im113.jpg" width="170" height="207"></a>
+	
+</div>
+            <!----left内容结束---->
+        </div>
+
+  </div>
+    <!----内容结束---->
+
+    <!------底部开始------>
+
+   <?include("sfooter.html");?>
+    <!------底部结束------>
+</div>
+</body>
+</html>

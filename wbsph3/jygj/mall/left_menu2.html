@@ -1,0 +1,68 @@
+<?
+            include "config/zt_config.php";
+$db=mysql_connect($db_host,$db_user,$db_pwd);
+mysql_query("SET NAMES $coding"); 
+mysql_select_db($db_database);
+$yh=$_COOKIE['ECS']['username'];
+$sql="select * from xbmall_users where user_name='$yh';";
+$qs1=mysql_query($sql);
+$sf1=mysql_fetch_assoc($qs1);
+$sql1="select * from zt_shopinfo where userid=".$sf1['id'];
+$qs11=mysql_query($sql1);
+$sf11=mysql_fetch_assoc($qs11);
+?>
+<div class="warp_m_left">
+                <div class="warp_m_left_div">
+                    <a href="upinfor.html" class="warp_m_left_div_a"><img src="<?=empty($sf11['tx'])?'/images/logoa.png':$sf11['tx'];?>" width="62" height="62"></a>
+                    <span class="warp_m_left_div_sp">
+                        <b><?=$sf1["dpmc"];?></b>
+                        <a href="upinfor.html">修改资料</a>
+                    </span>
+                </div>
+                
+				
+				<ul class="warp_m_left_ul">
+					<li class="warp_m_left_ul_1">
+                        <a href="b_order_list.html">订单列表</a>
+                    </li>
+					<li class="warp_m_left_ul_2">
+                        <a href="b_recharge.html">在线充值</a>
+                    </li>
+					<li class="warp_m_left_ul_3">
+                        <a href="b_orderadd.html">订单录入</a>
+                    </li>
+					<li class="warp_m_left_ul_4">
+                        <a href="b_chongzhi.html">积分转换</a>
+                    </li>
+					<li class="warp_m_left_ul_5">
+                        <a href="b_money_add.html">申请提现</a>
+                    </li>
+					<li class="warp_m_left_ul_6">
+                        <a href="b_record.html">充值记录</a>
+                    </li>
+				</ul>
+				
+				<ul class="warp_m_left_ul">
+			
+					<li class="warp_m_left_ul_7">
+                        <a href="b_record_x.html">消费记录</a>
+                    </li>
+					<li class="warp_m_left_ul_8">
+                        <a href="b_rebate.html">积分记录</a>
+                    </li>
+					<li class="warp_m_left_ul_9">
+                        <a href="b_jifenorder.html">兑换记录</a>
+                    </li>
+					<li class="warp_m_left_ul_10">
+                        <a href="b_money_list.html">提现记录</a>
+                    </li>
+					 <li class="warp_m_left_ul_4">
+                        <a href="b_card.html">绑定银行卡</a>
+                    </li>
+					<li class="warp_m_left_ul_11">
+                        <a href="b_address.html">收货地址</a>
+                    </li>
+					
+				</ul>
+
+            </div>

@@ -1,0 +1,16 @@
+<form name="theForm" action="order.php?act=step_post&step={$step}&order_id={$order_id}&step_act={$step_act}" method="post" onsubmit="return checkUser()">
+<div class="main-div" style="padding: 15px">
+  <label><input type="radio" name="anonymous" value="1" checked /> {$lang.anonymous}</label><br />
+  <label><input type="radio" name="anonymous" value="0" id="user_useridname" /> {$lang.by_useridname}</label>
+  <input name="keyword" type="text" value="" />
+  <input type="button" class="button" name="search" value="{$lang.button_search}" onclick="searchUser();" />
+  <select name="user"></select>
+  <p>{$lang.notice_user}</p>
+</div>
+<div style="text-align:center">
+  <p>
+    <input name="submit" type="submit" class="button" value="{$lang.button_next}" />
+    <input type="button" value="{$lang.button_cancel}" class="button" onclick="location.href='order.php?act=process&func=cancel_order&order_id={$order_id}&step_act={$step_act}'" />
+  </p>
+</div>
+</form>

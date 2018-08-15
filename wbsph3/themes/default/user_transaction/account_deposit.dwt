@@ -1,0 +1,43 @@
+<form name="formSurplus" method="post" action="user.php" onSubmit="return submitSurplus()">
+            <table width="100%" border="0" cellpadding="10" cellspacing="1" bgcolor="#eeeeee">
+              <tr>
+                <td width="10%" align="right">{$lang.deposit_money}:</td>
+                <td align="left"><input type="text" name="amount"  class="inputBg" value="{$order.amount|escape}" size="30" /></td>
+              </tr>
+              <tr>
+                <td align="right">{$lang.process_notic}:</td>
+                <td align="left"><textarea name="user_note" cols="55" rows="6" style="border:1px solid #ddd;">{$order.user_note|escape}</textarea></td>
+              </tr>
+            </table>
+            <div class="blank10"></div>
+            <table width="100%" border="0" cellpadding="10" cellspacing="1" bgcolor="#eeeeee">
+              <tr align="center">
+                <td colspan="3" align="left">{$lang.payment}:</td>
+              </tr>
+              <tr align="center">
+                <td>{$lang.pay_name}</td>
+                <td width="60%">{$lang.pay_desc}</td>
+                <td width="17%">{$lang.pay_fee}</td>
+              </tr>
+              <!-- {foreach from=$payment item=list} -->
+              <tr>
+                <td align="left"><input type="radio" name="payment_id" value="{$list.pay_id}" {if $list.pay_code eq 'alipay_bank'}id="alipay_bank_input"{/if}/>
+                  {$list.pay_name}</td>
+                <td align="left">{$list.pay_desc}</td>
+                <td align="center">{$list.pay_fee}</td>
+                <!--{if $list.pay_code eq 'alipay_bank'}-->
+                <tr><td colspan="3" style="background-color:#fff">
+                <div class="payment_subbox"  style="display:block"> <!-- #BeginLibraryItem "/Library/alipay_bank.lbi" --><!-- #EndLibraryItem --> </div>
+                </tr></td>
+                <!--{/if}-->
+              </tr>
+              <!-- {/foreach} -->
+              <tr>
+                <td colspan="3"  align="center"><input type="hidden" name="surplus_type" value="0" />
+                  <input type="hidden" name="rec_id" value="{$order.id}" />
+                  <input type="hidden" name="act" value="act_account" />
+                  <input type="submit" class="main-btn main-btn-large" name="submit" value="{$lang.submit_request}" />
+                  <input type="reset" class="main-btn main-btn-large" name="reset" value="{$lang.button_reset}" /></td>
+              </tr>
+            </table>
+          </form>

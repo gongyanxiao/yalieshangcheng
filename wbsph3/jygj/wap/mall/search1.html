@@ -1,0 +1,227 @@
+<?
+include("config/zt_config.php");
+include("config.php");
+$link = mysqli_connect($db_host,$db_user,$db_pwd,$db_database) or die('Unale to link');
+$link->set_charset('utf8');
+$noj=htmlspecialchars(trim($_GET['noj']));
+$jifen=htmlspecialchars(trim($_GET['jifen']));
+
+$title=htmlspecialchars(trim($_POST['title']));
+if(empty($title)) {
+    $title=$_GET['title'];
+}
+$aid=htmlspecialchars(trim($_GET['aid']));
+if(empty($aid)) {
+    $aid="a";
+}
+$ss='';
+if(!empty($title)){
+    $ss=" ((spmc like '%".$title."%') or (spjs like '%".$title."%')) and ";
+} else {
+    header("Location:jifen.html".(empty($noj)?'':'?noj=1')); 
+    exit;
+}
+$c1=' and ';
+if(empty($jifen)) {
+    $c1='';
+} elseif ($jifen==1) {
+    $c1.='dhjf<=1000';
+} elseif ($jifen==2) {
+    $c1.='dhjf between 1000 and 2000';
+} elseif ($jifen==3) {
+    $c1.='dhjf between 2000 and 4000';
+} elseif ($jifen==4) {
+    $c1.='dhjf between 4000 and 6000';
+} elseif ($jifen==5) {
+    $c1.='dhjf>6000';
+}
+?>
+<?
+if(empty($noj)) {
+$sql1="SELECT * FROM  `zt_jifen` where ".$ss." sfsj=1 and gngj=0 ".$c1;
+} else {
+$sql1="SELECT * FROM  `zt_jifen` where ".$ss." sfsj=1 and gngj=1 ".$c1;
+}
+$sql1.=' limit 0,16';
+$qry1=$link->query($sql1);
+?>
+<!DOCTYPE html>
+<html>
+<head lang="en">
+   <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+   <title><?=empty($noj)?'国内':'国际'?>积分兑换_网络平台_<?=_TITLE_?></title>
+    <meta name="keyword" content="<?=_KEYWORD_?>"/>
+    <meta name="description" content="<?=_DESCRIPTION_?>"/>
+    <link href="/Public/ico.ico" type="image/x-icon" rel="shortcut icon" /> 
+    <link rel="stylesheet" type="text/css" href="/Public/phone/jifen/css/index.css">
+    <link rel="stylesheet" type="text/css" href="/Public/phone/jifen/css/swiper.min.css">
+    <script type="text/javascript" src="/Public/phone/jifen/js/jquery-1.7.2.js"></script>
+    <script type="text/javascript" src="/Public/phone/jifen/js/swiper.min.js"></script>
+    <link href="/Public/phone/jifen/css/component.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div class="warp">
+    <!------头部开始------>
+     <?include("jfheader.html");?>
+    <!------头部结束------>
+
+    <!------内容结束------>
+    <div class="cplb1">
+        <i></i>
+        <span>请选择积分</span>
+    </div>
+    <div class="cplb2">
+        <ul>
+        
+        <?  if(empty($jifen)) {?>
+            <li class="choice">
+        <?  } else {?>
+            <li>
+        <?  }?>
+            
+        
+            
+                <a href="search1.html?title=<?=$title?><?=empty($noj)?'':'&noj=1'?>">全部</a>
+            </li>
+            <? if($jifen==1) {?>
+                    <li class="choice">
+            <?} else {?>
+                <li>
+            <?}?>
+                <a href="search1.html?title=<?=$title?><?=empty($noj)?'':'&noj=1'?>&jifen=1">
+                    1000以下
+                </a>
+            </li>
+           <? if($jifen==2) {?>
+                <li class="choice">
+           <?} else {?>
+            <li>
+           <?}?>
+                <a href="search1.html?title=<?=$title?><?=empty($noj)?'':'&noj=1'?>&jifen=2">
+                    1000-2000
+                </a>
+            </li>
+            <? if($jifen==3) {?>
+                    <li class="choice">
+            <?} else {?>
+                <li>
+            <?}?>
+                <a href="search1.html?title=<?=$title?><?=empty($noj)?'':'&noj=1'?>&jifen=3">
+                    2000-4000
+                </a>
+            </li>
+            <? if($jifen==4) {?>
+                    <li class="choice">
+            <?} else {?>
+                <li>
+            <?}?>
+                <a href="search1.html?title=<?=$title?><?=empty($noj)?'':'&noj=1'?>&jifen=4">
+                    4000-6000
+                </a>
+            </li>
+           <? if($jifen==5) {?>
+                <li class="choice">
+           <?} else {?>
+            <li>
+           <?}?>
+                <a href="search1.html?title=<?=$title?><?=empty($noj)?'':'&noj=1'?>&jifen=5">
+                   6000以上
+                </a>
+            </li>
+        </ul>
+
+    </div>
+    <div class="content5">
+
+        <ul id="listul">
+        <?
+        while($row1 = $qry1->fetch_array()){
+        ?> 
+        <li>
+                <a href="jifencontent.html?jfid=<?=$row1[id]?>">
+                    <img src="<?=strtr($row1['spslt'],array("../"=>"/mall/"));?>">
+                    <span><?=$row1[spmc];?></span>
+                    <b><?=$row1[dhjf];?>积分<i>市场参考价：<?=$row1[ckj];?></i></b>
+                </a>
+            </li>
+        <?
+        }
+        ?>
+            
+            
+        </ul>
+        <style>
+    .ktp_p_gd{width: 92%;
+    display: block;
+    text-decoration: none;
+    border: 1px solid #dddddd;
+    height: 40px;
+    line-height: 40px;
+    /* margin-top: 20px; */
+    margin: 0 auto;
+    text-align: center;
+    color: #dddddd;
+    font-size: 16px;
+    margin-top: 20px;
+    border-radius: 5px;}
+    </style>
+    <div   id="getmore">
+     <a href="#" class="ktp_p_gd" onclick="getmore()"  class="more_g_a">查看更多</a>
+    
+    </div>
+    <input type="hidden" id="title" value="<?=$title?>" />
+    <input type="hidden" id="page" value="1" />
+     <script>
+     function getUrlParam(name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+            var r = window.location.search.substr(1).match(reg);  //匹配目标参数
+            if (r != null) return unescape(r[2]); return null; //返回参数值
+        }
+        function getmore(){
+            var title = $('#title').val();
+            var jifen = getUrlParam('jifen');
+            var noj = getUrlParam('noj');
+            var _page = $('#page').val();
+            var act = $("#act").val();
+            if(jifen!=null&&noj!=null) {
+                json1={ title: title , page: _page ,jifen: jifen ,noj:noj};
+            } else if (jifen!=null&&noj==null){
+                json1={ title: title , page: _page ,jifen: jifen};
+            } else if (jifen==null&&noj!=null){
+                json1={ title: title , page: _page ,noj:noj};
+            } else {
+                json1={ title: title , page: _page};
+            }
+            $('#getmore').html('<a href="javascript:void(0);"  class="ktp_p_gd" >加载中请稍等</a>')
+            $.get('ajifenlist.html',json1,function(data){
+                if(data==0){
+                    $('#getmore').html('<a href="javascript:void(0);"  class="ktp_p_gd" >已经没有了</a>')
+                }else{
+                    $('#listul').append(data)
+                    $('#getmore').html('<a href="javascript:void(0);" onclick="getmore()" class="ktp_p_gd" >点击加载更多</a>')
+                    $('#page').val(parseInt($('#page').val())+1)
+                }
+            })
+
+        }
+        </script>   
+        <div class="ht10"></div>
+    </div>
+    <!------内容结束------>
+
+    <!------底部开始------>
+      <div class="ht60"></div>
+          <?include("footer.html");?><?$link->close();?>
+    <!------底部结束------>
+</div>
+<script type="text/javascript" src="/Public/phone/jifen/js/modernizr.custom.js"></script>
+<script type="text/javascript" src="/Public/phone/jifen/js/jquery.dlmenu.js"></script>
+</body>
+</html>
+<script type="text/javascript">
+    $(function(){
+        $( '#dl-menu' ).dlmenu();
+    });
+</script>

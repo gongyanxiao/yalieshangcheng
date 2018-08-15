@@ -1,0 +1,33 @@
+	<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+	<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<meta http-equiv="Content-Language" content="zh-CN"/>
+		<meta http-equiv="Expires" CONTENT="0">        
+		<meta http-equiv="Cache-Control" CONTENT="no-cache">        
+		<meta http-equiv="Pragma" CONTENT="no-cache">
+		<title>开联通互联网支付平台-商户接口范例-支付请求信息签名</title>
+		<link href="css.css" rel="stylesheet" type="text/css">
+	</head>
+	<body>	
+	<center> <font size=16><strong>订单支付请求</strong></font></center>
+	
+		{$pay_button}
+	 
+	</body>
+	</html>
+            <!-- <script>
+                function run() {
+                    $.get("{$site_domain}/waiting_weixin_pay1.php?step=waiting_weixin_pay&log_id=" + {$order.log_id}, function (data) {
+                        if (data === "1") {
+                            window.location = "role_recharge.php?act=recharge_list";
+                        } else {
+                            
+                        }
+                    });
+                }
+                window.setInterval("run()",5000) ;
+            </script> -->
+      
+ 

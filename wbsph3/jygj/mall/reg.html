@@ -1,0 +1,207 @@
+<?include("config.php");?>
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>注册_<?=_TITLE_?></title>
+    <meta name="keyword" content="<?=_KEYWORD_?>"/>
+    <meta name="description" content="<?=_DESCRIPTION_?>"/>
+
+    <link href="/Public/ico.ico" type="image/x-icon" rel="shortcut icon" /> 
+	
+    <link rel="stylesheet" type="text/css" href="/jygj/Public/home/css/index.css">
+
+                      <script src="js/jquery.min.js"></script>
+    <script src="/jygj/Public/home/js/drag.js" type="text/javascript"></script>
+
+<style type="text/css">
+    .more_p_ex {
+    width: 250px;}
+</style>
+</head>
+<body>
+<div id="jsgj"></div>
+<div class="warp">
+    <div class="warp_v_home">
+        <div class="warp_v">
+            <a href="/mall"><img src="/images/logo.png" width="224" height="88"></a>
+            <span>注册会员</span>
+        </div>
+        <div class="warp_v_mp">
+        <div class="warp_v_in">
+				<div style="overflow: hidden;width: 373px;margin: auto">
+					<a href="reg.html" class="warp_v_in1 current">会员注册</a>
+					<a href="reg_shop.html" class="warp_v_in2">商家注册</a>
+			</div>
+		  </div>
+            <div class="warp_v_mo">
+				<form action="/mall/member/reg_do.php" method="post" id="myform" name="myform" enctype='multipart/form-data'>
+                <table width="726" align="center">
+                    <tr>
+					    <td width="100">会员账号：</td>
+                        <td width="458"><input name="username" type="text" class="more_p_ex" id="username" onFocus="if (this.value=='必须用手机号注册')this.value=''" onBlur="if (this.value=='')this.value='必须用手机号注册'" value="必须用手机号注册" size="24">
+                       <font style="color: red">*必须使用有效手机号注册，否则无法更改</font> </td>
+                        <!-- <td width="214"><div class="userinfo"></div></td> -->
+                    </tr>
+
+                    <tr>
+						<td>会员密码：</td>
+                      <td colspan="2"><input type="password" value="" id="password" name="password" onFocus="if(this.value==defaultValue) {this.value='';this.type='password'}" onBlur="if(!value) {value=defaultValue; this.type='text';}'" class="more_p_ex">
+                        *</td>
+                    </tr>
+
+                    <tr>
+						<td>确认密码：</td>
+                      <td colspan="2"><input type="password" value="" id="repassword"  name="repassword"  onfocus="if(this.value==defaultValue) {this.value='';this.type='password'}" onBlur="if(!value) {value=defaultValue; this.type='text';}'" class="more_p_ex">
+                        *</td>
+                    </tr>
+
+                    <tr>
+						<td>手机号码：</td>
+                      <td colspan="2"><input type="text" value="请输入手机号码" id="phone1"  name="phone1"  onfocus="if (this.value=='请输入手机号码')this.value=''" onBlur="if (this.value=='')this.value='请输入手机号码'" class="more_p_ex">
+                        *用于接收找回密码的验证码</td>
+                    </tr>
+					<tr>
+					    <td>姓名：</td>
+                      <td colspan="2"><input type="text" value="请输入姓名"  name="xm1" onFocus="if (this.value=='请输入姓名')this.value=''" onBlur="if (this.value=='')this.value='请输入姓名'" class="more_p_ex">
+                        *请仔细填写真实姓名，否则影响提现</td>
+                    </tr>
+					<tr>
+					    <td>身份证号：</td>
+                        <td colspan="2"><input type="text" value="用于核验绑定银行卡真实性" id="idcard" name="sfzh" onFocus="if (this.value=='用于核验绑定银行卡真实性')this.value=''" onBlur="if (this.value=='')this.value='用于核验绑定银行卡真实性'" class="more_p_ex">*用于绑定提现银行卡，请仔细填写</td>
+                    </tr>
+					<tr>
+					    <td>选择地区：</td>     
+						<td colspan="2" style="padding-top: 18px;">						
+							<select name="location_p" id="location_p" class="" style="height: 31px;">
+							</select>
+							<select name="location_c" id="location_c" class="" style="height: 31px;">
+							</select>
+							<select name="location_a" id="location_a" class="" style="height: 31px;">
+							</select><br/>
+							<script src="/jygj/Public/home/js/region_select.js"></script>
+							<script type="text/javascript">
+							new PCAS('location_p', 'location_c', 'location_a', '北京市', '', '');
+							</script>						
+						</td>
+					</tr>
+					 <tr>
+						<td>详细地址：</td>
+                        <td colspan="2"><input type="text" value="详细地址 ~地区注册后不能自行修改" id="phone"  name="other"  onfocus="if (this.value=='详细地址 ~地区注册后不能自行修改')this.value=''" onBlur="if (this.value=='')this.value='详细地址 ~地区注册后不能自行修改'" class="more_p_ex">
+                        *请填写正确的详细地址</td>
+				   </tr>
+                    <tr>
+                        <td colspan="3">
+                            <div id="drag" style="text-align:center;width:306px;"></div>
+                            <script type="text/javascript">
+                                $('#drag').drag();
+                            </script>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td colspan="3">
+                            <div class="more_p_div">
+                                <input name="xy" type="checkbox" id="xy" value="1" checked="checked">
+                                <b>同意<a href="javascript:void(0)" class="more_p_div_tc">《聚元国际》</a>用户协议</b>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td colspan="3"><input type="button" value="立即注册" class="more_p_ton"></td>
+                    </tr>
+                </table>
+			  </form>
+				<script>
+				$(".more_p_ton").click(function(){
+					if($(".drag_text").html()!='验证通过')
+					{
+						alert("请拖动滑块验证")
+						return false;
+					}else{
+				
+				var username=document.myform.username.value;
+var password1=document.myform.password.value;
+var password2=document.myform.repassword.value;
+var xm=document.myform.xm1.value;
+var sfzh=document.myform.sfzh.value;
+//省县区
+var p=document.myform.location_p.value;
+var c=document.myform.location_c.value;
+var a=document.myform.location_a.value;
+var xxdz=document.myform.other.value;
+var sjhm=document.myform.phone1.value;
+var xy;
+for(var i=0;i< document.getElementsByName("xy").length; i++){
+ if(document.getElementsByName("xy")[i].checked){
+ xy=document.getElementsByName("xy")[i].value;
+}
+}
+var dataString='username='+username+'&password1='+password1+'&password2='+password2+'&xm='+xm+'&sfzh='+sfzh+'&p='+p+'&c='+c+'&a='+a+'&sjhm='+sjhm+'&xxdz='+xxdz+'&xy='+xy;
+ $.ajax({  
+type: "POST",  
+url: "member/reg_do.php",  
+data:dataString,  
+cache:false,  
+success:function(html){  
+$("#jsgj").html(html);
+ }
+ }); 
+					}
+		
+				})
+				</script>
+            </div>
+        </div>
+    </div>
+
+<?
+    include_once "sfooter.html";
+    ?>		
+	
+	<script>
+        $(function(){
+            $(".more_p_div_tc").click(function(){
+                $(".jsxy_p").show();
+            })
+
+            $(".jsxy_i_a").click(function(){
+                $(".jsxy_p").hide();
+            })
+			
+			$(".jsxy_u_ty").click(function(){
+                $(".jsxy_p").hide();
+                $("#xy").attr("checked","checked");
+            })
+        });
+    </script>
+	
+	<div class="jsxy_p">
+	    <div class="jsxy_o">
+		    <div class="jsxy_i">
+			    <span>会员须知</span>
+
+			    <a href="javascript:void(0)" class="jsxy_i_a"></a>
+			</div>
+			<div class="jsxy_u">
+				<?
+                include("config/zt_config.php");
+include("config.php");
+$link = mysqli_connect($db_host,$db_user,$db_pwd,$db_database) or die('Unale to link');
+$link->set_charset('utf8');
+$sqlb="select * from phome_ecms_news_data_1 where id=287";
+$queryb=$link->query($sqlb);
+$rowb=$queryb->fetch_array();
+                ?>
+ <?=stripslashes($rowb[newstext]);?>
+            </div>
+			
+			<a href="javascript:void(0)" class="jsxy_u_ty">同意并继续</a>
+		</div>
+	
+	</div>
+
+</div>
+</body>
+</html>

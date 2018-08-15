@@ -1,0 +1,108 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<!-- TemplateBeginEditable name="doctitle" -->
+<title>养老保险详情</title>
+<!-- TemplateEndEditable -->
+<!-- TemplateBeginEditable name="head" -->
+<!-- TemplateEndEditable -->
+<meta name="Keywords" content="{$keywords}" />
+<meta name="Description" content="{$description}" />
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+<link rel="shortcut icon" href="favicon.ico" />
+<link rel="icon" href="animated_favicon.gif" type="image/gif" />
+<link rel="stylesheet" href="themes/default/css/stores.css">
+    <script type="text/javascript" src="themes/default/js/jquery-1.9.1.min.js"></script> {insert_scripts files='jquery.json.js,transport.js'}
+</head>
+<body>
+    <!-- #BeginLibraryItem "/library/page_header.lbi" -->
+    <!-- #EndLibraryItem -->
+    
+    <style>
+.mutual_l, .mutual_r, .mutualc {
+	float: left;
+	height: 300px;
+	border: 1px solid
+}
+
+.mutual_l {
+	width: 49%
+}
+
+.mutual_r {
+	width: 49%
+}
+
+.mutualc {
+	width: 99%
+}
+
+.u-buy2 {
+	background: #e31939 none repeat scroll 0 0;
+	border: 1px solid #e31939;
+	color: #fff;
+	cursor: pointer;
+	display: block;
+	float: left;
+	font-size: 16px;
+	height: 38px;
+	line-height: 38px;
+	margin-right: 15px;
+	text-align: center;
+	text-decoration: none;
+	width: 160px;
+}
+
+.u-buy2:hover {
+	color: #fff;
+}
+
+.ghs_content2 {
+	margin-top: 50px
+}
+</style>
+    <div class="content">
+        <div class="margin-w1210">
+            <div class="flow">
+                <div style="margin: 20px 0px;">
+                    <div class="/">
+                        <div class="ghs_content">
+                            <ul class="shopTolal" style="margin-top: 10px;">
+                                <li style="padding-top:50px;width: 60%; float: left; height: 220px; text-align: center;">
+                                    <span><a> <img src="{$pension_info.picture}" style="margin: 0 36px;" height="220"></a> </span>
+                                </li>
+                                <li style="width: 40%; height: 220px; float: left; font-size: 14px; margin-top: 50px;">
+                                    <p style="margin-top: 10px; color: red; font-size: 18px;">{$pension_info.pension_name}</p> <br>
+                                        <p style="margin-top: 10px;">所需积分：<span>{$pension_info.money}</span>
+                                    </p> <br>
+                                            
+                                              
+                                        </p>
+                                    <br>
+                                            <p style="margin-top: 10px;"><a href="user.php?act=yl_apply&id={$pension_info.id}" name="bi_addToCart" class="u-buy2">我要投保</a></span>
+                                        </p></li>
+                            </ul>
+                        </div>
+                        <div class='clear'></div></div>
+                        <div class="ghs_content2">
+                        {$pension_info.pension_desc}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+ 
+    <!-- #BeginLibraryItem "/library/right_sidebar.lbi" -->
+    <!-- #EndLibraryItem -->
+    <div class="site-footer">
+        <div class="footer-related">
+            <!-- #BeginLibraryItem "/library/help.lbi" -->
+            <!-- #EndLibraryItem -->
+            <!-- #BeginLibraryItem "/library/page_footer.lbi" -->
+            <!-- #EndLibraryItem -->
+        </div>
+    </div>
+</body>
+</html>

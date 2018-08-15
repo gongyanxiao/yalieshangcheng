@@ -1,0 +1,155 @@
+<?	
+include("conn.php");
+$lmid = htmlspecialchars(trim($_GET['lmid']));
+include("page.class.php");
+?>
+<?						
+					
+					
+					if($lmid==8) {
+						$sql1="select * from phome_ecms_video where `classid` in ($lmid) order by `id` desc ";
+					} else {
+						$sql1="select * from phome_ecms_news where `classid` in ($lmid) order by `id` desc ";
+					}
+					$query1=mysql_query($sql1); 
+					$sqln="select * from `phome_enewsclass` where `classid` in ($lmid) ";
+					$queryn=mysql_query($sqln); 
+					$a=mysql_fetch_array($queryn);
+					$total=mysql_num_rows($query1);
+					$per=6;
+					$page_obj=new Page($total,$per);
+					$sqla1=$sql1." limit ".($page_obj->page-1)*$per.",6";
+					$qrya1=mysql_query($sqla1);
+					$pagelist=$page_obj->fpage(array(0,2,4,5,6,9));
+
+					$p=isset($page_obj->page)?$page_obj->page:1;
+					$num=($p-1)*$per;
+				?>
+    <!------列表开始------>
+    <?
+    if($lmid==1) {
+    ?>
+    	<div class="warp_y_mor">
+            <div class="warp_y_mor_iv">
+                <span><?=$a[classname]?></span>
+            </div>
+        </div>
+        <ul class="warp_w">
+        <?
+	        while($row1 = mysql_fetch_array( $qrya1 )){
+		?>   
+	            <li>
+                   <a style="text-align: center;float: left;margin-bottom: 20px;">
+                   <div><img  id="stretch" src="<?=$row1[titlepic]?>" border="0" style="width: 90%;display: inline-block;"/></div>
+                   <p style="font-size: 24px;height: 70px;line-height: 30px;width: 70%;text-align: center;display: inline-block;"><?=$row1[title]?></p>
+                   </a>
+                </li>       
+		<?
+    		}
+        } elseif ($lmid==5) {
+        ?>
+        <div class="warp_y_mor">
+            <div class="warp_y_mor_iv">
+                <span><?=$a[classname]?></span>
+            </div>
+        </div>
+        <div class="warp_w">
+            <ul class="warp_t">
+        <?
+            while($row1 = mysql_fetch_array( $qrya1 )){
+        ?>   
+                <li>
+                   <a href="tpcontent.html?tpid=<?=$row1[id]?>" title="<?=$row1[title]?>"><img src="<?=$row1[titlepic]?>" style='height:200px' border="0"/></a>
+                </li>     
+
+        <?}
+        } elseif ($lmid==7) {
+        ?>
+        <div class="warp_y_mor">
+            <div class="warp_y_mor_iv">
+                <span><?=$a[classname]?></span>
+            </div>
+        </div>
+        <div class="warp_w">
+            <ul class="warp_t">
+        <?
+            while($row1 = mysql_fetch_array( $qrya1 )){
+        ?>   
+                 
+                <li style="overflow: hidden;display: block;width:98%;margin: 0;padding: 0;
+background: #FFFFFF;
+border: 1px solid #DFDFDF;
+margin-top: 3%;">
+                <a href="tpcontent.html?tpid=<?=$row1[id]?>" title="<?=$row1[classname]?>" style="display: block;
+overflow: hidden;
+padding: 3%;">
+                    <span class="warp_z_ul_sp" style="width: 100%;
+overflow: hidden;
+border-bottom: 1px solid #DADADA;
+display: block;">
+                        <b style="display: block;
+font-size: 14px;
+color: #999;
+font-weight: normal;"><?=$row1[newspath]?></b>
+                        <span style="display: block;
+font-size: 18px;
+color: #333333;
+padding: 3px 0 6px 0;"><?=$row1[title]?></span>
+                    </span>
+                    <span class="warp_z_ul_an"></span>
+                </a>
+            </li>        
+
+        <?
+        	}
+    	} elseif ($lmid==8) {
+    	?>
+    	<div class="warp_y_mor">
+            <div class="warp_y_mor_iv">
+                <span><?=$a[classname]?></span>
+            </div>
+        </div>
+        <div class="warp_l">
+            <a href="tpcontent.html?tpid=124" class="warp_l_a" style="width:100%">
+                <img src="/images/index.jpg">
+            </a>
+            <div style="clear: both;"></div>
+            <div style="float: left;">
+            <span style="display: block;overflow: hidden;color: #FFFFFF;position: relative;float: left;left:3%;padding-right: 3%;">
+                <div style="text-align: center;"><b><font style="font-size: 18px">认识我们</font></b></div>
+                <span>&nbsp;&nbsp;&nbsp;&nbsp;安徽诺斯贝尔电子商务有限公司（以下简称公司）是互联网+模式创新迅速发展中组建的创新型平台化电子商务企业。“诺斯贝尔网络服务平台”是我们倾力打造的互联网公众品牌。“好雨知时节，当春乃发生。”一场互联网+的好雨，滋润创新型电商企业万笋劲拔，千绿碧野。我们就是一支在“好雨”中应运而生的崭新团队，面向全国，用虔诚之心并以严谨科学的专业精神，为我们的上帝----实体店商和消费者服务 </span>
+            </span></div>
+        </div>
+
+        <ul class="warp_q">
+        <?
+	        while($row1 = mysql_fetch_array( $qrya1 )){
+		?>   
+	             
+                <li>
+	              <a href="tpcontent.html?tpid=<?=$row1[id]?>" title="<?=$row1[title]?>"><img src="<?=$row1[titlepic]?>"  width="280" height="200" border="0"/></a>
+	            </li>   
+
+
+    	<?
+    		}
+    	} 
+    	$qrya2=mysql_query($sql1);
+        $row2 = mysql_fetch_array( $qrya2 );
+        if($row2==0) {
+        ?>  <br/>
+        	<center><p style="color: #333;font-size: 16px">当前栏目尚未发布任何信息，敬请关注！</p></center>
+        <?
+        } else {
+        ?>
+        <div style="clear: both;"></div>
+        <br/>
+        <center><div><?=$pagelist?></div></center> 
+        <?
+    	}
+        ?>
+        </ul>
+        <?
+           @mysql_close($conn);
+        ?>
+

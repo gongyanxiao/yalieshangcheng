@@ -1,0 +1,291 @@
+<?include("config.php");?>
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>注册_<?=_TITLE_?></title>
+    <meta name="keyword" content="<?=_KEYWORD_?>"/>
+    <meta name="description" content="<?=_DESCRIPTION_?>"/>
+
+
+    <link href="/Public/ico.ico" type="image/x-icon" rel="shortcut icon" /> 
+	<link rel="stylesheet" type="text/css" href="/jygj/Public/home/css/index.css">
+		<link rel="stylesheet" type="text/css" href="/Public/admin/css/uploadify.css" media="all">
+	<link rel="stylesheet" type="text/css" href="/Public/admin/js/ThinkBox/css/ThinkBox.css" media="all">
+	<link rel="stylesheet" type="text/css" href="/Public/admin/js/uploadify-v3.1/uploadify.css" media="all">
+</head>
+<script src="js/jquery.min.js"></script>
+<script type="text/javascript">
+<!--
+//提交到后台查询
+function tj(){	
+
+var username=document.myform.username.value;
+var password1=document.myform.password1.value;
+var password2=document.myform.password2.value;
+var xm=document.myform.xm.value;
+var sfzh=document.myform.sfzh.value;
+var dpmc=document.myform.dpmc.value;
+var fl=document.myform.fl.value;
+//省县区
+var p=document.myform.location_p.value;
+var c=document.myform.location_c.value;
+var a=document.myform.location_a.value;
+var lxdh=document.myform.lxdh.value;
+var xy;
+for(var i=0;i< document.getElementsByName("xy").length; i++){
+ if(document.getElementsByName("xy")[i].checked){
+ xy=document.getElementsByName("xy")[i].value;
+}
+}
+var dataString='username='+username+'&password1='+password1+'&password2='+password2+'&xm='+xm+'&sfzh='+sfzh+'&fl='+fl+'&dpmc='+dpmc+'&p='+p+'&c='+c+'&a='+a+'&lxdh='+lxdh+'&xy='+xy;
+ $.ajax({  
+type: "POST",  
+url: "member/zt_shop_reg.php",  
+data:dataString,  
+cache:false,  
+success:function(html){  
+$("#jsgj").html(html);
+refresh();
+ }
+ }); 
+}
+//-->
+</script>
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/jquery.wallform.js"></script>
+<script type="text/javascript">
+$(function(){
+	$('#photoimg').die('click').live('change', function(){
+		var status = $("#up_status");
+		var btn = $("#up_btn");
+		$("#imageform").ajaxForm({
+			target: '#preview', 
+			beforeSubmit:function(){
+				status.show();
+				btn.hide();
+			}, 
+			success:function(){
+				status.hide();
+				btn.show();
+			}, 
+			error:function(){
+				status.hide();
+				btn.show();
+		} }).submit();
+	});
+});
+</script>
+		<style type="text/css">
+.demo{width:100px; margin:40px auto 0 auto; min-height:80px;float:left;}
+.preview{width:80px;height:80px;pborder:solid 1px #dedede; margin:10px;padding:10px;}
+.demo p{line-height:26px}
+.btn{position: relative;overflow: hidden;margin-right: 4px;display:inline-block;*display:inline;padding:4px 10px 4px;font-size:14px;line-height:18px;*line-height:20px;color:#fff;text-align:center;vertical-align:middle;cursor:pointer;background-color:#0054A7;border:1px solid #cccccc;border-color:#0054A7 #0054A7 #0054A7;border-bottom-color:#b3b3b3;-webkit-border-radius:4px;-moz-border-radius:4px;border-radius:4px;}
+.btn input {position: absolute;top: 0; right: 0;margin: 0;border: solid transparent;opacity: 0;filter:alpha(opacity=0); cursor: pointer;}
+</style>	
+<style type="text/css">
+	.warp_v_mo_ul li{padding-left:0}
+	.warp_v_mo_ul_ble_an{float: right}
+</style>	
+<body>
+<div class="warp">
+    <div class="warp_v_home">
+        <div class="warp_v">
+            <a href="/mall"><img src="/images/logo.png" width="224" height="88"></a>
+            <span>注册商家</span>
+        </div>
+        <div class="warp_v_mp">
+		<div class="warp_v_in">
+			<div style="overflow: hidden;padding-left: 80px;width: 373px;margin: auto">
+				<a href="reg_shop.html" class="warp_v_in2 current" style="margin: 0">商家注册</a>
+				<a href="reg.html" class="warp_v_in1" style="margin-left: 61px;">会员注册</a>
+			</div>
+		</div>
+            <div class="warp_v_mo">
+                <ul class="warp_v_mo_ul" style=''>
+                    <li>
+                        <div class="warp_v_mo_ul_div">
+                            <span>账号注册</span>
+                        </div>
+					<form  method="post" id="myform" name="myform" enctype='multipart/form-data'>	
+                        <table class="warp_v_mo_ul_ble" style="width: 100%;">
+                            <tr>
+                                <td width="98"><b>商家账号：</b></td>
+                                <td><input type="text" class="warp_v_mo_ul_ex" name='username' id="username" maxlength="14">
+								<span class="warp_v_mo_ul_ble_an">必须用手机号注册</span>
+								</td>
+                            </tr>
+                            <tr>
+                                <td><b>设置密码：</b></td>
+                                <td><input type="password" class="warp_v_mo_ul_ex" name="password1" id="password1">
+									
+								</td>
+								
+                            </tr>
+                            <tr>
+                                <td><b>确认密码：</b></td>
+                                <td><input type="password" class="warp_v_mo_ul_ex" name="password2" id="password2"></td>
+                            </tr>
+                        </table>
+                    
+                    <li>
+                        <div class="warp_v_mo_ul_div">
+                            <span>商家信息</span>
+                        </div>
+                        <table class="warp_v_mo_ul_ble" style="width: 100%;">
+                            <tr>
+                                <td width="98"><b>商家姓名：</b></td>
+                                <td>
+                                    <input type="text" class="warp_v_mo_ul_ex" name="xm" id="xm">
+                                    <span class="warp_v_mo_ul_ble_an" style="color: red">请仔细填写真实姓名，否则影响提现</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><b>身份证号：</b></td>
+                                <td>
+                                    <input type="text" class="warp_v_mo_ul_ex" name="sfzh" id="idcard">
+                                    <span class="warp_v_mo_ul_ble_an" style="color: red">用于绑定提现银行卡，请仔细填写</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><b>店铺名称：</b></td>
+                                <td>
+                                    <input type="text" class="warp_v_mo_ul_ex" name="dpmc" id="dpmc">
+                                    <span class="warp_v_mo_ul_ble_an">请控制在20个字以内</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><b>所属分类：</b></td>
+                                <td>
+                                    <select class="warp_v_mo_ul_ex" name="fl" style="height: 26px" id="fl">
+									<option value="服装/鞋帽/箱包">服装/鞋帽/箱包</option><option value="珠宝/饰品/美妆">珠宝/饰品/美妆</option><option value="母婴/玩具/礼品">母婴/玩具/礼品</option><option value="手机/数码/办公">手机/数码/办公</option><option value="家居/家电/建材">家居/家电/建材</option><option value="宠物/休闲/娱乐">宠物/休闲/娱乐</option><option value="房产/汽车/生活">房产/汽车/生活</option><option value="食品/果蔬/百货">食品/果蔬/百货</option>	
+										
+									</select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><b>所在地区：</b></td>
+                                <td>
+										<select name="location_p" id="location_p" style="margin-top:18px;height: 26px;border:1px solid #CFCFCF">
+										</select>
+										<select name="location_c" id="location_c" style="margin-top:18px;height: 26px;border:1px solid #CFCFCF">
+										</select>
+										<select name="location_a" id="location_a" style="margin-top:18px;height: 26px;border:1px solid #CFCFCF">
+										</select>
+										<script src="/jygj/Public/home/js/region_select.js"></script>
+										<script type="text/javascript">
+											new PCAS('location_p', 'location_c', 'location_a', '北京市', '', '');
+										</script>
+                                <span class="warp_v_mo_ul_ble_an" style="color: red">请仔细填写地区，不得随意更改</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><b>手机号码：</b></td>
+                                <td>
+                                    <input type="text" class="warp_v_mo_ul_ex" name="lxdh" id="phone">
+                                    <span class="warp_v_mo_ul_ble_an">用于接收找回密码的验证码</span>
+                                </td>
+                            </tr>
+                  </form>	
+				  <!--
+							<tr>
+								
+								<td align="right" class="td1"><b>上传证件:</b></td>
+
+								<td style="padding-top:30px;">
+                <form id="imageform" method="post" enctype="multipart/form-data" action="upload.php">
+             <div class="demo">
+			 <div id="up_status" style="display:none"><img src="loader.gif" alt="uploading"/></div>
+			<div id="up_btn" class="btn">
+				<span>添加图片</span>
+				<input id="photoimg" type="file" name="photoimg">
+			</div>
+              <div id="preview"></div>
+		 </div>
+       
+         </form>
+								</td>
+							</tr>//-->
+
+                            
+                            <tr>
+                                <td>
+							
+								
+								</td>
+									                                <td>
+                                    <div class="warp_v_mo_ul_dk">
+                                        <input type="checkbox" id="xy"  name="xy" value="1" checked="checked">
+                                        <u>我已认真阅读并完全同意<a href="javascript:void(0)" class="more_p_div_tc">《聚元国际》</a>中的所有条款</u>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+ 
+                                <td colspan="2" align="center"><input type="button" id="zhu" value="立即注册" class="warp_v_mo_ul_but" onClick="tj();" style="cursor:hand;"></td>
+                            </tr>
+                        </table>
+                        <div id="jsgj"></div>
+					
+                    
+                </ul>
+            </div>
+        </div>
+    </div>
+	    <style>
+		.upload-button span{padding: 0;margin: 0}
+		</style>
+	
+				
+				<div style="width: 100%;height: 40px;overflow: hidden"></div>
+	<?
+    include_once "sfooter.html";
+    ?>			
+  
+    <script>
+	        $(function(){
+            $(".more_p_div_tc").click(function(){
+                $(".jsxy_p").show();
+            })
+
+            $(".jsxy_i_a").click(function(){
+                $(".jsxy_p").hide();
+            })
+            
+            $(".jsxy_u_ty").click(function(){
+                $(".jsxy_p").hide();
+                $("#xy").attr("checked","checked");
+            })
+        });
+       
+    </script>
+	
+	<div class="jsxy_p">
+	    <div class="jsxy_o">
+		    <div class="jsxy_i">
+			    <span>会员须知</span>
+
+			    <a href="javascript:void(0)" class="jsxy_i_a"></a>
+			</div>
+			<div class="jsxy_u">
+			<?
+                include("config/zt_config.php");
+include("config.php");
+$link = mysqli_connect($db_host,$db_user,$db_pwd,$db_database) or die('Unale to link');
+$link->set_charset('utf8');
+$sqlb="select * from phome_ecms_news_data_1 where id=288";
+$queryb=$link->query($sqlb);
+$rowb=$queryb->fetch_array();
+                ?>
+ <?=stripslashes($rowb[newstext]);?>
+			</div>
+			
+			<a href="javascript:void(0)" class="jsxy_u_ty">同意并继续</a>
+		</div>
+	
+	</div>
+</div>
+</body>
+</html>
+
+

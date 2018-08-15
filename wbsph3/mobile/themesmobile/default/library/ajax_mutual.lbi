@@ -1,0 +1,47 @@
+{if $action eq 'mutual_it'}
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<div class="detail_m">
+<dl>
+<h2><span> </span><em>{$mutual_info.paytime}</em></h2>
+<dt><em>互助项目：</em><span>{$mutual_info.title}</span></dt>
+<dd>
+<p>互助编号：{$mutual_info.order_sn}</p>
+<p>互助金额：{$mutual_info.mutual_money}</p>
+<p>是否支付：{$mutual_info.pay_desc}</p>
+</dd>
+<dd>
+</dd>
+</dl>
+</div>
+{/if}
+
+{if $action eq 'mutual_me'}
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<div class="detail_m">
+<dl>
+<h2><span> </span><em>{$mutual_info.paytime}</em></h2>
+<dt><em>互助项目：</em><span>{$mutual_info.title}</span></dt>
+<dd>
+<p>互助编号：{$mutual_info.order_sn}</p>
+<p>互助金额：{$mutual_info.mutual_money}</p>
+<p>互助姓名：{$mutual_info.user_name}</p>
+</dd>
+<dd>
+</dd>
+</dl>
+</div>
+{/if}
+
+{if $action eq 'djtfh_jilu'}
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<div class="detail_m">
+<dl>
+<dt><em>操作时间：</em>{$item.change_time}</dt>
+<dd>
+<p>类型：{$item.type}</p>
+<p>积分：{$item.djtfh_points}</p>
+<p>备注：{$item.short_change_desc}</p>
+</dd>
+</dl>
+</div>
+{/if}

@@ -1,0 +1,41 @@
+ 
+ 
+  <table width="100%" border="0" cellpadding="10" cellspacing="1" bgcolor="#eeeeee">
+    <tr>
+        <td width="25%" align="right">充值金额:</td>
+        <td width="15%">&nbsp;</td>
+        <td width="50%">{$amount}</td>
+    </tr>
+    <tr>
+        <td align="right">充值方式:</td>
+         <td width="15%">&nbsp;</td>
+        <td>{$payment.pay_name}</td>
+    </tr>
+    <tr>
+        <td align="right">支付手续费:</td>
+         <td width="15%">&nbsp;</td>
+        <td>{$pay_fee}</td>
+    </tr>
+    <tr>
+        <td align="right" valign="middle">充值描述:</td>
+         <td width="15%">&nbsp;</td>
+        <td>{$payment.pay_desc}</td>
+    </tr>
+    <tr>
+        <td colspan="2">{$pay_button}
+            <!-- <script>
+                function run() {
+                    $.get("{$site_domain}/waiting_weixin_pay1.php?step=waiting_weixin_pay&log_id=" + {$order.log_id}, function (data) {
+                        if (data === "1") {
+                            window.location = "product_center_recharge.php?act=list";
+                        } else {
+                            
+                        }
+                    });
+                }
+                window.setInterval("run()",5000) ;
+            </script> -->
+        </td>
+    </tr>
+</table>
+

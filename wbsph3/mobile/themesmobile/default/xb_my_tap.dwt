@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width">
+			<title>{$page_title}</title>
+			<meta name="Keywords" content="{$keywords}" />
+			<meta name="Description" content="{$description}" />
+			<meta name="viewport"
+				content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+			<link rel="stylesheet" type="text/css"
+				href="themesmobile/default/css/public.css?v={$smarty.now}" />
+			<link rel="stylesheet" type="text/css"
+				href="themesmobile/default/css/index.css?v={$smarty.now}" />
+			<script type="text/javascript"
+				src="themesmobile/default/js/jquery.js"></script>
+			<script type="text/javascript"
+				src="themesmobile/default/js/TouchSlide.1.1.js"></script>
+			<script type="text/javascript"
+				src="themesmobile/default/js/jquery.more.js"></script>
+			<script type="text/javascript"
+				src="themesmobile/default/js/jquery.cookie.js"></script>
+			<script type="text/javascript"
+				src="themesmobile/default/js/mobile.js"></script>
+			<link rel="stylesheet" href="themesmobile/default/css/my.css"></link>
+			<style type="text/css">
+
+			</style>
+	</head>
+
+	<body>
+		<div class="header">
+			<header class="header" style=" position:fixed; top:0">
+				<div class="tab_nav">
+					<div class="h-left">
+						<a class="sb-back" href="javascript:history.back(-1)" title="返回"></a>
+					</div>
+					<div class="h-mid">TAP账号</div>
+					<div class="h-right">
+						<aside class="top_bar">
+							<div onClick="show_menu();$('#close_btn').addClass('hid');"
+								id="show_more">
+								<a href="javascript:;"></a>
+							</div>
+						</aside>
+					</div>
+				</div>
+			</header>
+			<!-- #BeginLibraryItem "/library/up_menu.lbi" --><!-- #EndLibraryItem --> <!--弹出菜单 -->
+		</div>
+		<div class="container">
+			<div class="invite-link">
+				<form action="xb_user.php">
+					<dl>
+						<dd>
+						
+					    	<span style="float:left;width:20%; "> 
+							   <span style="display:block;text-align:center;width:100%">账号:</span>
+							</span>
+							<span style="float:right;width:75%;">
+								<input type="text" name="tap_account"
+									value="{$user.tap_account}">
+							</span>
+						 <div style='clear:both'></div>
+						</dd>
+						<dd style="margin:15px 0">
+                            <span style="float:left;width:20%; "> 
+							   <span style="display:block;text-align:center;width:100%">姓名:</span>
+							</span>
+							<span style="float:right;width:75%;">
+								<input type="text" name="real_name"
+									value="{$user.real_name}">
+									<input type="hidden" name="act" value="set_tap"></input>
+							</span>
+							<div style='clear:both'></div>
+						</dd>
+						<dd style=" margin-top:10px;clear:both;">
+							<button   type="submit" style="width:60%">保存</button>
+						</dd>
+					</dl>
+				</form>
+			</div>
+		</div>
+		<div style="position: fixed;bottom: 0" class="footer">
+			<!-- #BeginLibraryItem "/library/footer_nav.lbi" --> <!-- #EndLibraryItem -->
+		</div>
+	</body>
+
+</html>

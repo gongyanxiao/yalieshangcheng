@@ -1,0 +1,191 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="Keywords" content="{$keywords}" />
+<meta name="Description" content="{$description}" />
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+<!-- TemplateBeginEditable name="doctitle" -->
+<title>{$page_title}</title>
+<!-- TemplateEndEditable -->
+<!-- TemplateBeginEditable name="head" -->
+<!-- TemplateEndEditable -->
+<link rel="shortcut icon" href="favicon.ico" />
+<link rel="icon" href="animated_favicon.gif" type="image/gif" />
+<link rel="stylesheet" type="text/css" href="themes/default/css/user.css" />
+<style type="text/css">
+.error{
+	background:#FFFDEE ;
+	border:1px #EDD28B solid;
+	color:#666;
+	width:auto;
+	max-width:260px;
+	padding:5px 10px;
+	margin-left:10px;
+	display:inline-block;	
+	font-size:12px;
+	color: #999;	
+}
+</style>
+<script type="text/javascript" src="themes/default/js/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="themes/default/js/jquery.validate.js"></script>
+<script type="text/javascript" src="themes/default/js/messages_zh.js"></script>
+{insert_scripts files='jquery.json.js,transport.js'}
+{insert_scripts files='common.js,user.js'} 
+</head>
+<body>
+<!--文字提示框-->
+<div class="pop-mask"></div>
+<div class="pop-main pop-compare">
+	<div class="pop-header">
+    	<span>温馨提示</span>
+        <a class="pop-close" href="javascript:;" title="关闭"></a>
+    </div>
+    <div class="pop-con">
+    	<i class="pop-icon"></i>
+        <p class="pop-text"></p>
+        <a href="javascript:;" class="pop-sure main-bg-color">确定</a><a class="cancel-btn none">取消</a>
+    </div>
+</div>
+<!-- #BeginLibraryItem "/library/page_header.lbi" --><!-- #EndLibraryItem -->
+<div class="margin-w1210 clearfix"> 
+	<!-- #BeginLibraryItem "/library/ur_here.lbi" --><!-- #EndLibraryItem --> 
+    <div class="user-left">
+		<!-- #BeginLibraryItem "/library/user_info.lbi" --><!-- #EndLibraryItem --> <!-- #BeginLibraryItem "/library/user_menu.lbi" --><!-- #EndLibraryItem --> 
+    </div>
+    <div class="user-right">
+    	<div class="box">
+          <!-- {if $action eq "yl_apply"} -->
+          <div class="tabmenu">
+            <ul class="tab pngFix">
+              <li class="first active">养老金申请</li>
+            </ul>
+          </div>
+          <form name="formSurplus" id="formSurplus"  method="post" action="user.php" onSubmit="return submitSurplus()">
+            <table width="100%" border="0" cellpadding="10" cellspacing="1" bgcolor="#eeeeee">
+              <tr>
+                <td width="10%" align="right">养老金:</td>
+                <td align="left">
+                <select id='qiehuan' name="yl_id">
+                {foreach from=$pension_infos item=item}
+                <option value='{$item.id}'>{$item.pension_name}({$item.money})</option>
+                {/foreach}
+                </select>
+            </td>
+              </tr>
+              <tr>
+                <td align="right">真实姓名:</td>
+                <td align="left"><input type="text" name="real_name" value="{$userinfos.real_name}" class="inputBg" size="30"></td>
+              </tr>
+               <tr>
+                <td align="right">身份证号:</td>
+                <td align="left"><input type="text" name="idcard" value="{$userinfos.card}" class="inputBg" size="30"></td>
+              </tr>
+              <tr>
+                <td align="right">手机号:</td>
+                <td align="left"><input type="text" name="mobile_phone" value="{$userinfos.mobile_phone}" class="inputBg" size="30"></td>
+              </tr>
+              <tr>
+                <td colspan="2" align="center">
+                   <input type="hidden" name="postToken" value="{$postToken}" />
+                  <input type="hidden" name="act" value="act_yl_apply" />
+                  <input type="submit" name="submit"  class="main-btn main-btn-large" value="{$lang.submit_request}" />
+                  <input type="reset" name="reset" class="main-btn main-btn-large" value="{$lang.button_reset}" /></td>
+              </tr>
+            </table>
+          </form>
+          {foreach from=$pension_infos item=item key = key}
+            <div id='aaa{$item.id}' class='aaaa' style='padding:30px; {if $key gt 0} display:none{/if}'>
+              {$item.pension_desc}
+            </div>
+           {/foreach}
+          <script type="text/javascript">
+          
+          $('#qiehuan').change(function(){
+        	  $id = $(this).val();
+  	  		  $(".aaaa").hide();
+  	  		  $("#aaa"+$id).show();
+  		  });
+          
+             var validator = $("#formSurplus").validate({
+                debug: false,
+                rules: {
+                    real_name: {
+                        required: true
+                    },
+                    idcard: {
+                        required: true
+                    },
+                    mobile_phone: {
+                        required: true
+                    }
+                },
+                messages: {
+                    real_name: {
+                        required: "请输入真实姓名"
+                    },
+                    idcard: {
+                        required: "请输入身份证号"
+                    },
+                    mobile_phone: {
+                        required: "请输入验证码"
+                    }
+                },
+                errorPlacement: function(error, element) {
+                    error.appendTo(element.parent());  
+                }
+            });
+          </script>
+          <!-- {/if} --> 
+          <!-- {if $action eq "yl_list"} -->
+          <div class="account">
+      <div class="tabmenu">
+              <ul class="tab pngFix">
+                <li class="first active">养老金申请列表</li> 
+              </ul>
+              <div style="margin:0 auto;font-size:12px;float:right;margin-top:10px;"><a href="user.php?act=yl_apply" class="main-btn main-btn-large" href="" >申请养老金</a>  </div>
+          </div>
+          <div class="mar_top"  id="con_tab_2">
+            <table width="100%" border="0" cellpadding="5" cellspacing="1" bgcolor="#eeeeee">
+          <tr align="center">
+            <td bgcolor="#ffffff">创建时间</td>
+            <td bgcolor="#ffffff">养老金</td>
+            <td bgcolor="#ffffff">真实姓名</td>
+            <td bgcolor="#ffffff">身份证号</td>
+            <td bgcolor="#ffffff">手机号</td>
+            <td bgcolor="#ffffff">状态</td>
+          </tr>
+          <!-- {foreach from=$yl_order_list item=val name=logdb} -->
+          <tr align="center">
+            <td bgcolor="#ffffff">{$val.add_time}</td>
+            <td bgcolor="#ffffff">{$val.pension_name}（{$val.money}）</td>
+            <td bgcolor="#ffffff">{$val.real_name}</td>
+            <td bgcolor="#ffffff">{$val.idcard}</td>
+            <td bgcolor="#ffffff">{$val.phone}</td>
+            <td bgcolor="#ffffff">{if $val.status eq '1'}审核通过{elseif $val.status eq '2'}审核不通过{else}审核中{/if}</td>
+          </tr>
+          <!--{foreachelse}-->
+          <tr>
+            <td colspan="6" align="center" bgcolor="#ffffff">{$lang.no_records}</td>
+          </tr>
+          <!-- {/foreach} --> 
+        </table>
+        <!-- #BeginLibraryItem "/library/pages.lbi" --><!-- #EndLibraryItem --> 
+        <script type="text/javascript" language="JavaScript">
+			<!--
+			{literal}
+yl_order_list			function selectPage(sel)
+			{
+			sel.form.submit();
+			}
+			{/literal}
+			//-->
+			</script> 
+       </div>
+    </div>
+          <!-- {/if} --> 
+   </div>
+</div>
+</div>
+</script>
+</html>

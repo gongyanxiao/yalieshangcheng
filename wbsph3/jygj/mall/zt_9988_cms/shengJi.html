@@ -1,0 +1,30 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>升级会员</title>
+</head>
+
+<body>  
+<form action="shengJi.php" id="formid">
+  <input type="text" name="user" value="<?php echo $_REQUEST['user']; ?>"/>
+  <select name="level">
+    <option value="1">初级代理</option>
+    <option value="2">中级代理</option>
+    <option value="3">高级代理</option>
+    <option value="4">运营中心</option>
+    <option value="5">懂事</option>
+  </select>
+  <input type="hidden" id="type" name="type" value="0"></input>
+  <input type="button" value="升级" onclick="tiJiao(0)"/>
+  <input type="button" value="恢复到实际级别" onclick="tiJiao(1)"/>
+</form>
+ <script>
+   function   tiJiao(type){
+	   document.getElementById("type").value=type;
+	   document.getElementById("formid").submit();
+   }
+ </script>
+</body>
+
+</html>

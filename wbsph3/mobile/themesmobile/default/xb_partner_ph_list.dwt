@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		     <meta charset="UTF-8"/>
+			 <meta name="viewport" content="width=device-width">
+				<title>{$page_title}</title>
+				<meta name="Keywords" content="{$keywords}" />
+				<meta name="Description" content="{$description}" />
+				<meta name="viewport"
+					content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+				<link rel="stylesheet" type="text/css"
+					href="themesmobile/default/css/public.css?v={$smarty.now}" />
+				<link rel="stylesheet" type="text/css"
+					href="themesmobile/default/css/index.css?v={$smarty.now}" />
+				<script type="text/javascript"
+					src="themesmobile/default/js/jquery.js"></script>
+				<script type="text/javascript"
+					src="themesmobile/default/js/TouchSlide.1.1.js"></script>
+				<script type="text/javascript"
+					src="themesmobile/default/js/jquery.more.js"></script>
+				<script type="text/javascript"
+					src="themesmobile/default/js/jquery.cookie.js"></script>
+				<script type="text/javascript"
+					src="themesmobile/default/js/mobile.js"></script>
+				<link rel="stylesheet" href="themesmobile/default/css/my.css"></link>
+	</head>
+<style>
+
+</style>
+<body>
+<div class="header"><!-- #BeginLibraryItem "/library/page_header.lbi" --> <!-- #EndLibraryItem --></div>
+<div class="container">
+    <div class="partner-ph">
+    <form action="xb_partner.php?act=pu_huo" method="POST"  enctype="multipart/form-data">
+        <dl>
+            <dt><span>铺货单数：</span><input type="text" name="dan_shu"></dt>
+            <dd><span>上传凭证：</span><input type="file" name="pu_huo_ping_zheng"></dd>
+        </dl>
+        <button type="submit">确定</button>
+     </form>
+    </div>
+</div>
+<div style="position: fixed;bottom: 0" class="footer"><!-- #BeginLibraryItem "/library/footer_nav.lbi" --> <!-- #EndLibraryItem --></div>
+</body>
+</html>

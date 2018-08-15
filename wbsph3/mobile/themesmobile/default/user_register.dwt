@@ -1,0 +1,446 @@
+<!DOCTYPE html >
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<title>{$page_title}</title>
+<meta name="Keywords" content="{$keywords}" />
+<meta name="Description" content="{$description}" />
+<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+<link rel="stylesheet" type="text/css" href="themesmobile/default/css/public.css"/>
+<link rel="stylesheet" type="text/css" href="themesmobile/default/css/login.css"/>  
+<style>
+.select_common{
+display:inline-block;background:#fff; width:30%; height:35px;font-size:12px; color:#333; line-height:35px;border:1px solid #ccc; margin-right:2%;text-indent:10px;-webkit-appearance: none;
+    border-radius: 0;    background-repeat: no-repeat;
+    background-image: url('themesmobile/default/images/down.png');
+    background-position: center right;
+    background-size: 23px 7px;
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    flex: 1;
+    float:left;
+}
+</style>
+
+<script type="text/javascript" src="themesmobile/default/js/jquery.js"></script>
+<script type="text/javascript" src="//webapi.amap.com/maps?v=1.3&key=873b561ff1b6132a368cfdf63f43c357"></script>
+<script type="text/javascript" src="js/jquery.cookie.js" ></script>
+{insert_scripts files='jquery.json.js,transport.js'}
+{insert_scripts files='region.js,shopping_flow.js'}
+<script type="text/javascript">
+/***************************************
+由于Chrome、IOS10等已不再支持非安全域的浏览器定位请求，为保证定位成功率和精度，请尽快升级您的站点到HTTPS。
+***************************************/
+    var map, geolocation;
+    //加载地图，调用浏览器定位服务
+    map = new AMap.Map('container', {
+        resizeEnable: true
+    });
+    map.plugin('AMap.Geolocation', function() {
+        geolocation = new AMap.Geolocation({
+            enableHighAccuracy: true,//是否使用高精度定位，默认:true
+            timeout: 10000,          //超过10秒后停止定位，默认：无穷大
+            buttonOffset: new AMap.Pixel(10, 20),//定位按钮与设置的停靠位置的偏移量，默认：Pixel(10, 20)
+            zoomToAccuracy: true,      //定位成功后调整地图视野范围使定位位置及精度范围视野内可见，默认：false
+            buttonPosition:'RB'
+        });
+        var area_id=$.cookie("area_register");
+        if(!area_id)
+        {
+            geolocation.getCurrentPosition();
+            AMap.event.addListener(geolocation, 'complete', onComplete);//返回定位信息  
+            AMap.event.addListener(geolocation, 'error', onError);//返回定位信息  
+        }
+    });
+    //解析定位结果
+    function onComplete(data) {
+        $("#selProvinces_1 option").each(function (){  
+                var txt = $(this).text();  
+                if(txt===data['addressComponent']['province']){  
+                    $("#selProvinces_1").val($(this).val());
+                    Ajax.call(region.getFileName(), "type=2&target=selCities_1&parent=" + $(this).val() , function(result){
+                            var sel = document.getElementById(result.target);
+                              sel.length = 1;
+                              sel.selectedIndex = 0;
+                              sel.style.display = (result.regions.length == 0 && ! region.isAdmin && result.type + 0 == 3) ? "none" : '';
+
+                             
+                            if (result.regions)
+                            {
+                                var selectedCity="";
+                                for (i = 0; i < result.regions.length; i ++ )
+                                {
+                                  var opt = document.createElement("OPTION");
+                                  opt.value = result.regions[i].region_id;
+                                  opt.text  = result.regions[i].region_name;
+                                  if(data['addressComponent']['city']===opt.text)
+                                  {
+                                        selectedCity=opt.value;
+                                   }
+                                   sel.options.add(opt);
+                                }
+                                if(selectedCity>0){
+                                	
+                                $("#"+result.target).val(selectedCity);
+                                    Ajax.call(region.getFileName(), "type=3&target=selDistricts_1&parent=" +selectedCity, function(result){
+                                    var sel = document.getElementById(result.target);
+                                      sel.length = 1;
+                                      sel.selectedIndex = 0;
+                                      sel.style.display = (result.regions.length == 0 && ! region.isAdmin ) ? "none" : '';
+        
+                                     
+                                    if (result.regions)
+                                    {
+                                        var selectedCity="";
+                                        for (i = 0; i < result.regions.length; i ++ )
+                                        {
+                                          var opt = document.createElement("OPTION");
+                                          opt.value = result.regions[i].region_id;
+                                          opt.text  = result.regions[i].region_name;
+                                          if(data['addressComponent']['district']===opt.text)
+                                          {
+                                                selectedCity=opt.value;
+                                           }
+                                           sel.options.add(opt);
+                                        }
+                                        $("#"+result.target).val(selectedCity);
+                                   }
+                            }, "GET", "JSON");
+                                }
+                           }
+                    }, "GET", "JSON");
+                }  
+            });  
+    }
+    function successGetCity(result)
+    {
+        $.removeCookie('area_register');
+        $.removeCookie('area_register_province');
+        $.removeCookie('area_register_city');
+        $.removeCookie('area_register_district');
+        if(result.code*1===1)
+        {
+            $.cookie('area_register_province', result.province, { expires: 7, path: '/' });
+            $.cookie('area_register_city', result.city, { expires: 7, path: '/' });
+            $.cookie('area_register_district', result.district, { expires: 7, path: '/' });
+            $.cookie("area_register",1, { expires: 7, path: '/' })
+        }
+    }
+    function onError()
+    {
+         //alert("请开启定位后重试或者换个浏览器试试奥，否则会注册失败");
+    }
+</script>
+{insert_scripts files='common.js,utils.js,register.js,transport.js'}
+</head>
+<body style="background:#f2f2f2">
+	<header id="header" class='header'>
+	<div class="h-left"><a href="javascript:history.back(-1)" class="back"></a></div>
+    <div class="h-mid">用户注册</div>
+     </header>
+	<div id="tbh5v0">
+			<!-- {if $shop_reg_closed eq 1} -->
+			<div class="font12">{$lang.shop_register_closed}</div>
+			<!-- {else} -->
+			<script type="text/javascript">
+		
+		$().ready(function(){
+			
+			setCurrentForm($("#mobileForm"));
+			
+			//判断点击验证码
+			var is_mob_log = true;
+			
+			$("#mobileForm").find(".check-code-img").click();
+			
+			//登录切换
+			$("#logRegTab li").bind("click", function () {
+				if (this.id == "mob_log") {
+					
+					if(is_mob_log){
+						return;
+					}
+					
+					is_mob_log = true;
+					
+					$("#mob_log").removeClass("currl");
+					$("#acc_log").addClass("currr");
+					$("#phonearea").removeClass("hide");
+					$("#accountarea").addClass("hide");
+					
+					setCurrentForm($("#mobileForm"));
+					
+					$("#mobileForm").find(".check-code-img").click();
+				} else {
+					
+					if(!is_mob_log){
+						return;
+					}
+					
+					is_mob_log = false;
+					
+					$("#acc_log").removeClass("currr");
+					$("#mob_log").addClass("currl");
+					$("#phonearea").addClass("hide");
+					$("#accountarea").removeClass("hide");
+					
+					setCurrentForm($("#emailForm"));
+					
+					$("#emailForm").find(".check-code-img").click();
+				}
+				$(".btn_log").css("color","#FFFEFE");
+				
+		    });
+		});
+		</script>
+			<div class="log_reg_box">
+				<ul class="tab clearfix" id="logRegTab">
+					<li id="mob_log" class="curr">
+						<span>
+							<font>手机注册</font>
+						</span>
+					</li>
+				</ul>
+				<div id="logRegTabCon">
+					<div class="log_reg_item" id="phonearea">
+						<form action="register.php" id="mobileForm" name="mobileForm" method="post" >
+							<input type="hidden" id="register_type" name="register_type" value="mobile" />
+                              <div class="bgwhite">
+                            <div class="Login">                          
+								<dl>
+                                <dt>手机号</dt>
+							    <dd><input type="text" id="mobile_phone" name="mobile_phone" placeholder="请输入手机号" class="" onblur="checkMobilePhone(this);" />
+                                <div class="tips">
+										<span id="mobile_phone_notice"></span>
+									</div>
+                                    </dd>
+								</dl>
+                                <dl>
+                                <dt>密码</dt>
+								<dd>
+                                <script>								
+                                function change_p_type1(){
+									if($(".password").attr("type") == "password"){
+ 										$(".p_type").addClass("on");
+									
+										//document.getElementById("password").type="text";	
+										document.getElementsByClassName("password").item(0).type = "text";
+									}
+									else{
+										$(".p_type").removeClass("on");
+										
+										//document.getElementById("password").type="password";
+										document.getElementsByClassName("password").item(0).type = "password";
+									}
+								}
+                                </script>
+                                <input type="password" class="password" id="password" name="password" placeholder="请输入6至20位字符" class="" onblur="check_password(this.value);"/> 
+                                <div class="tips">
+										<span id="password_notice"></span>
+									</div>
+                                </dd>
+
+                                
+                                <span onclick="change_p_type1()" id="p_type1" class="p_type"></span>
+                                </dl>
+                                
+                               <!--  <dl>
+                               		 <dt>二级密码</dt>
+									<dd>
+	                                <input type="password" class="password" id="pay_password" name="pay_password" placeholder="请输入6至20位字符" class="" onblur="check_pay_password(this.value);"/> 
+	                                <div class="tips">
+											<span id="pay_password_notice"></span>
+										</div>
+	                                </dd>
+                                 </dl>
+                                -->
+								
+								<!-- {if $enabled_captcha} -->
+                                       	<dl>
+                                <dt>验证码</dt>
+							    <dd>
+                                <div class="codeTxt">
+									<input type="text" id="captcha" name="captcha" placeholder="图片验证码" class="" />
+									</div>
+									<div class="codePhoto">
+										<img id="captcha_img" class="check-code-img" src="captcha.php?is_mobile_reg=1&{$rand}" alt="{$lang.comment_captcha}" title="{$lang.captcha_tip}" onClick="this.src='captcha.php?is_mobile_reg=1&'+Math.random()" height="25" />
+									</div>
+
+                               </dd>
+								</dl>
+
+								<!-- {/if} -->
+                                  <input type="hidden" name="dayu_zhuce" id="dayu_zhuce" value="{$dayu_zhuce}" />
+							 
+                                <dl>
+	                                <dt>验证码</dt>
+								    <dd>
+	                                <div class="codeTxt">
+										<input type="text" id="mobile_code" maxlength="8"  name="mobile_code" placeholder="短信验证码" class="" />
+										</div>
+										  <div class="codePhoto">
+										<input id="zphone" type="button" value="获取验证码 " class="zphone" >
+	                                  </div>
+	                               </dd>
+								</dl>
+                                     
+ 								  <input type="hidden"  id="recommend_user" name="recommend_user"  placeholder="推荐人"   value="{$re_num}"/> 
+                                </div>
+                                </div>
+                                <div class="safety">
+				            	<input name="agreement" type="checkbox" value="1"   class="checkbox">
+				            	<label for="remember" class="mar-b">我已看过并接受《<a href="article.php?cat_id=-1" style="color:blue" target="_blank">用户协议</a>》</label>
+				      	    	</div>
+                                
+						  <div class="Login">
+	                        	<div class="field submit-btn" style="padding-left:0px; padding-right:0px;">
+										<input type="submit" id="btn_submit" name="Submit" class="btn_big1" value="注 册" />
+										<input type="hidden" name="act" value="register" />
+										<input type="hidden" name="back_act" value="{$back_act}" />
+	                         </div>
+	                    </div>
+						</form>
+					</div>
+				 
+				</div>
+			</div>
+			<script type="text/javascript">
+			var process_request = "{$lang.process_request}";
+			{foreach from=$lang.passport_js item=item key=key}
+			var {$key} = "{$item}";
+			{/foreach}
+			var username_exist = "{$lang.username_exist}";
+			$().ready(function(){
+				
+				$("#zemail").click(function(){
+					$("#emailForm").find("#email").blur();
+					$("#emailForm").find("#password").blur();
+					//$("#emailForm").find("#confirm_password").blur();
+					if ($("#emailForm").find("#captcha").size() > 0 && $("#emailForm").find("#captcha").val().length == 0) {
+						$("#emailForm").find("#captcha_notice").html(msg_captcha_blank);
+						$("#emailForm").find("#captcha_notice").css({color: '#900'});
+						return;
+					}
+					sendEmailCode($("#emailForm").find("#email"), $("#emailForm").find("#email_code"), $(this));
+				});
+				
+				$("#zphone").click(function(){
+					$("#mobileForm").find("#mobile_phone").blur();
+					$("#mobileForm").find("#password").blur();
+					//$("#mobileForm").find("#confirm_password").blur();
+					if ($("#mobileForm").find("#captcha").size() > 0 && $("#mobileForm").find("#captcha").val().length == 0) {
+						$("#mobileForm").find("#captcha_notice").html(msg_captcha_blank);
+						$("#mobileForm").find("#captcha_notice").css({color: '#900'});
+						return;
+					}
+					sendMobileCode($("#mobileForm").find("#mobile_phone"), $("#mobileForm").find("#mobile_code"), $(this));
+				});
+				
+				$("#emailForm").submit(function(){
+					return reg_by_email();
+				});
+				
+				$("#mobileForm").submit(function(){
+					return register();
+				});
+			});
+                        
+                                
+			</script>
+			<!-- {/if} -->
+			<!-- {include file='library/page_footer.lbi'} -->
+	</div>
+	<script type="text/javascript">
+	var process_request = "{$lang.process_request}";
+	{foreach from=$lang.passport_js item=item key=key}
+	var {$key} = "{$item}";
+	{/foreach}
+	var username_exist = "{$lang.username_exist}";
+	</script>
+	</div>
+	<script type="text/javascript">
+	$(function(){ 
+		$('input[type=text],input[type=password]').bind({ 
+		focus:function(){ 
+		 $(".global-nav").css("display",'none'); 
+		}, 
+		blur:function(){ 
+		 $(".global-nav").css("display",'flex'); 
+		} 
+		}); 
+	}) 
+        
+/*
+ 根据〖中华人民共和国国家标准 GB 11643-1999〗中有关公民身份号码的规定，公民身份号码是特征组合码，由十七位数字本体码和一位数字校验码组成。排列顺序从左至右依次为：六位数字地址码，八位数字出生日期码，三位数字顺序码和一位数字校验码。
+ 地址码表示编码对象常住户口所在县(市、旗、区)的行政区划代码。
+ 出生日期码表示编码对象出生的年、月、日，其中年份用四位数字表示，年、月、日之间不用分隔符。
+ 顺序码表示同一地址码所标识的区域范围内，对同年、月、日出生的人员编定的顺序号。顺序码的奇数分给男性，偶数分给女性。
+ 校验码是根据前面十七位数字码，按照ISO 7064:1983.MOD 11-2校验码计算出来的检验码。
+ 
+ 出生日期计算方法。
+ 15位的身份证编码首先把出生年扩展为4位，简单的就是增加一个19或18,这样就包含了所有1800-1999年出生的人;
+ 2000年后出生的肯定都是18位的了没有这个烦恼，至于1800年前出生的,那啥那时应该还没身份证号这个东东，⊙﹏⊙b汗...
+ 下面是正则表达式:
+ 出生日期1800-2099  (18|19|20)?\d{2}(0[1-9]|1[12])(0[1-9]|[12]\d|3[01])
+ 身份证正则表达式 /^\d{6}(18|19|20)?\d{2}(0[1-9]|1[12])(0[1-9]|[12]\d|3[01])\d{3}(\d|X)$/i            
+ 15位校验规则 6位地址编码+6位出生日期+3位顺序号
+ 18位校验规则 6位地址编码+8位出生日期+3位顺序号+1位校验位
+ 
+ 校验位规则     公式:∑(ai×Wi)(mod 11)……………………………………(1)
+ 公式(1)中： 
+ i----表示号码字符从由至左包括校验码在内的位置序号； 
+ ai----表示第i位置上的号码字符值； 
+ Wi----示第i位置上的加权因子，其数值依据公式Wi=2^(n-1）(mod 11)计算得出。
+ i 18 17 16 15 14 13 12 11 10 9 8 7 6 5 4 3 2 1
+ Wi 7 9 10 5 8 4 2 1 6 3 7 9 10 5 8 4 2 1
+ 
+ */
+//身份证号合法性验证 
+//支持15位和18位身份证号
+//支持地址编码、出生日期、校验位验证
+function IdentityCodeValid(code) {
+    var city = {11: "北京", 12: "天津", 13: "河北", 14: "山西", 15: "内蒙古", 21: "辽宁", 22: "吉林", 23: "黑龙江 ", 31: "上海", 32: "江苏", 33: "浙江", 34: "安徽", 35: "福建", 36: "江西", 37: "山东", 41: "河南", 42: "湖北 ", 43: "湖南", 44: "广东", 45: "广西", 46: "海南", 50: "重庆", 51: "四川", 52: "贵州", 53: "云南", 54: "西藏 ", 61: "陕西", 62: "甘肃", 63: "青海", 64: "宁夏", 65: "新疆", 71: "台湾", 81: "香港", 82: "澳门", 91: "国外 "};
+    var tip = "";
+    var pass = true;
+
+    if (!code || !/^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$/i.test(code)) {
+        //    /^\d{6}(18|19|20)?\d{2}(0[1-9]|1[12])(0[1-9]|[12]\d|3[01])\d{3}(\d|X)$/i
+        tip = "身份证号格式错误";
+        pass = false;
+    } else if (!city[code.substr(0, 2)]) {
+        tip = "地址编码错误";
+        pass = false;
+    } else {
+        //18位身份证需要验证最后一位校验位
+        if (code.length == 18) {
+            code = code.split('');
+            //∑(ai×Wi)(mod 11)
+            //加权因子
+            var factor = [7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2];
+            //校验位
+            var parity = [1, 0, 'X', 9, 8, 7, 6, 5, 4, 3, 2];
+            var sum = 0;
+            var ai = 0;
+            var wi = 0;
+            for (var i = 0; i < 17; i++)
+            {
+                ai = code[i];
+                wi = factor[i];
+                sum += ai * wi;
+            }
+            var last = parity[sum % 11];
+            if (parity[sum % 11] != code[17]) {
+                tip = "校验位错误";
+                pass = false;
+            }
+        }
+    }
+    //if(!pass) alert(tip);
+    return pass;
+}
+//var c = '130981199312253466';
+//var res= IdentityCodeValid(c);
+	</script>
+</body>
+</html>

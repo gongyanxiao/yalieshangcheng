@@ -1,0 +1,25 @@
+<form name="theForm" action="order.php?act=step_post&step={$step}&order_id={$order_id}&step_act={$step_act}" method="post" onsubmit="return checkPayment()">
+<div class="list-div">
+<table cellpadding="3" cellspacing="1">
+  <tr>
+    <th width="5%">&nbsp;</th>
+    <th width="20%">{$lang.name}</th>
+    <th>{$lang.desc}</th>
+    <th width="15%">{$lang.pay_fee}</th>
+  </tr>
+  {foreach from=$payment_list item=payment}
+  <tr>
+    <td><input type="radio" name="payment" value="{$payment.pay_id}" {if $order.pay_id eq $payment.pay_id}checked{/if} /></td>
+    <td>{$payment.pay_name}</td>
+    <td>{$payment.pay_desc}</td>
+    <td align="right">{$payment.pay_fee}</td>
+  </tr>
+  {/foreach}
+</table>
+</div>
+  <p align="center">
+    {if $step_act eq "add"}<input type="button" value="{$lang.button_prev}" class="button" onclick="history.back()" />{/if}
+    <input name="{if $step_act eq 'add'}next{else}finish{/if}" type="submit" class="button" value="{if $step_act eq 'add'}{$lang.button_next}{else}{$lang.button_submit}{/if}" />
+    <input type="button" value="{$lang.button_cancel}" class="button" onclick="location.href='order.php?act=process&func=cancel_order&order_id={$order_id}&step_act={$step_act}'" />
+  </p>
+</form>

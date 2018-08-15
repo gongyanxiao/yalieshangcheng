@@ -1,0 +1,121 @@
+<!-- $Id: agency_list.htm 14216 2008-03-10 02:27:21Z testyang $ -->
+
+{if $full_page}
+{include file="pageheader.htm"}
+{insert_scripts files="../js/utils.js,listtable.js"}
+<script type='text/javascript' src='../js/calendar.php' ></script>
+<link href='../js/calendar/calendar.css' rel='stylesheet' type='text/css' />
+<div class="form-div">
+    <form action="javascript:searchUser()" name="searchForm">
+        <img src="images/icon_search.gif" width="25" height="22" border="0" alt="SEARCH" />
+        <input name="start_time" id="start_time" type="text" size="10" readonly="readonly" placeholder="开始时间" >
+        <input class="button" type="button" id="start_time_btn" onclick="return showCalendar('start_time', '%Y-%m-%d %H:%M', '24', false, 'start_time_btn');" value="选择">
+        <input name="end_time" id="end_time" type="text" size="10" readonly="readonly" placeholder="结束时间" >
+        <input class="button" type="button" id="end_time_btn" onclick="return showCalendar('end_time', '%Y-%m-%d %H:%M', '24', false, 'end_time_btn');" value="选择">
+        会员手机号/投保人姓名/投保人身份证号/投保人手机号<input type="text" name="keyword" size="10" />
+        <select name="status">
+            <option value="">所有状态</option>
+            <option value="0">审核中</option>
+            <option value="1" >审核通过</option>
+            <option value="2">审核不通过</option>
+        </select>
+        <input type="submit" value="{$lang.button_search}" class="button" />
+    </form>
+</div>
+<form method="post" action="" name="listForm" onsubmit="return confirm(batch_drop_confirm);">
+    <div class="list-div" id="listDiv">
+        {/if}
+        <table cellpadding="3" cellspacing="1">
+            <tr>
+                <th> <input onclick='listTable.selectAll(this, "checkboxes")' type="checkbox" />
+                    <a href="javascript:listTable.sort('id'); ">ID</a></th>
+                <th>会员</th>
+                <th>养老金</th>
+                <th>姓名</th>
+                <th>身份证号</th>
+                <th>联系电话</th>
+                <th>申请时间</th>
+                <th>状态</th>
+                <th>{$lang.handler}</th>
+            </tr>
+            {foreach from=$pension_apply_list item=agency}
+            <tr>
+                <td><input type="checkbox" name="checkboxes[]" value="{$agency.id}" />
+                    {$agency.id}</td>
+                <td><a href='account_log.php?act=list&user_id={$agency.user_id}'>{$agency.mobile_phone|escape:html}</a></td>
+                <td>{$agency.money}</td>
+                <td>{$agency.real_name}</td>
+                <td>{$agency.idcard}</td>
+                <td>{$agency.phone}</td>
+                <td>{$agency.add_time}</td>
+                <td>{if $agency.status eq '1'}审核通过{elseif $agency.status eq '2'}审核不通过{else}审核中{/if}</td>
+                <td align="center">
+                    {if $agency.status eq '0'}
+                    <a onclick="return confirm('确定审核通过?');" href='pension_apply.php?act=apply&id={$agency.id}&type=1' title='点击审核通过' >审核通过</a>
+                    <a onclick="return confirm('确定审核不通过?');"  href='pension_apply.php?act=apply&id={$agency.id}&type=2' title='点击审核不通过'/>审核不通过</a>
+                    {/if}
+                </td>
+            </tr>
+            {foreachelse}
+            <tr><td class="no-records" colspan="9">{$lang.no_records}</td></tr>
+            {/foreach}
+        </table>
+        <table id="page-table" cellspacing="0">
+            <tr>
+                <td>
+                </td>
+                <td align="right" nowrap="true">
+                    {include file="page.htm"}
+                </td>
+            </tr>
+        </table>
+        {if $full_page}
+    </div>
+    操作：
+    <input type="hidden" name="act" value="batch" />
+    <select name="type" id="selAction" onchange="change_this(this.value)">
+        <option value="">{$lang.select_please}</option>
+        <option value="todo">审核通过</option>
+        <option value="cancel">审核不通过</option>
+    </select>
+</form>
+
+<script type="text/javascript" language="javascript">
+    listTable.recordCount = {$record_count};
+    listTable.pageCount = {$page_count};
+    {foreach from = $filter item = item key = key}
+    listTable.filter.{$key} = '{$item}';
+    {/foreach}
+    {literal}
+    onload = function()
+    {
+    // 开始检查订单
+    startCheckOrder();
+    }
+    /**
+     * 搜索用户
+     */
+    function searchUser()
+    {
+    listTable.filter['keywords'] = Utils.trim(document.forms['searchForm'].elements['keyword'].value);
+    listTable.filter['status'] = document.forms['searchForm'].elements['status'].value;
+    listTable.filter['start_time'] = document.forms['searchForm'].elements['start_time'].value;
+    listTable.filter['end_time'] = document.forms['searchForm'].elements['end_time'].value;
+    listTable.filter['page'] = 1;
+    listTable.loadList();
+    }
+
+    function change_this(val)
+    {
+    if (val != '')
+    {
+    if (confirm("确定执行此次批量操作，执行后，将更改会员的资产信息？"))
+    {
+    var frm = document.forms['listForm'];
+    frm.submit();
+    }
+    }
+    }
+</script>
+{include file="pagefooter.htm"}
+{/if}

@@ -1,0 +1,82 @@
+<!DOCTYPE html >
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<title>{$page_title}</title>
+<meta name="Keywords" content="{$keywords}" />
+<meta name="Description" content="{$description}" />
+<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+<link rel="stylesheet" type="text/css" href="themesmobile/default/css/public.css"/>
+<link rel="stylesheet" href="themesmobile/default/css/stores.css">
+<link href="themesmobile/default/css/supp_center.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="themesmobile/default/js/jquery.js"></script>
+	{insert_scripts files='index.js'}
+</head>
+<script type="text/javascript" src="themesmobile/default/js/utils.js"></script>
+<script type="text/javascript" src="themesmobile/default/js/validator.js"></script>
+
+<body class="bodybj">
+      <header>
+      <div class="tab_nav">
+        <div class="header">
+          <div class="h-left"><a class="sb-back" href="javascript:history.back(-1)" title="返回"></a></div>
+          <div class="h-mid">使用购物券</div>
+          <div class="h-right">
+            <aside class="top_bar">
+              <div onClick="show_menu();$('#close_btn').addClass('hid');" id="show_more"><a href="javascript:;"></a> </div>
+            </aside>
+          </div>
+        </div>
+      </div>
+      </header>
+     <!-- #BeginLibraryItem "/library/up_menu.lbi" -->
+    <!-- #EndLibraryItem -->
+ 
+
+   <form name="formSurplus" method="post" action="user.php" onsubmit="return submitSurplus()">
+    <table width="100%" border="0" cellpadding="10" cellspacing="1" bgcolor="#eeeeee">
+        <tbody><tr>
+                <td  align="right">商家手机号:</td>
+                <td align="left"><input type="text" name="supplier_phone" value="" class="inputBg" size="25"></td>
+            </tr>
+            <tr>
+                <td align="right">使用</td>
+                <td align="left"><input type="text" name="num" value="1" class="inputBg" size="5">张购物券</td>
+            </tr>
+             <tr>
+                <td colspan="2" align="center">您现在有{$info.gou_wu_quan}张购物券</td>
+            </tr>
+            <tr>
+                <td colspan="2" align="center"> 
+                    <input type="hidden" name="act" value="gou_wu_quan_shi_yong_save">
+                    <input type="submit" name="submit" class="main-btn main-btn-large" value="使用购物券">
+                    <input type="reset" name="reset" class="main-btn main-btn-large" value="重置表单"></td>
+            </tr>
+        </tbody></table>
+</form>
+<script type="text/javascript">
+    function submitSurplus()
+    {
+        var total = {$info.gou_wu_quan};
+        var frm = document.forms['formSurplus'];
+        var payCount =  frm.elements['num'].value;
+      
+        if(frm.elements['supplier_phone'].value==''){
+          alert("商家手机号不能为空");
+          return  false;
+        }
+        if(payCount>total){
+          alert("最多使用"+total+"张购物券");
+          return false;
+        }
+        return true;
+    }
+</script>
+</body>
+</html>
+ 
+ 
+ 
+  
+ 

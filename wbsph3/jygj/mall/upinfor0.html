@@ -1,0 +1,343 @@
+<?
+include("config.php");
+include("config/zt_config.php");
+$link = mysqli_connect($db_host,$db_user,$db_pwd,$db_database) or die('Unale to link');
+$link->set_charset('utf8');
+if(empty($_COOKIE['ECS']['username'])){
+header("Location:/mall/"); 
+    exit;
+}
+
+
+?>
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title><?=_TITLE_?></title>
+    <meta name="keyword" content="<?=_KEYWORD_?>"/>
+    <meta name="description" content="<?=_DESCRIPTION_?>"/>
+
+<link href="/Public/ico.ico" type="image/x-icon" rel="shortcut icon" /> 
+    <link rel="stylesheet" type="text/css" href="/jygj/Public/home/css/index.css">
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/jquery.wallform.js"></script>
+    <script type="text/javascript" src="/jygj/Public/home/js/jquery-1.7.2.js"></script>
+	<script src="/jygj/Public/home/js/jquery.validate.min.js" type="text/javascript" ></script>
+	<script type="text/javascript" src="/Public/admin/js/uploadify-v3.1/jquery.uploadify-3.1.min.js"></script>
+	<script type="text/javascript" src="/Public/admin/js/ThinkBox/jquery.ThinkBox.js"></script>
+	<script type="text/javascript" src="/Public/admin/js/zeroclipboard/ZeroClipboard.js"></script>
+	<link rel="stylesheet" type="text/css" href="/Public/admin/css/uploadify.css" media="all">
+	<link rel="stylesheet" type="text/css" href="/Public/admin/js/ThinkBox/css/ThinkBox.css" media="all">
+	<link rel="stylesheet" type="text/css" href="/Public/admin/js/uploadify-v3.1/uploadify.css" media="all">
+	
+	
+<script type="text/javascript" src="/editor/1/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" src="/editor/1/ueditor/ueditor.all.js"></script>
+		
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/jquery.wallform.js"></script>
+    
+</head>
+<body>
+<div class="warp">
+    <!------最顶部开始------>
+  <?
+        include("sheader1.html");
+		?>
+  <!------logo结束------>
+<script>
+	$(function(){
+		$(".open_xl").click(function(){
+			$(".xiala").show();
+		})
+		$(".xiala a").click(function(){
+			var xq=$(this).html();
+			$(".open_xl a").html(xq);
+			$(this).parent().hide();
+		})
+	})
+</script>
+<script type="text/javascript">
+$(function(){
+	$('#photoimg').die('click').live('change', function(){
+		var status = $("#up_status");
+		var btn = $("#up_btn");
+		$("#imageform").ajaxForm({
+			target: '#preview', 
+			beforeSubmit:function(){
+				status.show();
+				btn.hide();
+			}, 
+			success:function(){
+				status.hide();
+				btn.show();
+			}, 
+			error:function(){
+				status.hide();
+				btn.show();
+		} }).submit();
+	});
+
+});</script>
+<style type="text/css">
+.demo{width:100px; min-height:80px;float:left;}
+#preview{height: 110px;
+overflow: hidden; margin-top:10px;}
+.preview{width:100px;height:100px;border:solid 1px #dedede;}
+.demo p{line-height:26px}
+.btn{position: relative;overflow: hidden;margin-right: 4px;display:inline-block;*display:inline;padding:4px 10px 4px;font-size:14px;line-height:18px;*line-height:20px;color:#fff;text-align:center;vertical-align:middle;cursor:pointer;background-color:#0054A7;border:1px solid #cccccc;border-color:#0054A7 #0054A7 #0054A7;border-bottom-color:#b3b3b3;-webkit-border-radius:4px;-moz-border-radius:4px;border-radius:4px;}
+.btn input {position: absolute;top: 0; right: 0;margin: 0;border: solid transparent;opacity: 0;filter:alpha(opacity=0); cursor: pointer;}
+select{width: 122px;height: 20px;border: 1px solid #CCCCCC}
+</style>
+<!------导航开始------><!------导航结束------>
+    <!------导航结束------>
+
+				<!-- <script type="text/javascript">  
+					  window.onload=function edit(){
+						 UE.getEditor('content',{
+						   initialFrameWidth:800,  //初始化编辑器宽度,默认800
+						   initialFrameHeight:400
+						 });   
+						 UE.getEditor('specifications',{
+						   initialFrameWidth:800,  //初始化编辑器宽度,默认800
+						   initialFrameHeight:400
+						 }); 
+					  }            
+				 </script>	 -->
+    <!----内容开始---->
+  <div class="warp_moer">
+<?
+
+$query1=$link->query("select * from xbmall_users where user_name='".$_COOKIE['ECS']['username']."'"); 
+$r1=$query1->fetch_array(); 
+$query2=$link->query("select * from zt_shopinfo where userid=".$r1['id']); 
+$r2=$query2->fetch_array(); 
+$x=$query2->num_rows;
+?>
+        <div class="warp_m">
+            <!----right内容开始---->
+            <div class="warp_m_right">
+                <h2 class="warp_m_right_h2">商家信息</h2>
+
+                <div class="warp_m_right_div">
+                <table class="warp_d">
+                <tr>
+                                <td width="80" valign="top"><b>头像：</b></td>
+                                <td>
+		<form id="imageform" method="post" enctype="multipart/form-data" action="upload3.php">
+             <div class="demo">
+			 <div id="up_status" style="display:none"><img src="loader.gif" alt="uploading"/></div>
+			<div id="up_btn" class="btn">
+				<span>添加图片</span>
+				<input id="photoimg" type="file" name="photoimg">
+			</div>
+              <div id="preview"><img src="<?=!empty($r2['tx'])?$r2['tx']:'/images/logoa.png'?>" style="width: 100px;height:100px"></div>
+		 </div>
+   </form>					
+                                </td>
+                            </tr></table>
+				<form action="upinfo_do.php?type=<?=$x?>" method="post" id="form" enctype='multipart/form-data'>
+             
+						<table class="warp_d" style="width:872px">
+                            
+                            <tr>
+                                <td width="80"><b>店铺：</b></td>
+                                <td><input type="text" class="warp_d_ex" name="dpmc" value="<?=$r1['dpmc']?>"></td>
+                            </tr>
+                            <tr>
+                            <td >
+                              <b>所在地区：</b>
+                            </td>
+                            <td style="padding-top: 15px">
+                               
+                                <input type="hidden" id="sa" value="<?=$r1[a]?>">
+                                <input type="hidden" id="sb" value="<?=$r1[b]?>">
+                                <input type="hidden" id="sc" value="<?=$r1[c]?>">
+                                    <select id="s_province" name="a"></select>  
+                                    <select id="s_city" name="b" ></select>  
+                                    <select id="s_county" name="c"></select>
+                                    <script class="resources library" src="/jygj/Public/home/js/area.js" type="text/javascript"></script>
+                                     <script type="text/javascript">
+                                        var s=["s_province","s_city","s_county"];//三个select的name
+                                        var x=$("#sa").val();
+                                        var y=$("#sb").val();
+                                        var z=$("#sc").val();
+                                        var opt0 = [x,y,z];
+                                        _init_area();</script>
+                                <span style="position: relative;"> <font style="color: red;margin-left: 5px">*</font> 如果修改该选项，请从省份重新选择！ </span>
+
+                            </td>
+                            </tr>
+                             <tr>
+                                <td><b>详细地址：</b></td>
+                                <td><input type="text" class="warp_d_ex" name='xxdz' value="<?=$r1['xxdz']?>"></td>
+                            </tr>
+                            
+                            <tr>
+                                <td><b>联系方式：</b></td>
+                                <td><input type="text" class="warp_d_ex" name='lxdh' value="<?=$r1['lxdh']?>"></td>
+                            </tr>
+                            <tr>
+                                <td><b>邮箱：</b></td>
+                                <td><input type="text" class="warp_d_ex" name="yx" value="<?=$r2['yx']?>"></td>
+                            </tr>
+							
+							
+							<tr>
+								<td align="right">商家介绍：</td>
+								<td >
+								
+       <textarea name="jj" id="content" style="height: 350px;width: 750px">  <?=stripslashes($r2[jj])?></textarea>
+     <script type="text/javascript">
+        var ue = UE.getEditor('content',{
+        	/* 传入配置参数,可配参数列表看umeditor.config.js */
+            toolbars: [
+    ['fullscreen', 'source', '|', 'undo', 'redo', '|',
+            'bold', 'italic', 'underline', 'fontborder', 'strikethrough', 'autotypeset','|', 'forecolor', 'backcolor', '|', 
+            'fontfamily', 'fontsize', '|',
+            'justifyleft', 'justifycenter', 'justifyright', '|', 
+            'simpleupload', 'insertimage', 'emotion', 'scrawl', 'insertvideo', 'music', 'attachment', 'map', '|','wordimage',
+            'preview']
+]
+        });
+    </script>
+								
+								</td>
+							</tr>
+							<tr>
+								<td align="right">商家地图：</td>
+								<td>
+									<textarea name="dt" id="specifications"  style="height: 350px;width: 750px"> <?=stripslashes($r2[dt])?></textarea>
+									 <script type="text/javascript">
+        var ue = UE.getEditor('specifications',{
+        	/* 传入配置参数,可配参数列表看umeditor.config.js */
+            toolbars: [
+    ['fullscreen', 'source', '|', 'undo', 'redo', '|',
+            'bold', 'italic', 'underline', 'fontborder', 'strikethrough', 'autotypeset','|', 'forecolor', 'backcolor', '|', 
+            'fontfamily', 'fontsize', '|',
+            'justifyleft', 'justifycenter', 'justifyright', '|', 
+            'simpleupload', 'insertimage', 'emotion', 'scrawl', 'insertvideo', 'music', 'attachment', 'map', '|','wordimage',
+            'preview']
+]
+        });
+    </script>
+								</td>
+							</tr>
+									<tr>
+                                <td></td>
+                                <td><input type="submit" value="确认修改" class="warp_d_ton"></td>
+                            </tr>
+                        </table>
+				  </form>	
+						<script>					
+							$('.warp_v_mo_ul_ton').change(function() {
+								var _this = $(this);
+								var file = this.files[0];
+								var r = new FileReader();
+								r.readAsDataURL(file);
+								$(r).load(function() {
+									$('#img').attr('src',this.result).show();
+								})
+							});
+
+						</script>
+                    <div class="warp_m_right_mp">
+                        <!----下一页开始---->
+                        <div class="warp_f_mp_xia">
+
+                        </div>
+                        <!----下一页结束---->
+                        
+                    </div>
+                </div>
+
+            </div>
+            <!----right内容结束---->
+
+            <!----left内容开始---->
+			            <div class="warp_m_left"><!--<ul class="warp_m_left_ul">
+                   <li class="warp_m_left_ul_1 ">
+                        <a href="/business/goods.html">上传商品</a>
+                    </li>
+					<li class="warp_m_left_ul_1 ">
+                        <a href="/business/goodlist.html?act=1">已通过商品</a>
+                    </li>
+					<li class="warp_m_left_ul_1 ">
+                        <a href="/business/goodlist.html?act=2">未通过商品</a>
+                    </li>
+					 <li class="warp_m_left_ul_3 ">
+                        <a href="/business/orderlist.html">订单列表</a>
+                    </li>
+					<li class="warp_m_left_ul_1 ">
+                        <a href="/business/recharge.html">在线充值</a>
+                    </li>
+					<li class="warp_m_left_ul_2">
+                        <a href="/business/orderadd.html">订单录入</a>
+                    </li>
+					<li class="warp_m_left_ul_2">
+                        <a href="/business/chongzhi.html">积分转换</a>
+                    </li>
+					<li class="warp_m_left_ul_2">
+                        <a href="/business/money_add.html">申请提现</a>
+                    </li>
+					<li class="warp_m_left_ul_2">
+                        <a href="/business/record.html">充值记录</a>
+                    </li>	
+
+					
+					<li class="warp_m_left_ul_2">
+                        <a href="/business/record_x.html">消费记录</a>
+                    </li>                 
+					<li class="warp_m_left_ul_2">
+                        <a href="/business/rebate.html">积分记录</a>
+                    </li>
+					<li class="warp_m_left_ul_2">
+                        <a href="/business/jifenorder.html">兑换记录</a>
+                    </li>
+					<li class="warp_m_left_ul_2">
+                        <a href="/business/money_list.html">提现记录</a>
+                    </li> 
+					<li class="warp_m_left_ul_2">
+                        <a href="/business/address.html">收货地址</a>
+                    </li>
+                    <li class="warp_m_left_ul_4">
+                        <a href="/business/pwd.html">修改密码</a>
+                    </li>
+                </ul>-->
+				
+			<?include_once "left_menu2.html";?>
+
+          </div>
+            <!----left内容结束---->
+        </div>
+
+    </div>
+    <!----内容结束---->
+
+    <!------底部开始------>
+
+   <?include("sfooter.html");?>
+
+
+
+
+<div class="qqserver">
+
+	<div class="qqserver_fold">
+		<div></div>
+	</div>
+	
+	<div class="qqserver-body" style="display: block;">
+		<div class="qqserver-header">
+			<div></div>
+			<span class="qqserver_arrow"></span>
+		</div>
+ 
+	</div>
+	
+</div>
+    <!------底部结束------>
+</div>
+</body>
+</html><?$link->close();?>

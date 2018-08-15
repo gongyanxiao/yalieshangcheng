@@ -1,0 +1,56 @@
+<!-- $Id: user_account_info.htm 14216 2008-03-10 02:27:21Z testyang $ -->
+{include file="pageheader.htm"}
+{insert_scripts files="validator.js"}
+<div class="main-div">
+  <form action="user_blacklist.php" method="post" name="theForm" onsubmit="return validate()">
+    <table width="100%">
+      <tr>
+        <td class="label">会员名称：</td>
+        <td>
+          <input type="text" name="user_name" value="" size="20" />
+        </td>
+      </tr>
+      <tr>
+        <td class="label">描述：</td>
+        <td>
+          <textarea name="limit_desc" cols="55" rows="3"></textarea>
+        </td>
+      </tr>
+      <tr>
+        <td class="label">&nbsp;</td>
+        <td>
+          <input type="hidden" name="act" value="{$form_act}" />
+          <input type="submit" value="{$lang.button_submit}" class="button" />
+          <input type="reset" value="{$lang.button_reset}" class="button" />
+        </td>
+      </tr>
+    </table>
+  </form>
+</div>
+
+<script language="JavaScript">
+<!--
+{literal}
+onload = function()
+{
+    // 开始检查订单
+    startCheckOrder();
+}
+
+/**
+ * 检查表单输入的数据
+ */
+function validate()
+{
+    validator = new Validator("theForm");
+
+    validator.required("user_name",   '会员名称不能为空');
+    validator.required("limit_desc", '违规提示不能为空');
+
+    return validator.passed();
+}
+
+//-->
+{/literal}
+</script>
+{include file="pagefooter.htm"}

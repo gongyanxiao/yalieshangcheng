@@ -1,0 +1,22 @@
+ 
+		
+	  <select name="province" id="selProvinces_{$sn}" onchange="region.changed(this, 2, 'selCities_{$sn}')"  {if !$province_list} style="display: none"{/if}  >
+       <option value="0">-省份-</option>
+       <!-- {foreach from=$province_list item=province} -->
+       <option value="{$province.region_id}" {if $consignee.province eq $province.region_id}selected{/if}>{$province.region_name}</option>
+       <!-- {/foreach} -->
+       </select>
+       <select name="city" id="selCities_{$sn}" onchange="region.changed(this, 3, 'selDistricts_{$sn}')" {if !$city_list} style="display:none"{/if}>
+       <option value="0">-城市-</option>
+       <!-- {foreach from=$city_list item=city} -->
+       <option value="{$city.region_id}" {if $consignee.city eq $city.region_id}selected{/if}>{$city.region_name}</option>
+       <!-- {/foreach} -->
+       </select>
+       <select name="district" id="selDistricts_{$sn}" {if !$district_list}style="display:none"{/if}>
+       <option value="0">-地区-</option>
+       <!-- {foreach from=$district_list item=district} -->
+       <option value="{$district.region_id}" {if $consignee.district eq $district.region_id}selected{/if}>{$district.region_name}</option>
+       <!-- {/foreach} -->
+       </select>
+    
+     

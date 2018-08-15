@@ -1,0 +1,285 @@
+{insert_scripts files="../js/region.js"}
+	<script lang='javascript' type='text/javascript'>
+	  region.isAdmin = true;
+	 function check_input()
+	  {
+	    var arr = new Array();
+	    var key = '';
+	    var inv_content = '';
+	    if($('inv_type').value == 'normal_invoice')
+	    {
+	      arr = new Array();
+	      key = 'n';
+	    }
+	    else if($('inv_type').value == 'vat_invoice')
+	    {
+	      arr = new Array('selProvinces','selCities','selDistricts');
+	      key = 'v';
+	    }
+	
+	    var stop = 'no';
+	
+	    for(var i=1;stop!='yes';i++)
+	    {
+	      if($('inv_input_'+key+i)==null)
+	      {
+	      stop = 'yes';
+	      }
+	      else
+	      {
+	        arr.push('inv_input_'+key+i);
+	      }
+	    }
+	
+	    while(id = arr.pop())
+	    {
+	       if($(id).value =='' || $(id).value == '0')
+	        {
+	          alert('请输入全部信息！');
+	          return false;
+	        }
+	    }
+	    if(document.forms['theForm']['inv_payee_type'].value == 'vat_invoice')
+	    {
+	      if(document.forms['theForm']['inv_payee'].value == '' || document.forms['theForm']['inv_payee'].value == '0')
+	      {
+	        return false;
+	      }
+	    }
+	
+	    if(document.forms['theForm']['inv_type'].value == 'normal_invoice')
+	    {
+	       inv_content = document.forms['theForm']['inv_content_n'].value;
+	    }
+	    else
+	    {
+	      inv_content = document.forms['theForm']['inv_content_v'].value;
+	    }
+	
+	    var input = document.createElement('input');
+	    input.name = 'inv_content';
+	    input.type = 'hidden';
+	    input.value = inv_content;
+	    document.forms['theForm'].appendChild(input);
+	    return true;
+	  }
+	
+	  function change_inv_type(inv_type)
+	  {
+	    if(inv_type.value == 'vat_invoice')
+	    {
+	      $('vat_invoice_tbody').style.display='';
+	      $('normal_invoice_tbody').style.display='none';
+	    }
+	    else
+	    {
+	      $('vat_invoice_tbody').style.display='none';
+	      $('normal_invoice_tbody').style.display='';
+	    }
+	  }
+	
+	  function change_inv_payee_type(inv_payee_type)
+	  {
+	    if(inv_payee_type.value == 'individual')
+	    {
+	      $('inv_company_area').style.display='none';
+	    }
+	    else if(inv_payee_type.value == 'unit')
+	    {
+	      $('inv_company_area').style.display='';
+	    }
+	  }
+	
+	  function check_taxpayer_id(t,id)
+	  {
+	      if(!check_preg_match(t.value,'taxpayer_id'))
+	      {
+	          document.getElementById(id).innerHTML='纳税人识别号错误，请检查！';
+	      }
+	      else
+	      {
+	          document.getElementById(id).innerHTML='';
+	      }
+	  }
+	
+	  function check_bank_account(t,id)
+	  {
+	      if(!check_preg_match(t.value,'back_account'))
+	      {
+	          document.getElementById(id).innerHTML='银行账户含有非法字符！';
+	      }
+	      else
+	      {
+	          document.getElementById(id).innerHTML='';
+	      }
+	  }
+	
+	  function check_phone_number(t,id)
+	  {
+	      if(!check_preg_match(t.value,'phone_number'))
+	      {
+	          document.getElementById(id).innerHTML='手机号码格式不正确！';
+	      }
+	      else
+	      {
+	          document.getElementById(id).innerHTML='';
+	      }
+	  }
+	
+	  function check_preg_match(v,type)
+	  {
+	      var pattern = '';
+	      switch(type)
+	      {
+	          case 'taxpayer_id':
+	              pattern = '^[0-9]{15,}$';
+	              break;
+	          case 'back_account':
+	              pattern = '^[0-9A-z]+ *[0-9A-z]+$';
+	              break;
+	          case 'phone_number':
+	              pattern = '^1[0-9]{10}$';
+	      }
+	      var preg = new RegExp(pattern);
+	      return preg.test(v);
+	  }
+	</script>
+	<form id='invocie_form' name="theForm" action="order.php?act=step_post&step={$step}&order_id={$order_id}&step_act={$step_act}" method="post" onsubmit="return check_input()">
+		<div class='list-div'>
+			<table width='100%' cellspacing='1'>
+				<tr><th colspan='2'><strong>{$lang.inv_info}<strong><em style='font-size:12px;color:#f00;'>（所有信息为必填）</em></th><td colspan='1'>&nbsp</td></tr>
+				<tr>
+					<th width='13%'>{$lang.label_inv_type}</th>
+					<td width='40%'>
+					  <select id='inv_type' onchange='javascript:change_inv_type(this)' name='inv_type'>
+					    <option value='normal_invoice' {if $order.inv_type eq 'normal_invoice'}selected='selected'{/if}>{$lang.normal_invoice}</option>
+					    <option value='vat_invoice' {if $order.inv_type eq 'vat_invoice'}selected='selected'{/if}>{$lang.vat_invoice}</option>
+					  </select>
+					</td>
+					<td>&nbsp</td>
+				</tr>
+				<!--普通发票编辑选项-->
+				<tbody id='normal_invoice_tbody' {if $order.inv_type eq 'vat_invoice'}style='display:none'{/if}>
+					<tr>
+						<th>{$lang.label_inv_payee}</th>
+						<td>
+					    <select id='inv_input_n1' name = 'inv_payee_type' onchange='change_inv_payee_type(this)'>
+					      <option value='individual' {if $order.inv_payee_type eq 'individual'}selected='selected'{/if}>{$lang.individual}</option>
+					      <option value='unit' {if $order.inv_payee_type eq 'unit'}selected='selected'{/if}>{$lang.unit}</option>
+					    </select>
+					    </td>
+					    <td>&nbsp</td>
+					</tr>
+					<tr id='inv_company_area' {if $order.inv_payee_type neq 'unit'}style='display:none'{/if}>
+					  <th>{$lang.label_company_name1}</th>
+					  <td><input id='inv_company' name='inv_payee' type='text' {if $order.inv_payee_type eq 'unit'}value='{$order.inv_payee}' {/if}/></td>
+					  <td>&nbsp</td>
+					</tr>
+					<tr>
+						  <th>{$lang.label_inv_content}</th>
+						  <td>
+						  <select id='inv_input_n2' name='inv_content_n'>
+						    <option value=''>{$lang.please_select}</option>
+						    {foreach item=item key=key from=$cfg.invoice_content}
+						    <option value='{$item}' {if $item eq $order.inv_content}selected='selected'{/if}>{$item}</option>
+						    {/foreach}
+						  </select>
+						</td>
+						<td>&nbsp</td>
+					</tr>
+				</tbody>
+			
+			
+				<!--增值税发票编辑选项-->
+				<tbody id='vat_invoice_tbody' {if $order.inv_type neq 'vat_invoice'}style='display:none'{/if}>
+					<tr>
+						<th>{$lang.label_company_name1}</th>
+						<td><input id='inv_input_v1' name='vat_inv_company_name' value='{$order.vat_inv_company_name}'/></td>
+						<td>&nbsp</td>
+					</tr>
+					<tr>
+						<th>{$lang.label_taxpayer_id}</th>
+						<td valign='center'><input id='inv_input_v2' name='vat_inv_taxpayer_id' value='{$order.vat_inv_taxpayer_id}' onblur='javascript:check_taxpayer_id(this,"taxpayer_notice")' style='float:left;'/><div id='taxpayer_notice' style='font-size:12px;color:#f00;float:left;'></div></td>
+						<td>&nbsp</td>
+						</tr>
+						<tr>
+						<th>{$lang.label_registration_address}</th>
+						<td><input id='inv_input_v3' name='vat_inv_registration_address' value='{$order.vat_inv_registration_address}'/></td>
+						<td>&nbsp</td>
+					</tr>
+					<tr>
+						<th>{$lang.label_registration_phone}</th>
+						<td><input id='inv_input_v4' name='vat_inv_registration_phone' value='{$order.vat_inv_registration_phone}'/></td>
+						<td>&nbsp</td>
+						</tr>
+						<tr>
+						<th>{$lang.label_deposit_bank}</th>
+						<td><input id='inv_input_v5' name='vat_inv_deposit_bank' value='{$order.vat_inv_deposit_bank}'/></td>
+						<td>&nbsp</td>
+					</tr>
+					<tr>
+						<th>{$lang.label_bank_account}</th>
+						<td><input id='inv_input_v6' name='vat_inv_bank_account' value='{$order.vat_inv_bank_account}' onblur='javascript:check_bank_account(this,"bank_account_notice")' style='float:left;'/><div id='bank_account_notice' style='font-size:12px;color:#f00;float:left;'></div></td>
+						<td>&nbsp</td>
+						</tr>
+						<th>{$lang.label_inv_content}</th>
+						<td>
+						  <select id='inv_input_v7' name='inv_content_v'>
+						    <option value=''>{$lang.please_select}</option>
+						    {foreach item=item key=key from=$cfg.invoice_content}
+						    <option value='{$item}' {if $item eq $order.inv_content}selected='selected'{/if}>{$item}</option>
+						    {/foreach}
+						  </select>
+						</td>
+						<td>&nbsp</td>
+						<tr>
+						<th>{$lang.label_inv_consignee_name}</th>
+						<td><input id='inv_input_v8' name='inv_consignee_name' value='{$order.inv_consignee_name}'/></td>
+						<td>&nbsp</td>
+					</tr>
+					<tr>
+						<th>{$lang.label_inv_consignee_phone}</th>
+						<td><input id='inv_input_v9' name='inv_consignee_phone' value='{$order.inv_consignee_phone}' onblur='javascript:check_phone_number(this,"phone_number_notice")' style='float:left;'/>
+						<div id='phone_number_notice' style='font-size:12px;color:#f00;float:left;'></div></td>
+						<td>&nbsp</td>
+						</tr>
+						<tr>
+						<th>收票人省份：</th>
+						<td>
+						<select name="inv_consignee_province" id="selProvinces" onChange="region.changed(this, 2, 'selCities')" style='width:70px;'>
+						  <option value="0">{$lang.select_please}</option>
+						  {foreach from=$order.inv_consignee_regions.inv_consignee_province_list item=province}
+						  <option value="{$province.region_id}" {if $order.inv_consignee_province eq $province.region_id}selected{/if}>{$province.region_name}</option>
+						  {/foreach}
+						</select>
+						<select name="inv_consignee_city" id="selCities" onchange="region.changed(this, 3, 'selDistricts')" style='width:70px;'>
+						  <option value="0">{$lang.select_please}</option>
+						  {foreach from=$order.inv_consignee_regions.inv_consignee_city_list item=city}
+						  <option value="{$city.region_id}" {if $order.inv_consignee_city eq $city.region_id}selected{/if}>{$city.region_name}</option>
+						  {/foreach}
+						</select>
+						<select name="inv_consignee_district" id="selDistricts" style='width:70px;'>
+						  <option value="0">{$lang.select_please}</option>
+						  {foreach from=$order.inv_consignee_regions.inv_consignee_district_list item=district}
+						  <option value="{$district.region_id}" {if $order.inv_consignee_district eq $district.region_id}selected{/if}>{$district.region_name}</option>
+						  {/foreach}
+						</select>
+						</td>
+						<td>&nbsp</td>
+					</tr>
+					<tr>
+						<th>{$lang.label_inv_consignee_address}</th>
+						<td><input id='inv_input_v10' name='inv_consignee_address' size='30' value='{$order.inv_consignee_address}'/></select></td>
+						<td>&nbsp</td>
+					</tr>
+				</tbody>
+				<tr>
+					<th colspan='2' align='center'><div style='height:30px;'>
+					<input class='button' type='submit' value='确定' style='margin-top:5px;'/>
+					<input class='button' type='button' value='取消' onclick='javascript:history.back()' style='margin-top:5px;'/>
+					</th>
+					<td>&nbsp</td>
+				</tr>
+			</table>
+		</div>
+	</form>

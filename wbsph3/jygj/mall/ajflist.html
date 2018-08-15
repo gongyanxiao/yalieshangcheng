@@ -1,0 +1,92 @@
+ <?	
+header("content-type:text/html;charset:utf-8");
+include("config/zt_config.php");
+include("page.class.php");
+$link = mysqli_connect($db_host,$db_user,$db_pwd,$db_database) or die('Unale to link');
+$link->set_charset('utf8');
+$lmid = htmlspecialchars(trim($_GET['lmid']));
+$title = htmlspecialchars(trim($_GET['title']));
+$jifen=htmlspecialchars(trim($_GET['jifen']));
+$noj=htmlspecialchars(trim($_GET['noj']));
+$ss='';
+if(!empty($title)){
+	$ss=" ((spmc like '%".$title."%') or (spjs like '%".$title."%')) and ";
+}
+$c=' and ';
+if(!empty($lmid)){
+    $c.=" fl = ".$lmid;
+} else {
+    $c='';
+}
+$c1=' and ';
+if(empty($jifen)) {
+	$c1='';
+} elseif ($jifen==1) {
+	$c1.='dhjf<=1000';
+} elseif ($jifen==2) {
+	$c1.='dhjf between 1000 and 2000';
+} elseif ($jifen==3) {
+	$c1.='dhjf between 2000 and 4000';
+} elseif ($jifen==4) {
+	$c1.='dhjf between 4000 and 6000';
+} elseif ($jifen==5) {
+	$c1.='dhjf>6000';
+}
+?>
+<?
+if(empty($noj)) {
+$sql1="SELECT * FROM  `zt_jifen` where ".$ss." sfsj=1 and gngj=0 ".$c.$c1;
+} else {
+$sql1="SELECT * FROM  `zt_jifen` where ".$ss." sfsj=1 and gngj=1 ".$c.$c1;
+}
+
+$qry1=$link->query($sql1);
+$total=$qry1->num_rows;
+$per=24;
+$page_obj=new Page($total,$per);
+$sqla1=$sql1." limit ".($page_obj->page-1)*$per.",".$per;
+$qrya1=$link->query($sqla1);
+$pagelist=$page_obj->fpage(array(0,2,4,5,6,9));
+
+$p=isset($page_obj->page)?$page_obj->page:1;
+$num=($p-1)*$per;
+?>
+
+
+            <ul class="warp_y_ul">
+<?
+while($rst1=$qrya1->fetch_array()){		
+?> 
+		
+
+                    <li><a href="jfcontent.html?jfid=<?=$rst1[id];?><?=empty($noj)?'':'&noj=1'?>" title="<?=$rst1[spmc];?>" target="_blank"><img src="<?=strtr($rst1['spslt'],array("../"=>"/mall/"));?>"  style="width: 200px;height: 200px" border="0"/>
+						<span  style="height:54px;overflow:hidden;"><?=$rst1[spmc];?></span>
+						<b><?=$rst1[dhjf];?>积分<!-- <i>市场参考价：<?=$rst1[ckj];?></i> --></b>
+						</a>
+							
+                        </li>
+                        
+		<?
+	    }
+	    ?>
+
+</ul>
+                   
+<center>
+<?                    
+if($total==0) {
+    echo "此分类尚未发布任何产品，敬请期待！";
+} else {
+?>
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" style="text-align: center;">
+  <tr>
+    <td height="21"><div class="epages"><?=$pagelist;?></div></td>
+  </tr>
+</table>
+<?
+}
+?>
+</center> 
+
+
+<?$link->close();?>

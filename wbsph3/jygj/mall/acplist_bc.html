@@ -1,0 +1,59 @@
+ <?	
+header("content-type:text/html;charset:utf-8");
+include("config/zt_config.php");
+include("page.class.php");
+$link = mysqli_connect($db_host,$db_user,$db_pwd,$db_database) or die('Unale to link');
+$link->set_charset('utf8');
+$bsid = htmlspecialchars(trim($_GET['bsid']));
+$sql="SELECT * FROM  `xbmall_users` where id=".$bsid;
+$qry=$link->query($sql);
+$rst=$qry->fetch_array();
+$sql1="SELECT * FROM  `zt_goods` where sfsj=1 and dpmc='".$rst[dpmc]."' and sf='".$rst[a]."'";
+
+$qry1=$link->query($sql1);
+$total=$qry1->num_rows;
+$per=24;
+$page_obj=new Page($total,$per);
+$sqla1=$sql1." limit ".($page_obj->page-1)*$per.",".$per;
+$qrya1=$link->query($sqla1);
+$pagelist=$page_obj->fpage(array(0,2,4,5,6,9));
+
+$p=isset($page_obj->page)?$page_obj->page:1;
+$num=($p-1)*$per;
+?>
+<ul class="warp_j_right_cp_ul">
+<?
+while($rst1=$qrya1->fetch_array()){		
+?> 
+		
+
+                    <li><a href="cpcontent.html?cpid=<?=$rst1[id];?>" title="<?=$rst1[spmc];?>" target="_blank"><img src="<?=strtr($rst1['spslt'],array("../"=>"/mall/"));?>"  style="width: 200px;height: 200px" border="0"/>
+						<span><?=$rst1[spmc];?></span>
+						<b>￥<?=$rst1[spjg];?></b>
+						</a>
+							
+                        </li>
+		<?
+	    }
+	    ?>
+
+</ul>
+                   
+<center>
+<?                    
+if($total==0) {
+    echo "此店铺尚未发布任何产品，敬请期待！";
+} else {
+?>
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" style="text-align: center;">
+  <tr>
+    <td height="21"><div class="epages"><?=$pagelist;?></div></td>
+  </tr>
+</table>
+<?
+}
+?>
+</center> 
+
+
+<?$link->close();?>

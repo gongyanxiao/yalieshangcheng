@@ -1,0 +1,1 @@
+document.write('<a href="http://www.bcpcn.com/product/rz/bq/BCP2135725442.html" target="_blank"><img src="http://www.bcpcn.com/bcptags/img/cyqy.png" border="0" /></a>');

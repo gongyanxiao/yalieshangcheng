@@ -1,0 +1,72 @@
+发生错误：<table border="1" style="" align="center"><tr><td style="padding: 10px;">消息</td><td style="padding: 10px;">MySQL Query Error</td></tr><tr><td style="padding: 10px;">SQL</td><td style="padding: 10px;">SELECT  SELECT a.* from (SELECT mobile_phone,
+	real_name,
+	zsq_step,
+	zsq_step * 120 AS zong_ji_fen,
+	give_points_step / 2 AS yi_fa,
+	(
+		zsq_step * 120 - give_points_step / 2
+	) AS sheng_yu,
+	zsq_step * 120 AS zong_gong, '冻结' as  type 
+FROM
+	`xbmall_users`
+WHERE
+	frozen_zsq != 0
+ORDER BY
+	zsq_step DESC,
+	zsq_step - zsq ASC )a 
+UNION all  
+SELECT b.* from  ( 
+SELECT
+	mobile_phone,
+	real_name,
+	zsq_step,
+	zsq_step * 120 AS zong_ji_fen,
+	give_points_step / 2 AS yi_fa,
+	(
+		zsq_step * 120 - give_points_step / 2
+	) AS sheng_yu,
+	zsq_step * 120 AS zong_gong,
+ '未冻结' as  type 
+FROM
+	`xbmall_users`
+WHERE
+	zsq_step != 0
+ORDER BY
+	zsq_step DESC,
+	zsq_step - zsq ASC)b   LIMIT 15</td></tr><tr><td style="padding: 10px;">错误</td><td style="padding: 10px;">You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'SELECT a.* from (SELECT mobile_phone,\x0A\x09real_name,\x0A\x09zsq_step,\x0A\x09' at line 1</td></tr><tr><td style="padding: 10px;">代码</td><td style="padding: 10px;">1064</td></tr></table>
+发生错误：<table border="1" style="" align="center"><tr><td style="padding: 10px;">消息</td><td style="padding: 10px;">MySQL Query Error</td></tr><tr><td style="padding: 10px;">SQL</td><td style="padding: 10px;">SELECT  SELECT a.* from (SELECT mobile_phone,
+	real_name,
+	zsq_step,
+	zsq_step * 120 AS zong_ji_fen,
+	give_points_step / 2 AS yi_fa,
+	(
+		zsq_step * 120 - give_points_step / 2
+	) AS sheng_yu,
+	zsq_step * 120 AS zong_gong, '冻结' as  type 
+FROM
+	`xbmall_users`
+WHERE
+	frozen_zsq != 0
+ORDER BY
+	zsq_step DESC,
+	zsq_step - zsq ASC )a 
+UNION all  
+SELECT b.* from  ( 
+SELECT
+	mobile_phone,
+	real_name,
+	zsq_step,
+	zsq_step * 120 AS zong_ji_fen,
+	give_points_step / 2 AS yi_fa,
+	(
+		zsq_step * 120 - give_points_step / 2
+	) AS sheng_yu,
+	zsq_step * 120 AS zong_gong,
+ '未冻结' as  type 
+FROM
+	`xbmall_users`
+WHERE
+	zsq_step != 0
+ORDER BY
+	zsq_step DESC,
+	zsq_step - zsq ASC)b   LIMIT 15</td></tr><tr><td style="padding: 10px;">错误</td><td style="padding: 10px;">You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'SELECT a.* from (SELECT mobile_phone,\x0A\x09real_name,\x0A\x09zsq_step,\x0A\x09' at line 1</td></tr><tr><td style="padding: 10px;">代码</td><td style="padding: 10px;">1064</td></tr></table>

@@ -1,0 +1,250 @@
+{* TitlePicWidth: 980 *} {* TitlePicHeight: 54 *} {* 说明：$title_pic，分类标题图片地址； *} {* 说明：$base_style，基本风格样式颜色； *}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="Keywords" content="{$keywords}" />
+<meta name="Description" content="{$description}" />
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+<!-- TemplateBeginEditable name="doctitle" -->
+<title>{$topic.title}_{$page_title}</title>
+<!-- TemplateEndEditable -->
+<!-- TemplateBeginEditable name="head" -->
+<!-- TemplateEndEditable -->
+<link rel="shortcut icon" href="favicon.ico" />
+<link rel="icon" href="animated_favicon.gif" type="image/gif" />
+<script type="text/javascript" src="themes/default/js/jquery-1.9.1.min.js"></script>
+{insert_scripts files='jquery.json.js,transport.js'} {insert_scripts files='common.js'}
+
+
+</head>
+<body>
+    <script type="text/javascript" src="themes/default/js/base-2011.js"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <link rel="stylesheet" type="text/css" href="themes/default/css/common.css" />
+        <link rel="stylesheet" type="text/css" href="themes/default/css/font-awesome/css/font-awesome.min.css" />
+        <script language="javascript">
+								<!--
+									/*屏蔽所有的js错误*/
+									function killerrors() {
+										return true;
+									}
+									window.onerror = killerrors;
+								//-->
+								</script>
+        <script type="text/javascript" src="themes/default/js/page.js"></script>
+        <script type="text/javascript" src="themes/default/js/bubbleup.js"></script>
+        {include file='library/user_header.lbi'} <script type="text/javascript" src="themes/default/js/nav.js"></script>
+
+
+        <link href="themes/default/yanglao/css/css.css" type="text/css" rel="stylesheet" />
+
+        <div class="rxyl_con">
+
+            <div class="rxyl_top">
+                <div class="rxyl_top_left">
+                    <a href="#"><img src="themes/default/yanglao/images/rxyl1_03.jpg" /></a>
+                </div>
+                <div class="rxyl_top_right">
+                    <h1>
+                        <a href="topic.php?topic_id=1">首页</a> <a href="insure.php">养老保险</a> <!-- <a href="#jiejuefangan">解决方案</a> --> <a href="#yanglaohaochu">养老好处</a> <a href="#yanglaodongtai">养老动态</a> <a href="mutual.php">爱心互助</a>
+                    </h1>
+                </div>
+
+            </div>
+            <style>
+.rxyl_con_banner #fullScreenSlides li {
+	height: 500px
+}
+
+.rxyl_con_banner {
+	height: 500px
+}
+
+.rxyl_con_banner ul.full-screen-slides-pagination {
+	background: rgba(255, 255, 255, 0.2) none repeat scroll 0 0;
+	display: block;
+	font-size: 0;
+	height: 6px;
+	left: 95%;
+	list-style: outside none none;
+	margin-left: -395px;
+	padding: 7px 8px;
+	position: absolute;
+	text-align: right;
+	top: 600px;
+	width: 60px;
+	z-index: 3;
+}
+
+.rxyl_con_banner ul.full-screen-slides-pagination li {
+	background: rgba(0, 0, 0, 0.25) none repeat scroll 0 0;
+	cursor: pointer;
+	display: inline-block;
+	height: 6px;
+	letter-spacing: normal;
+	list-style: outside none none;
+	margin-left: 4px;
+	overflow: hidden;
+	vertical-align: top;
+	width: 24px;
+	word-spacing: normal;
+}
+
+.rxyl_con_banner ul.full-screen-slides-pagination a {
+	display: block;
+	height: 100%;
+	margin: 0;
+	padding: 0;
+	width: 100%;
+}
+
+.rxyl_con_banner ul.full-screen-slides-pagination .current {
+	background: #f30 none repeat scroll 0 0;
+}
+</style>
+            <div class="rxyl_con_banner">
+
+                <ul id="fullScreenSlides" class="full-screen-slides">
+                    <li style="background: transparent url(themes/default/yanglao/images/banner1.png) no-repeat scroll center center; display: list-item;"><a></a></li>
+                    <!-- <li style="background: transparent url(themes/default/yanglao/images/banner2.png) no-repeat scroll center center; display: list-item;"><a></a></li> -->
+                </ul>
+                <ul class="full-screen-slides-pagination">
+                    <li class="current"><a href="javascript:;">1</a></li>
+                    <!-- <li class=""><a href="javascript:;">2</a></li> -->
+                </ul>
+            </div>
+
+            <div class="rxyl_pension">
+                <div class="rxyl_pens_con">
+                    <h2>儒孝养老</h2>
+                    <h3>Ruxiao of pension</h3>
+                    <div class="rxyl_pens_co">
+                        <dl>
+                            <dt>
+                                <img src="themes/default/yanglao/images/rxyl1_12.jpg" />
+                            </dt>
+                            <dd>养老保险</dd>
+                            <dd>
+                                <h4>ENDOWMNET INSURANCE</h4>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>
+                                <img src="themes/default/yanglao/images/rxyl1_17.jpg" />
+                            </dt>
+                            <dd>解决方案</dd>
+                            <dd>
+                                <h4>SOLUTION</h4>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>
+                                <img src="themes/default/yanglao/images/rxyl1_14.jpg" />
+                            </dt>
+                            <dd>养老好处</dd>
+                            <dd>
+                                <h4>PENSION BENEFITS</h4>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>
+                                <img src="themes/default/yanglao/images/rxyl1_19.jpg" />
+                            </dt>
+                            <dd>养老动态</dd>
+                            <dd>
+                                <h4>PENSION DYNAMICS</h4>
+                            </dd>
+                        </dl>
+                    </div>
+                    <!--rxyl_pens_co-->
+
+                </div>
+                <!--rxyl_pens_con-->
+               <!--  <div class="rxyl_good_con" style='height:500px'>
+                    <a name='jiejuefangan'></a>
+                    <h2>养老保险</h2>
+                    <h3>SOLUTION</h3>
+
+                </div>
+                rxyl_pens_con
+                <div class="rxyl_good_con" style='height:500px'>
+                    <a name='jiejuefangan'></a>
+                    <h2>解决方案</h2>
+                    <h3>SOLUTION</h3>
+
+                </div> -->
+                <div class="rxyl_good_con">
+                    <a name='yanglaohaochu'></a>
+                    <h2>消费养老的好处</h2>
+                    <h3>CONSUMPTION PENSION MODEL</h3>
+                    <div class="rxyl_good_co">
+                        <dl>
+                            <dt>
+                                <img src="themes/default/yanglao/images/rxyl1_26.jpg" />
+                            </dt>
+                            <dd>
+                                <p>安全投资</p>
+                                <p>运营模式简单</p>
+                                <p>可复制</p>
+                                <p>持续拥有</p>
+                                <h4>儒孝养老对合作伙伴的好处</h4>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>
+                                <img src="themes/default/yanglao/images/rxyl1_28.jpg" />
+                            </dt>
+                            <dd>
+                                <p>积攒养老金(消费赚取养老金)</p>
+                                <p>省钱消费(打折优惠)</p>
+                                <p>省心消费(一卡全国通用和便民支付)</p>
+                                <p>获赠保险(5-40万交通意外保险) 一年超低价团购(享受低价优惠)</p>
+                                <h4>儒孝养老对消费者的好处</h4>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>
+                                <img src="themes/default/yanglao/images/rxyl1_30.jpg" />
+                            </dt>
+                            <dd>
+                                <p>增加新客户,锁定老客户</p>
+                                <p>增加额外收入,有机会帮您付房租</p>
+                                <p>持续有收益.成就行业NO.1</p>
+                                <p>赠送高附加值广告及系列培训</p>
+                                <h4>儒孝养老对商家的好处</h4>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>
+                                <img src="themes/default/yanglao/images/rxyl1_32.jpg" />
+                            </dt>
+                            <dd>
+                                <p>为养老破解难题</p>
+                                <p>为当地政府慈善筹集资金</p>
+                                <p>增加地方税收收入</p>
+                                <p>按地级城市50万到100万人享受消费养老服务,就为当地老百姓每年补充商业保险基金几十亿元,有力补充当地养老金的不足</p>
+                                <h4>儒孝养老对政府的好处</h4>
+                            </dd>
+                        </dl>
+                    </div>
+                </div>
+                <div class="rxyl_rela">
+                    <a name='yanglaodongtai'></a>
+                    <div class="rxyl_rela_con">
+                        <h2>养老动态-养老市场未来消费或超百万亿</h2>
+                        <p>随着我国人口结构呈现老龄化状态，有关养老、养生、医疗健康等问题越来越受到重视。业内人士指出，在此背景下，国家出台政策指引，高层密切关注养老服务业发展，有利于缓解老龄化中国所面临的发展与民生的双重压力，并极大地促进养老产业发展。</p>
+                        <p>银河证券首席策略师孙建波表示，当前是以40岁上下的人为主，未来60岁以上的深口占比会超过30%，这是我们看到的中国的人口的结构变迁，可是我要强调一点，人口变迁尤其是老龄化并不带来经济的转变，因为我们的经济不再是挖矿和种粮食，不再是简单的体力劳动，我们的经济正在向着更多的高级脑力劳动转变，我们的专业和科技服务在上升，这时候老龄化并不是一个经济的负担，它带来的是什么？是消费方向的变化。老龄化会带动大健康和医药产业的发展。老龄化带来了新的消费结构，经济的发展将不再依靠简单的体力劳动，专业和科技服务在上升，企业应以新消费结构为方向来布局。</p>
+                        <p>全国政协社会和法制委员会副主任张世平指出，从经济上看，我国是全球老龄产业市场潜力最大的国家，潜能目前并未完全释放， 她指出，包括养老产业的健康服务业产值目前仅占GDP的5%，美国这一比例为17.6%，“银发经济”是未来经济增长的重要引擎，据预测2014-2050年中国老年人的消费潜力将从4万亿左右增至106万亿。</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="site-footer">
+                <div class="footer-related">
+                    <!-- #BeginLibraryItem "/library/page_footer.lbi" -->
+                    <!-- #EndLibraryItem -->
+                </div>
+            </div>
+</body>
+</html>

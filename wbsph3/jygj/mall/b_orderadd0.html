@@ -1,0 +1,288 @@
+<?include("config.php");?>
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title><?=_TITLE_?></title>
+    <meta name="keyword" content="<?=_KEYWORD_?>"/>
+    <meta name="description" content="<?=_DESCRIPTION_?>"/>
+    <link href="/Public/ico.ico" type="image/x-icon" rel="shortcut icon" /> 
+    <link rel="stylesheet" type="text/css" href="/jygj/Public/home/css/index.css">
+	<link rel="stylesheet" type="text/css" href="/Public/admin/css/uploadify.css" media="all">
+	<link rel="stylesheet" type="text/css" href="/Public/admin/js/ThinkBox/css/ThinkBox.css" media="all">
+	<link rel="stylesheet" type="text/css" href="/Public/admin/js/uploadify-v3.1/uploadify.css" media="all">
+
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/jquery.wallform.js"></script>
+<script type="text/javascript">
+<!--
+//提交到后台查询
+
+function tj(){	
+$(".warp_n_ton").attr({"disabled":"disabled"});
+var tel=document.myform.tel.value;
+var hyxm=document.myform.hyxm.value;
+var spmc=document.myform.spmc.value;
+var m=document.myform.m.value;
+var sl=document.myform.sl.value;
+var dataString='tel='+tel+'&hyxm='+hyxm+'&spmc='+spmc+'&m='+m+'&sl='+sl;
+ $.ajax({  
+type: "POST",  
+url: "member/zt_orderlist_pro.php",  
+data:dataString,  
+cache:false,  
+success:function(html){  
+$(".warp_n_ton").attr({"disabled":"disabled"});
+$("#jsgj2").html(html);
+
+var sj;
+sj=html;
+var je1;
+if(sj!=="交易金额不能为空!" && sj!=="商品名称不能为空!"  && sj!=="用户手机号不能为空!"){
+	var fg=sj.split(",");
+//分割出数据
+document.myform.hyxm.value=fg[0];
+if(fg[1]!=="undefined"){
+
+document.myform.je1.value=Math.round(fg[1]*100)/100;
+
+}
+}
+ }  
+ }); 
+}
+
+
+function tj1(){	
+var tel=document.myform.tel.value;
+var hyxm=document.myform.hyxm.value;
+var spmc=document.myform.spmc.value;
+var m=document.myform.m.value;
+var sl=document.myform.sl.value;
+var dataString='tel='+tel+'&hyxm='+hyxm+'&spmc='+spmc+'&m='+m+'&sl='+sl;
+ $.ajax({  
+type: "POST",  
+url: "member/zt_orderlist1_pro.php",  
+data:dataString,  
+cache:false,  
+success:function(html){  
+var sj;
+sj=html;
+var je1;
+if(sj!=="交易金额不能为空!" && sj!=="商品名称不能为空!"  && sj!=="用户手机号不能为空!"){
+	var fg=sj.split(",");
+//分割出数据
+document.myform.hyxm.value=fg[0];
+if(fg[1]!=="undefined"){
+
+document.myform.je1.value=Math.round(fg[1]*100)/100;
+
+}
+}
+ }  
+ }); 
+}
+
+function cz(){	
+var tel=document.myform.tel.value;
+var dataString='tel='+tel;
+ $.ajax({  
+type: "POST",  
+url: "member/shop_chong_xm.php",  
+data:dataString,  
+cache:false,  
+success:function(html){ 
+document.myform.hyxm.value=html;
+
+ }  
+ }); 
+}
+
+$(function(){
+	$('#photoimg').die('click').live('change', function(){
+		var status = $("#up_status");
+		var btn = $("#up_btn");
+		$("#imageform").ajaxForm({
+			target: '#preview', 
+			beforeSubmit:function(){
+				status.show();
+				btn.hide();
+			}, 
+			success:function(){
+				status.hide();
+				btn.show();
+			}, 
+			error:function(){
+				status.hide();
+				btn.show();
+		} }).submit();
+	});
+});
+
+var curr = new Date();
+			var m = curr.getMonth() + 1;
+			if (m < 10) {m = '0' + m;}
+			var d = curr.getDate();
+			if (d < 10) {d = '0' + d;}
+			var h = curr.getHours();
+			if (h < 10) {h = '0' + h;}
+			var mi = curr.getMinutes();
+			if (mi < 10) {mi = '0' + mi;}
+			var s = curr.getSeconds();
+			if (s < 10) {s = '0' + s;}		
+var strDatetime = '' + curr.getFullYear() + m + d + h + mi + s;		
+var dataString='sj='+strDatetime;
+ $.ajax({  
+type: "POST",  
+url: "member/order_pro.html",  
+data:dataString,  
+cache:false,  
+success:function(html){ 
+$("#jygj1").html(html);
+}  
+ }); 
+  function check(v){
+        var r=/^[0-9]+.?[0-9]*$/;
+        if(!r.test(v)){ //isNaN也行的,正则可以随意扩展
+            alert('只能输入数字');
+        }
+    }
+	var dataString1;
+ $.ajax({  
+type: "POST",  
+url: "pay/wx/query.php",  
+data:dataString1,  
+cache:false,  
+success:function(html){ 
+$("#jygj").html(html);
+refresh();
+}  
+ }); 
+//-->
+</script>
+
+
+
+		<style type="text/css">
+.demo{width:100px; margin:40px auto 0 auto; min-height:80px;float:left;}
+.preview{width:80px;height:80px;pborder:solid 1px #dedede; margin:10px;padding:10px;}
+.demo p{line-height:26px}
+.btn{position: relative;overflow: hidden;margin-right: 4px;display:inline-block;*display:inline;padding:4px 10px 4px;font-size:14px;line-height:18px;*line-height:20px;color:#fff;text-align:center;vertical-align:middle;cursor:pointer;background-color:#0054A7;border:1px solid #cccccc;border-color:#0054A7 #0054A7 #0054A7;border-bottom-color:#b3b3b3;-webkit-border-radius:4px;-moz-border-radius:4px;border-radius:4px;}
+.btn input {position: absolute;top: 0; right: 0;margin: 0;border: solid transparent;opacity: 0;filter:alpha(opacity=0); cursor: pointer;}
+</style>
+
+</head>
+
+<body >
+
+<div id="jygj"></div>
+<div id="jsgj"></div>
+<div id="jsgj2"></div>
+<div id="jygj1"></div>
+<div class="warp">
+    <!------最顶部开始------>
+  <?
+        include("sheader1.html");
+		?>
+
+    <div class="warp_moer">
+
+        <div class="warp_h">
+            <!----right内容开始---->
+            <div class="warp_h_right" style="    width: 969px;">
+			 <div class="warp_f">
+
+                    <div class="warp_f_div">
+                        <b>订单录入</b>
+                    </div>
+
+                <div class="warp_m_right_div">
+				
+                    <table cellpadding="0" class="warp_n" style="width:400px">
+						<form  method="post" id="myform" name="myform" enctype='multipart/form-data'>	
+                         <tr>
+                            <td width="120"><span class="warp_n_span">买家会员号：</span></td>
+                            <td><input type="text" class="warp_n_ex" id="tel" name="tel" style="width: 169px;float: left" onBlur="cz();">         </td>
+                        </tr>
+                        <tr>
+                            <td><span class="warp_n_span">会员姓名：</span></td>
+                            <td ><input name="hyxm" type="text"  class="warp_n_ex" id="hyxm" style="background-color:#ccc;" readonly="readonly"/></td>
+                        </tr>
+						<tr>
+                            <td><span class="warp_n_span">商品名称：</span></td>
+                            <td><input type="text" class="warp_n_ex" name="spmc" id="spmc"></td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="warp_n_span">交易金额：</span></td>
+							
+                            <td>
+					
+			<input name='m' id="m" type="text"  class="warp_n_pt"  onMouseOut="tj1();" onpropertychange='check(this.value)' oninput='check(this.value)'>		</td>
+						</tr>
+                        <tr>
+                          <td><span class="warp_n_span">数量：</span></td>
+                          <td><input name='sl' id="sl" type="text"  class="warp_n_pt"  onclick="tj1();"></td>
+                        </tr>
+                        <tr>
+                          <td>&nbsp;</td>
+                          <td align="left"><b style="display: inline-block;font-weight: normal;font-size: 14px;color: #333;">此订单的服务费为：<input name="je1" type="text"  class="warp_n_ex" id="je1" style="background-color:#fff;border:1px solid #FFF;width:80px;color:red;" readonly="readonly"/></b></td>
+                        </tr>
+                        		</form>
+						 <tr>
+							<td align="right" class="td1"><span class="warp_n_span">上传凭证：</span></td>
+								<td>
+									
+       <form id="imageform" method="post" enctype="multipart/form-data" action="upload1.php">
+             <div class="demo">
+			 <div id="up_status" style="display:none"><img src="loader.gif" alt="uploading"/></div>
+			<div id="up_btn" class="btn">
+				<span>添加图片</span>
+				<input id="photoimg" type="file" name="photoimg">
+			</div>
+              <div id="preview"></div>
+		 </div>
+   </form>								</td>
+					  </tr>
+                        
+                        <tr>
+                            <td></td>
+                            <td>
+<input name="t" type="button" class="warp_n_ton" style="margin-top: 15px" onClick="tj();" value="确定录入"></td>
+                        </tr>
+                    </table>
+					
+		
+                </div>
+              </div>
+            </div>
+            <!----right内容结束---->
+
+            <!----left内容开始---->
+               <? include_once "left_menu2.html";?>
+                      
+            <!----left内容结束---->
+        </div>
+
+  </div>
+    <!----内容结束---->
+
+    <!------底部开始------>
+
+    
+<div class="warp_e_db">
+	<?include("sfooter.html");?>
+	
+</div>
+
+
+	
+		
+		
+	</div>
+	
+</div>
+    <!------底部结束------>
+</div>
+</body>
+</html>

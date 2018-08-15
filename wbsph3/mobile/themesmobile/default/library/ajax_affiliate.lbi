@@ -1,0 +1,9 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<ul class="single_item">
+    <li class="Funds_li" >
+    	<span class="icon"></span>
+        <span>{$affiliate_detail_item.user_name},<em>{$affiliate_detail_item.mobile_phone}</em></span>
+        <span>{$affiliate_detail_item.reg_time}</span>
+        <span>{$affiliate_detail_item.email}</span>
+    </li>
+</ul>

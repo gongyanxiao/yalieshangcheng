@@ -1,0 +1,458 @@
+<?	
+include("config/zt_config.php");
+include("config.php");
+$link = mysqli_connect($db_host,$db_user,$db_pwd,$db_database) or die('Unale to link');
+$link->set_charset('utf8');
+
+?>
+<script type="text/javascript">
+
+function browserRedirect() { 
+
+var sUserAgent= navigator.userAgent.toLowerCase(); 
+
+var bIsIpad= sUserAgent.match(/ipad/i) == "ipad"; 
+
+var bIsIphoneOs= sUserAgent.match(/iphone os/i) == "iphone os"; 
+
+var bIsMidp= sUserAgent.match(/midp/i) == "midp"; 
+
+var bIsUc7= sUserAgent.match(/rv:1.2.3.4/i) == "rv:1.2.3.4"; 
+
+var bIsUc= sUserAgent.match(/ucweb/i) == "ucweb"; 
+
+var bIsAndroid= sUserAgent.match(/android/i) == "android"; 
+
+var bIsCE= sUserAgent.match(/windows ce/i) == "windows ce"; 
+
+var bIsWM= sUserAgent.match(/windows mobile/i) == "windows mobile"; 
+
+if (bIsIpad || bIsIphoneOs || bIsMidp || bIsUc7 || bIsUc || bIsAndroid || bIsCE || bIsWM) { 
+
+window.location.href= '/wap/mall/wap-shop.html'; 
+
+} 
+
+} 
+
+browserRedirect(); 
+
+</script>
+<div class="warp_p">
+        <div class="warp_p_home">
+            <div class="warp_p_right">
+                <ul class="warp_p_right_ul">
+                    <li class="warp_p_right_ul_li">
+                        <div class="warp_p_right_ul_li_1">
+                            <span class="warp_p_right_ul_li_1_sp"><i></i>聚元国际</span>
+                            <div class="warp_p_right_ul_li_1_div">
+                                <img src="/Uploads/20161119/582fbf8526bdf.png">
+                            </div>
+                        </div>
+                    </li>
+                    <li class="warp_p_right_ul_li">
+                        <div class="warp_p_right_ul_li_2">
+<a href="<?php if(!empty($_COOKIE['ECS']['username'])){ $queryl=$link->query("select * from xbmall_users where user_name='".$_COOKIE['ECS']['username']."'"); 
+$rl=$queryl->fetch_array(); if($rl['lx']==0){echo "center.html";}else{echo "b_order_list.html";}}?>" class="warp_p_right_ul_li_2_a">账户中心</a>                           
+                           
+                        </div>
+                    </li>
+                    <li class="warp_p_right_ul_li">
+                        <div class="warp_p_right_ul_li_3">
+                            <a href="/lianxiwomen/2016-12-30/219.html">联系我们</a>
+                        </div>
+                    </li>
+                    <li class="warp_p_right_ul_li">
+                        <div class="warp_p_right_ul_li_4">
+                            <span class="warp_p_right_ul_li_4_sp">语言选择：</span>
+                            <div class="warp_p_right_ul_li_5">
+                                <div class="warp_p_right_ul_li_6">
+                                    <a href="#">
+                                        <img src="/jygj/Public/home/img/im3.jpg">
+                                        <span>中文</span>
+                                    </a>
+                                </div>
+                                <ul class="warp_p_right_ul_li_7">
+                                    <li>
+                                        <a href="#">
+                                            <img src="/jygj/Public/home/img/im3_1.jpg">
+                                            <span>英文</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <img src="/jygj/Public/home/img/im3_2.jpg">
+                                            <span>俄文</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <span class="warp_p_home_sp">
+           <?php
+
+			
+			if($_COOKIE['ECS']['username']<>""){
+				echo $_COOKIE['ECS']['username'].'<a href="exit.html?log=1" style="padding-left:20px;">[退出]</a>';
+				}else{?>
+            您好，欢迎来到聚元国际	 <a href="member_login.html">[登陆]</a><a href="reg_cj.html">[注册]</a>
+						<?
+                        }
+						
+
+                        ?></span>
+        </div>
+    </div>
+<div class="warp_o">
+	    <script>
+        $(function(){
+            $(".fix_v_p").click(function(){
+                $(".fix_v_o").show();
+            })
+            $(".ri-close").click(function(){
+                $(".fix_v_o").hide();
+            })
+        });
+    </script>
+	<div class="warp_o_home">
+<img src="/images/qrcode.jpg" style="float: right;width: 105px;height: 105px;">
+		<a href="index.html" class="warp_o_logo"><img src="/images/logo.png" width="224" height="88" alt=""></a>
+
+		<!--城市开始-->
+		<div class="fix_v">
+			<a href="#" class="fix_v_p">
+			<?
+				$bid=$_GET['bid']?$_GET['bid']:'';
+				echo $bid==''?'全国':$zone[$bid];
+			?><i></i></a>
+						
+
+			<div class="fix_v_o">
+				<!--<a href="#" class="fix_v_p">全国<i></i></a>-->
+
+				<div class="ri-con">
+				<!--	<span class="ri-t">
+					  当前全国共有<i>108</i>家分店
+					</span>-->
+					<a href="javascript:void(0)" class="ri-close">关闭</a>
+				</div>
+
+
+				<div class="bt-infos">
+					<dl>
+						<dt>省份&nbsp;&gt;</dt>
+						<dd>
+							<ul>
+							<?
+								$zl=count($zone);
+								for($i=1;$i<$zl;$i++) {
+							?>
+								<li>
+									<a href="bslist.html?bid=<?=$i?>" target="_blank"><?=$zone[$i]?></a>
+								</li>
+							<?
+								}
+							?>
+								
+							</ul>
+						</dd>
+					</dl>
+					
+				</div>
+			</div>
+		</div>
+		<!--城市结束-->
+
+		<div class="warp_i" style="overflow: visible;">
+			<div class="warp_i_div">
+			<form action="" method="post" id="form1" >
+				<div class="open_xl">
+					<a href="#">商品</a>
+				</div>
+				<input type="text" name="title" class="warp_i_div_ex">
+				<input type="hidden" name="type" id="itype">
+				<input type="button" value="搜索" onclick="sou()" class="warp_i_div_ton">
+				<div class="xiala">
+					<a href="#">商品</a>
+					<a href="#">店铺</a>
+				</div>
+				<script>
+				function sou(){
+					q= $(".open_xl a").html();
+					
+					if(q=='商品'){
+					$("#itype").val("1");
+					$('#form1').attr("action","cplist.html?lmid=1").submit();
+					}else if(q=='店铺'){
+					$("#itype").val("2");
+					$('#form1').attr("action","bslist.html?bid=100").submit();	
+					}
+					
+				}
+				</script>
+			</form>
+			</div>
+			<!-- <ul class="warp_i_ul">
+				<li><span>热门搜索：</span></li>
+				<li><a href="#">手机数码</a></li>
+				<li><a href="#">品牌内衣</a></li>
+				<li><a href="#">护肤品</a></li>
+				<li><a href="#">流行饰品</a></li>
+			</ul> -->
+		</div>
+
+	</div>
+</div>
+<!--logo结束-->
+  <script>
+	$(function(){
+		$(".open_xl").click(function(){
+			$(".xiala").show();
+		})
+		$(".xiala a").click(function(){
+			var xq=$(this).html();
+			$(".open_xl a").html(xq);
+			$(this).parent().hide();
+		})
+	})
+</script>
+
+<!--导航开始-->
+
+<div class="warp_u">
+	<div class="warp_u_home">
+
+		<div class="warp_u_rigt">
+			<span class="warp_u_rigt_sp">客服电话： 400-9922-831</span>
+<?
+if(count($_GET)==1&&htmlspecialchars(trim($_GET['log']))=='1') {
+?>
+ <div class="warp_u_rigt_div" style="display: block;">
+<?	
+} elseif(count($_GET)<>0){
+?>
+<div class="warp_u_rigt_div" style="display: none;">
+<?
+ } else {
+ ?>
+ <div class="warp_u_rigt_div" style="display: block;">
+ <?
+ }
+?>
+ 
+				<ul class="warp_u_rigt_gp">
+					<li>
+							<?       
+							if(!empty($_COOKIE['ECS']['username'])){
+							$queryl=$link->query("select * from xbmall_users where user_name='".$_COOKIE['ECS']['username']."'"); 
+			    	$rl=$queryl->fetch_array(); 
+			    	if($rl['lx']==0) {
+			    	?>
+			    	<a href="center.html">
+			    	<?
+			    	} else {
+			    	?>
+			    	<a href="#">
+			    	<?
+			    	}	} else {
+			    	?>
+			    	<a href="member_login.html">
+			    	<?
+			    	}
+			    ?>
+							<img src="/jygj/Public/home/img/im19.png" width="40" height="40">
+							<span>会员中心</span>
+						</a>
+					</li>
+					<li>
+						<?       
+							if(!empty($_COOKIE['ECS']['username'])){
+							$queryl1=$link->query("select * from xbmall_users where user_name='".$_COOKIE['ECS']['username']."'"); 
+			    	$rl1=$queryl1->fetch_array(); 
+			    	if($rl1['lx']==1) {
+			    	?>
+			    	<a href="b_order_list.html">
+			    	<?
+			    	} else {
+			    	?>
+			    	<a href="#">
+			    	<?
+			    	}	} else {
+			    	?>
+			    	<a href="member_login.html">
+			    	<?
+			    	}
+			    ?>
+							<img src="/jygj/Public/home/img/im21.png" width="40" height="40">
+							<span>商家中心</span>
+						</a>
+					</li>
+					<li>
+						<a href="#">
+							<img src="/jygj/Public/home/img/im20.png" width="40" height="40">
+							<span>代理中心</span>
+						</a>
+					</li>
+				</ul>
+
+				<div class="warp_u_rigt_go">
+					<ul class="warp_u_rigt_gi">
+						<li class="thisclass" style="margin-left: -1px"><a href="wzlist.html?itid=44">网站公告</a></li>
+						<li style="margin-right: -1px"><a href="wzlist.html?itid=45">商家入驻</a></li>
+					</ul>
+					<ul class="warp_u_rigt_gu">
+						<li class="warp_u_rigt_gu_li">
+							<ul class="warp_u_rigt_gy">
+							<?       $queryb=$link->query("select * from `phome_ecms_news` as es where classid = 44  and (select checked from `phome_ecms_news_index` where `id`=es.id)=1 order by `firsttitle` desc,`isgood` desc,`newstime` desc,id desc limit 0,3"); 
+			    	while ($r=$queryb->fetch_array()){ 	
+			    ?>
+			    		<li><a href="wzcontent.html?pid=<?=$r[id]?>"><?=mb_substr($r[title],0,16,'utf-8'); ?></a></li>
+			    <?
+			    	}
+                ?>
+    											</ul>
+						</li>
+						<li class="warp_u_rigt_gu_li" style="display: none">
+							<ul class="warp_u_rigt_gy">
+								 <?       $queryb=$link->query("select * from `phome_ecms_news` as es where classid = 45  and (select checked from `phome_ecms_news_index` where `id`=es.id)=1 order by `firsttitle` desc,`isgood` desc,`newstime` desc,id desc limit 0,3"); 
+			    	while ($r=$queryb->fetch_array()){ 	
+			    ?>
+			    		<li><a href="wzcontent.html?pid=<?=$r[id]?>"><?=mb_substr($r[title],0,16,'utf-8'); ?></a></li>
+			    <?
+			    	}
+                ?>   				
+    						</ul>
+						</li>
+					</ul>
+				</div>
+				
+				<ul class="warp_u_rigt_gt">
+					
+					<? 
+                    $sqla="select * from `phome_enewsad` where `classid` = 10 order by `adid` asc limit 0,2";
+                    $qrya=$link->query($sqla);
+                    while($rst1=$qrya->fetch_array()) {
+                ?>
+                    <li>
+                        <a href='<?=$rst1['url']?>' target=_blank><img src='<?=$rst1['picurl']?>' border=0 width='210' height='112' alt=''></a>                    </li>  
+                <? 
+                    }
+                ?>
+				</ul>
+				
+			</div>
+		</div>
+
+		<div class="warp_u_div">
+			<h1>全部产品分类</h1>
+
+<?
+if(count($_GET)==1&&htmlspecialchars(trim($_GET['log']))=='1') {
+?>
+<ul class="warp_u_div_ul" style="display: block;">
+<?	
+} elseif(count($_GET)<>0){
+?>
+<ul class="warp_u_div_ul">
+<?
+} else {
+?>
+<ul class="warp_u_div_ul" style="display: block;">
+<?
+}
+?>
+ 
+ <?
+ 	$sqla="select * from `zt_goods_sort` where item1=1 order by id";
+	$qrya=$link->query($sqla);
+	$x=0;
+	while($rsta=$qrya->fetch_array()) {
+		$x++;
+?>
+<li class="warp_u_div_li">
+	<div class="warp_u_div_mp">
+		<b class="warp_u_div_mo_<?=$x?>"><?=$rsta["columname"];?></b>
+		<div class="warp_u_div_mi">
+		<?
+			/*$sqlx="select id from `zt_goods_sort` where item2 in (select id from `zt_goods_sort` where item1=3 and item2=2) and item3=3 order by id desc limit 0,2";
+            $qryx=$link->query($sqlx);
+            while($rstx=$qryx->fetch_array()) {
+            }*/
+		?>
+		</div>
+	</div>
+	<ul class="warp_u_div_sj_<?=$x?>">
+		<li class="warp_u_div_sj_li">
+		<?
+		 	$sqlb="select * from `zt_goods_sort` where item1=".$rsta["id"]." and item2=2 order by id";
+			$qryb=$link->query($sqlb);
+			while($rstb=$qryb->fetch_array()) {
+		?>
+			<div class="col_f1">
+				<dl class="fixed">
+					<dt><a href="cplist.html?lmid=<?=$rstb["id"];?>" title="<?=$rstb["columname"];?>" target="_blank"><?=$rstb["columname"];?></a></dt>
+					<dd>
+					<?
+						$sqlc="select * from `zt_goods_sort` where item2=".$rstb["id"]." and item3=3 order by id";
+						$qryc=$link->query($sqlc);
+						while($rstc=$qryc->fetch_array()) {
+					?>
+						<a href="cplist.html?lmid=<?=$rstc["id"];?>" title="<?=$rstc["columname"];?>" target="_blank"><?=$rstc["columname"];?></a>
+					<?}?>
+					</dd>
+				</dl>
+			</div>
+		<?}?>
+		</li>
+	</ul>
+</li>
+<?}?>
+</ul>
+ 
+		</div>
+
+		
+<ul class="warp_u_ul">
+	<li class="warp_u_li">
+		<a href="index.html" class="warp_u_li_bt">首页</a>
+	</li>
+	<li class="warp_u_li">
+		<a href="bslist.html?bid=0"  title="联盟商家区" target="_blank" class="warp_u_li_bt">联盟商家区</a>
+	</li>
+	<li class="warp_u_li">
+		<a href="cplist.html?lmid=1"  title="产品列表区" target="_blank" class="warp_u_li_bt">产品列表区</a>
+	</li>
+	<li class="warp_u_li">
+		<a href="jf.html?noj=1"  title="国际产品积分兑换区(现金购买)" target="_blank" class="warp_u_li_bt">国际产品积分兑换区</a>
+	</li>
+	<li class="warp_u_li">
+		<a href="jf.html"  title="国内产品积分兑换区" target="_blank" class="warp_u_li_bt">国内产品积分兑换区</a>
+	</li>
+	<li class="warp_u_li">
+		<a href="#"  title="会员互动区" target="_blank" class="warp_u_li_bt">会员互动区</a>
+		<ul class="warp_u_ml">
+		
+			<li><a href="wzlist.html?itid=70">&nbsp;&nbsp;&nbsp;&nbsp;特色旅游&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
+		</ul>
+	</li>
+
+	<li class="warp_u_li">
+		<a href="/" class="warp_u_li_bt">集团网站</a>
+	</li>
+	<!--<li><a href="entity/list_a.html~act=1.html"  target="_blank">国内特色产品</a></li>
+	<li><a href="entity/list_a.html~act=2.html"  target="_blank">国际特色产品</a></li>
+	<li><a href="business/businesslist.html">联盟商家</a></li>
+	<li><a href="entity/index.html">商城</a></li>
+	<li><a href="jifen/index.html">积分商城</a></li>
+	<li><a href="enterprisei/index.html">集团网站</a></li>-->
+</ul>
+
+	</div>
+</div>
+
+<!--导航结束-->
